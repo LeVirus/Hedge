@@ -1,0 +1,82 @@
+Introduction============================
+
+L'objectif du projet est de réaliser un jeu du style Run n Gun en 2 dimensions. Les influances principalles étant Contra, Gunstar Heroes et Metal Slug.
+Le jeu sera sur ordinateur Windows, Linux (et peut-etre Mac si Godot le permet).
+Le jeu se déroulera dans l'univers du vidéaste Hedge, les éléments définissant cet univers seront développés dans un chapitre dédié.
+Le protagoniste dirigé sera le personnage Hedge.
+Le jeu sera développé avec le moteur de jeu Godot 4. Ce choix vient du fait de la rapidité de développement qu'offre cet outil.
+
+Univers et caractéristiques de Hedge==============================================
+
+Hedge est un vidéotesteur essentiellement de jeu rétro, et notamment de jeux Super Nintendo, ça console fétiche. Le thème de la Super Nintendo sera en conséquence 
+le thème majeur dans l'univers. Autres caractéristiques Hedge est un grand amateur de boxe, les caractéristiques de l'avatar correspondront à ce fait, notamment sur les attaques corp à corp.
+!!! A VOIR !!! D'autres vidéastes avec qui Hedge a collaboré ou a eu des conflits, pourront faire partie de l'aventure, peut etre en tant que boss.
+
+Graphisme=========================================================================
+
+Le jeu aura un menu principal :
+Nouveau jeu
+Charger jeu
+Quitter
+
+En plus des sprites intéragissant directement avec l'avatar et les ennemies. Il y aura 2 niveaux de scrolling de décors en arrière plan qui suivront les déplacements de l'avatar.
+!!! A VOIR !!! pour mettre un scrolling au premier plan.
+
+Une interface affichera la barre de vie, le nombre de vie restant ainsi que le nombre de munition restantes de l'arme courrante.
+Le nombre de grenades et la jauge de "limite seront également affichés".
+
+Game Design=======================================================================
+
+Controle de base----------------------
+
+Les bases du Run n Gun étant le déplacement (souvent rapide) avec des vagues d'ennemies populeuses à détruire à l'aide d'armes à feu. Ces bases seront respectés.
+Les actions réalisables par l'avatar seront:
+-Les déplacements latéraux (en courrant)
+-Les sauts
+-Les attaques : armes à feu, objets auxiliaires et attaque spéciale (définis ci-après)
+
+Il sera possible de mettre le jeu en pause aucour d'un niveau.
+
+Attaques--------------------------
+
+Des attaques au corps à corps seront possible via poings (et peut etre pieds),.
+A VOIR Permettre de faire un dash.
+
+Plusieurs armes à feu seront disponibles:
+-Une arme de base (pistolet) --> zapette NES duck hunt
+-Une mitrailleuse lourde
+-Un lance roquette --> Nintendo scope
+-Un fusil laser automatique (Nintendo Scope)
+
+Les armes à feu cité ci-dessus pourront tirer dans les 8 directions, les 3 directions basses pourront se faire lorsque l'avatar sera en l'air.
+!!! A VOIR !!! Pour les projectiles explosifs voir si l'avatar peut perdre des dégats
+
+Des grenades seront également utilisables en tant qu'objet auxiliaire.
+
+Une jauge se remplira en tuant des ennemies ou en ramassant des objets spéciaux. Des attaques spéciales seront accessibles lorsque cette jauge sera pleine. 
+!!! DEFINIR SES ATTAQUES une SEULE ou plusieurs? !!!
+
+Gestion de vies-----------------------------
+
+Il y aura plusieurs vies dans une partie. 
+L'avatar aura une barre de vie à plusieurs points, lorsque l'avatar prendra des dégats il y aura un temps d'invulnérabilité. L'avatar clignotera pendant ce temps.
+Lorsque l'avatar perdra une vie, si ça n'était pas sa dernière il reprendra au meme endroit sans interuption de l'action, après une petite animation (l'avatar se relève), mais il verra toutes ses armes; 
+exepté l'arme de base; supprimées.
+Un game over rammenera au début du niveau ou au dernier checkpoint.
+Il n'y aura pas de rejet suite à un dégat.
+Des checkpoints seront placés dans le niveau et seront explicite.
+
+Aspect plateformes==================================================================
+
+Des plateformes seront présentes, l'avatar pourra monter dessus en sautant. Certaines de ces plateformes pourront etre traversées de manière ascendantes.
+Ces dernières permettront à l'avatar de descendre en les traverssant vers le bas, avec une combinaison de touches spéciphique.
+D'autres éléments permettront à l'avatar de s'accrocher par les bras, les actions de tir seront toujours accessibles.
+Des plateformes seront mouvantes. Il sera possible de tomber dans le vide, une quantité de vie sera retiré et l'avatar sera repositionner sur la plateforme avant la chute.
+!!! A VOIR !!! Possibilité d'utiliser un véhicule rapide comme une moto. Le niveau passera alors en scrolling automatique et il sera toujours possible de sauter et de tirer.
+Le jeu sera en scrolling horizontal et vertical, ou en diagonale.
+
+Ennemies rencontrés==================================================================
+
+Les niveaux comporteront des ennemis au sol comme dans les airs, certains ferront des attaques à distance, d'autre au corps à corps.
+Des véhicules ennemies seront également présents.
+En fin de niveau un boss devra etre vaincu. Les boss seront grand et auront un point faible, qui pourra ne pas etre exposé constamment.
