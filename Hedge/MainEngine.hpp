@@ -301,10 +301,6 @@ private:
     std::vector<uint32_t> loadWallEntitiesWallLoop(const std::vector<SpriteData> &vectSprite,
                                                    const std::pair<std::string, MoveableWallData> &currentShape, bool moveable,
                                                    uint32_t shapeNum, bool loadFromCheckpoint);
-    void confBaseWallData(uint32_t wallEntity, const SpriteData &memSpriteData, const PairUI_t &coordLevel,
-                          const std::vector<uint16_t> &numWallSprites, const std::vector<uint32_t> &timeMultiSpriteCase,
-                          const std::vector<SpriteData> &vectSprite, TriggerBehaviourType_e triggerType, bool moveable = false);
-    void loadDoorEntities(const LevelManager &levelManager);
     bool loadEnemiesEntities(const LevelManager &levelManager);
     bool createEnemy(const LevelManager &levelManager, const SpriteData &memSpriteData, const EnemyData &enemyData,
                          float collisionRay, bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements);
@@ -317,10 +313,8 @@ private:
     void loadSecretsEntities(const LevelManager &levelManager);
     void loadLogsEntities(const LevelManager &levelManager, const std::vector<SpriteData> &vectSprite);
     void loadRevealedMap();
-    void loadTriggerEntityData(const MoveableWallData &moveWallData, const std::vector<uint32_t> &vectPosition, const std::vector<SpriteData> &vectSprite, TriggerWallMoveType_e type, uint32_t shapeNum);
     void confVisibleAmmo(uint32_t ammoEntity);
     bool loadStaticElementEntities(const LevelManager &levelManager);
-    void loadBarrelElementEntities(const LevelManager &levelManager);
     SoundElement loadSound(const std::string &file);
     uint32_t loadDisplayTeleportEntity(const LevelManager &levelManager);
     void loadStaticElementGroup(const std::vector<SpriteData> &vectSpriteData, const std::map<std::string, StaticLevelElementData> &staticData,
@@ -345,7 +339,6 @@ private:
                                                       const std::vector<SpriteData> &vectSpriteData, uint32_t iterationNum,
                                                       bool enemyDrop = false);
     uint32_t confObjectEntity(const StaticLevelElementData &objectData);
-    uint32_t confTeleportEntity(const StaticLevelElementData &teleportData, uint32_t iterationNum);
     uint32_t createMeleeAttackEntity(bool sound = false);
     uint32_t createDamageZoneEntity(uint32_t damage, CollisionTag_e tag, float ray = 10.0f, const std::string &soundFile = "");
     uint32_t loadWeaponsEntity(const LevelManager &levelManager);
@@ -360,8 +353,6 @@ private:
     uint32_t createVisibleShotEntity();
     uint32_t createSimpleSpriteEntity();
     uint32_t createStaticEntity();
-    uint32_t createTeleportEntity();
-    uint32_t createBarrelEntity();
     uint32_t createObjectEntity();
     uint32_t createDisplayTeleportEntity();
     void confBaseComponent(uint32_t entityNum, const SpriteData &memSpriteData, const std::optional<PairUI_t> &coordLevel,
@@ -399,7 +390,6 @@ private:
     GraphicEngine m_graphicEngine;
     PhysicalEngine m_physicalEngine;
     AudioEngine m_audioEngine;
-    ECSManager m_ecsManager;
     Game *m_refGame = nullptr;
     std::vector<std::pair<uint32_t, time_t>> m_vectMemPausedTimer;
     bool m_gamePaused = false, m_playerMemGear = false, m_levelEnd = false, m_titleMenuMode;
@@ -437,7 +427,7 @@ pairI_t getModifMoveableWallDataCheckpoint(const std::vector<std::pair<Direction
 void insertEnemySpriteFromType(const std::vector<SpriteData> &vectSprite, mapEnemySprite_t &mapSpriteAssociate,
                                std::vector<SpriteData const *> &vectSpriteData, const std::vector<uint16_t> &enemyMemArray,
                                EnemySpriteType_e type);
-void confBullet(ImpactShotComponent &impactComp, GeneralCollisionComponent &genColl, SegmentCollisionComponent &segmentColl, MoveableComponent &moveImpactComp,
+void confBullet(GeneralCollisionComponent &genColl, SegmentCollisionComponent &segmentColl, MoveableComponent &moveImpactComp,
                 CollisionTag_e collTag, const PairFloat_t &point, float degreeAngle);
 void setWeaponPlayer();
 void confActionShape(MapCoordComponent &mapCompAction, GeneralCollisionComponent &genCompAction, const MapCoordComponent &attackerMapComp,

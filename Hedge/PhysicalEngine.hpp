@@ -17,8 +17,7 @@ class PhysicalEngine
 public:
     PhysicalEngine();
     void runIteration(bool gamePaused);
-    void linkSystems(InputSystem *inputSystem, CollisionSystem * collisionSystem,
-                     DoorWallSystem *doorSystem, IASystem *iaSystem);
+    void linkSystems(InputSystem *inputSystem, CollisionSystem * collisionSystem, IASystem *iaSystem);
     void memPlayerEntity(uint32_t playerEntity);
     void confPlayerVisibleShoot(std::vector<uint32_t> &visibleShots,
                                 const PairFloat_t &point, float degreeAngle);
