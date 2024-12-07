@@ -5,6 +5,7 @@
 #include <vector>
 #include "SystemManager.hpp"
 #include "System.hpp"
+#include "constants.hpp"
 // #include "TestCompMan.hpp"
 
 
@@ -24,7 +25,39 @@ public:
         return ecsMan;
     }
     ~ECSManager() = default;
-
+    //====================================================================
+    std::optional<std::set<uint32_t>> getEntitiesCustomComponents(const std::set<uint32_t> &cacheUsedComponent, const std::array<uint32_t, Components_e::TOTAL_COMPONENTS> &arrEntities)
+    {
+        if(cacheUsedComponent.empty())
+        {
+            std::cout << "Warning: No used component set.\n";
+            return std::nullopt;
+        }
+        const VectArrUI_t &vectEntities = m_componentsManager->getVectEntities();
+        std::set<uint32_t> usedEntities;
+        bool ok;
+        for(uint32_t i = 0; i < vectEntities.size(); ++i)
+        {
+            ok = true;
+            for(uint32_t j : cacheUsedComponent)
+            {
+                if(arrEntities[j] != vectEntities[i][j])
+                {
+                    ok = false;
+                    break;
+                }
+            }
+            if(ok)
+            {
+                usedEntities.insert(i);
+            }
+        }
+        if(ok)
+        {
+            return usedEntities;
+        }
+        return std::nullopt;
+    }
     //====================================================================
     void associateCompManager(std::unique_ptr<ComponentsManager<T, C...>> comp)
     {

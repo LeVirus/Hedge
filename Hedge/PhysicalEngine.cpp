@@ -29,11 +29,10 @@ void PhysicalEngine::runIteration(bool gamePaused)
 
 //===================================================================
 void PhysicalEngine::linkSystems(InputSystem *inputSystem, CollisionSystem *collisionSystem,
-                                 DoorWallSystem *doorSystem, IASystem *iaSystem)
+                                 IASystem *iaSystem)
 {
     m_inputSystem = inputSystem;
     m_collisionSystem = collisionSystem;
-    m_doorSystem = doorSystem;
     m_iaSystem = iaSystem;
 }
 

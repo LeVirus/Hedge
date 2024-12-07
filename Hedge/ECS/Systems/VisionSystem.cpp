@@ -5,6 +5,7 @@
 #include <CollisionUtils.hpp>
 #include <PhysicalEngine.hpp>
 #include <math.h>
+#include <alias.hpp>
 #include <ECS/Components/PositionVertexComponent.hpp>
 #include <ECS/Components/MapCoordComponent.hpp>
 #include <ECS/Components/GeneralCollisionComponent.hpp>
@@ -13,13 +14,10 @@
 #include <ECS/Components/PositionVertexComponent.hpp>
 #include <ECS/Components/MoveableComponent.hpp>
 #include <ECS/Components/MemSpriteDataComponent.hpp>
-#include <ECS/Components/MemFPSGLSizeComponent.hpp>
 #include <ECS/Components/SpriteTextureComponent.hpp>
 #include <ECS/Components/EnemyConfComponent.hpp>
-#include <ECS/Components/BarrelComponent.hpp>
 #include <ECS/Components/TimerComponent.hpp>
 #include <ECS/Components/ShotConfComponent.hpp>
-#include <ECS/Components/ImpactShotComponent.hpp>
 
 //===========================================================================
 VisionSystem::VisionSystem()
@@ -30,64 +28,48 @@ VisionSystem::VisionSystem()
 //===========================================================================
 void VisionSystem::setUsedComponents()
 {
+    addComponentsToSystem(Components_e::MAP_COORD_COMPONENT, 1);
+    addComponentsToSystem(Components_e::SPRITE_TEXTURE_COMPONENT, 1);
+    addComponentsToSystem(Components_e::GENERAL_COLLISION_COMPONENT, 1);
 }
 
 //===========================================================================
 void VisionSystem::execSystem()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComp;
-    bitsetComp[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComp[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    bitsetComp[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    std::vector<uint32_t> vectEntities = m_memECSManager->getEntitiesContainingComponents(bitsetComp);
-    for(uint32_t i = 0; i < mVectNumEntity.size(); ++i)
-    {
-        MapCoordComponent *mapCompA = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(mVectNumEntity[i]);
-        MoveableComponent *moveCompA = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(mVectNumEntity[i]);
-        for(uint32_t j = 0; j < vectEntities.size(); ++j)
-        {
-            if(mVectNumEntity[i] == vectEntities[j])
-            {
-                continue;
-            }
-        }
-        updateSprites(mVectNumEntity[i], vectEntities);
-    }
+    updateSprites();
 }
 
 //===========================================================================
-void VisionSystem::updateSprites(uint32_t observerEntity,
-                                 const std::vector<uint32_t> &vectEntities)
+void VisionSystem::updateSprites()
 {
-    OptUint_t compNum;
-    for(uint32_t i = 0; i < vectEntities.size(); ++i)
+    for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
-        MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(vectEntities[i]);
+        MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(*it);
         if(!memSpriteComp)
         {
             continue;
         }
-        GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(vectEntities[i]);
+        GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
         if(!genComp->m_active)
         {
             continue;
         }
-        SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(vectEntities[i]);
-        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(vectEntities[i]);
+        SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(*it);
+        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*it);
         //OOOOK put enemy tag to tagB
         if(genComp->m_tagA == CollisionTag_e::ENEMY_CT || genComp->m_tagA == CollisionTag_e::GHOST_CT)
         {
-            EnemyConfComponent *enemyConfComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(vectEntities[i]);
+            EnemyConfComponent *enemyConfComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(*it);
             if(enemyConfComp)
             {
-                updateEnemySprites(vectEntities[i], observerEntity, *memSpriteComp, *spriteComp, *timerComp, *enemyConfComp);
+                updateEnemySprites(*it, *memSpriteComp, *spriteComp, *timerComp, *enemyConfComp);
             }
         }
     }
 }
 
 //===========================================================================
-void VisionSystem::updateEnemySprites(uint32_t enemyEntity, uint32_t observerEntity,
+void VisionSystem::updateEnemySprites(uint32_t enemyEntity,
                                       MemSpriteDataComponent &memSpriteComp,
                                       SpriteTextureComponent &spriteComp,
                                       TimerComponent &timerComp, EnemyConfComponent &enemyConfComp)
@@ -111,7 +93,7 @@ void VisionSystem::updateEnemySprites(uint32_t enemyEntity, uint32_t observerEnt
     }
     else if(enemyConfComp.m_displayMode == EnemyDisplayMode_e::NORMAL)
     {
-        updateEnemyNormalSprite(enemyConfComp, timerComp, enemyEntity, observerEntity);
+        updateEnemyNormalSprite(enemyConfComp, timerComp, enemyEntity);
     }
     else if(enemyConfComp.m_displayMode == EnemyDisplayMode_e::DYING)
     {
@@ -135,7 +117,7 @@ void VisionSystem::updateEnemySprites(uint32_t enemyEntity, uint32_t observerEnt
 
 //===========================================================================
 void VisionSystem::updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp,
-                                           uint32_t enemyEntity, uint32_t observerEntity)
+                                           uint32_t enemyEntity)
 {
     if(enemyConfComp.m_behaviourMode == EnemyBehaviourMode_e::DYING)
     {
@@ -146,30 +128,28 @@ void VisionSystem::updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, Ti
     }
     else
     {
-        MoveableComponent *enemyMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
-        EnemySpriteType_e currentOrientationSprite =
-                getOrientationFromAngle(observerEntity, enemyEntity,
-                                        enemyMoveComp->m_degreeOrientation);
-        mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(currentOrientationSprite);
-        //if sprite outside
-        if(enemyConfComp.m_currentSprite < it->second.first ||
-                enemyConfComp.m_currentSprite > it->second.second)
-        {
-            enemyConfComp.m_currentSprite = it->second.first;
-            timerComp.m_cycleCountA = 0;
-        }
-        else if(++timerComp.m_cycleCountA > enemyConfComp.m_standardSpriteInterval)
-        {
-            if(enemyConfComp.m_currentSprite == it->second.second)
-            {
-                enemyConfComp.m_currentSprite = it->second.first;
-            }
-            else
-            {
-                ++enemyConfComp.m_currentSprite;
-            }
-            timerComp.m_cycleCountA = 0;
-        }
+        //FPS STUFF TO MODIFY
+        // MoveableComponent *enemyMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
+        // mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(currentOrientationSprite);
+        // //if sprite outside
+        // if(enemyConfComp.m_currentSprite < it->second.first ||
+        //         enemyConfComp.m_currentSprite > it->second.second)
+        // {
+        //     enemyConfComp.m_currentSprite = it->second.first;
+        //     timerComp.m_cycleCountA = 0;
+        // }
+        // else if(++timerComp.m_cycleCountA > enemyConfComp.m_standardSpriteInterval)
+        // {
+        //     if(enemyConfComp.m_currentSprite == it->second.second)
+        //     {
+        //         enemyConfComp.m_currentSprite = it->second.first;
+        //     }
+        //     else
+        //     {
+        //         ++enemyConfComp.m_currentSprite;
+        //     }
+        //     timerComp.m_cycleCountA = 0;
+        // }
     }
 }
 

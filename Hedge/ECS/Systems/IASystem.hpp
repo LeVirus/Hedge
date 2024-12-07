@@ -26,7 +26,7 @@ public:
 private:
     void treatEject();
     void confNewVisibleShot(const std::vector<uint32_t> &visibleShots);
-    void treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent &enemyMapComp, float radiantAnglePlayerDirection,
+    void treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent &enemyMapComp,
                                    EnemyConfComponent &enemyConfComp, float distancePlayer);
     void updateEnemyDirection(EnemyConfComponent &enemyConfComp, MoveableComponent &moveComp, MapCoordComponent &enemyMapComp);
     void treatVisibleShots(const std::vector<uint32_t> &stdAmmo);
@@ -37,7 +37,6 @@ private:
     m_intervalEnemyPlayPassiveSound = 5.0 / FPS_VALUE;
     float m_distanceEnemyBehaviour = LEVEL_TILE_SIZE_PX * 9.0f;
     MainEngine *m_mainEngine;
-    std::vector<uint32_t> m_vectMoveableEntities;
     std::vector<SoundElement> m_memPlayerVisibleShot;
 };
 

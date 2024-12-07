@@ -99,7 +99,7 @@ public:
 private:
     void drawTeleportAnimation(PlayerConfComponent &playerComp);
     void loadMenuBackground(uint32_t backgroundEntity, SpriteTextureComponent &spriteBackgroundComp, VertexID_e type);
-    void drawWriteInfoPlayer(uint32_t playerEntity, PlayerConfComponent &playerComp);
+    void drawWriteInfoPlayer(PlayerConfComponent &playerComp);
     void drawWeaponsPreviewPlayer(const PlayerConfComponent &playerComp,
                                   const WeaponComponent &weaponComp);
     void confWriteVertex(WriteComponent &writeComp, PositionVertexComponent &posComp,

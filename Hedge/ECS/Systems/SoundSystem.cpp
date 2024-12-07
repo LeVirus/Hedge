@@ -6,26 +6,25 @@
 #include <AL/alc.h>
 #include <cassert>
 #include <algorithm>
+#include <alias.hpp>
 
 //===================================================================
 SoundSystem::SoundSystem()
 {
-    bAddComponentToSystem(Components_e::AUDIO_COMPONENT);
+    addComponentsToSystem(Components_e::AUDIO_COMPONENT, 1);
 }
 
 //===================================================================
 void SoundSystem::execSystem()
 {
-    OptUint_t compNum;
-    System::execSystem();
-    for(uint32_t i = 0; i < mVectNumEntity.size(); ++i)
+    for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
-        AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(mVectNumEntity[i]);
+        AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(*it);
         for(uint32_t j = 0; j < audioComp->m_soundElements.size(); ++j)
         {
             if(audioComp->m_soundElements[j] && audioComp->m_soundElements[j]->m_toPlay)
             {
-                std::optional<float> volume = getVolumeFromDistance(mVectNumEntity[i], audioComp->m_maxDistance);
+                std::optional<float> volume = getVolumeFromDistance(*it, audioComp->m_maxDistance);
                 if(volume)
                 {
                     alSourcef(audioComp->m_soundElements[j]->m_sourceALID, AL_GAIN,
@@ -68,7 +67,7 @@ void SoundSystem::cleanUp()
     {
         cleanUpSourceData(m_vectSource[0]);
     }
-    mVectNumEntity.clear();
+    m_usedEntities.clear();
 }
 
 //===================================================================

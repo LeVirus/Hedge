@@ -263,6 +263,7 @@ public:
     void savePlayerGear(bool beginLevel);
     void unsetFirstLaunch();
 private:
+    void instanciateSystems();
     void clearMemSoundElements();
     void initLevel(uint32_t levelNum, LevelState_e levelState);
     void memCustomLevelRevealedMap();
@@ -296,11 +297,6 @@ private:
                           uint32_t numDisplayTeleportEntity);
     void confActionEntity();
     void confMapDetectShapeEntity(const PairFloat_t &playerPos);
-    void loadWallEntities(const std::map<std::string, MoveableWallData> &wallData,
-                          const std::vector<SpriteData> &vectSprite);
-    std::vector<uint32_t> loadWallEntitiesWallLoop(const std::vector<SpriteData> &vectSprite,
-                                                   const std::pair<std::string, MoveableWallData> &currentShape, bool moveable,
-                                                   uint32_t shapeNum, bool loadFromCheckpoint);
     bool loadEnemiesEntities(const LevelManager &levelManager);
     bool createEnemy(const LevelManager &levelManager, const SpriteData &memSpriteData, const EnemyData &enemyData,
                          float collisionRay, bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements);
@@ -325,8 +321,6 @@ private:
                           bool visibleShot, uint32_t damage, float shotVelocity = 0,
                           std::optional<float> damageRay = std::nullopt);
     void createPlayerVisibleShotEntity(WeaponComponent &weaponConf);
-    void createPlayerImpactEntities(const std::vector<SpriteData> &vectSpriteData, WeaponComponent &weaponConf,
-                                    const MapImpactData_t &mapImpactData);
     uint32_t confShotImpactEntity(const std::vector<SpriteData> &vectSpriteData, const PairImpactData_t &shootDisplayData);
     uint32_t createTriggerEntity(bool visible);
     uint32_t createColorEntity();
@@ -357,7 +351,6 @@ private:
     uint32_t createDisplayTeleportEntity();
     void confBaseComponent(uint32_t entityNum, const SpriteData &memSpriteData, const std::optional<PairUI_t> &coordLevel,
                            CollisionShape_e collisionShape, CollisionTag_e tag);
-    void confStaticComponent(uint32_t entityNum, const PairFloat_t &elementSize, LevelStaticElementType_e elementType);
     void loadEnemySprites(const std::vector<SpriteData> &vectSprite, const EnemyData &enemiesData,
                           uint32_t numEntity, EnemyConfComponent &enemyComp, const MapVisibleShotData_t &visibleShot);
     void loadVisibleShotData(const std::vector<SpriteData> &vectSprite, const std::vector<uint32_t> &visibleAmmo,

@@ -3,6 +3,7 @@
 #include <ECS/Components/ColorVertexComponent.hpp>
 #include <ECS/Components/PositionVertexComponent.hpp>
 #include <cassert>
+#include <alias.hpp>
 
 //===================================================================
 ColorDisplaySystem::ColorDisplaySystem() :
@@ -14,21 +15,20 @@ ColorDisplaySystem::ColorDisplaySystem() :
 //===================================================================
 void ColorDisplaySystem::setUsedComponents()
 {
-    bAddComponentToSystem(Components_e::COLOR_VERTEX_COMPONENT);
-    bAddComponentToSystem(Components_e::POSITION_VERTEX_COMPONENT);
-    bAddExcludeComponentToSystem(Components_e::SPRITE_TEXTURE_COMPONENT);
-    bAddExcludeComponentToSystem(Components_e::MAP_COORD_COMPONENT);
+    addComponentsToSystem(Components_e::COLOR_VERTEX_COMPONENT, 1);
+    addComponentsToSystem(Components_e::POSITION_VERTEX_COMPONENT, 1);
+    addComponentsToSystem(Components_e::SPRITE_TEXTURE_COMPONENT, 1);
+    addComponentsToSystem(Components_e::MAP_COORD_COMPONENT, 1);
 }
 
 //===================================================================
 void ColorDisplaySystem::fillVertexFromEntities()
 {
     m_verticesData.clear();
-    OptUint_t compNum;
-    for(uint32_t i = 0; i < mVectNumEntity.size(); ++i)
+    for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
-        PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(mVectNumEntity[i]);
-        ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(mVectNumEntity[i]);
+        PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*it);
+        ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(*it);
         m_verticesData.loadVertexColorComponent(*posComp, *colorComp);
     }
 }
@@ -57,7 +57,7 @@ void ColorDisplaySystem::setShader(Shader &shader)
 //===================================================================
 void ColorDisplaySystem::addColorSystemEntity(uint32_t entity)
 {
-    mVectNumEntity.emplace_back(entity);
+    m_usedEntities.insert(entity);
 }
 
 //===================================================================
@@ -111,7 +111,7 @@ void ColorDisplaySystem::drawSoundMenuBars()
     drawEntity(*posComp, *colorComp);
     PositionVertexComponent *posCompA = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_menuEffectsVolumeNum);
     ColorVertexComponent *colorCompA = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(*m_menuEffectsVolumeNum);
-    drawEntity(*posComp, *colorComp);
+    drawEntity(*posCompA, *colorCompA);
 }
 
 //===================================================================
@@ -143,12 +143,12 @@ void ColorDisplaySystem::setTransition(uint32_t current, uint32_t total)
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_transitionNum);
     ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(*m_transitionNum);
-    drawEntity(posComp, colorComp);
+    drawEntity(*posComp, *colorComp);
     float currentTransparency = static_cast<float>(current) / static_cast<float>(total);
-    std::get<3>(colorComp.m_vertex[0]) = currentTransparency;
-    std::get<3>(colorComp.m_vertex[1]) = currentTransparency;
-    std::get<3>(colorComp.m_vertex[2]) = currentTransparency;
-    std::get<3>(colorComp.m_vertex[3]) = currentTransparency;
+    std::get<3>(colorComp->m_vertex[0]) = currentTransparency;
+    std::get<3>(colorComp->m_vertex[1]) = currentTransparency;
+    std::get<3>(colorComp->m_vertex[2]) = currentTransparency;
+    std::get<3>(colorComp->m_vertex[3]) = currentTransparency;
     drawEntity(*posComp, *colorComp);
 }
 
@@ -156,20 +156,20 @@ void ColorDisplaySystem::setTransition(uint32_t current, uint32_t total)
 void ColorDisplaySystem::setRedTransition()
 {
     ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(*m_transitionNum);
-    std::get<0>(colorComp.m_vertex[0]) = 0.8f;
-    std::get<0>(colorComp.m_vertex[1]) = 0.8f;
-    std::get<0>(colorComp.m_vertex[2]) = 0.8f;
-    std::get<0>(colorComp.m_vertex[3]) = 0.8f;
+    std::get<0>(colorComp->m_vertex[0]) = 0.8f;
+    std::get<0>(colorComp->m_vertex[1]) = 0.8f;
+    std::get<0>(colorComp->m_vertex[2]) = 0.8f;
+    std::get<0>(colorComp->m_vertex[3]) = 0.8f;
 }
 
 //===================================================================
 void ColorDisplaySystem::unsetRedTransition()
 {
     ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(*m_transitionNum);
-    std::get<0>(colorComp.m_vertex[0]) = 0.0f;
-    std::get<0>(colorComp.m_vertex[1]) = 0.0f;
-    std::get<0>(colorComp.m_vertex[2]) = 0.0f;
-    std::get<0>(colorComp.m_vertex[3]) = 0.0f;
+    std::get<0>(colorComp->m_vertex[0]) = 0.0f;
+    std::get<0>(colorComp->m_vertex[1]) = 0.0f;
+    std::get<0>(colorComp->m_vertex[2]) = 0.0f;
+    std::get<0>(colorComp->m_vertex[3]) = 0.0f;
 }
 
 //===================================================================
@@ -180,8 +180,8 @@ void ColorDisplaySystem::display()const
 
 //===================================================================
 void ColorDisplaySystem::clearEntities()
-{
-    mVectNumEntity.clear();
+{    
+    m_usedEntities.clear();
 }
 
 //===================================================================
@@ -189,8 +189,8 @@ void ColorDisplaySystem::updateMusicVolumeBar(uint32_t volume)
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_menuMusicVolumeNum);
     float newVal = LEFT_POS_STD_MENU_BAR + 0.01f + (volume * MAX_BAR_MENU_SIZE) / 100.0f;
-    posComp.m_vertex[1].first = newVal;
-    posComp.m_vertex[2].first = newVal;
+    posComp->m_vertex[1].first = newVal;
+    posComp->m_vertex[2].first = newVal;
 }
 
 //===================================================================
@@ -198,8 +198,8 @@ void ColorDisplaySystem::updateEffectsVolumeBar(uint32_t volume)
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_menuEffectsVolumeNum);
     float newVal = LEFT_POS_STD_MENU_BAR + 0.01f + (volume * MAX_BAR_MENU_SIZE) / 100.0f;
-    posComp.m_vertex[1].first = newVal;
-    posComp.m_vertex[2].first = newVal;
+    posComp->m_vertex[1].first = newVal;
+    posComp->m_vertex[2].first = newVal;
 }
 
 //===================================================================
@@ -207,6 +207,6 @@ void ColorDisplaySystem::updateTurnSensitivityBar(uint32_t turnSensitivity)
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_menuTurnSensitivityNum);
     float newVal = LEFT_POS_STD_MENU_BAR + 0.01f + ((turnSensitivity - MIN_TURN_SENSITIVITY) * MAX_BAR_MENU_SIZE) / DIFF_TOTAL_SENSITIVITY;
-    posComp.m_vertex[1].first = newVal;
-    posComp.m_vertex[2].first = newVal;
+    posComp->m_vertex[1].first = newVal;
+    posComp->m_vertex[2].first = newVal;
 }

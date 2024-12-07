@@ -12,12 +12,12 @@
 #include <ECS/Components/AudioComponent.hpp>
 #include <ECS/Systems/ColorDisplaySystem.hpp>
 #include <cassert>
+#include <alias.hpp>
 
 
 //===================================================================
 StaticDisplaySystem::StaticDisplaySystem()
 {
-    bAddComponentToSystem(Components_e::VISION_COMPONENT);
 }
 
 //===================================================================
@@ -51,10 +51,8 @@ void StaticDisplaySystem::updateMenuCursorPosition(PlayerConfComponent &playerCo
 //===================================================================
 void StaticDisplaySystem::execSystem()
 {
-    OptUint_t compNum;
-    System::execSystem();
     m_shader->use();
-    for(uint32_t i = 0; i < mVectNumEntity.size(); ++i)
+    for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
         WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
@@ -68,7 +66,7 @@ void StaticDisplaySystem::execSystem()
         drawStandardStaticSprite(VertexID_e::AMMO_ICON, *playerComp);
         drawStandardStaticSprite(VertexID_e::LIFE_ICON, *playerComp);
         drawTeleportAnimation(*playerComp);
-        drawWriteInfoPlayer(mVectNumEntity[i], playerComp);
+        drawWriteInfoPlayer(*playerComp);
         std::string strAmmoDisplay = std::to_string(weaponComp->m_weaponsData[weaponComp->m_currentWeapon].m_ammunationsCount);
         drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::AMMO_WRITE)], VertexID_e::AMMO_WRITE, Font_e::STANDARD, strAmmoDisplay);
         drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::LIFE_WRITE)], VertexID_e::LIFE_WRITE, Font_e::STANDARD,
@@ -107,7 +105,6 @@ void StaticDisplaySystem::drawWeaponsPreviewPlayer(PlayerConfComponent const &pl
             vertexIndexCursor = static_cast<uint32_t>(VertexID_e::CURSOR_WEAPON);
     m_vertices[vertexIndex].clear();
     m_vertices[vertexIndexCursor].clear();
-    OptUint_t compNum;
     for(uint32_t i = 0; i < weaponComp.m_weaponsData.size(); ++i)
     {
         currentEntity = playerComp.m_vectPossessedWeaponsPreviewEntities[i];
@@ -158,7 +155,7 @@ void StaticDisplaySystem::drawStandardStaticSprite(VertexID_e spriteId, PlayerCo
 }
 
 //===================================================================
-void StaticDisplaySystem::drawWriteInfoPlayer(uint32_t playerEntity, PlayerConfComponent &playerComp)
+void StaticDisplaySystem::drawWriteInfoPlayer(PlayerConfComponent &playerComp)
 {
     if(playerComp.m_infoWriteData.first)
     {
@@ -177,10 +174,8 @@ void StaticDisplaySystem::drawWriteInfoPlayer(uint32_t playerEntity, PlayerConfC
 //===================================================================
 void StaticDisplaySystem::displayMenu()
 {
-    OptUint_t compNum;
-    System::execSystem();
     m_shader->use();
-    for(uint32_t i = 0; i < mVectNumEntity.size(); ++i)
+    for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
         uint32_t backgroundEntity = playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_GENERIC_BACKGROUND)];
@@ -227,7 +222,7 @@ void StaticDisplaySystem::displayMenu()
             drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::TITLE_MENU)], VertexID_e::LIFE_WRITE);
             drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_SELECTED_LINE)], VertexID_e::AMMO_WRITE, Font_e::SELECTED);
         }
-        drawWriteInfoPlayer(mVectNumEntity[i], playerComp);
+        drawWriteInfoPlayer(*playerComp);
         if(playerComp->m_menuMode != MenuMode_e::NEW_KEY &&
                 playerComp->m_menuMode != MenuMode_e::LEVEL_EPILOGUE &&
                 playerComp->m_menuMode != MenuMode_e::LEVEL_PROLOGUE &&
@@ -238,8 +233,7 @@ void StaticDisplaySystem::displayMenu()
         }
         if(playerComp->m_menuMode == MenuMode_e::SOUND)
         {
-            ECS::SystemManager->searchSystemByType<ColorDisplaySystem>(
-                        static_cast<uint32_t>(Systems_e::COLOR_DISPLAY_SYSTEM))->drawSoundMenuBars();
+            Ecsm_t::instance().getSystem<ColorDisplaySystem>(static_cast<uint32_t>(Systems_e::COLOR_DISPLAY_SYSTEM))->drawSoundMenuBars();
             //reset shader
             m_shader->use();
         }
@@ -251,8 +245,7 @@ void StaticDisplaySystem::displayMenu()
         else if(playerComp->m_menuMode == MenuMode_e::INPUT)
         {
             drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_INFO_WRITE)], VertexID_e::INPUT);
-            ECS::SystemManager->searchSystemByType<ColorDisplaySystem>(
-                        static_cast<uint32_t>(Systems_e::COLOR_DISPLAY_SYSTEM))->drawInputMenuBar();
+            Ecsm_t::instance().getSystem<ColorDisplaySystem>(static_cast<uint32_t>(Systems_e::COLOR_DISPLAY_SYSTEM))->drawInputMenuBar();
             //reset shader
             m_shader->use();
             if(playerComp->m_keyboardInputMenuMode)
@@ -292,13 +285,11 @@ void StaticDisplaySystem::loadMenuBackground(uint32_t backgroundEntity, SpriteTe
 //===================================================================
 void StaticDisplaySystem::updateStringWriteEntitiesInputMenu(bool keyboardInputMenuMode, bool defaultInput)
 {
-    OptUint_t compNum;
     //MOUSE KEYBOARD
     if(keyboardInputMenuMode)
     {
         const std::map<ControlKey_e, MouseKeyboardInputState> &map = defaultInput ? MAP_KEYBOARD_DEFAULT_KEY :
-                    mptrSystemManager->searchSystemByType<InputSystem>(
-                        static_cast<uint32_t>(Systems_e::INPUT_SYSTEM))->getMapTmpKeyboardAssociatedKey();
+                   Ecsm_t::instance().getSystem<InputSystem>(static_cast<uint32_t>(Systems_e::INPUT_SYSTEM))->getMapTmpKeyboardAssociatedKey();
         for(uint32_t i = 0; i < m_inputMenuKeyboardWriteKeysEntities.size(); ++i)
         {
             WriteComponent *writeConf = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(m_inputMenuKeyboardWriteKeysEntities[i]);
@@ -315,8 +306,7 @@ void StaticDisplaySystem::updateStringWriteEntitiesInputMenu(bool keyboardInputM
     {
         const std::map<ControlKey_e, GamepadInputState> &map = defaultInput ?
                     MAP_GAMEPAD_DEFAULT_KEY :
-                    mptrSystemManager->searchSystemByType<InputSystem>(
-                        static_cast<uint32_t>(Systems_e::INPUT_SYSTEM))->getMapTmpGamepadAssociatedKey();
+                    Ecsm_t::instance().getSystem<InputSystem>(static_cast<uint32_t>(Systems_e::INPUT_SYSTEM))->getMapTmpGamepadAssociatedKey();
         for(uint32_t i = 0; i < m_inputMenuGamepadWriteKeysEntities.size(); ++i)
         {
             WriteComponent *writeConf = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(m_inputMenuGamepadWriteKeysEntities[i]);

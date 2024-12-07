@@ -42,11 +42,10 @@ void CollisionSystem::setUsedComponents()
 //===================================================================
 void CollisionSystem::execSystem()
 {
-    std::optional<uint32_t> numCompNum, moveCompNum, segmentCompNum;
-    System::execSystem();
     uint32_t i = 0;
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it, ++i)
     {
+        SegmentCollisionComponent *segmentCompA = nullptr;
         GeneralCollisionComponent *tagCompA = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
         //check if entity is moveable
         MoveableComponent *moveCompA = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
@@ -60,13 +59,9 @@ void CollisionSystem::execSystem()
         {
             m_memDistCurrentBulletColl.second = EPSILON_FLOAT;
 
-            SegmentCollisionComponent *segmentCompA = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(*it);
+            segmentCompA = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(*it);
             addEntityToZone(segmentCompA->m_impactEntity, *getLevelCoord(segmentCompA->m_points.second));
             tagCompA->m_active = false;
-        }
-        else
-        {
-            segmentCompNum = std::nullopt;
         }
         if(tagCompA->m_tagA == CollisionTag_e::ENEMY_CT)
         {
@@ -88,7 +83,7 @@ void CollisionSystem::execSystem()
         {
             treatGeneralCrushing(*it);
         }
-        if(segmentCompNum && m_memDistCurrentBulletColl.second > EPSILON_FLOAT)
+        if(segmentCompA && m_memDistCurrentBulletColl.second > EPSILON_FLOAT)
         {
             if(m_memDistCurrentBulletColl.first)
             {
@@ -398,8 +393,7 @@ bool CollisionSystem::treatCollision(uint32_t entityNumA, uint32_t entityNumB, G
 //===================================================================
 void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
 {
-    MapDisplaySystem *mapSystem = mptrSystemManager->searchSystemByType<MapDisplaySystem>(
-                    static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM));
+    MapDisplaySystem *mapSystem = Ecsm_t::instance().getSystem<MapDisplaySystem>(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM));
     assert(mapSystem);
     if(mapSystem->entityAlreadyDiscovered(args.entityNumB))
     {
@@ -436,7 +430,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
 void CollisionSystem::writePlayerInfo(const std::string &info)
 {
     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->muiGetIdEntityAssociated());
+    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_memEntityAssociated);
     timerComp->m_cycleCountA = 0;
     playerComp->m_infoWriteData = {true, info};
 }
@@ -457,14 +451,10 @@ bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args, bool shotEx
     {
         RectangleCollisionComponent *rectCompB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
         collision = checkCircleRectCollision(args.mapCompA.m_absoluteMapPositionPX, circleCompA->m_ray,
-                                             args.mapCompB.m_absoluteMapPositionPX, *rectCompB->m_size);
+                                             args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size);
         if(collision)
         {
-            if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_ACTION_CT)
-            {
-                treatActionPlayerRect(args);
-            }
-            else if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+            if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
             {
                 if(treatCollisionPlayer(args, *circleCompA, *rectCompB))
                 {
@@ -529,12 +519,12 @@ bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args, bool shotEx
                 {
                     if(m_memCrush.empty())
                     {
-                        collisionCircleCircleEject(args, circleCompA, circleCompB);
+                        collisionCircleCircleEject(args, *circleCompA, *circleCompB);
                     }
                 }
                 else
                 {
-                    collisionCircleCircleEject(args, circleCompA, circleCompB);
+                    collisionCircleCircleEject(args, *circleCompA, *circleCompB);
                 }
             }
         }
@@ -577,22 +567,13 @@ bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args, bool shotEx
                 if(shotExplosionEject)
                 {
                     RectangleCollisionComponent *rectCompB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
-                    collisionCircleRectEject(args, circleCompA->m_ray, rectCompB, shotExplosionEject);
+                    collisionCircleRectEject(args, circleCompA->m_ray, *rectCompB, shotExplosionEject);
                 }
                 else if(!shotConfComp->m_ejectMode)
                 {
                     shotConfComp->m_ejectMode = true;
                     std::swap(circleCompA->m_ray, shotConfComp->m_ejectExplosionRay);
                     return false;
-                }
-                else if(args.tagCompB.m_tagA == CollisionTag_e::WALL_CT)
-                {
-                    OptUint_t compNum = m_newComponentManager.getComponentEmplacement(args.entityNumB, Components_e::MOVEABLE_WALL_CONF_COMPONENT);
-                    if(compNum)
-                    {
-                        RectangleCollisionComponent *rectCompB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
-                        collisionCircleRectEject(args, circleCompA->m_ray, rectCompB, shotExplosionEject);
-                    }
                 }
             }
             if(shotConfComp->m_destructPhase)
@@ -656,7 +637,7 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args, CircleCollisionC
         m_vectEntitiesToDelete.push_back(args.entityNumB);
         return true;
     }
-    collisionCircleRectEject(args, circleCompA->m_ray, rectCompB);
+    collisionCircleRectEject(args, circleCompA.m_ray, rectCompB);
     return false;
 }
 
@@ -699,7 +680,7 @@ void CollisionSystem::treatActionPlayerCircle(CollisionArgs &args)
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
         LogComponent *logComp = Ecsm_t::instance().getComponent<LogComponent, Components_e::LOG_COMPONENT>(args.entityNumB);
         playerComp->m_infoWriteData = {true, logComp->m_message};
-        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->muiGetIdEntityAssociated());
+        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_memEntityAssociated);
         timerComp->m_cycleCountA = 0;
         timerComp->m_timeIntervalOptional = 4.0 / FPS_VALUE;
     }
@@ -708,30 +689,28 @@ void CollisionSystem::treatActionPlayerCircle(CollisionArgs &args)
 //===================================================================
 void CollisionSystem::treatPlayerPickObject(CollisionArgs &args)
 {
-    OptUint_t compNum = m_newComponentManager.getComponentEmplacement(args.entityNumB, Components_e::OBJECT_CONF_COMPONENT);
-    assert(compNum);
-    ObjectConfComponent &objectComp = m_componentsContainer.m_vectObjectConfComp[*compNum];
+    ObjectConfComponent *objectComp = Ecsm_t::instance().getComponent<ObjectConfComponent, Components_e::OBJECT_CONF_COMPONENT>(args.entityNumB);
     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
     std::string info;
-    switch (objectComp.m_type)
+    switch (objectComp->m_type)
     {
     case ObjectType_e::AMMO_WEAPON:
     {
-        if(!pickUpAmmo(*objectComp.m_weaponID, weaponComp, objectComp.m_containing))
+        if(!pickUpAmmo(*objectComp->m_weaponID, *weaponComp, objectComp->m_containing))
         {
             return;
         }
-        info = weaponComp.m_weaponsData[*objectComp.m_weaponID].m_weaponName + " Ammo";
+        info = weaponComp->m_weaponsData[*objectComp->m_weaponID].m_weaponName + " Ammo";
     }
         break;
     case ObjectType_e::WEAPON:
     {
-        if(!pickUpWeapon(*objectComp.m_weaponID, weaponComp, objectComp.m_containing))
+        if(!pickUpWeapon(*objectComp->m_weaponID, *weaponComp, objectComp->m_containing))
         {
             return;
         }
-        info = weaponComp.m_weaponsData[*objectComp.m_weaponID].m_weaponName;
+        info = weaponComp->m_weaponsData[*objectComp->m_weaponID].m_weaponName;
     }
         break;
     case ObjectType_e::HEAL:
@@ -740,7 +719,7 @@ void CollisionSystem::treatPlayerPickObject(CollisionArgs &args)
         {
             return;
         }
-        playerComp->m_life += objectComp.m_containing;
+        playerComp->m_life += objectComp->m_containing;
         if(playerComp->m_life > 100)
         {
             playerComp->m_life = 100;
@@ -750,8 +729,8 @@ void CollisionSystem::treatPlayerPickObject(CollisionArgs &args)
     }
     case ObjectType_e::CARD:
     {
-        playerComp->m_card.insert(*objectComp.m_cardID);
-        info = objectComp.m_cardName;
+        playerComp->m_card.insert(*objectComp->m_cardID);
+        info = objectComp->m_cardName;
         break;
     }
     case ObjectType_e::TOTAL:
@@ -760,7 +739,7 @@ void CollisionSystem::treatPlayerPickObject(CollisionArgs &args)
     }
     removeEntityToZone(args.entityNumB);
     playerComp->m_infoWriteData = {true, info};
-    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->muiGetIdEntityAssociated());
+    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_memEntityAssociated);
     timerComp->m_cycleCountA = 0;
     playerComp->m_pickItem = true;
     activeSound(args.entityNumA);
@@ -770,17 +749,17 @@ void CollisionSystem::treatPlayerPickObject(CollisionArgs &args)
 //===================================================================
 void CollisionSystem::treatCrushing(uint32_t entityNum)
 {
-    OptUint_t compNum = m_newComponentManager.getComponentEmplacement(entityNum, Components_e::PLAYER_CONF_COMPONENT);
-    if(compNum)
+    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    if(playerComp)
     {
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
         playerComp->m_crush = true;
         playerComp->m_frozen = true;
     }
     else
-    {
+    {        
         //check if component exist
-        if(m_newComponentManager.getComponentEmplacement(entityNum, Components_e::ENEMY_CONF_COMPONENT))
+        if(Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(entityNum))
         {
             treatEnemyTakeDamage(entityNum, 1);
         }

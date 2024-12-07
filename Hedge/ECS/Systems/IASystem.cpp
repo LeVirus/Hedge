@@ -13,8 +13,7 @@
 #include <ECS/Components/MoveableComponent.hpp>
 #include <ECS/Components/SpriteTextureComponent.hpp>
 #include <cassert>
-#include <random>
-#include <iostream>
+#include <alias.hpp>
 #include "IASystem.hpp"
 #include "PhysicalEngine.hpp"
 #include "CollisionUtils.hpp"
@@ -24,27 +23,31 @@
 IASystem::IASystem()
 {
     std::srand(std::time(nullptr));
-    bAddComponentToSystem(Components_e::ENEMY_CONF_COMPONENT);
+    addComponentsToSystem(Components_e::ENEMY_CONF_COMPONENT, 1);
 }
 
 //===================================================================
 void IASystem::treatEject()
 {
-    std::bitset<TOTAL_COMPONENTS> bitset;
-    bitset[MOVEABLE_COMPONENT] = true;
-    m_vectMoveableEntities = m_memECSManager->getEntitiesContainingComponents(bitset);
-    for(uint32_t i = 0; i < m_vectMoveableEntities.size(); ++i)
+    std::set<uint32_t> setCacheComp;
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> arrEntities;
+    arrEntities[Components_e::MOVEABLE_COMPONENT] = 1;
+    setCacheComp.insert(Components_e::MOVEABLE_COMPONENT);
+    std::optional<std::set<uint32_t>> vectMoveableEntities = Ecsm_t::instance().getEntitiesCustomComponents(setCacheComp, arrEntities);
+    assert(vectMoveableEntities);
+
+    for(std::set<uint32_t>::iterator it = vectMoveableEntities->begin(); it != vectMoveableEntities->end(); ++it)
     {
-        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(m_vectMoveableEntities[i]);
+        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
         if(moveComp->m_ejectData)
         {
-            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_vectMoveableEntities[i]);
+            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*it);
             if(++timerComp->m_cycleCountD >= moveComp->m_ejectData->second)
             {
                 moveComp->m_ejectData = std::nullopt;
                 return;
             }
-            MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_vectMoveableEntities[i]);
+            MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
             moveElementFromAngle(moveComp->m_ejectData->first, getRadiantAngle(moveComp->m_currentDegreeMoveDirection),
                                  mapComp->m_absoluteMapPositionPX);
         }
@@ -54,7 +57,6 @@ void IASystem::treatEject()
 //===================================================================
 void IASystem::execSystem()
 {
-    System::execSystem();
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConfComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
     treatEject();
@@ -67,10 +69,10 @@ void IASystem::execSystem()
         }
     }
     float distancePlayer;
-    for(uint32_t i = 0; i < mVectNumEntity.size(); ++i)
+    for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
         //OOOOK A modifier
-        EnemyConfComponent *enemyConfComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(mVectNumEntity[i]);
+        EnemyConfComponent *enemyConfComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(*it);
         if(enemyConfComp->m_visibleShot)
         {
             treatVisibleShots(enemyConfComp->m_visibleAmmo);
@@ -80,24 +82,22 @@ void IASystem::execSystem()
         {
             if(enemyConfComp->m_playDeathSound)
             {
-                activeSound(mVectNumEntity[i], static_cast<uint32_t>(EnemySoundEffect_e::DEATH));
+                activeSound(*it, static_cast<uint32_t>(EnemySoundEffect_e::DEATH));
                 enemyConfComp->m_playDeathSound = false;
             }
             continue;
         }
         MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
-        MapCoordComponent *enemyMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(mVectNumEntity[i]);
+        MapCoordComponent *enemyMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         distancePlayer = getDistance(playerMapComp->m_absoluteMapPositionPX,
                                      enemyMapComp->m_absoluteMapPositionPX);
-        float radiantAnglePlayerDirection = getTrigoAngle(enemyMapComp->m_absoluteMapPositionPX,
-                                                          playerMapComp->m_absoluteMapPositionPX, false);
         if(enemyConfComp->m_behaviourMode != EnemyBehaviourMode_e::ATTACK)
         {
-            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(mVectNumEntity[i]);
+            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*it);
         }
         if(enemyConfComp->m_behaviourMode == EnemyBehaviourMode_e::ATTACK)
         {
-            treatEnemyBehaviourAttack(mVectNumEntity[i], enemyMapComp, radiantAnglePlayerDirection, enemyConfComp, distancePlayer);
+            treatEnemyBehaviourAttack(*it, *enemyMapComp, *enemyConfComp, distancePlayer);
         }
     }
 }
@@ -150,7 +150,7 @@ void IASystem::updateEnemyDirection(EnemyConfComponent &enemyConfComp, MoveableC
                                     MapCoordComponent &enemyMapComp)
 {
     MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
-    moveComp.m_degreeOrientation = getTrigoAngle(enemymapComp->m_absoluteMapPositionPX, playermapComp->m_absoluteMapPositionPX);
+    moveComp.m_degreeOrientation = getTrigoAngle(enemyMapComp.m_absoluteMapPositionPX, playerMapComp->m_absoluteMapPositionPX);
     if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::MOVE_TO_TARGET_DIAG_RIGHT)
     {
         moveComp.m_degreeOrientation -= 30.0f;
@@ -171,8 +171,7 @@ void IASystem::updateEnemyDirection(EnemyConfComponent &enemyConfComp, MoveableC
 }
 
 //===================================================================
-void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent &enemyMapComp,
-                                         float radiantAnglePlayerDirection, EnemyConfComponent &enemyConfComp, float distancePlayer)
+void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent &enemyMapComp, EnemyConfComponent &enemyConfComp, float distancePlayer)
 {
     MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(enemyEntity);
@@ -222,7 +221,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         std::swap(enemyConfComp.m_previousMove[1], enemyConfComp.m_previousMove[0]);
         enemyConfComp.m_previousMove[0] = enemyConfComp.m_attackPhase;
         timerComp->m_cycleCountB = 0;
-        updateEnemyDirection(enemyConfComp, moveComp, enemyMapComp);
+        updateEnemyDirection(enemyConfComp, *moveComp, enemyMapComp);
         if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOT)
         {
             activeSound(enemyEntity, static_cast<uint32_t>(EnemySoundEffect_e::ATTACK));
@@ -309,9 +308,8 @@ void IASystem::confNewVisibleShot(const std::vector<uint32_t> &visibleShots)
     AudioComponent *audioCompBase = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(visibleShots[baseIndex]);
     audioCompTarget->m_soundElements.push_back(SoundElement());
     audioCompTarget->m_soundElements[0]->m_toPlay = true;
-    audioCompTarget->m_soundElements[0]->m_bufferALID = audioCompBase->m_soundElements[0]->m_bufferALID;
-    audioCompTarget->m_soundElements[0]->m_sourceALID = mptrSystemManager->searchSystemByType<SoundSystem>(
-                static_cast<uint32_t>(Systems_e::SOUND_SYSTEM))->createSource(audioCompBase->m_soundElements[0]->m_bufferALID);
+    audioCompTarget->m_soundElements[0]->m_bufferALID = audioCompBase->m_soundElements[0]->m_bufferALID;    
+    audioCompTarget->m_soundElements[0]->m_sourceALID =  Ecsm_t::instance().getSystem<SoundSystem>(static_cast<uint32_t>(Systems_e::SOUND_SYSTEM))->createSource(audioCompBase->m_soundElements[0]->m_bufferALID);
     targetMemSpriteComp->m_vectSpriteData = baseMemSpriteComp->m_vectSpriteData;
     targetSpriteComp->m_spriteData = targetMemSpriteComp->m_vectSpriteData[0];
     targetMoveComp->m_velocity = baseMoveComp->m_velocity;

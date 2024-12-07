@@ -14,6 +14,7 @@
 #include <ECS/Systems/ColorDisplaySystem.hpp>
 #include <constants.hpp>
 #include <PhysicalEngine.hpp>
+#include <alias.hpp>
 
 //===================================================================
 //WARNING CONSIDER THAT LENGHT AND WEIGHT ARE THE SAME
@@ -38,9 +39,9 @@ void MapDisplaySystem::confLevelData()
 //===================================================================
 void MapDisplaySystem::setUsedComponents()
 {
-    bAddComponentToSystem(Components_e::POSITION_VERTEX_COMPONENT);
-    bAddComponentToSystem(Components_e::SPRITE_TEXTURE_COMPONENT);
-    bAddComponentToSystem(Components_e::MAP_COORD_COMPONENT);
+    addComponentsToSystem(Components_e::POSITION_VERTEX_COMPONENT, 1);
+    addComponentsToSystem(Components_e::SPRITE_TEXTURE_COMPONENT, 1);
+    addComponentsToSystem(Components_e::MAP_COORD_COMPONENT, 1);
 }
 
 //===================================================================
@@ -82,7 +83,7 @@ void MapDisplaySystem::drawMiniMap()
 void MapDisplaySystem::drawFullMap()
 {
     confFullMapPositionVertexEntities();
-    fillFullMapVertexFromEntities();
+    fillMiniMapVertexFromEntities();
     drawMapVertex();
     confVertexPlayerOnFullMap();
     drawPlayerOnMap();
@@ -91,7 +92,6 @@ void MapDisplaySystem::drawFullMap()
 //===================================================================
 void MapDisplaySystem::confFullMapPositionVertexEntities()
 {
-    OptUint_t compNum;
     PairFloat_t corner;
     for(std::map<uint32_t, PairUI_t>::const_iterator it = m_entitiesDetectedData.begin();
         it != m_entitiesDetectedData.end();)
@@ -153,8 +153,8 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
     PairFloat_t corner, diffPosPX, relativePosMapGL;
     PairUI_t max, min;
     getMapDisplayLimit(playerPos, min, max);
-    m_entitiesToDisplay.clear();
-    m_entitiesToDisplay.reserve(mVectNumEntity.size());
+    m_entitiesToDisplay.clear();    
+    m_entitiesToDisplay.reserve(m_usedEntities.size());
     for(std::map<uint32_t, PairUI_t>::const_iterator it = m_entitiesDetectedData.begin();
          it != m_entitiesDetectedData.end(); ++it)
     {
@@ -199,7 +199,7 @@ void MapDisplaySystem::fillMiniMapVertexFromEntities()
 PairFloat_t MapDisplaySystem::getUpLeftCorner(const MapCoordComponent &mapCoordComp, uint32_t entityNum)
 {
     GeneralCollisionComponent *genCollComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(entityNum);
-    if(genCollComp.m_shape == CollisionShape_e::CIRCLE_C)
+    if(genCollComp->m_shape == CollisionShape_e::CIRCLE_C)
     {
         CircleCollisionComponent *circleCollComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
         return getCircleUpLeftCorner(mapCoordComp.m_absoluteMapPositionPX, circleCollComp->m_ray);
@@ -317,9 +317,8 @@ void MapDisplaySystem::drawMapVertex()
 void MapDisplaySystem::drawPlayerOnMap()
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(m_playerNum);
-    ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(m_playerNum);
-    mptrSystemManager->searchSystemByType<ColorDisplaySystem>(
-                static_cast<uint32_t>(Systems_e::COLOR_DISPLAY_SYSTEM))->drawEntity(*posComp, *colorComp);
+    ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(m_playerNum);    
+    Ecsm_t::instance().getSystem<ColorDisplaySystem>(static_cast<uint32_t>(Systems_e::COLOR_DISPLAY_SYSTEM))->drawEntity(*posComp, *colorComp);
 }
 
 //===================================================================

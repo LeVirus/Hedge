@@ -12,6 +12,7 @@
 #include "PhysicalEngine.hpp"
 #include <MainEngine.hpp>
 #include <cassert>
+#include <alias.hpp>
 
 MapGamepadInputData_t InputSystem::m_mapGamepadID;
 bool InputSystem::m_windowFocus;
@@ -95,7 +96,7 @@ bool InputSystem::checkAxisGamepadKeyStatus(uint32_t key, bool positive)
 //===================================================================
 void InputSystem::setUsedComponents()
 {
-    bAddComponentToSystem(Components_e::INPUT_COMPONENT);
+    addComponentsToSystem(Components_e::INPUT_COMPONENT, 1);
 }
 
 //===================================================================
@@ -112,7 +113,7 @@ void InputSystem::getGamepadInputs()
 //===================================================================
 void InputSystem::treatPlayerInput()
 {
-    for(uint32_t i = 0; i < mVectNumEntity.size(); ++i)
+    for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
         getGamepadInputs();
         if(!m_F12Pressed && glfwGetKey(m_window, GLFW_KEY_F12) == GLFW_PRESS)
@@ -161,8 +162,8 @@ void InputSystem::treatPlayerInput()
         {
             m_changeMapMode = false;
         }
-        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(mVectNumEntity[i]);
-        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(mVectNumEntity[i]);
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
+        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
         if(moveComp->m_ejectData)
         {
             return;
@@ -260,7 +261,7 @@ void InputSystem::treatPlayerInput()
                     playerComp->m_playerShoot = true;
                     AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
                     audioComp->m_soundElements[weaponComp->m_currentWeapon]->m_toPlay = true;
-                    m_mainEngine->playerAttack(mVectNumEntity[i], playerComp, mapComp->m_absoluteMapPositionPX, moveComp->m_degreeOrientation);
+                    m_mainEngine->playerAttack(*it, *playerComp, mapComp->m_absoluteMapPositionPX, moveComp->m_degreeOrientation);
                 }
             }
         }
@@ -734,15 +735,15 @@ void InputSystem::toogleInputMenuGamepadKeyboard(PlayerConfComponent &playerComp
     }
     playerComp.m_keyboardInputMenuMode = !playerComp.m_keyboardInputMenuMode;
     m_mainEngine->updateConfirmLoadingMenuInfo(playerComp);
-    mptrSystemManager->searchSystemByType<StaticDisplaySystem>(static_cast<uint32_t>(Systems_e::STATIC_DISPLAY_SYSTEM))->
+
+    Ecsm_t::instance().getSystem<StaticDisplaySystem>(static_cast<uint32_t>(Systems_e::STATIC_DISPLAY_SYSTEM))->
             updateStringWriteEntitiesInputMenu(playerComp.m_keyboardInputMenuMode, false);
 }
 
 //===================================================================
 bool InputSystem::treatNewKey(PlayerConfComponent &playerComp)
 {
-    StaticDisplaySystem *staticSystem = mptrSystemManager->searchSystemByType<StaticDisplaySystem>(
-                static_cast<uint32_t>(Systems_e::STATIC_DISPLAY_SYSTEM));
+    StaticDisplaySystem *staticSystem = Ecsm_t::instance().getSystem<StaticDisplaySystem>(static_cast<uint32_t>(Systems_e::STATIC_DISPLAY_SYSTEM));
     if(playerComp.m_keyboardInputMenuMode)
     {
         //KEYBOARD
@@ -1534,7 +1535,6 @@ void setPlayerWeapon(WeaponComponent &weaponComp, uint32_t weapon)
 //===================================================================
 void InputSystem::execSystem()
 {
-    System::execSystem();
     treatPlayerInput();
 }
 

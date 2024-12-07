@@ -149,7 +149,6 @@ void AudioEngine::clearSourceAndBuffer()
 //===================================================================
 void AudioEngine::runIteration()
 {
-    m_soundSystem->execSystem();
 }
 
 //===================================================================

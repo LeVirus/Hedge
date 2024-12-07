@@ -41,15 +41,13 @@ public:
         return m_vectBarrelsEntitiesToDelete;
     }
 private:
-    EnemySpriteType_e getOrientationFromAngle(uint32_t observerEntity, uint32_t targetEntity,
-                                              float targetDegreeAngle);
     void setUsedComponents();
-    void updateSprites(uint32_t observerEntity, const std::vector<uint32_t> &vectEntities);
-    void updateEnemySprites(uint32_t enemyEntity, uint32_t observerEntity, MemSpriteDataComponent &memSpriteComp,
+    void updateSprites();
+    void updateEnemySprites(uint32_t enemyEntity, MemSpriteDataComponent &memSpriteComp,
                             SpriteTextureComponent &spriteComp,
                             TimerComponent &timerComp, EnemyConfComponent &enemyConfComp);
     void updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp,
-                                 uint32_t enemyEntity, uint32_t observerEntity);
+                                 uint32_t enemyEntity);
 private:
     std::vector<uint32_t> m_memMultiSpritesWallEntities, m_vectBarrelsEntitiesToDelete;
     uint32_t m_defaultInterval = 0.8 / FPS_VALUE, m_memTeleportAnimEntity;

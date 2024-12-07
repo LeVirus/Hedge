@@ -67,7 +67,7 @@ protected:
 protected:
     //Definition of needed components
     std::array<uint32_t, T> m_arrEntities;
-    std::set<uint32_t> m_usedEntities, m_cacheUsedComponent;//mem possess components
+    std::set<uint32_t> m_usedEntities, m_cacheUsedComponent;//mem possess components OPTI
 };
 
 template <typename S, uint32_t T>

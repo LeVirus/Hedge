@@ -43,21 +43,12 @@ struct sMemPositionsVertexComponents : public ECS::Component
     virtual ~sMemPositionsVertexComponents() = default;
 };
 
-// using Ecsm_t = ECS::ECSManager<22u, sMemPositionsVertexComponents, sqMemPositionsVertexComponents>;
-// using Ecsm_t = ECS::ECSManager<22u, sMemPositionsVertexComponents, ColorVertexComponent, PositionVertexComponent,
-//                                AudioComponent, CheckpointComponent, EnemyConfComponent,
-//                                ShotConfComponent, SpriteTextureComponent, MemSpriteDataComponent, MapCoordComponent,
-//                                InputComponent, CircleCollisionComponent, SegmentCollisionComponent, RectangleCollisionComponent,
-//                                GeneralCollisionComponent, MoveableComponent, TimerComponent, PlayerConfComponent, WriteComponent,
-//                                ObjectConfComponent, WeaponComponent, LogComponent>;
-
 //===================================================================
 void MainEngine::init(Game *refGame)
 {
     std::srand(std::time(nullptr));
-    m_ecsManager.init();
     Ecsm_t::instance().associateCompManager(std::make_unique<EcsCompManager_t>());
-
+    instanciateSystems();
     linkSystemsToGraphicEngine();
     linkSystemsToPhysicalEngine();
     linkSystemsToSoundEngine();
@@ -155,6 +146,8 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
 //        fps = std::chrono::system_clock::now() - clockFrame;
 //        std::cout << 1.0f / fps.count() << "  " << fps.count() << " FPS\n";
 //        clockFrame = std::chrono::system_clock::now();
+        //UpdateEntities TMP
+        Ecsm_t::instance().updateEntitiesFromSystems();
         clock = std::chrono::system_clock::now();
         m_physicalEngine.runIteration(m_gamePaused);
         //LOAD if level to load break the loop
@@ -422,6 +415,20 @@ void MainEngine::unsetFirstLaunch()
 }
 
 //===================================================================
+void MainEngine::instanciateSystems()
+{
+    Ecsm_t::instance().addNewSystem(std::make_unique<ColorDisplaySystem>());
+    Ecsm_t::instance().addNewSystem(std::make_unique<MapDisplaySystem>());
+    Ecsm_t::instance().addNewSystem(std::make_unique<InputSystem>());
+    Ecsm_t::instance().addNewSystem(std::make_unique<CollisionSystem>());
+    Ecsm_t::instance().addNewSystem(std::make_unique<VisionSystem>());
+    Ecsm_t::instance().addNewSystem(std::make_unique<StaticDisplaySystem>());
+    Ecsm_t::instance().addNewSystem(std::make_unique<IASystem>());
+    Ecsm_t::instance().addNewSystem(std::make_unique<SoundSystem>());
+
+}
+
+//===================================================================
 void MainEngine::clearMemSoundElements()
 {
     m_memSoundElements.m_teleports = std::nullopt;
@@ -646,8 +653,7 @@ void MainEngine::clearLevel()
     m_physicalEngine.clearSystems();
     m_graphicEngine.clearSystems();
     m_memTriggerCreated.clear();
-    m_ecsManager.getEngine().RmAllEntity();
-    m_ecsManager.getComponentManager().clear();
+    Ecsm_t::instance().clearEntities();
     m_memWall.clear();
     clearMemSoundElements();
 }
@@ -673,7 +679,7 @@ void MainEngine::clearObjectToDelete()
     {
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(vect[i]);
         m_memStaticEntitiesDeletedFromCheckpoint.insert(mapComp->m_coord);
-        m_ecsManager.bRmEntity(vect[i]);
+        Ecsm_t::instance().removeEntity(vect[i]);
         removeEntityToZone(vect[i]);
     }
     //mem destruct barrel current checkpoint
@@ -685,7 +691,7 @@ void MainEngine::clearObjectToDelete()
     //clear barrel current game entities
     for(uint32_t i = 0; i < vectBarrels.size(); ++i)
     {
-        m_ecsManager.bRmEntity(vectBarrels[i]);
+        Ecsm_t::instance().removeEntity(vectBarrels[i]);
         removeEntityToZone(vectBarrels[i]);
     }
     m_physicalEngine.clearVectObjectToDelete();
@@ -696,17 +702,21 @@ void MainEngine::clearObjectToDelete()
 //===================================================================
 void MainEngine::memTimerPausedValue()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitset;
-    bitset[Components_e::TIMER_COMPONENT] = true;
-    std::vector<uint32_t> vectEntities = m_ecsManager.getEntitiesContainingComponents(bitset);
+    std::set<uint32_t> setCacheComp;
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> arrEntities;
+    arrEntities[Components_e::TIMER_COMPONENT] = 1;
+    setCacheComp.insert(Components_e::TIMER_COMPONENT);
+    std::optional<std::set<uint32_t>> usedEntities = Ecsm_t::instance().getEntitiesCustomComponents(setCacheComp, arrEntities);
+    assert(usedEntities);
     assert(m_vectMemPausedTimer.empty());
-    m_vectMemPausedTimer.reserve(vectEntities.size());
-    for(uint32_t i = 0; i < vectEntities.size(); ++i)
+    m_vectMemPausedTimer.reserve((*usedEntities).size());
+    for(std::set<uint32_t>::const_iterator it = (*usedEntities).begin(); it != (*usedEntities).end(); ++it)
     {
-        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(vectEntities[i]);
+        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*it);
+        assert(timerComp);
         time_t time = (std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()) -
                        std::chrono::system_clock::to_time_t(timerComp->m_clock));
-        m_vectMemPausedTimer.emplace_back(vectEntities[i], time);
+        m_vectMemPausedTimer.emplace_back(*it, time);
     }
 }
 
@@ -833,53 +843,58 @@ void MainEngine::confUnifiedColorEntity(uint32_t entityNum, const tupleFloat_t &
 //===================================================================
 uint32_t MainEngine::createColorEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::COLOR_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::COLOR_VERTEX_COMPONENT] = 1;
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createCheckpointEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::CHECKPOINT_COMPONENT] = true;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::RECTANGLE_COLLISION_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::CHECKPOINT_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createLogEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::CIRCLE_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::LOG_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::LOG_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createSecretEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::RECTANGLE_COLLISION_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createTextureEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
@@ -978,17 +993,18 @@ void MainEngine::loadFogEntities()
 //===================================================================
 uint32_t MainEngine::createBackgroundEntity(bool color)
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
     if(color)
     {
-        bitsetComponents[Components_e::COLOR_VERTEX_COMPONENT] = true;
+        vect[Components_e::COLOR_VERTEX_COMPONENT] = 1;
     }
     else
     {
-        bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
+        vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
     }
-    return m_ecsManager.addEntity(bitsetComponents);
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
@@ -2031,180 +2047,194 @@ void MainEngine::confVisibleAmmo(uint32_t ammoEntity)
 //===================================================================
 uint32_t MainEngine::createDisplayTeleportEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    bitsetComponents[Components_e::MEM_SPRITE_DATA_COMPONENT] = true;
-    bitsetComponents[Components_e::TIMER_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::AUDIO_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
+    vect[Components_e::TIMER_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::AUDIO_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createWeaponEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    bitsetComponents[Components_e::MEM_SPRITE_DATA_COMPONENT] = true;
-    bitsetComponents[Components_e::MEM_POSITIONS_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::TIMER_COMPONENT] = true;
-    bitsetComponents[Components_e::WEAPON_COMPONENT] = true;
-    bitsetComponents[Components_e::AUDIO_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
+    vect[Components_e::MEM_POSITIONS_VERTEX_COMPONENT] = 1;
+    vect[Components_e::TIMER_COMPONENT] = 1;
+    vect[Components_e::WEAPON_COMPONENT] = 1;
+    vect[Components_e::AUDIO_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createWallEntity(bool multiSprite, bool moveable)
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::RECTANGLE_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     if(multiSprite)
     {
-        bitsetComponents[Components_e::MEM_SPRITE_DATA_COMPONENT] = true;
-        bitsetComponents[Components_e::TIMER_COMPONENT] = true;
+        vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
+        vect[Components_e::TIMER_COMPONENT] = 1;
     }
     if(moveable)
     {
-        bitsetComponents[Components_e::MOVEABLE_COMPONENT] = true;
+        vect[Components_e::MOVEABLE_COMPONENT] = 1;
     }
-    return m_ecsManager.addEntity(bitsetComponents);
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createDoorEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::RECTANGLE_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::TIMER_COMPONENT] = true;
-    bitsetComponents[Components_e::AUDIO_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::TIMER_COMPONENT] = 1;
+    vect[Components_e::AUDIO_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createEnemyEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::CIRCLE_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::MOVEABLE_COMPONENT] = true;
-    bitsetComponents[Components_e::MEM_SPRITE_DATA_COMPONENT] = true;
-    bitsetComponents[Components_e::ENEMY_CONF_COMPONENT] = true;
-    bitsetComponents[Components_e::TIMER_COMPONENT] = true;
-    bitsetComponents[Components_e::AUDIO_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::MOVEABLE_COMPONENT] = 1;
+    vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
+    vect[Components_e::ENEMY_CONF_COMPONENT] = 1;
+    vect[Components_e::TIMER_COMPONENT] = 1;
+    vect[Components_e::AUDIO_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createShotEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::SEGMENT_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::SHOT_CONF_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::SEGMENT_COLLISION_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::SHOT_CONF_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createTriggerEntity(bool visible)
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
     if(visible)
     {
-        bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
+        vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+
     }
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::CIRCLE_COLLISION_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createVisibleShotEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::CIRCLE_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::AUDIO_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    bitsetComponents[Components_e::MOVEABLE_COMPONENT] = true;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::TIMER_COMPONENT] = true;
-    bitsetComponents[Components_e::SHOT_CONF_COMPONENT] = true;
-    bitsetComponents[Components_e::MEM_SPRITE_DATA_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::AUDIO_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::MOVEABLE_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::TIMER_COMPONENT] = 1;
+    vect[Components_e::SHOT_CONF_COMPONENT] = 1;
+    vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createShotImpactEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    bitsetComponents[Components_e::TIMER_COMPONENT] = true;
-    bitsetComponents[Components_e::MEM_SPRITE_DATA_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::CIRCLE_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::MOVEABLE_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::TIMER_COMPONENT] = 1;
+    vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::MOVEABLE_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createWriteEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::WRITE_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::WRITE_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createSimpleSpriteEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createStaticEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::CIRCLE_COLLISION_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
 uint32_t MainEngine::createObjectEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::SPRITE_TEXTURE_COMPONENT] = true;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::CIRCLE_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::OBJECT_CONF_COMPONENT] = true;
-    return m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::OBJECT_CONF_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================
@@ -2241,22 +2271,22 @@ void MainEngine::confBaseComponent(uint32_t entityNum, const SpriteData &memSpri
 //===================================================================
 void MainEngine::loadPlayerEntity(const LevelManager &levelManager)
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::POSITION_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::MOVEABLE_COMPONENT] = true;
-    bitsetComponents[Components_e::COLOR_VERTEX_COMPONENT] = true;
-    bitsetComponents[Components_e::INPUT_COMPONENT] = true;
-    bitsetComponents[Components_e::CIRCLE_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::PLAYER_CONF_COMPONENT] = true;
-    bitsetComponents[Components_e::TIMER_COMPONENT] = true;
-    bitsetComponents[Components_e::AUDIO_COMPONENT] = true;
-    uint32_t entityNum = m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::MOVEABLE_COMPONENT] = 1;
+    vect[Components_e::COLOR_VERTEX_COMPONENT] = 1;
+    vect[Components_e::INPUT_COMPONENT] = 1;
+    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::PLAYER_CONF_COMPONENT] = 1;
+    vect[Components_e::TIMER_COMPONENT] = 1;
+    vect[Components_e::AUDIO_COMPONENT] = 1;
+    uint32_t entityNum = Ecsm_t::instance().addEntity(vect);
     confPlayerEntity(levelManager, entityNum, levelManager.getLevel(),
                      loadWeaponsEntity(levelManager), loadDisplayTeleportEntity(levelManager));
     //notify player entity number
-    m_graphicEngine.getMapSystem().confPlayerComp(entityNum);
     m_graphicEngine.memPlayerDatas(entityNum);
     m_physicalEngine.memPlayerEntity(entityNum);
     m_audioEngine.memPlayerEntity(entityNum);
@@ -2279,6 +2309,7 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     playerConf->m_life = 100;
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)] = numWeaponEntity;
     playerConf->m_levelToLoad = m_currentLevel;
+    playerConf->m_memEntityAssociated = entityNum;
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::DISPLAY_TELEPORT)] = numDisplayTeleportEntity;
     AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(entityNum);
     audioComp->m_soundElements.reserve(3);
@@ -2326,11 +2357,12 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
 //===================================================================
 void MainEngine::confActionEntity()
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::CIRCLE_COLLISION_COMPONENT] = true;
-    uint32_t entityNum = m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    uint32_t entityNum = Ecsm_t::instance().addEntity(vect);
     GeneralCollisionComponent *genCollComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(entityNum);
     CircleCollisionComponent *circleColl = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
 
@@ -2346,11 +2378,12 @@ void MainEngine::confActionEntity()
 void MainEngine::confMapDetectShapeEntity(const PairFloat_t &playerPos)
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::RECTANGLE_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MAP_DETECT_SHAPE)] = m_ecsManager.addEntity(bitsetComponents);
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MAP_DETECT_SHAPE)] = Ecsm_t::instance().addEntity(vect);
     RectangleCollisionComponent *rectColl = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(
         playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MAP_DETECT_SHAPE)]);
 
@@ -2367,16 +2400,17 @@ void MainEngine::confMapDetectShapeEntity(const PairFloat_t &playerPos)
 //===================================================================
 uint32_t MainEngine::createMeleeAttackEntity(bool sound)
 {
-    std::bitset<Components_e::TOTAL_COMPONENTS> bitsetComponents;
-    bitsetComponents[Components_e::GENERAL_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::MAP_COORD_COMPONENT] = true;
-    bitsetComponents[Components_e::CIRCLE_COLLISION_COMPONENT] = true;
-    bitsetComponents[Components_e::SHOT_CONF_COMPONENT] = true;
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::SHOT_CONF_COMPONENT] = 1;
     if(sound)
     {
-        bitsetComponents[Components_e::AUDIO_COMPONENT] = true;
+        vect[Components_e::AUDIO_COMPONENT] = 1;
     }
-    return m_ecsManager.addEntity(bitsetComponents);
+    return Ecsm_t::instance().addEntity(vect);
 }
 
 //===================================================================

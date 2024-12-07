@@ -36,7 +36,6 @@ public:
         m_vectSystem.emplace_back(std::move(system));
         return true;
     }
-
     //====================================================================
     void execAllSystems()
     {
