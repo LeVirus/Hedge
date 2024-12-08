@@ -425,7 +425,6 @@ void MainEngine::instanciateSystems()
     Ecsm_t::instance().addNewSystem(std::make_unique<StaticDisplaySystem>());
     Ecsm_t::instance().addNewSystem(std::make_unique<IASystem>());
     Ecsm_t::instance().addNewSystem(std::make_unique<SoundSystem>());
-
 }
 
 //===================================================================

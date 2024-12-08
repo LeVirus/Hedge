@@ -59,7 +59,6 @@ public:
     template <Component_C T, uint32_t NC>
     T *getComponent(uint32_t entityNum, uint32_t componentNum = 0)
     {
-        std::cerr << entityNum << "  " << m_refComponents.size() << "\n";
         assert(entityNum < m_refComponents.size());
         assert(NC < N);
         if(m_refComponents[entityNum][NC].size() == 0 || componentNum >= m_refComponents[entityNum][NC].size())
@@ -123,9 +122,8 @@ public:
             m_refDelComponents[i].clear();
         }
     }
-
     virtual void instanciateComponentFromEntity(uint32_t numEntity, const std::array<uint32_t, N> &vect) = 0;
-private:
+protected:
     template<uint32_t TN, Component_C CC>
     std::vector<CC> &getVectTuple()
     {
