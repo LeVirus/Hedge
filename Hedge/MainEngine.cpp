@@ -1612,10 +1612,6 @@ void MainEngine::setMenuEntries(PlayerConfComponent &playerComp, std::optional<u
     //SELECTED MENU ENTRY
     WriteComponent *writeCompSelect = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_SELECTED_LINE)]);
     assert(writeCompSelect);
-    std::cerr << "WRITE NUM " << playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_ENTRIES)] << "  " <<
-        writeConf->m_vectMessage[0].second << "\n";
-    std::cerr << "WRITE NUM222 " << playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_SELECTED_LINE)] << "  " <<
-        writeConf->m_vectMessage[0].second << "\n";
     m_graphicEngine.fillMenuWrite(*writeConf, playerComp.m_menuMode, playerComp.m_currentCursorPos,
                                   {&playerComp, m_currentLevelSecretsNumber, m_currentLevelEnemiesNumber});
     if(playerComp.m_menuMode == MenuMode_e::LEVEL_PROLOGUE ||
@@ -1624,7 +1620,6 @@ void MainEngine::setMenuEntries(PlayerConfComponent &playerComp, std::optional<u
     {
         return;
     }
-    std::cerr << writeConf << "  " <<  writeCompSelect << "\nSet MENU EBNTRY MainEngine\n";
     m_graphicEngine.confMenuSelectedLine(playerComp, *writeCompSelect, *writeConf);
     if(playerComp.m_menuMode == MenuMode_e::INPUT)
     {

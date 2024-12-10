@@ -222,7 +222,7 @@ void StaticDisplaySystem::displayMenu()
                 playerComp->m_menuMode != MenuMode_e::TRANSITION_LEVEL)
         {
             drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::TITLE_MENU)], VertexID_e::LIFE_WRITE);
-            drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_SELECTED_LINE)], VertexID_e::AMMO_WRITE/*, Font_e::SELECTED, "Débile"*/);
+            drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_SELECTED_LINE)], VertexID_e::AMMO_WRITE, Font_e::SELECTED);
         }
         drawWriteInfoPlayer(*playerComp);
         if(playerComp->m_menuMode != MenuMode_e::NEW_KEY &&
