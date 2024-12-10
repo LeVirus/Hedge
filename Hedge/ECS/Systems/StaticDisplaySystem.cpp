@@ -217,6 +217,7 @@ void StaticDisplaySystem::displayMenu()
             drawVertex(spriteBackgroundLeftComp->m_spriteData->m_textureNum, VertexID_e::MENU_BACKGROUND_LEFT);
         }
         drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_ENTRIES)], VertexID_e::MENU_WRITE/*, Font_e::STANDARD, "AAAA"*/);
+
         if(playerComp->m_menuMode != MenuMode_e::LEVEL_PROLOGUE &&
                 playerComp->m_menuMode != MenuMode_e::LEVEL_EPILOGUE &&
                 playerComp->m_menuMode != MenuMode_e::TRANSITION_LEVEL)
@@ -471,6 +472,10 @@ void StaticDisplaySystem::drawWriteVertex(uint32_t numEntity, VertexID_e type, F
 {
     WriteComponent *writeComp = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(numEntity);
     assert(!writeComp->m_vectMessage.empty());
+    if(writeComp->m_vectMessage[0].second.empty())
+    {
+        return;
+    }
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(numEntity);
     if(!value.empty())
     {
@@ -483,7 +488,6 @@ void StaticDisplaySystem::drawWriteVertex(uint32_t numEntity, VertexID_e type, F
     else
     {
         writeComp->m_fontSpriteData[0] = m_fontDataPtr->getWriteData(writeComp->m_vectMessage[0].second, *writeComp, font);
-        assert(!writeComp->m_fontSpriteData[0].empty());
     }
     if(type == VertexID_e::INFO)
     {
