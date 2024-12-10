@@ -18,6 +18,7 @@
 //===================================================================
 StaticDisplaySystem::StaticDisplaySystem()
 {
+    addComponentsToSystem(Components_e::PLAYER_CONF_COMPONENT, 1);
 }
 
 //===================================================================
@@ -175,6 +176,7 @@ void StaticDisplaySystem::drawWriteInfoPlayer(PlayerConfComponent &playerComp)
 void StaticDisplaySystem::displayMenu()
 {
     m_shader->use();
+    assert(!m_usedEntities.empty());
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
@@ -214,13 +216,13 @@ void StaticDisplaySystem::displayMenu()
         {
             drawVertex(spriteBackgroundLeftComp->m_spriteData->m_textureNum, VertexID_e::MENU_BACKGROUND_LEFT);
         }
-        drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_ENTRIES)], VertexID_e::MENU_WRITE);
+        drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_ENTRIES)], VertexID_e::MENU_WRITE/*, Font_e::STANDARD, "AAAA"*/);
         if(playerComp->m_menuMode != MenuMode_e::LEVEL_PROLOGUE &&
                 playerComp->m_menuMode != MenuMode_e::LEVEL_EPILOGUE &&
                 playerComp->m_menuMode != MenuMode_e::TRANSITION_LEVEL)
         {
             drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::TITLE_MENU)], VertexID_e::LIFE_WRITE);
-            drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_SELECTED_LINE)], VertexID_e::AMMO_WRITE, Font_e::SELECTED);
+            drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_SELECTED_LINE)], VertexID_e::AMMO_WRITE/*, Font_e::SELECTED, "Débile"*/);
         }
         drawWriteInfoPlayer(*playerComp);
         if(playerComp->m_menuMode != MenuMode_e::NEW_KEY &&
@@ -481,6 +483,7 @@ void StaticDisplaySystem::drawWriteVertex(uint32_t numEntity, VertexID_e type, F
     else
     {
         writeComp->m_fontSpriteData[0] = m_fontDataPtr->getWriteData(writeComp->m_vectMessage[0].second, *writeComp, font);
+        assert(!writeComp->m_fontSpriteData[0].empty());
     }
     if(type == VertexID_e::INFO)
     {

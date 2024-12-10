@@ -51,12 +51,4 @@ using EcsCompManager_t = ComponentManagerExtend<22u, PositionVertexComponent, Sp
                                                 EnemyConfComponent, MemPositionsVertexComponents, WriteComponent, ShotConfComponent,
                                                 ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent>;
 
-struct sqMemPositionsVertexComponents : public ECS::Component
-{
-    sqMemPositionsVertexComponents()
-    {
-        static_assert(std::is_convertible_v<sqMemPositionsVertexComponents, ECS::Component>);
-    }
-    std::vector<std::array<PairFloat_t, 4>> m_vectSpriteData;
-    virtual ~sqMemPositionsVertexComponents() = default;
-};
+

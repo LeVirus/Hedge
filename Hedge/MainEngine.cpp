@@ -69,12 +69,15 @@ LevelState MainEngine::displayTitleMenu(const LevelManager &levelManager)
     m_memBackgroundLeftMenu = &vectSprite[leftBackgroundMenuSpriteId];
     m_memBackgroundRightLeftMenu = &vectSprite[rightLeftBackgroundMenuSpriteId];
     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerComp);
     playerComp->m_menuMode = MenuMode_e::TITLE;
     setMenuEntries(*playerComp);
     m_gamePaused = true;
     m_titleMenuMode = true;
     //prevent to exit
     m_currentLevelState = LevelState_e::EXIT;
+    Ecsm_t::instance().updateEntitiesFromSystems();
+
     //game paused
     do
     {
@@ -135,6 +138,7 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
     clock = std::chrono::system_clock::now();
     m_physicalEngine.updateMousePos();
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     do
     {
         elapsed_seconds = std::chrono::system_clock::now() - clock;
@@ -211,6 +215,7 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
             playerConf->m_playerShoot = false;
             playerConf->m_infoWriteData = {false, ""};
             AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(m_playerEntity);
+            assert(audioComp);
             //play death sound
             audioComp->m_soundElements[1]->m_toPlay = true;
             m_audioEngine.getSoundSystem()->execSystem();
@@ -234,6 +239,7 @@ void MainEngine::initLevel(uint32_t levelNum, LevelState_e levelState)
     if(beginLevel)
     {
         PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+        assert(playerConf);
         m_memCheckpointLevelState = std::nullopt;
         playerConf->m_currentCheckpoint->first = 0;
         if(levelState == LevelState_e::NEW_GAME)
@@ -286,6 +292,7 @@ void MainEngine::saveGameProgressCheckpoint(uint32_t levelNum, const PairUI_t &c
                                             const std::pair<uint32_t, Direction_e> &checkpointData)
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     uint32_t enemiesKilled = (playerConf->m_enemiesKilled) ? *playerConf->m_enemiesKilled : 0;
     uint32_t secretsFound = (playerConf->m_secretsFound) ? *playerConf->m_secretsFound : 0;
     m_memCheckpointLevelState = {levelNum, checkpointData.first, secretsFound, enemiesKilled, checkpointData.second,
@@ -316,6 +323,8 @@ void MainEngine::saveEnemiesCheckpoint()
     {
         EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(m_memEnemiesStateFromCheckpoint[i].m_entityNum);
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_memEnemiesStateFromCheckpoint[i].m_entityNum);
+        assert(enemyComp);
+        assert(mapComp);
         m_memEnemiesStateFromCheckpoint[i].m_dead = (enemyComp->m_behaviourMode == EnemyBehaviourMode_e::DEAD ||
                                                      enemyComp->m_behaviourMode == EnemyBehaviourMode_e::DYING);
         m_memEnemiesStateFromCheckpoint[i].m_enemyPos = mapComp->m_absoluteMapPositionPX;
@@ -388,6 +397,8 @@ void MainEngine::savePlayerGear(bool beginLevel)
     }
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConfComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+    assert(playerConfComp);
+    assert(weaponConf);
     MemPlayerConf &playerConf = beginLevel ? m_memPlayerConfBeginLevel : m_memPlayerConfCheckpoint;
     playerConf.m_ammunationsCount.resize(weaponConf->m_weaponsData.size());
     playerConf.m_weapons.resize(weaponConf->m_weaponsData.size());
@@ -411,6 +422,7 @@ void MainEngine::savePlayerGear(bool beginLevel)
 void MainEngine::unsetFirstLaunch()
 {
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConfComp);
     playerConfComp->m_firstMenu = false;
 }
 
@@ -442,6 +454,8 @@ void MainEngine::loadPlayerGear(bool beginLevel)
 {
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConfComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+    assert(playerConfComp);
+    assert(weaponConf);
     MemPlayerConf &playerConf = beginLevel ? m_memPlayerConfBeginLevel : m_memPlayerConfCheckpoint;
     assert(playerConf.m_ammunationsCount.size() == weaponConf->m_weaponsData.size());
     for(uint32_t i = 0; i < playerConf.m_ammunationsCount.size(); ++i)
@@ -465,10 +479,12 @@ void MainEngine::loadPlayerGear(bool beginLevel)
 void MainEngine::displayTransitionMenu(MenuMode_e mode, bool redTransition)
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     float topEpiloguePosition;
     playerConf->m_menuMode = mode;
     setMenuEntries(*playerConf);
     WriteComponent *writeConf = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_ENTRIES)]);
+    assert(writeConf);
     if(mode == MenuMode_e::LEVEL_EPILOGUE)
     {
         topEpiloguePosition = getTopEpilogueVerticalPosition(*writeConf);
@@ -534,6 +550,8 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
 {
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConfComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+    assert(playerConfComp);
+    assert(weaponConf);
     assert(weaponConf->m_currentWeapon < weaponConf->m_weaponsData.size());
     WeaponData &currentWeapon = weaponConf->m_weaponsData[
             weaponConf->m_currentWeapon];
@@ -545,6 +563,10 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
         MoveableComponent *playerMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(playerEntity);
         MapCoordComponent *actionMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::HIT_MELEE)]);
         MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerEntity);
+        assert(actionGenColl);
+        assert(playerMoveComp);
+        assert(actionMapComp);
+        assert(playerMapComp);
         std::optional<PairUI_t> coord = getLevelCoord(actionMapComp->m_absoluteMapPositionPX);
         if(coord)
         {
@@ -591,11 +613,16 @@ void MainEngine::confPlayerBullet(PlayerConfComponent *playerComp,
 {
     assert(numBullet < MAX_SHOTS);
     WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+    assert(weaponComp);
     uint32_t bulletEntity = (*weaponComp->m_weaponsData[weaponComp->m_currentWeapon].m_segmentShootEntities)[numBullet];
     GeneralCollisionComponent *genColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(bulletEntity);
     SegmentCollisionComponent *segmentColl = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(bulletEntity);
     ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(bulletEntity);
     MoveableComponent *moveImpactComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(shotComp->m_impactEntity);
+    assert(genColl);
+    assert(segmentColl);
+    assert(shotComp);
+    assert(moveImpactComp);
     segmentColl->m_impactEntity = shotComp->m_impactEntity;
     confBullet(*genColl, *segmentColl, *moveImpactComp, CollisionTag_e::BULLET_PLAYER_CT, point, degreeAngle);
 }
@@ -636,6 +663,7 @@ void MainEngine::setUnsetPaused()
     if(m_gamePaused)
     {
         PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+        assert(playerConfComp);
         playerConfComp->m_currentCursorPos = 0;
         memTimerPausedValue();
     }
@@ -677,6 +705,7 @@ void MainEngine::clearObjectToDelete()
     for(uint32_t i = 0; i < vect.size(); ++i)
     {
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(vect[i]);
+        assert(mapComp);
         m_memStaticEntitiesDeletedFromCheckpoint.insert(mapComp->m_coord);
         Ecsm_t::instance().removeEntity(vect[i]);
         removeEntityToZone(vect[i]);
@@ -685,6 +714,7 @@ void MainEngine::clearObjectToDelete()
     for(uint32_t i = 0; i < vectBarrelsCheckpointRem.size(); ++i)
     {
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(vectBarrelsCheckpointRem[i]);
+        assert(mapComp);
         m_memStaticEntitiesDeletedFromCheckpoint.insert(mapComp->m_coord);
     }
     //clear barrel current game entities
@@ -725,6 +755,7 @@ void MainEngine::applyTimerPausedValue()
     for(uint32_t i = 0; i < m_vectMemPausedTimer.size(); ++i)
     {
         TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_vectMemPausedTimer[i].first);
+        assert(timerComp);
         timerComp->m_clock = std::chrono::system_clock::from_time_t( std::chrono::system_clock::to_time_t(
                     std::chrono::system_clock::now()) - m_vectMemPausedTimer[i].second);
     }
@@ -756,6 +787,8 @@ void MainEngine::confMenuBarMenuEntity(uint32_t musicEntity, uint32_t effectEnti
     //MUSIC VOLUME
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(musicEntity);
     ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(effectEntity);
+    assert(posComp);
+    assert(colorComp);
     float leftPos = LEFT_POS_STD_MENU_BAR, rightPos = leftPos + 0.01f + (getMusicVolume() * MAX_BAR_MENU_SIZE) / 100.0f,
     upPos = MAP_MENU_DATA.at(MenuMode_e::SOUND).first.second - 0.01f,
     downPos = upPos - (MENU_FONT_SIZE - 0.02f);
@@ -780,6 +813,8 @@ void MainEngine::confMenuBarMenuEntity(uint32_t musicEntity, uint32_t effectEnti
     //EFFECT VOLUME
     PositionVertexComponent *posCompA = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(effectEntity);
     ColorVertexComponent *colorCompA = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(effectEntity);
+    assert(posCompA);
+    assert(colorCompA);
     upPos -= MENU_FONT_SIZE;
     downPos -= MENU_FONT_SIZE;
     rightPos = leftPos + 0.01f + (getEffectsVolume() * MAX_BAR_MENU_SIZE) / 100.0f;
@@ -796,6 +831,8 @@ void MainEngine::confMenuBarMenuEntity(uint32_t musicEntity, uint32_t effectEnti
     //TURN SENSITIVITY
     PositionVertexComponent *posCompB = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(turnSensitivity);
     ColorVertexComponent *colorCompB = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(turnSensitivity);
+    assert(posCompB);
+    assert(colorCompB);
     upPos = (MAP_MENU_DATA.at(MenuMode_e::INPUT).first.second - 0.01f) -
             MENU_FONT_SIZE * static_cast<uint32_t>(InputMenuCursorPos_e::TURN_SENSITIVITY),
     downPos = upPos - MENU_FONT_SIZE;
@@ -817,6 +854,7 @@ void MainEngine::confMenuBarMenuEntity(uint32_t musicEntity, uint32_t effectEnti
 void MainEngine::confUnifiedColorEntity(uint32_t entityNum, const tupleFloat_t &color, bool transparent)
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(entityNum);
+    assert(posComp);
     if(!posComp->m_vertex.empty())
     {
         posComp->m_vertex.clear();
@@ -827,6 +865,7 @@ void MainEngine::confUnifiedColorEntity(uint32_t entityNum, const tupleFloat_t &
     posComp->m_vertex.emplace_back(PairFloat_t{1.0f, -1.0f});
     posComp->m_vertex.emplace_back(PairFloat_t{-1.0f, -1.0f});
     ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(entityNum);
+    assert(colorComp);
     if(!colorComp->m_vertex.empty())
     {
         colorComp->m_vertex.clear();
@@ -951,6 +990,8 @@ void MainEngine::loadFogEntities()
     //GROUND
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(entity);
     ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(entity);
+    assert(posComp);
+    assert(colorComp);
     //ceiling + dark fog middle + Ground
     posComp->m_vertex.reserve(12);
     colorComp->m_vertex.reserve(12);
@@ -1038,6 +1079,7 @@ void MainEngine::loadLevel(const LevelManager &levelManager)
     Level::initLevelElementArray();
     loadPlayerEntity(levelManager);
     MapCoordComponent *map = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
+    assert(map);
     m_physicalEngine.addEntityToZone(m_playerEntity, map->m_coord);
     if(m_memCheckpointLevelState)
     {
@@ -1076,6 +1118,10 @@ void MainEngine::loadGameProgressCheckpoint()
     MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(m_playerEntity);
     PositionVertexComponent *pos = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(m_playerEntity);
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(mapComp);
+    assert(moveComp);
+    assert(pos);
+    assert(playerConf);
     mapComp->m_absoluteMapPositionPX = getCenteredAbsolutePosition(m_memCheckpointLevelState->m_playerPos);
     moveComp->m_degreeOrientation = getDegreeAngleFromDirection(m_memCheckpointLevelState->m_direction);
     m_memStaticEntitiesDeletedFromCheckpoint = m_currentEntitiesDelete;
@@ -1095,6 +1141,10 @@ uint32_t MainEngine::loadWeaponsEntity(const LevelManager &levelManager)
     MemPositionsVertexComponents *memPosVertex = Ecsm_t::instance().getComponent<MemPositionsVertexComponents, Components_e::MEM_POSITIONS_VERTEX_COMPONENT>(weaponEntity);
     WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(weaponEntity);
     AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(weaponEntity);
+    assert(memSprite);
+    assert(memPosVertex);
+    assert(weaponConf);
+    assert(audioComp);
     weaponConf->m_weaponsData.resize(vectWeapons.size());
     audioComp->m_soundElements.resize(vectWeapons.size());
     m_vectMemWeaponsDefault.resize(vectWeapons.size());
@@ -1209,13 +1259,14 @@ bool MainEngine::createEnemy(const LevelManager &levelManager, const SpriteData 
     confBaseComponent(numEntity, memSpriteData, enemyData.m_TileGamePosition[index],
                       CollisionShape_e::CIRCLE_C, CollisionTag_e::ENEMY_CT);
     EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(numEntity);
-
+    assert(enemyComp);
     if(enemyData.m_endLevelPos && (*enemyData.m_endLevelPos) == enemyData.m_TileGamePosition[index])
     {
         enemyComp->m_endLevel = true;
         exit = true;
     }
     CircleCollisionComponent *circleComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(numEntity);
+    assert(circleComp);
     circleComp->m_ray = collisionRay;
     enemyComp->m_life = enemyData.m_life;
     enemyComp->m_visibleShot = !(enemyData.m_visibleShootID.empty());
@@ -1248,16 +1299,19 @@ bool MainEngine::createEnemy(const LevelManager &levelManager, const SpriteData 
     loadEnemySprites(levelManager.getPictureData().getSpriteData(),
                      enemyData, numEntity, *enemyComp, levelManager.getVisibleShootDisplayData());
     MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(numEntity);
+    assert(moveComp);
     moveComp->m_velocity = enemyData.m_velocity;
     moveComp->m_currentDegreeMoveDirection = 0.0f;
     moveComp->m_degreeOrientation = 0.0f;
     AudioComponent *audiocomponent = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(numEntity);
+    assert(audiocomponent);
     audiocomponent->m_soundElements.reserve(3);
     audiocomponent->m_soundElements.emplace_back(soundElements[0]);
     audiocomponent->m_soundElements.emplace_back(soundElements[1]);
     audiocomponent->m_soundElements.emplace_back(soundElements[2]);
     audiocomponent->m_maxDistance = 500.0f;
     TimerComponent *timerComponent = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(numEntity);
+    assert(timerComponent);
     timerComponent->m_cycleCountA = 0;
     memCheckpointEnemiesData(loadFromCheckpoint, numEntity, m_currentLevelEnemiesNumber);
     ++m_currentLevelEnemiesNumber;
@@ -1320,6 +1374,7 @@ void MainEngine::loadNonVisibleEnemyAmmoStuff(bool loadFromCheckpoint, uint32_t 
     for(uint32_t j = 0; j < enemyComp.m_stdAmmo.size(); ++j)
     {
         ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(enemyComp.m_stdAmmo[j]);
+        assert(shotComp);
         shotComp->m_impactEntity = confShotImpactEntity(levelManager.getPictureSpriteData(), itt->second);
     }
 }
@@ -1332,6 +1387,8 @@ void MainEngine::memCheckpointEnemiesData(bool loadFromCheckpoint, uint32_t enem
         m_memEnemiesStateFromCheckpoint[cmpt].m_entityNum = enemyEntity;
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
         EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntity);
+        assert(mapComp);
+        assert(enemyComp);
         mapComp->m_absoluteMapPositionPX = m_memEnemiesStateFromCheckpoint[cmpt].m_enemyPos;
         enemyComp->m_life = m_memEnemiesStateFromCheckpoint[cmpt].m_life;
         if(m_memEnemiesStateFromCheckpoint[cmpt].m_dead)
@@ -1361,6 +1418,7 @@ void MainEngine::loadCheckpointsEntities(const LevelManager &levelManager)
         entityNum = createCheckpointEntity();
         initStdCollisionCase(entityNum, container[i].first, CollisionTag_e::CHECKPOINT_CT);
         CheckpointComponent *checkComponent = Ecsm_t::instance().getComponent<CheckpointComponent, Components_e::CHECKPOINT_COMPONENT>(entityNum);
+        assert(checkComponent);
         checkComponent->m_checkpointNumber = i + 1;
         checkComponent->m_direction = container[i].second;
     }
@@ -1399,11 +1457,15 @@ void MainEngine::loadLogsEntities(const LevelManager &levelManager, const std::v
                 CollisionShape_e::CIRCLE_C, CollisionTag_e::LOG_CT);
         assert(it != stdLogData.end());
         CircleCollisionComponent *circleComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
+        assert(circleComp);
         circleComp->m_ray = 10.0f;
         LogComponent *logComp = Ecsm_t::instance().getComponent<LogComponent, Components_e::LOG_COMPONENT>(entityNum);
+        assert(logComp);
         logComp->m_message = treatInfoMessageEndLine(container[i].m_message);
         SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
+        assert(spriteComp);
+        assert(mapComp);
         Level::addElementCase(*spriteComp, mapComp->m_coord, LevelCaseType_e::EMPTY_LC, entityNum);
     }
 }
@@ -1424,13 +1486,16 @@ void MainEngine::loadRevealedMap()
 void MainEngine::initStdCollisionCase(uint32_t entityNum, const PairUI_t &mapPos, CollisionTag_e tag)
 {
     MapCoordComponent *mapComponent = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
+    assert(mapComponent);
     mapComponent->m_coord = mapPos;
     m_physicalEngine.addEntityToZone(entityNum, mapComponent->m_coord);
     mapComponent->m_absoluteMapPositionPX = {mapPos.first * LEVEL_TILE_SIZE_PX, mapPos.second * LEVEL_TILE_SIZE_PX};
     GeneralCollisionComponent *genCompComponent = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(entityNum);
+    assert(genCompComponent);
     genCompComponent->m_shape = CollisionShape_e::RECTANGLE_C;
     genCompComponent->m_tagA = tag;
     RectangleCollisionComponent *rectComponent = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(entityNum);
+    assert(rectComponent);
     rectComponent->m_size = {LEVEL_TILE_SIZE_PX, LEVEL_TILE_SIZE_PX};
 }
 
@@ -1444,12 +1509,14 @@ uint32_t MainEngine::createEnemyDropObject(const LevelManager &levelManager, con
                                                       levelManager.getPictureSpriteData(), iterationNum, true);
     assert(objectEntity);
     GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*objectEntity);
+    assert(genComp);
     genComp->m_active = false;
     if(loadFromCheckpoint && m_memEnemiesStateFromCheckpoint[cmpt].m_dead &&
             !m_memEnemiesStateFromCheckpoint[cmpt].m_objectPickedUp)
     {
         genComp->m_active = true;
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*objectEntity);
+        assert(mapComp);
         mapComp->m_absoluteMapPositionPX = m_memEnemiesStateFromCheckpoint[cmpt].m_enemyPos;
     }
     return *objectEntity;
@@ -1459,7 +1526,7 @@ uint32_t MainEngine::createEnemyDropObject(const LevelManager &levelManager, con
 void MainEngine::createPlayerAmmoEntities(PlayerConfComponent &playerConf, CollisionTag_e collTag)
 {
     WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConf.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-
+    assert(weaponComp);
     for(uint32_t i = 0; i < weaponComp->m_weaponsData.size(); ++i)
     {
         if(weaponComp->m_weaponsData[i].m_attackType == AttackType_e::BULLETS)
@@ -1480,6 +1547,7 @@ void MainEngine::confAmmoEntities(std::vector<uint32_t> &ammoEntities, Collision
     {
         ammoEntities[j] = createAmmoEntity(collTag, visibleShot);
         ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(ammoEntities[j]);
+        assert(shotConfComp);
         shotConfComp->m_damage = damage;
         if(damageRay)
         {
@@ -1488,6 +1556,7 @@ void MainEngine::confAmmoEntities(std::vector<uint32_t> &ammoEntities, Collision
         if(visibleShot)
         {
             MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(ammoEntities[j]);
+            assert(moveComp);
             moveComp->m_velocity = shotVelocity;
         }
     }
@@ -1506,6 +1575,7 @@ uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool visibleShot)
         ammoNum = createVisibleShotEntity();
     }
     GeneralCollisionComponent *genColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(ammoNum);
+    assert(genColl);
     genColl->m_active = false;
     genColl->m_tagA = collTag;
     genColl->m_shape = (visibleShot) ? CollisionShape_e::CIRCLE_C : CollisionShape_e::SEGMENT_C;
@@ -1525,12 +1595,15 @@ void MainEngine::setMenuEntries(PlayerConfComponent &playerComp, std::optional<u
         return;
     }
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     playerConf->m_currentCursorPos = cursorPos ? *cursorPos : 0;
     //TITLE MENU
     WriteComponent *writeComp = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::TITLE_MENU)]);
+    assert(writeComp);
     m_graphicEngine.fillTitleMenuWrite(*writeComp, playerComp.m_menuMode, playerComp.m_previousMenuMode);
     //MENU ENTRIES
     WriteComponent *writeConf = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_ENTRIES)]);
+    assert(writeConf);
     writeConf->m_upLeftPositionGL = MAP_MENU_DATA.at(playerComp.m_menuMode).first;
     if(writeConf->m_vectMessage.empty())
     {
@@ -1538,6 +1611,11 @@ void MainEngine::setMenuEntries(PlayerConfComponent &playerComp, std::optional<u
     }
     //SELECTED MENU ENTRY
     WriteComponent *writeCompSelect = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_SELECTED_LINE)]);
+    assert(writeCompSelect);
+    std::cerr << "WRITE NUM " << playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_ENTRIES)] << "  " <<
+        writeConf->m_vectMessage[0].second << "\n";
+    std::cerr << "WRITE NUM222 " << playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_SELECTED_LINE)] << "  " <<
+        writeConf->m_vectMessage[0].second << "\n";
     m_graphicEngine.fillMenuWrite(*writeConf, playerComp.m_menuMode, playerComp.m_currentCursorPos,
                                   {&playerComp, m_currentLevelSecretsNumber, m_currentLevelEnemiesNumber});
     if(playerComp.m_menuMode == MenuMode_e::LEVEL_PROLOGUE ||
@@ -1546,6 +1624,7 @@ void MainEngine::setMenuEntries(PlayerConfComponent &playerComp, std::optional<u
     {
         return;
     }
+    std::cerr << writeConf << "  " <<  writeCompSelect << "\nSet MENU EBNTRY MainEngine\n";
     m_graphicEngine.confMenuSelectedLine(playerComp, *writeCompSelect, *writeConf);
     if(playerComp.m_menuMode == MenuMode_e::INPUT)
     {
@@ -1583,6 +1662,7 @@ void MainEngine::updateConfirmLoadingMenuInfo(PlayerConfComponent &playerComp)
 {
     WriteComponent *writeComp = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(
         playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_INFO_WRITE)]);
+    assert(writeComp);
     writeComp->clear();
     writeComp->m_fontSpriteData.reserve(4);
     writeComp->m_vectMessage.reserve(4);
@@ -1729,6 +1809,7 @@ void MainEngine::validDisplayMenu()
 void MainEngine::reinitPlayerGear()
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_ENTRIES)]);
     //if first launch return
     if(!weaponConf)
@@ -1752,6 +1833,7 @@ void MainEngine::reinitPlayerGear()
 void MainEngine::setInfoDataWrite(std::string_view message)
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     playerConf->m_infoWriteData = {true, message.data()};
 }
 
@@ -1759,6 +1841,7 @@ void MainEngine::setInfoDataWrite(std::string_view message)
 void MainEngine::playTriggerSound()
 {
     AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(m_playerEntity);
+    assert(audioComp);
     audioComp->m_soundElements[2]->m_toPlay = true;
     m_audioEngine.getSoundSystem()->execSystem();
 }
@@ -1769,6 +1852,9 @@ void MainEngine::confMenuSelectedLine()
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     WriteComponent *writeMenuComp = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_ENTRIES)]);
     WriteComponent *writeMenuSelectedComp = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_SELECTED_LINE)]);
+    assert(playerConf);
+    assert(writeMenuComp);
+    assert(writeMenuSelectedComp);
     m_graphicEngine.confMenuSelectedLine(*playerConf, *writeMenuSelectedComp, *writeMenuComp);
 }
 
@@ -1777,6 +1863,8 @@ void MainEngine::setPlayerDeparture(const PairUI_t &pos, Direction_e dir)
 {
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
     MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(m_playerEntity);
+    assert(mapComp);
+    assert(moveComp);
     mapComp->m_absoluteMapPositionPX = getCenteredAbsolutePosition(pos);
     moveComp->m_degreeOrientation = getDegreeAngleFromDirection(dir);
 }
@@ -1820,6 +1908,7 @@ bool MainEngine::loadSavedGame(uint32_t saveNum, LevelState_e levelMode)
     if(savedData->m_checkpointLevelData)
     {
         PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+        assert(playerConf);
         playerConf->m_currentCheckpoint = {savedData->m_checkpointLevelData->m_checkpointNum, savedData->m_checkpointLevelData->m_direction};
     }
     assert(!m_memPlayerConfBeginLevel.m_ammunationsCount.empty());
@@ -1851,6 +1940,7 @@ bool MainEngine::loadSavedGame(uint32_t saveNum, LevelState_e levelMode)
 bool MainEngine::loadCustomLevelGame(LevelState_e levelMode)
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     m_currentLevelState = levelMode;
     m_levelToLoad = {playerConf->m_levelToLoad, true};
     m_currentLevel = playerConf->m_levelToLoad;
@@ -1881,6 +1971,7 @@ void MainEngine::loadCheckpointSavedGame(const MemCheckpointElementsState &check
                            m_memMoveableWallCheckpointData, m_memTriggerWallMoveableWallCheckpointData,
                            m_memStaticEntitiesDeletedFromCheckpoint, checkpointData.m_revealedMapData, checkpointData.m_card};
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     playerConf->m_card = m_memCheckpointData->m_card;
 }
 
@@ -1942,6 +2033,8 @@ uint32_t MainEngine::confShotImpactEntity(const std::vector<SpriteData> &vectSpr
     uint32_t impactEntity = createShotImpactEntity();
     GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(impactEntity);
     CircleCollisionComponent *circleComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(impactEntity);
+    assert(genComp);
+    assert(circleComp);
     circleComp->m_ray = 2.0f;
     genComp->m_active = false;
     genComp->m_tagA = CollisionTag_e::IMPACT_CT;
@@ -1956,6 +2049,7 @@ void MainEngine::loadEnemySprites(const std::vector<SpriteData> &vectSprite, con
                                   EnemyConfComponent &enemyComp, const MapVisibleShotData_t &visibleShot)
 {
     MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(numEntity);
+    assert(memSpriteComp);
     insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                               enemiesData.m_staticFrontSprites, EnemySpriteType_e::STATIC_FRONT);
     insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
@@ -2010,6 +2104,10 @@ void MainEngine::loadVisibleShotData(const std::vector<SpriteData> &vectSprite, 
         MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(visibleAmmo[k]);
         AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(visibleAmmo[k]);
         ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(visibleAmmo[k]);
+        assert(spriteComp);
+        assert(memSpriteComp);
+        assert(audioComp);
+        assert(shotComp);
         MapVisibleShotData_t::const_iterator it = visibleShot.find(visibleShootID);
         assert(it != visibleShot.end());
         if(!m_memSoundElements.m_visibleShots)
@@ -2039,6 +2137,8 @@ void MainEngine::confVisibleAmmo(uint32_t ammoEntity)
     float collisionRay = pairSpriteSize.first * LEVEL_HALF_TILE_SIZE_PX;
     CircleCollisionComponent *circleComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(ammoEntity);
     MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(ammoEntity);
+    assert(circleComp);
+    assert(moveComp);
     circleComp->m_ray = collisionRay;
     moveComp->m_velocity = 5.0f;
 }
@@ -2243,6 +2343,8 @@ void MainEngine::confBaseComponent(uint32_t entityNum, const SpriteData &memSpri
 {
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
+    assert(spriteComp);
+    assert(mapComp);
     spriteComp->m_spriteData = &memSpriteData;
     if(coordLevel)
     {
@@ -2258,10 +2360,12 @@ void MainEngine::confBaseComponent(uint32_t entityNum, const SpriteData &memSpri
         m_physicalEngine.addEntityToZone(entityNum, mapComp->m_coord);
     }
     GeneralCollisionComponent *tagComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(entityNum);
+    assert(tagComp);
     tagComp->m_shape = collisionShape;
     if(collisionShape == CollisionShape_e::RECTANGLE_C)
     {
         RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(entityNum);
+        assert(rectComp);
         rectComp->m_size = {LEVEL_TILE_SIZE_PX, LEVEL_TILE_SIZE_PX};
     }
     tagComp->m_tagA = tag;
@@ -2305,17 +2409,26 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     CircleCollisionComponent *circleColl = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
     GeneralCollisionComponent *tagColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(entityNum);
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(entityNum);
+    assert(pos);
+    assert(map);
+    assert(move);
+    assert(color);
+    assert(circleColl);
+    assert(tagColl);
+    assert(playerConf);
     playerConf->m_life = 100;
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)] = numWeaponEntity;
     playerConf->m_levelToLoad = m_currentLevel;
     playerConf->m_memEntityAssociated = entityNum;
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::DISPLAY_TELEPORT)] = numDisplayTeleportEntity;
     AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(entityNum);
+    assert(audioComp);
     audioComp->m_soundElements.reserve(3);
     audioComp->m_soundElements.emplace_back(loadSound(levelManager.getPickObjectSoundFile()));
     audioComp->m_soundElements.emplace_back(loadSound(levelManager.getPlayerDeathSoundFile()));
     audioComp->m_soundElements.emplace_back(loadSound(levelManager.getTriggerSoundFile()));
     WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+    assert(weaponConf);
     createPlayerAmmoEntities(*playerConf, CollisionTag_e::BULLET_PLAYER_CT);
     createPlayerVisibleShotEntity(*weaponConf);
     confPlayerVisibleShotsSprite(vectSpriteData, levelManager.getVisibleShootDisplayData(), *weaponConf);
@@ -2364,12 +2477,14 @@ void MainEngine::confActionEntity()
     uint32_t entityNum = Ecsm_t::instance().addEntity(vect);
     GeneralCollisionComponent *genCollComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(entityNum);
     CircleCollisionComponent *circleColl = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
-
+    assert(genCollComp);
+    assert(circleColl);
     genCollComp->m_active = false;
     genCollComp->m_shape = CollisionShape_e::CIRCLE_C;
     genCollComp->m_tagA = CollisionTag_e::PLAYER_ACTION_CT;
     circleColl->m_ray = 15.0f;
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::ACTION)] = entityNum;
 }
 
@@ -2377,6 +2492,7 @@ void MainEngine::confActionEntity()
 void MainEngine::confMapDetectShapeEntity(const PairFloat_t &playerPos)
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
     vect.fill(0);
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
@@ -2385,10 +2501,13 @@ void MainEngine::confMapDetectShapeEntity(const PairFloat_t &playerPos)
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MAP_DETECT_SHAPE)] = Ecsm_t::instance().addEntity(vect);
     RectangleCollisionComponent *rectColl = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(
         playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MAP_DETECT_SHAPE)]);
+    assert(rectColl);
 
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MAP_DETECT_SHAPE)]);
+    assert(mapComp);
     GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(
         playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MAP_DETECT_SHAPE)]);
+    assert(genComp);
     mapComp->m_absoluteMapPositionPX = {playerPos.first - DETECT_RECT_SHAPE_HALF_SIZE,
                                         playerPos.second - DETECT_RECT_SHAPE_HALF_SIZE};
     rectColl->m_size = {DETECT_RECT_SHAPE_SIZE, DETECT_RECT_SHAPE_SIZE};
@@ -2420,9 +2539,13 @@ uint32_t MainEngine::createDamageZoneEntity(uint32_t damage, CollisionTag_e tag,
     GeneralCollisionComponent *genCollComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(entityNum);
     CircleCollisionComponent *circleColl = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
     ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(entityNum);
+    assert(genCollComp);
+    assert(circleColl);
+    assert(shotComp);
     if(!soundFile.empty())
     {
         AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(entityNum);
+        assert(audioComp);
         if(!m_memSoundElements.m_damageZone)
         {
             m_memSoundElements.m_damageZone = loadSound(soundFile);
@@ -2444,6 +2567,8 @@ void MainEngine::loadShotImpactSprite(const std::vector<SpriteData> &vectSpriteD
 {
     MemSpriteDataComponent *memComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(impactEntity);
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(impactEntity);
+    assert(memComp);
+    assert(spriteComp);
     for(uint32_t l = 0; l < shootDisplayData.first.size(); ++l)
     {
         memComp->m_vectSpriteData.emplace_back(
@@ -2483,31 +2608,39 @@ void MainEngine::confWriteEntities()
     WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
     //INFO
     WriteComponent *writeConf = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(numInfoWrite);
+    assert(playerConf);
+    assert(weaponConf);
+    assert(writeConf);
     writeConf->m_upLeftPositionGL = {-0.3f, 0.7f};
     writeConf->addTextLine({{}, ""});
     writeConf->m_fontSize = STD_FONT_SIZE;
     //AMMO
     WriteComponent *writeConfAmmo = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(numAmmoWrite);
+    assert(writeConfAmmo);
     writeConfAmmo->m_upLeftPositionGL = {-0.8f, -0.9f};
     writeConfAmmo->m_fontSize = STD_FONT_SIZE;
     writeConfAmmo->addTextLine({writeConfAmmo->m_upLeftPositionGL.first, ""});
     m_graphicEngine.updateAmmoCount(*writeConfAmmo, *weaponConf);
     //LIFE
     WriteComponent *writeConfLife = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(numLifeWrite);
+    assert(writeConfLife);
     writeConfLife->m_upLeftPositionGL = {-0.8f, -0.8f};
     writeConfLife->m_fontSize = STD_FONT_SIZE;
     writeConfLife->addTextLine({writeConfLife->m_upLeftPositionGL.first, ""});
     m_graphicEngine.updatePlayerLife(*writeConfLife, *playerConf);
     //MENU
     WriteComponent *writeConfMenu = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(numMenuWrite);
+    assert(writeConfMenu);
     writeConfMenu->m_fontSize = MENU_FONT_SIZE;
     //TITLE MENU
     WriteComponent *writeConfTitleMenu = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(numTitleMenuWrite);
+    assert(writeConfTitleMenu);
     writeConfTitleMenu->m_upLeftPositionGL = {-0.3f, 0.9f};
     writeConfTitleMenu->addTextLine({{}, ""});
     writeConfTitleMenu->m_fontSize = MENU_FONT_SIZE;
     //INPUT MENU MODE
     WriteComponent *writeConfInputMenu = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(numInputModeMenuWrite);
+    assert(writeConfInputMenu);
     writeConfInputMenu->m_upLeftPositionGL = {-0.6f, -0.7f};
     writeConfInputMenu->m_fontSize = MENU_FONT_SIZE;
     confWriteEntitiesDisplayMenu();
@@ -2518,11 +2651,14 @@ void MainEngine::confWriteEntities()
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_INFO_WRITE)] = numInputModeMenuWrite;
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_SELECTED_LINE)] = numMenuSelectedLineWrite;
     WriteComponent *writeComp = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::TITLE_MENU)]);
+    assert(writeComp);
     writeComp->addTextLine({-0.3f, ""});
     WriteComponent *writeCompTitle = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::TITLE_MENU)]);
+    assert(writeCompTitle);
     writeCompTitle->m_fontSpriteData.emplace_back(VectSpriteDataRef_t{});
     //MENU SELECTED LINE
     WriteComponent *writeCompSelect = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(numMenuSelectedLineWrite);
+    assert(writeCompSelect);
     writeCompSelect->m_fontSpriteData.emplace_back(VectSpriteDataRef_t{});
     writeCompSelect->m_fontSize = MENU_FONT_SIZE;
     writeCompSelect->m_fontType = Font_e::SELECTED;
@@ -2539,6 +2675,7 @@ void MainEngine::confWriteEntitiesDisplayMenu()
     uint32_t numMenuResolutionWrite = createWriteEntity(), numMenuFullscreenWrite = createWriteEntity();
     //Resolution
     WriteComponent *writeConfA = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(numMenuResolutionWrite);
+    assert(writeConfA);
     writeConfA->m_upLeftPositionGL.first = MAP_MENU_DATA.at(MenuMode_e::DISPLAY).first.first + 1.0f;
     writeConfA->m_upLeftPositionGL.second = MAP_MENU_DATA.at(MenuMode_e::DISPLAY).first.second;
     writeConfA->m_fontSize = MENU_FONT_SIZE;
@@ -2551,6 +2688,7 @@ void MainEngine::confWriteEntitiesDisplayMenu()
     m_graphicEngine.confWriteComponent(*writeConfA);
     //Fullscreen
     WriteComponent *writeConfB = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(numMenuFullscreenWrite);
+    assert(writeConfB);
     writeConfB->m_upLeftPositionGL = {writeConfA->m_upLeftPositionGL.first, writeConfA->m_upLeftPositionGL.second - MENU_FONT_SIZE};
     writeConfB->m_fontSize = MENU_FONT_SIZE;
     if(writeConfB->m_vectMessage.empty())
@@ -2572,11 +2710,13 @@ void MainEngine::confWriteEntitiesInputMenu()
         //KEYBOARD
         memKeyboardEntities[i] = createWriteEntity();
         WriteComponent *writeConf = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(memKeyboardEntities[i]);
+        assert(writeConf);
         writeConf->m_upLeftPositionGL = currentUpLeftPos;
         writeConf->m_fontSize = MENU_FONT_SIZE;
         //GAMEPAD
         memGamepadEntities[i] = createWriteEntity();
         WriteComponent *writeConfGamepad = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(memGamepadEntities[i]);
+        assert(writeConfGamepad);
         writeConfGamepad->m_upLeftPositionGL = currentUpLeftPos;
         writeConfGamepad->m_fontSize = MENU_FONT_SIZE;
         currentUpLeftPos.second -= MENU_FONT_SIZE;
@@ -2589,6 +2729,7 @@ void MainEngine::confWriteEntitiesInputMenu()
 void MainEngine::confMenuEntities()
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     assert(m_memBackgroundGenericMenu);
     playerConf->m_menuMode = MenuMode_e::BASE;
     confMenuEntity(PlayerEntities_e::MENU_TITLE_BACKGROUND);
@@ -2604,6 +2745,9 @@ void MainEngine::confMenuEntity(PlayerEntities_e entityType)
     PositionVertexComponent *posVertex = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(backgroundEntity);
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(backgroundEntity);
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(posVertex);
+    assert(spriteComp);
+    assert(playerConf);
     playerConf->m_vectEntities[static_cast<uint32_t>(entityType)] = backgroundEntity;
     if(entityType == PlayerEntities_e::MENU_GENERIC_BACKGROUND)
     {
@@ -2636,10 +2780,13 @@ void MainEngine::confMenuEntity(PlayerEntities_e entityType)
 void MainEngine::confLifeAmmoPannelEntities()
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     //PANNEL
     uint32_t lifeAmmoPannelEntity = createSimpleSpriteEntity();
     PositionVertexComponent *posCursor = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(lifeAmmoPannelEntity);
     SpriteTextureComponent *spriteCursor = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(lifeAmmoPannelEntity);
+    assert(posCursor);
+    assert(spriteCursor);
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::LIFE_AMMO_PANNEL)] = lifeAmmoPannelEntity;
     spriteCursor->m_spriteData = m_memPannel;
     posCursor->m_vertex.reserve(4);
@@ -2649,6 +2796,8 @@ void MainEngine::confLifeAmmoPannelEntities()
     uint32_t lifeIconEntity = createSimpleSpriteEntity();
     PositionVertexComponent *posCursorA = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(lifeIconEntity);
     SpriteTextureComponent *spriteCursorA = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(lifeIconEntity);
+    assert(posCursorA);
+    assert(spriteCursorA);
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::LIFE_ICON)] = lifeIconEntity;
     spriteCursorA->m_spriteData = m_memLifeIcon;
     posCursorA->m_vertex.reserve(4);
@@ -2658,6 +2807,8 @@ void MainEngine::confLifeAmmoPannelEntities()
     uint32_t ammoIconEntity = createSimpleSpriteEntity();
     PositionVertexComponent *posCursorB = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(ammoIconEntity);
     SpriteTextureComponent *spriteCursorB = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(ammoIconEntity);
+    assert(posCursorB);
+    assert(spriteCursorB);
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::AMMO_ICON)] = ammoIconEntity;
     spriteCursorB->m_spriteData = m_memAmmoIcon;
     posCursorB->m_vertex.reserve(4);
@@ -2670,9 +2821,11 @@ void MainEngine::confLifeAmmoPannelEntities()
 void MainEngine::confWeaponsPreviewEntities()
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::CURSOR_WEAPON_PREVIEW)] = createSimpleSpriteEntity();
     SpriteTextureComponent *spriteCursor = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(
         playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::CURSOR_WEAPON_PREVIEW)]);
+    assert(spriteCursor);
     spriteCursor->m_spriteData = m_memPannel;
     for(uint32_t i = 0; i < playerConf->m_vectPossessedWeaponsPreviewEntities.size(); ++i)
     {
@@ -2770,6 +2923,10 @@ uint32_t MainEngine::loadDisplayTeleportEntity(const LevelManager &levelManager)
     MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(numEntity);
     PositionVertexComponent *posCursor = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(numEntity);
     GeneralCollisionComponent *genColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(numEntity);
+    assert(spriteComp);
+    assert(memSpriteComp);
+    assert(posCursor);
+    assert(genColl);
     genColl->m_tagA = CollisionTag_e::GHOST_CT;
     genColl->m_tagB = CollisionTag_e::TELEPORT_ANIM_CT;
     genColl->m_active = false;
@@ -2787,6 +2944,7 @@ uint32_t MainEngine::loadDisplayTeleportEntity(const LevelManager &levelManager)
     spriteComp->m_spriteData = memSpriteComp->m_vectSpriteData[0];
     m_graphicEngine.getVisionSystem().memTeleportAnimEntity(numEntity);
     AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(numEntity);
+    assert(audioComp);
     if(!m_memSoundElements.m_teleports)
     {
         m_memSoundElements.m_teleports = loadSound(levelManager.getTeleportSoundFile());
@@ -2809,9 +2967,12 @@ bool MainEngine::loadExitElement(const LevelManager &levelManager,
     confBaseComponent(entityNum, memSpriteData, exit.m_TileGamePosition[0],
             CollisionShape_e::CIRCLE_C, CollisionTag_e::EXIT_CT);
     CircleCollisionComponent *circleColl = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
+    assert(circleColl);
     circleColl->m_ray = 5.0f;
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
+    assert(spriteComp);
+    assert(mapComp);
     Level::addElementCase(*spriteComp, mapComp->m_coord, LevelCaseType_e::EMPTY_LC, entityNum);
     return true;
 }
@@ -2861,6 +3022,7 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         entityNum = createStaticEntity();
     }
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
+    assert(mapComp);
     //Enemy dropable object case (will be activated and positionned at enemy death)
     if(iterationNum >= staticElementData.m_TileGamePosition.size())
     {
@@ -2871,8 +3033,10 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         confBaseComponent(entityNum, memSpriteData, staticElementData.m_TileGamePosition[iterationNum], CollisionShape_e::CIRCLE_C, tag);
     }
     CircleCollisionComponent *circleComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
+    assert(circleComp);
     circleComp->m_ray = staticElementData.m_inGameSpriteSize.first * LEVEL_THIRD_TILE_SIZE_PX;
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
+    assert(spriteComp);
     Level::addElementCase(*spriteComp, mapComp->m_coord, LevelCaseType_e::EMPTY_LC, entityNum);
     m_physicalEngine.addEntityToZone(entityNum, mapComp->m_coord);
     return entityNum;
@@ -2883,6 +3047,7 @@ uint32_t MainEngine::confObjectEntity(const StaticLevelElementData &objectData)
 {
     uint32_t entityNum = createObjectEntity();
     ObjectConfComponent *objComp = Ecsm_t::instance().getComponent<ObjectConfComponent, Components_e::OBJECT_CONF_COMPONENT>(entityNum);
+    assert(objComp);
     objComp->m_type = objectData.m_type;
     if(objComp->m_type == ObjectType_e::AMMO_WEAPON || objComp->m_type == ObjectType_e::WEAPON ||
             objComp->m_type == ObjectType_e::HEAL)
@@ -2903,6 +3068,7 @@ uint32_t MainEngine::confObjectEntity(const StaticLevelElementData &objectData)
 void MainEngine::confColorBackgroundComponents(uint32_t entity, const GroundCeilingData &groundData, bool ground)
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(entity);
+    assert(posComp);
     posComp->m_vertex.reserve(4);
     if(ground)
     {
@@ -2919,6 +3085,7 @@ void MainEngine::confColorBackgroundComponents(uint32_t entity, const GroundCeil
         posComp->m_vertex.emplace_back(-1.0f, 0.0f);
     }
     ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(entity);
+    assert(colorComp);
     colorComp->m_vertex.reserve(4);
     colorComp->m_vertex.emplace_back(std::get<0>(groundData.m_color[0]), std::get<1>(groundData.m_color[0]),
             std::get<2>(groundData.m_color[0]), 1.0);
@@ -2935,6 +3102,7 @@ void MainEngine::confGroundSimpleTextBackgroundComponents(uint32_t entity, const
                                                           const std::vector<SpriteData> &vectSprite)
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(entity);
+    assert(posComp);
     posComp->m_vertex.reserve(6);
     posComp->m_vertex.emplace_back(-1.0f, 0.0f);
     posComp->m_vertex.emplace_back(1.0f, 0.0f);
@@ -2943,6 +3111,7 @@ void MainEngine::confGroundSimpleTextBackgroundComponents(uint32_t entity, const
     posComp->m_vertex.emplace_back(3.0f, 0.0f);
     posComp->m_vertex.emplace_back(3.0f, -1.0f);
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entity);
+    assert(spriteComp);
     assert(vectSprite.size() >= groundData.m_spriteSimpleTextNum);
     spriteComp->m_spriteData = &vectSprite[groundData.m_spriteSimpleTextNum];
 }
@@ -2952,6 +3121,7 @@ void MainEngine::confCeilingSimpleTextBackgroundComponents(uint32_t entity, cons
                                                            const std::vector<SpriteData> &vectSprite)
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(entity);
+    assert(posComp);
     posComp->m_vertex.reserve(6);
     posComp->m_vertex.emplace_back(-1.0f, 1.0f);
     posComp->m_vertex.emplace_back(1.0f, 1.0f);
@@ -2960,6 +3130,7 @@ void MainEngine::confCeilingSimpleTextBackgroundComponents(uint32_t entity, cons
     posComp->m_vertex.emplace_back(3.0f, 1.0f);
     posComp->m_vertex.emplace_back(3.0f, 0.0f);
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entity);
+    assert(spriteComp);
     assert(vectSprite.size() >= groundData.m_spriteSimpleTextNum);
     spriteComp->m_spriteData = &vectSprite[groundData.m_spriteSimpleTextNum];
 }
@@ -2969,6 +3140,7 @@ void MainEngine::confTiledTextBackgroundComponents(uint32_t entity, const Ground
                                                    const std::vector<SpriteData> &vectSprite)
 {
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entity);
+    assert(spriteComp);
     assert(vectSprite.size() >= backgroundData.m_spriteTiledTextNum);
     spriteComp->m_spriteData = &vectSprite[backgroundData.m_spriteTiledTextNum];
 }
@@ -2980,6 +3152,10 @@ void MainEngine::linkSystemsToGraphicEngine()
     MapDisplaySystem *map = Ecsm_t::instance().getSystem<MapDisplaySystem>(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM));
     VisionSystem *vision = Ecsm_t::instance().getSystem<VisionSystem>(static_cast<uint32_t>(Systems_e::VISION_SYSTEM));
     StaticDisplaySystem *staticDisplay = Ecsm_t::instance().getSystem<StaticDisplaySystem>(static_cast<uint32_t>(Systems_e::STATIC_DISPLAY_SYSTEM));
+    assert(color);
+    assert(map);
+    assert(vision);
+    assert(staticDisplay);
     staticDisplay->linkMainEngine(this);
     m_graphicEngine.linkSystems(color, map, vision, staticDisplay);
 }
@@ -2990,6 +3166,9 @@ void MainEngine::linkSystemsToPhysicalEngine()
     InputSystem * input = Ecsm_t::instance().getSystem<InputSystem>(static_cast<uint32_t>(Systems_e::INPUT_SYSTEM));
     CollisionSystem * coll = Ecsm_t::instance().getSystem<CollisionSystem>(static_cast<uint32_t>(Systems_e::COLLISION_SYSTEM));
     IASystem *iaSystem = Ecsm_t::instance().getSystem<IASystem>(static_cast<uint32_t>(Systems_e::IA_SYSTEM));
+    assert(input);
+    assert(coll);
+    assert(iaSystem);
     input->linkMainEngine(this);
     input->init(m_graphicEngine.getGLWindow());
     iaSystem->linkMainEngine(this);

@@ -21,6 +21,7 @@
 #include "ECS/Components/SpriteTextureComponent.hpp"
 #include "ECS/Components/TimerComponent.hpp"
 #include "ECS/Components/WeaponComponent.hpp"
+#include "ECS/Components/WriteComponent.hpp"
 #include <ECS_Headers/ComponentsManager.hpp>
 #include <stdint.h>
 #include <constants.hpp>
@@ -47,21 +48,6 @@ public:
             {
             case Components_e::POSITION_VERTEX_COMPONENT:
                 treatNewComponent<Components_e::POSITION_VERTEX_COMPONENT, PositionVertexComponent>(vectEntity, vect);
-
-                // vectEntity[Components_e::POSITION_VERTEX_COMPONENT].resize(vect[i]);
-                // std::vector<PositionVertexComponent> &vectComponent = ECS::ComponentsManager<N, C...>::template getVectTuple<N, PositionVertexComponent>();
-                // for(uint32_t j = 0; j < vect[Components_e::POSITION_VERTEX_COMPONENT]; ++j)
-                // {
-                //     if(!ECS::ComponentsManager<N, C...>::m_refDelComponents[Components_e::POSITION_VERTEX_COMPONENT].empty())
-                //     {
-                //         vectEntity[Components_e::POSITION_VERTEX_COMPONENT][j] = ECS::ComponentsManager<N, C...>::m_refDelComponents[Components_e::POSITION_VERTEX_COMPONENT].back();
-                //         ECS::ComponentsManager<N, C...>::m_refDelComponents[Components_e::POSITION_VERTEX_COMPONENT].pop_back();
-                //     }
-                //     else
-                //     {
-                //         vectComponent.emplace_back(PositionVertexComponent());
-                //     }
-                // }
                 break;
             case Components_e::SPRITE_TEXTURE_COMPONENT:
                 treatNewComponent<Components_e::SPRITE_TEXTURE_COMPONENT, SpriteTextureComponent>(vectEntity, vect);
@@ -105,6 +91,9 @@ public:
             case Components_e::MEM_POSITIONS_VERTEX_COMPONENT:
                 treatNewComponent<Components_e::MEM_POSITIONS_VERTEX_COMPONENT, MemPositionsVertexComponents>(vectEntity, vect);
                 break;
+            case Components_e::WRITE_COMPONENT:
+                treatNewComponent<Components_e::WRITE_COMPONENT, WriteComponent>(vectEntity, vect);
+                break;
             case Components_e::SHOT_CONF_COMPONENT:
                 treatNewComponent<Components_e::SHOT_CONF_COMPONENT, ShotConfComponent>(vectEntity, vect);
                 break;
@@ -139,6 +128,7 @@ public:
     template <uint32_t numComponent, Component_C CC>
     void treatNewComponent(std::array<VectUI_t, N> &vectEntity, const std::array<uint32_t, N> &vect)
     {
+        assert(vect[numComponent] != 0);
         vectEntity[numComponent].resize(vect[numComponent]);
         std::vector<CC> &vectComponent = ECS::ComponentsManager<N, C...>::template getVectTuple<numComponent, CC>();
         for(uint32_t j = 0; j < vect[numComponent]; ++j)
@@ -150,6 +140,7 @@ public:
             }
             else
             {
+                vectEntity[numComponent][j] = vectComponent.size();
                 vectComponent.emplace_back(CC());
             }
         }
