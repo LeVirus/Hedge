@@ -2386,8 +2386,10 @@ void MainEngine::loadPlayerEntity(const LevelManager &levelManager)
                      loadWeaponsEntity(levelManager), loadDisplayTeleportEntity(levelManager));
     //notify player entity number
     m_graphicEngine.memPlayerDatas(entityNum);
+    m_graphicEngine.getMapSystem().memPlayerEntity(m_playerEntity);
     m_physicalEngine.memPlayerEntity(entityNum);
     m_audioEngine.memPlayerEntity(entityNum);
+
 }
 
 //===================================================================

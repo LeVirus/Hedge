@@ -54,6 +54,7 @@ void MapDisplaySystem::setShader(Shader &shader)
 void MapDisplaySystem::execSystem()
 {
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerNum);
+    assert(playerConfComp);
     switch(playerConfComp->m_mapMode)
     {
     case MapMode_e::NONE:

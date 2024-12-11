@@ -32,6 +32,10 @@ public:
     {
         m_entitiesDetectedData.insert({entityNum, pos});
     }
+    inline void memPlayerEntity(uint32_t entityNum)
+    {
+        m_playerNum = entityNum;
+    }
     inline const std::map<uint32_t, PairUI_t> &getDetectedMapData()const
     {
         return m_entitiesDetectedData;
