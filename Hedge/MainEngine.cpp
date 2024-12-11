@@ -628,6 +628,28 @@ void MainEngine::confPlayerBullet(PlayerConfComponent *playerComp,
 }
 
 //===================================================================
+void MainEngine::createPlayerImpactEntities(const std::vector<SpriteData> &vectSpriteData, WeaponComponent &weaponConf,
+                                            const MapImpactData_t &mapImpactData)
+{
+    for(uint32_t i = 0; i < weaponConf.m_weaponsData.size(); ++i)
+    {
+        if(weaponConf.m_weaponsData[i].m_attackType == AttackType_e::BULLETS)
+        {
+            MapImpactData_t::const_iterator it =
+                mapImpactData.find(weaponConf.m_weaponsData[i].m_impactID);
+            assert(it != mapImpactData.end());
+            assert(weaponConf.m_weaponsData[i].m_segmentShootEntities);
+            for(uint32_t j = 0; j < weaponConf.m_weaponsData[i].m_segmentShootEntities->size(); ++j)
+            {
+                ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(
+                    (*weaponConf.m_weaponsData[i].m_segmentShootEntities)[j]);
+                shotComp->m_impactEntity = confShotImpactEntity(vectSpriteData, it->second);
+            }
+        }
+    }
+}
+
+//===================================================================
 void confActionShape(MapCoordComponent &mapCompAction, GeneralCollisionComponent &genCompAction,
                      const MapCoordComponent &attackerMapComp, const MoveableComponent &attackerMoveComp)
 {
@@ -2429,6 +2451,7 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     createPlayerAmmoEntities(*playerConf, CollisionTag_e::BULLET_PLAYER_CT);
     createPlayerVisibleShotEntity(*weaponConf);
     confPlayerVisibleShotsSprite(vectSpriteData, levelManager.getVisibleShootDisplayData(), *weaponConf);
+    createPlayerImpactEntities(vectSpriteData, *weaponConf, levelManager.getImpactDisplayData());
     map->m_coord = level.getPlayerDeparture();
     Direction_e playerDir = level.getPlayerDepartureDirection();
     move->m_degreeOrientation = getDegreeAngleFromDirection(playerDir);

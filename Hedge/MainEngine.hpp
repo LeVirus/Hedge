@@ -263,6 +263,7 @@ public:
     void savePlayerGear(bool beginLevel);
     void unsetFirstLaunch();
 private:
+    void createPlayerImpactEntities(const std::vector<SpriteData> &vectSpriteData, WeaponComponent &weaponConf, const MapImpactData_t &mapImpactData);
     void instanciateSystems();
     void clearMemSoundElements();
     void initLevel(uint32_t levelNum, LevelState_e levelState);
