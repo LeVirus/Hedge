@@ -52,11 +52,7 @@ public:
                 usedEntities.insert(i);
             }
         }
-        if(ok)
-        {
-            return usedEntities;
-        }
-        return std::nullopt;
+        return usedEntities;
     }
     //====================================================================
     void associateCompManager(std::unique_ptr<ComponentsManager<T, C...>> comp)
