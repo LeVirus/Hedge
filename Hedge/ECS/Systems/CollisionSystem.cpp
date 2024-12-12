@@ -50,7 +50,6 @@ void CollisionSystem::execSystem()
         assert(tagCompA);
         //check if entity is moveable
         MoveableComponent *moveCompA = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
-        assert(moveCompA);
         if(!tagCompA->m_active || tagCompA->m_tagA == CollisionTag_e::WALL_CT || tagCompA->m_tagA == CollisionTag_e::OBJECT_CT)
         {
             continue;
@@ -408,7 +407,6 @@ bool CollisionSystem::treatCollision(uint32_t entityNumA, uint32_t entityNumB, G
     else if(tagCompA.m_shape == CollisionShape_e::SEGMENT_C)
     {
         MapCoordComponent *mapCompA = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNumA);
-        assert(mapCompA);
         assert(tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT || tagCompA.m_tagA == CollisionTag_e::BULLET_ENEMY_CT);
         checkCollisionFirstSegment(entityNumA, entityNumB, tagCompB, *mapCompA);
     }
