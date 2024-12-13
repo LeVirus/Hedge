@@ -7,6 +7,7 @@
 #include <ECS/Components/WriteComponent.hpp>
 #include <PictureData.hpp>
 #include <CollisionUtils.hpp>
+#include <iostream>
 #include <numeric>
 #include <cassert>
 

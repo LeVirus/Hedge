@@ -35,7 +35,7 @@ class ComponentManagerExtend : public ECS::ComponentsManager<N, C...>
 public:
     ComponentManagerExtend()
     {
-        reserveContainer(500);
+        // reserveContainer(500);
     }
     virtual ~ComponentManagerExtend() = default;
     virtual void instanciateComponentFromEntity(uint32_t numEntity, const std::array<uint32_t, N> &vect)override
@@ -171,6 +171,10 @@ private:
             }
             else
             {
+                if(vectComponent.empty())
+                {
+                    vectComponent.reserve(500);
+                }
                 vectEntity[numComponent][j] = vectComponent.size();
                 vectComponent.emplace_back(CC());
             }
