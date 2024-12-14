@@ -22,6 +22,7 @@
 #include "ECS/Components/TimerComponent.hpp"
 #include "ECS/Components/WeaponComponent.hpp"
 #include "ECS/Components/WriteComponent.hpp"
+#include "ECS/Components/GravityComponent.hpp"
 #include <ECS_Headers/ComponentsManager.hpp>
 #include <stdint.h>
 #include <constants.hpp>
@@ -114,6 +115,9 @@ public:
                 break;
             case Components_e::LOG_COMPONENT:
                 treatNewComponent<Components_e::LOG_COMPONENT, LogComponent>(vectEntity, vect);
+                break;
+            case Components_e::GRAVITY_COMPONENT:
+                treatNewComponent<Components_e::GRAVITY_COMPONENT, GravityComponent>(vectEntity, vect);
                 break;
             case Components_e::TOTAL_COMPONENTS:
                 assert(false);
