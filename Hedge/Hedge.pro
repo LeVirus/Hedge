@@ -10,6 +10,7 @@ LIBS += -I"includesLib/" -L"$$PWD/lib/" -lECS -lglad -ldl -lglfw -lX11 -lXxf86vm
 
 SOURCES += main.cpp \
     AudioEngine.cpp \
+    ECS/Systems/GravitySystem.cpp \
     ECS/Systems/IASystem.cpp \
     ECS/Systems/SoundSystem.cpp \
     ECS/Systems/VisionSystem.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     ECS/Components/AudioComponent.hpp \
     ECS/Components/CheckpointComponent.hpp \
     ECS/Components/EnemyConfComponent.hpp \
+    ECS/Components/GravityComponent.hpp \
     ECS/Components/LogComponent.hpp \
     ECS/Components/MemSpriteDataComponent.hpp \
     ECS/Components/SegmentCollisionComponent.hpp \
@@ -46,6 +48,7 @@ HEADERS += \
     ECS/Components/TimerComponent.hpp \
     ECS/Components/WeaponComponent.hpp \
     ECS/Components/WriteComponent.hpp \
+    ECS/Systems/GravitySystem.hpp \
     ECS/Systems/IASystem.hpp \
     ECS/Systems/SoundSystem.hpp \
     ECS/Systems/VisionSystem.hpp \

@@ -68,6 +68,7 @@ enum Components_e
     AUDIO_COMPONENT,
     CHECKPOINT_COMPONENT,
     LOG_COMPONENT,
+    GRAVITY_COMPONENT,
     TOTAL_COMPONENTS
 };
 
@@ -186,14 +187,15 @@ enum class WallShapeINI_e
 
 enum class Systems_e
 {
-    COLOR_DISPLAY_SYSTEM,
+    COLOR_DISPLAY_SYSTEM = 0,
     MAP_DISPLAY_SYSTEM,
     INPUT_SYSTEM,
     COLLISION_SYSTEM,
     VISION_SYSTEM,
     STATIC_DISPLAY_SYSTEM,
     IA_SYSTEM,
-    SOUND_SYSTEM
+    SOUND_SYSTEM,
+    GRAVITY_SYSTEM
 };
 
 enum class DisplayType_e

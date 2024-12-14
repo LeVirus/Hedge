@@ -11,13 +11,14 @@ struct MapCoordComponent;
 struct VisionComponent;
 class DoorWallSystem;
 class IASystem;
+class GravitySystem;
 
 class PhysicalEngine
 {
 public:
     PhysicalEngine();
     void runIteration(bool gamePaused);
-    void linkSystems(InputSystem *inputSystem, CollisionSystem * collisionSystem, IASystem *iaSystem);
+    void linkSystems(InputSystem *inputSystem, CollisionSystem * collisionSystem, IASystem *iaSystem, GravitySystem *gravSystem);
     void memPlayerEntity(uint32_t playerEntity);
     void confPlayerVisibleShoot(std::vector<uint32_t> &visibleShots,
                                 const PairFloat_t &point, float degreeAngle);
@@ -77,6 +78,7 @@ private:
     InputSystem *m_inputSystem = nullptr;
     CollisionSystem *m_collisionSystem = nullptr;
     IASystem *m_iaSystem = nullptr;
+    GravitySystem *m_gravSystem = nullptr;
 };
 
 void moveElementFromAngle(float distanceMove, float radiantAngle, PairFloat_t &point, bool backgroundRaycastMode = false);

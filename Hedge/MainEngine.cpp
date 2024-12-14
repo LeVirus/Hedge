@@ -1,4 +1,5 @@
 #include "MainEngine.hpp"
+#include "ECS/Systems/GravitySystem.hpp"
 #include "Game.hpp"
 #include "constants.hpp"
 #include <ECS/Components/PositionVertexComponent.hpp>
@@ -437,6 +438,7 @@ void MainEngine::instanciateSystems()
     Ecsm_t::instance().addNewSystem(std::make_unique<StaticDisplaySystem>());
     Ecsm_t::instance().addNewSystem(std::make_unique<IASystem>());
     Ecsm_t::instance().addNewSystem(std::make_unique<SoundSystem>());
+    Ecsm_t::instance().addNewSystem(std::make_unique<GravitySystem>());
 }
 
 //===================================================================
@@ -2403,6 +2405,7 @@ void MainEngine::loadPlayerEntity(const LevelManager &levelManager)
     vect[Components_e::PLAYER_CONF_COMPONENT] = 1;
     vect[Components_e::TIMER_COMPONENT] = 1;
     vect[Components_e::AUDIO_COMPONENT] = 1;
+    vect[Components_e::GRAVITY_COMPONENT] = 1;
     uint32_t entityNum = Ecsm_t::instance().addEntity(vect);
     confPlayerEntity(levelManager, entityNum, levelManager.getLevel(),
                      loadWeaponsEntity(levelManager), loadDisplayTeleportEntity(levelManager));
@@ -3186,14 +3189,16 @@ void MainEngine::linkSystemsToPhysicalEngine()
     InputSystem * input = Ecsm_t::instance().getSystem<InputSystem>(static_cast<uint32_t>(Systems_e::INPUT_SYSTEM));
     CollisionSystem * coll = Ecsm_t::instance().getSystem<CollisionSystem>(static_cast<uint32_t>(Systems_e::COLLISION_SYSTEM));
     IASystem *iaSystem = Ecsm_t::instance().getSystem<IASystem>(static_cast<uint32_t>(Systems_e::IA_SYSTEM));
+    GravitySystem *gravSystem = Ecsm_t::instance().getSystem<GravitySystem>(static_cast<uint32_t>(Systems_e::GRAVITY_SYSTEM));
     assert(input);
     assert(coll);
     assert(iaSystem);
+    assert(gravSystem);
     input->linkMainEngine(this);
     input->init(m_graphicEngine.getGLWindow());
     iaSystem->linkMainEngine(this);
     coll->linkMainEngine(this);
-    m_physicalEngine.linkSystems(input, coll, iaSystem);
+    m_physicalEngine.linkSystems(input, coll, iaSystem, gravSystem);
 }
 
 //===================================================================

@@ -7,6 +7,7 @@
 #include <ECS/Components/WeaponComponent.hpp>
 #include <ECS/Systems/StaticDisplaySystem.hpp>
 #include <ECS/Systems/IASystem.hpp>
+#include <ECS/Systems/GravitySystem.hpp>
 #include <ECS/Systems/InputSystem.hpp>
 #include <cassert>
 
@@ -21,6 +22,7 @@ void PhysicalEngine::runIteration(bool gamePaused)
 {
     if(!gamePaused)
     {
+        m_gravSystem->execSystem();
         m_collisionSystem->execSystem();
         m_iaSystem->execSystem();
     }
@@ -29,11 +31,12 @@ void PhysicalEngine::runIteration(bool gamePaused)
 
 //===================================================================
 void PhysicalEngine::linkSystems(InputSystem *inputSystem, CollisionSystem *collisionSystem,
-                                 IASystem *iaSystem)
+                                 IASystem *iaSystem, GravitySystem *gravSystem)
 {
     m_inputSystem = inputSystem;
     m_collisionSystem = collisionSystem;
     m_iaSystem = iaSystem;
+    m_gravSystem = gravSystem;
 }
 
 //===================================================================

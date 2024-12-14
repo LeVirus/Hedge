@@ -1,8 +1,10 @@
 #pragma once
 
+#include "ECS/Components/GravityComponent.hpp"
 #include <ECS_Headers/ECSManager.hpp>
 #include <ECS_Headers/ComponentsManager.hpp>
 #include <ComponentManagerExtend.hpp>
+#include <constants.hpp>
 
 #include <ECS/Components/MemPositionsVertexComponents.hpp>
 #include <ECS/Components/ColorVertexComponent.hpp>
@@ -36,19 +38,18 @@ using TupleComp_t = std::tuple<PositionVertexComponent, SpriteTextureComponent, 
                                MapCoordComponent, InputComponent, CircleCollisionComponent, SegmentCollisionComponent,
                                RectangleCollisionComponent, GeneralCollisionComponent, MoveableComponent, TimerComponent, PlayerConfComponent,
                                EnemyConfComponent, MemPositionsVertexComponents, WriteComponent, ShotConfComponent,
-                               ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent>;
+                               ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent, GravityComponent>;
 
-using Ecsm_t = ECS::ECSManager<22u, PositionVertexComponent, SpriteTextureComponent, MemSpriteDataComponent, ColorVertexComponent,
+using Ecsm_t = ECS::ECSManager<Components_e::TOTAL_COMPONENTS, PositionVertexComponent, SpriteTextureComponent, MemSpriteDataComponent, ColorVertexComponent,
                                MapCoordComponent, InputComponent, CircleCollisionComponent, SegmentCollisionComponent,
                                RectangleCollisionComponent, GeneralCollisionComponent, MoveableComponent, TimerComponent, PlayerConfComponent,
                                EnemyConfComponent, MemPositionsVertexComponents, WriteComponent, ShotConfComponent,
-                               ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent>;
+                               ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent, GravityComponent>;
 
-
-using EcsCompManager_t = ComponentManagerExtend<22u, PositionVertexComponent, SpriteTextureComponent, MemSpriteDataComponent, ColorVertexComponent,
+using EcsCompManager_t = ComponentManagerExtend<Components_e::TOTAL_COMPONENTS, PositionVertexComponent, SpriteTextureComponent, MemSpriteDataComponent, ColorVertexComponent,
                                                 MapCoordComponent, InputComponent, CircleCollisionComponent, SegmentCollisionComponent,
                                                 RectangleCollisionComponent, GeneralCollisionComponent, MoveableComponent, TimerComponent, PlayerConfComponent,
                                                 EnemyConfComponent, MemPositionsVertexComponents, WriteComponent, ShotConfComponent,
-                                                ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent>;
+                                                ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent, GravityComponent>;
 
 
