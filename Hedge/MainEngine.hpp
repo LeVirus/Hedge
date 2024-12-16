@@ -362,6 +362,10 @@ private:
                                 const PairFloat_t &point, float degreeAngle);
     void confPlayerBullet(PlayerConfComponent *playerComp,
                           const PairFloat_t &point, float degreeAngle, uint32_t numBullet);
+    void loadWallEntities(const std::map<std::string, MoveableWallData> &wallData, const std::vector<SpriteData> &vectSprite);
+    std::vector<uint32_t> loadWallEntitiesWallLoop(const std::vector<SpriteData> &vectSprite, const std::pair<std::string, MoveableWallData> &currentShape,
+                                                   bool moveable, uint32_t shapeNum, bool loadFromCheckpoint);
+    void confBaseWallData(uint32_t wallEntity, const SpriteData &memSpriteData, const PairUI_t &coordLevel, TriggerBehaviourType_e triggerType, bool moveable);
     inline void memColorSystemEntity(uint32_t entity)
     {
         m_graphicEngine.memColorSystemEntity(entity);

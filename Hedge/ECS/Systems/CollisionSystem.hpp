@@ -15,7 +15,6 @@ struct EjectYArgs;
 struct EjectXArgs;
 struct PlayerConfComponent;
 struct WeaponComponent;
-struct MoveableWallConfComponent;
 struct ShotConfComponent;
 class MainEngine;
 
