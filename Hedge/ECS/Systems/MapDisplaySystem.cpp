@@ -55,17 +55,7 @@ void MapDisplaySystem::execSystem()
 {
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerNum);
     assert(playerConfComp);
-    switch(playerConfComp->m_mapMode)
-    {
-    case MapMode_e::NONE:
-        return;
-    case MapMode_e::MINI_MAP:
-        drawMiniMap();
-        break;
-    case MapMode_e::FULL_MAP:
-        drawFullMap();
-        break;
-    }
+    drawMiniMap();
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(m_playerNum);
     MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(m_playerNum);
     updatePlayerArrow(*moveComp, *posComp);
@@ -156,25 +146,31 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
     getMapDisplayLimit(playerPos, min, max);
     m_entitiesToDisplay.clear();    
     m_entitiesToDisplay.reserve(m_usedEntities.size());
-    for(std::map<uint32_t, PairUI_t>::const_iterator it = m_entitiesDetectedData.begin();
-         it != m_entitiesDetectedData.end(); ++it)
+    for(std::set<uint32_t>::const_iterator it = m_usedEntities.begin();
+         it != m_usedEntities.end(); ++it)
     {
-        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(it->first);
+        GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
+        assert(genComp);
+        if(genComp->m_tagA == CollisionTag_e::EXPLOSION_CT)
+        {
+            continue;
+        }
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         if(!mapComp)
         {
-            it = m_entitiesDetectedData.erase(it);
+            it = m_usedEntities.erase(it);
             continue;
         }
         if(checkBoundEntityMap(*mapComp, min, max))
         {
             //get absolute position corner
-            corner = getUpLeftCorner(*mapComp, it->first);
-            m_entitiesToDisplay.emplace_back(it->first);
+            corner = getUpLeftCorner(*mapComp, *it);
+            m_entitiesToDisplay.emplace_back(*it);
             diffPosPX = corner - mapCompPlayer->m_absoluteMapPositionPX;
             //convert absolute position to relative
             relativePosMapGL = {diffPosPX.first * MAP_LOCAL_SIZE_GL / m_localLevelSizePX,
                                 diffPosPX.second * MAP_LOCAL_SIZE_GL / m_localLevelSizePX};
-            confMiniMapVertexElement(relativePosMapGL, it->first);
+            confMiniMapVertexElement(relativePosMapGL, *it);
         }
     }
 }
@@ -190,6 +186,14 @@ void MapDisplaySystem::fillMiniMapVertexFromEntities()
     {
         PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(m_entitiesToDisplay[i]);
         SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(m_entitiesToDisplay[i]);
+        GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(m_entitiesToDisplay[i]);
+        assert(genComp);
+        if(genComp->m_tagA == CollisionTag_e::BULLET_PLAYER_CT)
+        {
+            continue;
+        }
+        assert(posComp);
+        assert(spriteComp);
         assert(spriteComp->m_spriteData->m_textureNum < m_vectMapVerticesData.size());
         m_vectMapVerticesData[spriteComp->m_spriteData->m_textureNum].
                 loadVertexStandartTextureComponent(*posComp, *spriteComp);
@@ -246,20 +250,21 @@ void MapDisplaySystem::confMiniMapVertexElement(const PairFloat_t &glPosition,
                                          uint32_t entityNum)
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(entityNum);
+    assert(posComp);
     posComp->m_vertex.resize(4);
     //CONSIDER THAT MAP X AND Y ARE THE SAME
     if(posComp->m_vertex.empty())
     {
         posComp->m_vertex.resize(4);
     }
-    posComp->m_vertex[0] = {MAP_LOCAL_CENTER_X_GL + glPosition.first,
-                            MAP_LOCAL_CENTER_Y_GL + glPosition.second};
-    posComp->m_vertex[1] = {MAP_LOCAL_CENTER_X_GL + glPosition.first + m_miniMapTileSizeGL,
-                            MAP_LOCAL_CENTER_Y_GL + glPosition.second};
-    posComp->m_vertex[2] = {MAP_LOCAL_CENTER_X_GL + glPosition.first + m_miniMapTileSizeGL,
-                            MAP_LOCAL_CENTER_Y_GL + glPosition.second - m_miniMapTileSizeGL};
-    posComp->m_vertex[3] = {MAP_LOCAL_CENTER_X_GL + glPosition.first,
-                            MAP_LOCAL_CENTER_Y_GL + glPosition.second - m_miniMapTileSizeGL};
+    posComp->m_vertex[0] = {0 + glPosition.first,
+                            0 + glPosition.second};
+    posComp->m_vertex[1] = {0 + glPosition.first + m_miniMapTileSizeGL,
+                            0 + glPosition.second};
+    posComp->m_vertex[2] = {0 + glPosition.first + m_miniMapTileSizeGL,
+                            0 + glPosition.second - m_miniMapTileSizeGL};
+    posComp->m_vertex[3] = {0 + glPosition.first,
+                            0 + glPosition.second - m_miniMapTileSizeGL};
 }
 
 //===================================================================
