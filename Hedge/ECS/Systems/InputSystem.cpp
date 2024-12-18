@@ -180,6 +180,7 @@ void InputSystem::treatPlayerInput()
         if(checkPlayerKeyTriggered(ControlKey_e::TURN_RIGHT) ||
                 (mouseXdiff && mouseXdiff > 0.00))
         {
+            playerComp->m_spriteType = PlayerSpriteType_e::RUN_RIGHT;
             float diffBase = (moveComp->m_rotationAngle *
                               (m_rotationSensibility) / DIFF_TOTAL_SENSITIVITY);
             if(checkPlayerKeyTriggered(ControlKey_e::TURN_RIGHT))
@@ -202,6 +203,7 @@ void InputSystem::treatPlayerInput()
         else if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT) ||
                 (mouseXdiff && mouseXdiff < 0.00))
         {
+            playerComp->m_spriteType = PlayerSpriteType_e::RUN_LEFT;
             float diffBase = (moveComp->m_rotationAngle *
                               (m_rotationSensibility) / DIFF_TOTAL_SENSITIVITY);
             if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT))
@@ -220,6 +222,10 @@ void InputSystem::treatPlayerInput()
             {
                 moveComp->m_degreeOrientation -= 360.0f;
             }
+        }
+        else
+        {
+            playerComp->m_spriteType = PlayerSpriteType_e::STATIC;
         }
         if(checkPlayerKeyTriggered(ControlKey_e::ACTION))
         {

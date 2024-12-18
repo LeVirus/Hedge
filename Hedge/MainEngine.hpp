@@ -28,6 +28,8 @@ struct EnemyConfComponent;
 struct WeaponComponent;
 struct SettingsData;
 
+using MapPlayerSprite_t = std::map<PlayerSpriteType_e, PairUI_t>;
+
 enum class LevelState_e
 {
     EXIT,
@@ -366,6 +368,7 @@ private:
     std::vector<uint32_t> loadWallEntitiesWallLoop(const std::vector<SpriteData> &vectSprite, const std::pair<std::string, MoveableWallData> &currentShape,
                                                    bool moveable, uint32_t shapeNum, bool loadFromCheckpoint);
     void confBaseWallData(uint32_t wallEntity, const SpriteData &memSpriteData, const PairUI_t &coordLevel, TriggerBehaviourType_e triggerType, bool moveable);
+    void loadPlayerSprites(const std::vector<SpriteData> &vectSprite, const EnemyData &enemiesData, uint32_t numEntity, PlayerConfComponent &playerComp, const MapVisibleShotData_t &visibleShot);
     inline void memColorSystemEntity(uint32_t entity)
     {
         m_graphicEngine.memColorSystemEntity(entity);
@@ -425,6 +428,9 @@ pairI_t getModifMoveableWallDataCheckpoint(const std::vector<std::pair<Direction
 void insertEnemySpriteFromType(const std::vector<SpriteData> &vectSprite, mapEnemySprite_t &mapSpriteAssociate,
                                std::vector<SpriteData const *> &vectSpriteData, const std::vector<uint16_t> &enemyMemArray,
                                EnemySpriteType_e type);
+void insertPlayerSpriteFromType(const std::vector<SpriteData> &vectSprite, MapPlayerSprite_t &mapSpriteAssociate,
+                                std::vector<SpriteData const *> &vectSpriteData, const std::vector<uint16_t> &playerMemArray,
+                                PlayerSpriteType_e type);
 void confBullet(GeneralCollisionComponent &genColl, SegmentCollisionComponent &segmentColl, MoveableComponent &moveImpactComp,
                 CollisionTag_e collTag, const PairFloat_t &point, float degreeAngle);
 void setWeaponPlayer();

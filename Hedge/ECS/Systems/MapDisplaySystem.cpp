@@ -67,7 +67,6 @@ void MapDisplaySystem::drawMiniMap()
     confMiniMapPositionVertexEntities();
     fillMiniMapVertexFromEntities();
     drawMapVertex();
-    drawPlayerOnMap();
 }
 
 //===================================================================
@@ -77,7 +76,6 @@ void MapDisplaySystem::drawFullMap()
     fillMiniMapVertexFromEntities();
     drawMapVertex();
     confVertexPlayerOnFullMap();
-    drawPlayerOnMap();
 }
 
 //===================================================================
@@ -146,8 +144,7 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
     getMapDisplayLimit(playerPos, min, max);
     m_entitiesToDisplay.clear();    
     m_entitiesToDisplay.reserve(m_usedEntities.size());
-    for(std::set<uint32_t>::const_iterator it = m_usedEntities.begin();
-         it != m_usedEntities.end(); ++it)
+    for(std::set<uint32_t>::const_iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
         GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
         assert(genComp);

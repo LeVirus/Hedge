@@ -272,6 +272,39 @@ enum class EnemySpriteType_e
     TOTAL_SPRITE
 };
 
+enum class PlayerSpriteType_e
+{
+    STATIC = 0,
+    RUN_LEFT,
+    RUN_RIGHT,
+    RUN_SHOOT_LEFT,
+    RUN_SHOOT_RIGHT,
+    RUN_SHOOT_UP_RIGHT,
+    RUN_SHOOT_DOWN_RIGHT,
+    RUN_SHOOT_UP_LEFT,
+    RUN_SHOOT_DOWN_LEFT,
+    RUN_SHOOT_UP,
+    SHOOT_RIGHT,
+    SHOOT_UP_RIGHT,
+    SHOOT_DOWN_RIGHT,
+    SHOOT_LEFT,
+    SHOOT_UP_LEFT,
+    SHOOT_DOWN_LEFT,
+    SHOOT_UP,
+    TAKE_DAMAGE,
+    JUMP_SHOOT_RIGHT,
+    JUMP_SHOOT_UP_RIGHT,
+    JUMP_SHOOT_DOWN_RIGHT,
+    JUMP_SHOOT_LEFT,
+    JUMP_SHOOT_UP_LEFT,
+    JUMP_SHOOT_DOWN_LEFT,
+    JUMP_SHOOT_UP,
+    JUMP_SHOOT_DOWN,
+    JUMP,
+    CROUCH_LEFT,
+    CROUCH_RIGHT
+};
+
 enum class WallSpriteType_e
 {
     STATIC_A,

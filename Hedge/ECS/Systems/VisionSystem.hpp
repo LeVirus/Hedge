@@ -43,11 +43,10 @@ public:
 private:
     void setUsedComponents();
     void updateSprites();
-    void updateEnemySprites(uint32_t enemyEntity, MemSpriteDataComponent &memSpriteComp,
-                            SpriteTextureComponent &spriteComp,
+    void updateEnemySprites(uint32_t enemyEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp,
                             TimerComponent &timerComp, EnemyConfComponent &enemyConfComp);
-    void updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp,
-                                 uint32_t enemyEntity);
+    void updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp, uint32_t enemyEntity);
+    void updatePlayerSprites(uint32_t playerEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp, TimerComponent &timerComp);
 private:
     std::vector<uint32_t> m_memMultiSpritesWallEntities, m_vectBarrelsEntitiesToDelete;
     uint32_t m_defaultInterval = 0.8 / FPS_VALUE, m_memTeleportAnimEntity;
