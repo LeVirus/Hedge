@@ -175,70 +175,35 @@ void InputSystem::treatPlayerInput()
             changeToTopPlayerWeapon(*weaponComp);
             playerComp->m_playerShoot = false;
         }
-        treatPlayerMove(*playerComp, *moveComp, *mapComp);
-        std::optional<double> mouseXdiff = getXMouseMotion();
-        if(checkPlayerKeyTriggered(ControlKey_e::TURN_RIGHT) ||
-                (mouseXdiff && mouseXdiff > 0.00))
+        // treatPlayerMove(*playerComp, *moveComp, *mapComp);
+
+        if(checkPlayerKeyTriggered(ControlKey_e::TURN_RIGHT))
         {
             playerComp->m_spriteType = PlayerSpriteType_e::RUN_RIGHT;
-            float diffBase = (moveComp->m_rotationAngle *
-                              (m_rotationSensibility) / DIFF_TOTAL_SENSITIVITY);
-            if(checkPlayerKeyTriggered(ControlKey_e::TURN_RIGHT))
-            {
-                moveComp->m_degreeOrientation -= diffBase * 2;
-            }
-            else
-            {
-                if(*mouseXdiff > 30.0)
-                {
-                    *mouseXdiff = 30.0;
-                }
-                moveComp->m_degreeOrientation -= diffBase * (*mouseXdiff) / 8;
-            }
-            if(moveComp->m_degreeOrientation < 0.0f)
-            {
-                moveComp->m_degreeOrientation += 360.0f;
-            }
+            mapComp->m_absoluteMapPositionPX.first += moveComp->m_velocity;
         }
-        else if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT) ||
-                (mouseXdiff && mouseXdiff < 0.00))
+        else if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT))
         {
             playerComp->m_spriteType = PlayerSpriteType_e::RUN_LEFT;
-            float diffBase = (moveComp->m_rotationAngle *
-                              (m_rotationSensibility) / DIFF_TOTAL_SENSITIVITY);
-            if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT))
-            {
-                moveComp->m_degreeOrientation += diffBase * 2;
-            }
-            else
-            {
-                if(*mouseXdiff < -30.0)
-                {
-                    *mouseXdiff = -30.0;
-                }
-                moveComp->m_degreeOrientation -= diffBase * (*mouseXdiff) / 8;
-            }
-            if(moveComp->m_degreeOrientation > 360.0f)
-            {
-                moveComp->m_degreeOrientation -= 360.0f;
-            }
+            mapComp->m_absoluteMapPositionPX.first -= moveComp->m_velocity;
         }
         else
         {
             playerComp->m_spriteType = PlayerSpriteType_e::STATIC;
         }
-        if(checkPlayerKeyTriggered(ControlKey_e::ACTION))
-        {
-            uint32_t actionEntity = playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::ACTION)];
-            MapCoordComponent *mapCompAction = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(actionEntity);
-            GeneralCollisionComponent *genCompAction = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(actionEntity);
-            std::optional<PairUI_t> coord = getLevelCoord(mapCompAction->m_absoluteMapPositionPX);
-            if(coord)
-            {
-                m_mainEngine->addEntityToZone(actionEntity, *coord);
-            }
-            confActionShape(*mapCompAction, *genCompAction, *mapComp, *moveComp);
-        }
+        updateDetectRect(*playerComp, *mapComp);
+        // if(checkPlayerKeyTriggered(ControlKey_e::ACTION))
+        // {
+        //     uint32_t actionEntity = playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::ACTION)];
+        //     MapCoordComponent *mapCompAction = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(actionEntity);
+        //     GeneralCollisionComponent *genCompAction = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(actionEntity);
+        //     std::optional<PairUI_t> coord = getLevelCoord(mapCompAction->m_absoluteMapPositionPX);
+        //     if(coord)
+        //     {
+        //         m_mainEngine->addEntityToZone(actionEntity, *coord);
+        //     }
+        //     confActionShape(*mapCompAction, *genCompAction, *mapComp, *moveComp);
+        // }
         if((!m_keyEspapePressed && glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) ||
                 checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_START, GLFW_PRESS))
         {

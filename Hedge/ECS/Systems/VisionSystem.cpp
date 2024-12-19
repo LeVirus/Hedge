@@ -76,65 +76,27 @@ void VisionSystem::updateSprites()
 void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp, TimerComponent &timerComp)
 {
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(playerEntity);
-    if(playerConfComp->m_spriteType == PlayerSpriteType_e::STATIC)
+    MapPlayerSprite_t::const_iterator it = playerConfComp->m_mapSpriteAssociate.find(playerConfComp->m_spriteType);
+    //if sprite outside
+    if(playerConfComp->m_currentSprite < it->second.first ||
+        playerConfComp->m_currentSprite > it->second.second)
     {
-        // MoveableComponent *enemyMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
-        MapPlayerSprite_t::const_iterator it = playerConfComp->m_mapSpriteAssociate.find(PlayerSpriteType_e::STATIC);
-        //if sprite outside
-        if(playerConfComp->m_currentSprite < it->second.first ||
-                playerConfComp->m_currentSprite > it->second.second)
+        playerConfComp->m_currentSprite = it->second.first;
+        timerComp.m_cycleCountA = 0;
+    }
+    else if(++timerComp.m_cycleCountA > playerConfComp->m_standardSpriteInterval)
+    {
+        if(playerConfComp->m_currentSprite == it->second.second)
         {
             playerConfComp->m_currentSprite = it->second.first;
-            timerComp.m_cycleCountA = 0;
         }
-        else if(++timerComp.m_cycleCountA > playerConfComp->m_standardSpriteInterval)
+        else
         {
-            if(playerConfComp->m_currentSprite == it->second.second)
-            {
-                playerConfComp->m_currentSprite = it->second.first;
-            }
-            else
-            {
-                ++playerConfComp->m_currentSprite;
-            }
-            timerComp.m_cycleCountA = 0;
+            ++playerConfComp->m_currentSprite;
         }
+        timerComp.m_cycleCountA = 0;
     }
     spriteComp.m_spriteData = memSpriteComp.m_vectSpriteData[static_cast<uint32_t>(playerConfComp->m_currentSprite)];
-
-
-
-    //     if(++timerComp.m_cycleCountC >= playerConfComp->m_cycleNumberSpriteUpdate)
-    //     {
-    //         playerConfComp->m_touched = false;
-    //     }
-    // }
-    // else if(playerConfComp->m_behaviourMode == EnemyBehaviourMode_e::ATTACK &&
-    //          playerConfComp->m_attackPhase == EnemyAttackPhase_e::SHOOT)
-    // {
-    //     updateEnemyAttackSprite(playerConfComp, timerComp);
-    // }
-    // else if(playerConfComp->m_displayMode == EnemyDisplayMode_e::NORMAL)
-    // {
-    //     updateEnemyNormalSprite(playerConfComp, timerComp, enemyEntity);
-    // }
-    // else if(playerConfComp->m_displayMode == EnemyDisplayMode_e::DYING)
-    // {
-    //     mapEnemySprite_t::const_iterator it = playerConfComp->m_mapSpriteAssociate.find(EnemySpriteType_e::DYING);
-    //     if(playerConfComp->m_currentSprite == it->second.second)
-    //     {
-    //         playerConfComp->m_displayMode = EnemyDisplayMode_e::DEAD;
-    //         if(playerConfComp->m_endLevel)
-    //         {
-    //             m_refMainEngine->activeEndLevel();
-    //         }
-    //     }
-    //     else if(++timerComp.m_cycleCountB >= playerConfComp->m_cycleNumberDyingInterval)
-    //     {
-    //         ++playerConfComp->m_currentSprite;
-    //         timerComp.m_cycleCountB = 0;
-    //     }
-    // }
 }
 
 //===========================================================================
