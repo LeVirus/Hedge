@@ -158,6 +158,12 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
             it = m_usedEntities.erase(it);
             continue;
         }
+        if(m_playerNum == *it)
+        {
+            std::optional<PairUI_t> coord = getLevelCoord(mapComp->m_absoluteMapPositionPX);
+            assert(coord);
+            mapComp->m_coord = *coord;
+        }
         if(checkBoundEntityMap(*mapComp, min, max))
         {
             //get absolute position corner

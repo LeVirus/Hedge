@@ -5,7 +5,7 @@ CONFIG -= qt
 QMAKE_CXXFLAGS += -std=c++23
 QMAKE_CXXFLAGS_DEBUG += -Wall -Wextra -Wpedantic -Og
 INCLUDEPATH += includesLib
-LIBS += -I"includesLib/" -L"$$PWD/lib/" -lECS -lglad -ldl -lglfw -lX11 -lXxf86vm -lXrandr \ #-L"$$PWD/lib/libglfw.so.3"
+LIBS += -I"includesLib/" -L"$$PWD/lib/"  -lglad -ldl -lglfw -lX11 -lXxf86vm -lXrandr \ #-L"$$PWD/lib/libglfw.so.3"
 -pthread -lXi -lopenal -lsndfile
 
 SOURCES += main.cpp \
