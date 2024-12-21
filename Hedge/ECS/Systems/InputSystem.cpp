@@ -191,6 +191,17 @@ void InputSystem::treatPlayerInput()
         {
             playerComp->m_spriteType = PlayerSpriteType_e::STATIC;
         }
+        if(checkPlayerKeyTriggered(ControlKey_e::JUMP))
+        {
+            GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(*it);
+            assert(gravityComp);
+            if(!gravityComp->m_jump && gravityComp->m_onGround)
+            {
+                gravityComp->m_jump = true;
+                gravityComp->m_onGround = false;
+                playerComp->m_spriteType = PlayerSpriteType_e::JUMP;
+            }
+        }
         updateDetectRect(*playerComp, *mapComp);
         // if(checkPlayerKeyTriggered(ControlKey_e::ACTION))
         // {

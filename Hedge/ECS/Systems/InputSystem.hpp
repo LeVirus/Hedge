@@ -38,6 +38,7 @@ inline const std::map<ControlKey_e, MouseKeyboardInputState> MAP_KEYBOARD_DEFAUL
     {ControlKey_e::STRAFE_RIGHT, {true, GLFW_KEY_W}},
     {ControlKey_e::TURN_LEFT, {true, GLFW_KEY_LEFT}},
     {ControlKey_e::TURN_RIGHT, {true, GLFW_KEY_RIGHT}},
+    {ControlKey_e::JUMP, {true, GLFW_KEY_SPACE}},
     {ControlKey_e::ACTION, {true, GLFW_KEY_SPACE}},
     {ControlKey_e::SHOOT, {true, GLFW_KEY_LEFT_SHIFT}},
     {ControlKey_e::PREVIOUS_WEAPON, {true, GLFW_KEY_E}},

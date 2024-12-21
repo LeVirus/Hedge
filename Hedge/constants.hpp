@@ -30,6 +30,7 @@ enum class ControlKey_e
     STRAFE_RIGHT,
     TURN_LEFT,
     TURN_RIGHT,
+    JUMP,
     ACTION,
     SHOOT,
     PREVIOUS_WEAPON,
