@@ -4,6 +4,7 @@
 #include <iostream>
 #include <cassert>
 #include <constants.hpp>
+#include <alias.hpp>
 #include <OpenGLUtils/glheaders.hpp>
 #include <ECS/Systems/ColorDisplaySystem.hpp>
 #include <ECS/Systems/MapDisplaySystem.hpp>
@@ -200,6 +201,7 @@ void GraphicEngine::displayGameIteration()
     m_colorSystem->execSystem();
     m_visionSystem->execSystem();
     m_staticDisplaySystem->execSystem();
+    Ecsm_t::instance().updateEntitiesFromSystem(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM));
     m_mapSystem->execSystem();
 }
 

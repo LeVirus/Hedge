@@ -4,13 +4,13 @@ L'objectif du projet est de réaliser un jeu du style Run n Gun en 2 dimensions.
 Le jeu sera sur ordinateur Windows, Linux (et peut-etre Mac si Godot le permet).
 Le jeu se déroulera dans l'univers du vidéaste Hedge, les éléments définissant cet univers seront développés dans un chapitre dédié.
 Le protagoniste dirigé sera le personnage Hedge.
-Le jeu sera développé avec le moteur de jeu Godot 4. Ce choix vient du fait de la rapidité de développement qu'offre cet outil.
+Le jeu sera développé en C++ à partir d'un fork du jeu Arnihs.
 
 Univers et caractéristiques de Hedge==============================================
 
 Hedge est un vidéotesteur essentiellement de jeu rétro, et notamment de jeux Super Nintendo, ça console fétiche. Le thème de la Super Nintendo sera en conséquence 
-le thème majeur dans l'univers. Autres caractéristiques Hedge est un grand amateur de boxe, les caractéristiques de l'avatar correspondront à ce fait, notamment sur les attaques corp à corp.
-!!! A VOIR !!! D'autres vidéastes avec qui Hedge a collaboré ou a eu des conflits, pourront faire partie de l'aventure, peut etre en tant que boss.
+le thème majeur dans l'univers. Autres caractéristiques, Hedge est un grand amateur de boxe, les caractéristiques de l'avatar correspondront à ce fait, notamment sur les attaques corp à corp.
+!!! A VOIR !!! D'autres vidéastes avec qui Hedge a collaboré, pourront faire partie de l'aventure, peut etre en tant que boss.
 
 Graphisme=========================================================================
 
@@ -74,6 +74,7 @@ D'autres éléments permettront à l'avatar de s'accrocher par les bras, les act
 Des plateformes seront mouvantes. Il sera possible de tomber dans le vide, une quantité de vie sera retiré et l'avatar sera repositionner sur la plateforme avant la chute.
 !!! A VOIR !!! Possibilité d'utiliser un véhicule rapide comme une moto. Le niveau passera alors en scrolling automatique et il sera toujours possible de sauter et de tirer.
 Le jeu sera en scrolling horizontal et vertical, ou en diagonale.
+Des éléments infligeant des dégats seront à éviter afin de progresser dans le niveau.
 
 Ennemies rencontrés==================================================================
 

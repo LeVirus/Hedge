@@ -42,6 +42,7 @@ void MapDisplaySystem::setUsedComponents()
     addComponentsToSystem(Components_e::POSITION_VERTEX_COMPONENT, 1);
     addComponentsToSystem(Components_e::SPRITE_TEXTURE_COMPONENT, 1);
     addComponentsToSystem(Components_e::MAP_COORD_COMPONENT, 1);
+    addComponentsToSystem(Components_e::GENERAL_COLLISION_COMPONENT, 1);
 }
 
 //===================================================================
@@ -147,6 +148,7 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
     for(std::set<uint32_t>::const_iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
         GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
+        // if(!genComp)continue;
         assert(genComp);
         if(genComp->m_tagA == CollisionTag_e::EXPLOSION_CT)
         {
