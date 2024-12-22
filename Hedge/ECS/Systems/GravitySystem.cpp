@@ -20,13 +20,14 @@ void GravitySystem::execSystem()
         assert(mapComp);
         if(gravComp->m_jump)
         {
+            uint32_t half = gravComp->m_jumpStepMax / 2;
             if(gravComp->m_jumpStep <= gravComp->m_jumpStepMax / 2)
             {
-                mapComp->m_absoluteMapPositionPX.second -= 1;
+                mapComp->m_absoluteMapPositionPX.second -= half - gravComp->m_jumpStep;
             }
             else
             {
-                mapComp->m_absoluteMapPositionPX.second += 1;
+                mapComp->m_absoluteMapPositionPX.second += gravComp->m_jumpStep - half;
             }
             if(++gravComp->m_jumpStep >= gravComp->m_jumpStepMax)
             {
@@ -37,9 +38,11 @@ void GravitySystem::execSystem()
         }
         if(gravComp->m_onGround)
         {
+            gravComp->m_onGround = false;
             continue;
         }
         mapComp->m_absoluteMapPositionPX.second += gravComp->m_gravityCohef;
+        gravComp->m_fall = true;
     }
 
 }

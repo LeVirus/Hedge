@@ -946,6 +946,13 @@ void CollisionSystem::collisionCircleRectEject(CollisionArgs &args, float circle
         assert(gravityComp);
         gravityComp->m_onGround = true;
         gravityComp->m_jump = false;
+        if(gravityComp->m_fall)
+        {
+            //cancel gravity
+            mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
+            gravityComp->m_fall = false;
+            diffY = std::numeric_limits<float>::epsilon();
+        }
     }
     collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
     addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
