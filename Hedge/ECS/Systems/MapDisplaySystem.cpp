@@ -188,10 +188,14 @@ void MapDisplaySystem::fillMiniMapVertexFromEntities()
     }
     for(uint32_t i = 0; i < m_entitiesToDisplay.size(); ++i)
     {
-        PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(m_entitiesToDisplay[i]);
-        SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(m_entitiesToDisplay[i]);
         GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(m_entitiesToDisplay[i]);
         assert(genComp);
+        if(!genComp->m_active)
+        {
+            continue;
+        }
+        PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(m_entitiesToDisplay[i]);
+        SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(m_entitiesToDisplay[i]);
         assert(posComp);
         assert(spriteComp);
         assert(spriteComp->m_spriteData->m_textureNum < m_vectMapVerticesData.size());

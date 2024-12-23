@@ -56,8 +56,13 @@ void VisionSystem::updateSprites()
         }
         SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(*it);
         TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*it);
+        if(genComp->m_tagA == CollisionTag_e::BULLET_ENEMY_CT ||
+            genComp->m_tagA == CollisionTag_e::BULLET_PLAYER_CT)
+        {
+            updateVisibleShotSprite(*it, *memSpriteComp, *spriteComp, *timerComp, *genComp);
+        }
         //OOOOK put enemy tag to tagB
-        if(genComp->m_tagA == CollisionTag_e::ENEMY_CT || genComp->m_tagA == CollisionTag_e::GHOST_CT)
+        else if(genComp->m_tagA == CollisionTag_e::ENEMY_CT || genComp->m_tagA == CollisionTag_e::GHOST_CT)
         {
             EnemyConfComponent *enemyConfComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(*it);
             if(enemyConfComp)
@@ -70,6 +75,32 @@ void VisionSystem::updateSprites()
             updatePlayerSprites(*it, *memSpriteComp, *spriteComp, *timerComp);
         }
     }
+}
+
+//===========================================================================
+void VisionSystem::updateVisibleShotSprite(uint32_t shotEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp,
+                                           TimerComponent &timerComp, GeneralCollisionComponent &genComp)
+{
+    ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(shotEntity);
+    if(!shotComp->m_destructPhase)
+    {
+        return;
+    }
+    if(++timerComp.m_cycleCountA >= shotComp->m_cycleDestructNumber)
+    {
+        timerComp.m_cycleCountA = 0;
+        if(shotComp->m_spriteShotNum != memSpriteComp.m_vectSpriteData.size() - 1)
+        {
+            ++shotComp->m_spriteShotNum;
+        }
+        else
+        {
+            genComp.m_active = false;
+            shotComp->m_destructPhase = false;
+            shotComp->m_spriteShotNum = 0;
+        }
+    }
+    spriteComp.m_spriteData = memSpriteComp.m_vectSpriteData[shotComp->m_spriteShotNum];
 }
 
 //===========================================================================
