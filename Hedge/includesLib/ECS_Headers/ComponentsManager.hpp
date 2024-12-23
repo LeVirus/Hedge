@@ -51,7 +51,7 @@ public:
                 m_refComponents[numEntity][i].clear();
             }
         }
-        m_cacheDeletedEntities.insert(numEntity);
+        m_cacheDeletedEntities.push_back(numEntity);
         m_entitiesManager.deleteEntity(numEntity);
     }
 
@@ -74,13 +74,12 @@ public:
     //====================================================================
     uint32_t addEntity(const std::array<uint32_t, N> &vect)
     {
-        uint32_t numEntity;
         uint32_t numEntityB = m_entitiesManager.createEntity(vect);
+        uint32_t numEntity;
         if(!m_cacheDeletedEntities.empty())
         {
-            std::set<uint32_t>::iterator it = m_cacheDeletedEntities.begin();
-            numEntity = *it;
-            m_cacheDeletedEntities.erase(it);
+            numEntity = m_cacheDeletedEntities.back();
+            m_cacheDeletedEntities.pop_back();
         }
         else
         {
@@ -131,7 +130,7 @@ protected:
     }
 protected:
     std::unique_ptr<std::tuple<std::vector<C>...>> m_tup;
-    std::set<uint32_t> m_cacheDeletedEntities;
+    std::vector<uint32_t> m_cacheDeletedEntities;
     //cache index of entities's component
     std::vector<std::array<VectUI_t, N>> m_refComponents;
     std::array<std::vector<uint32_t>, N> m_refDelComponents;

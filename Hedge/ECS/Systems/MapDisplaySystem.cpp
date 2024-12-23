@@ -42,7 +42,6 @@ void MapDisplaySystem::setUsedComponents()
     addComponentsToSystem(Components_e::POSITION_VERTEX_COMPONENT, 1);
     addComponentsToSystem(Components_e::SPRITE_TEXTURE_COMPONENT, 1);
     addComponentsToSystem(Components_e::MAP_COORD_COMPONENT, 1);
-    addComponentsToSystem(Components_e::GENERAL_COLLISION_COMPONENT, 1);
 }
 
 //===================================================================
@@ -193,10 +192,6 @@ void MapDisplaySystem::fillMiniMapVertexFromEntities()
         SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(m_entitiesToDisplay[i]);
         GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(m_entitiesToDisplay[i]);
         assert(genComp);
-        if(genComp->m_tagA == CollisionTag_e::BULLET_PLAYER_CT)
-        {
-            continue;
-        }
         assert(posComp);
         assert(spriteComp);
         assert(spriteComp->m_spriteData->m_textureNum < m_vectMapVerticesData.size());
