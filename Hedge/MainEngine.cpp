@@ -549,11 +549,10 @@ void MainEngine::confPlayerVisibleShoot(std::vector<uint32_t> &playerVisibleShot
 }
 
 //===================================================================
-void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &playerComp, const PairFloat_t &point, float degreeAngle)
+void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &playerComp, const PairFloat_t &point)
 {
-    PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-    WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConfComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-    assert(playerConfComp);
+    WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent,
+                                                                  Components_e::WEAPON_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
     assert(weaponConf);
     assert(weaponConf->m_currentWeapon < weaponConf->m_weaponsData.size());
     WeaponData &currentWeapon = weaponConf->m_weaponsData[
@@ -582,7 +581,7 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
     {
         if(currentWeapon.m_simultaneousShots == 1)
         {
-            confPlayerBullet(&playerComp, point, degreeAngle, currentWeapon.m_currentBullet);
+            // confPlayerBullet(&playerComp, point, degreeAngle, currentWeapon.m_currentBullet);
             if(currentWeapon.m_currentBullet < MAX_SHOTS - 1)
             {
                 ++currentWeapon.m_currentBullet;
@@ -596,17 +595,73 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
         {
             for(uint32_t i = 0; i < currentWeapon.m_simultaneousShots; ++i)
             {
-                confPlayerBullet(&playerComp, point, degreeAngle, i);
+                // confPlayerBullet(&playerComp, point, degreeAngle, i);
             }
         }
     }
     else if(attackType == AttackType_e::VISIBLE_SHOTS)
     {
         assert(currentWeapon.m_visibleShootEntities);
-        confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, degreeAngle);
+        if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::UP)])
+        {
+            if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)])
+            {
+                confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, 45.0f);
+            }
+            else if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)])
+            {
+                confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, 135.0f);
+            }
+            else
+            {
+                confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, 90.0f);
+            }
+        }
+        else if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::DOWN)])
+        {
+            if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)])
+            {
+                confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, -45.0f);
+            }
+            else if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)])
+            {
+                confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, 225.0f);
+            }
+            else
+            {
+                GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(playerEntity);
+                assert(gravityComp);
+                //if in the air shoot down
+                if(!gravityComp->m_onGround)
+                {
+                    confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, -90.0f);
+                }
+                else
+                {
+                    treatBasicDirectionShoot(playerComp, currentWeapon, point);
+                }
+            }
+        }
+        else
+        {
+            treatBasicDirectionShoot(playerComp, currentWeapon, point);
+        }
     }
     assert(weaponConf->m_weaponsData[weaponConf->m_currentWeapon].m_ammunationsCount > 0);
     --weaponConf->m_weaponsData[weaponConf->m_currentWeapon].m_ammunationsCount;
+}
+
+//===================================================================
+void MainEngine::treatBasicDirectionShoot(PlayerConfComponent &playerComp, WeaponData &currentWeapon, const PairFloat_t &point)
+{
+    if(playerComp.m_currentDirectionRight)
+    {
+        confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, 0.0f);
+    }
+    else
+    {
+        confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, 180.0f);
+    }
 }
 
 //===================================================================

@@ -242,6 +242,15 @@ enum class MoveOrientation_e
     RIGHT
 };
 
+enum class PlayerAimDirection_e
+{
+    RIGHT = 0,
+    LEFT,
+    UP,
+    DOWN,
+    TOTAL
+};
+
 enum class EnemySpriteElementType_e
 {
     STATIC_FRONT,

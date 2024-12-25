@@ -11,6 +11,7 @@ struct WallData;
 struct MoveableWallData;
 struct AssociatedTriggerData;
 struct ImpactShotComponent;
+struct WeaponData;
 enum class PlayerEntities_e;
 
 using mapEnemySprite_t = std::map<EnemySpriteType_e, PairUI_t>;
@@ -121,7 +122,7 @@ public:
     void saveGameProgress(uint32_t levelNum, std::optional<uint32_t> numSaveFile = {},
                           const MemCheckpointElementsState *checkpointData = nullptr);
     void playerAttack(uint32_t playerEntity, PlayerConfComponent &playerComp,
-                      const PairFloat_t &point, float degreeAngle);
+                      const PairFloat_t &point);
     void setUnsetPaused();
     inline bool isGamePaused()const
     {
@@ -265,6 +266,7 @@ public:
     void savePlayerGear(bool beginLevel);
     void unsetFirstLaunch();
 private:
+    void treatBasicDirectionShoot(PlayerConfComponent &playerComp, WeaponData &currentWeapon, const PairFloat_t &point);
     void createPlayerImpactEntities(const std::vector<SpriteData> &vectSpriteData, WeaponComponent &weaponConf, const MapImpactData_t &mapImpactData);
     void instanciateSystems();
     void clearMemSoundElements();

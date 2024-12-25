@@ -41,7 +41,11 @@ enum class PlayerEntities_e
 
 struct PlayerConfComponent : public ECS::Component
 {
-    PlayerConfComponent() = default;
+    PlayerConfComponent()
+    {
+        m_currentAim.fill(false);
+        m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
+    }
     void takeDamage(uint32_t damage)
     {
         m_takeDamage = true;
@@ -72,6 +76,8 @@ struct PlayerConfComponent : public ECS::Component
     MoveOrientation_e m_previousMove = MoveOrientation_e::FORWARD;
     MapPlayerSprite_t m_mapSpriteAssociate;
     PlayerSpriteType_e m_spriteType = PlayerSpriteType_e::STATIC;
+    bool m_currentDirectionRight = true;
+    std::array<bool, static_cast<uint32_t>(PlayerAimDirection_e::TOTAL)> m_currentAim;
     virtual ~PlayerConfComponent() = default;
 };
 

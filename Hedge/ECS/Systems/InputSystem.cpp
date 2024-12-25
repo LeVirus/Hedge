@@ -143,25 +143,6 @@ void InputSystem::treatPlayerInput()
             m_keyEspapePressed = false;
         }
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-        if(!m_changeMapMode && (glfwGetKey(m_window, GLFW_KEY_TAB) == GLFW_PRESS ||
-                checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_BACK, GLFW_PRESS)))
-        {
-            m_changeMapMode = true;
-            if(playerComp->m_mapMode != MapMode_e::FULL_MAP)
-            {
-                uint32_t num = static_cast<uint32_t>(playerComp->m_mapMode);
-                playerComp->m_mapMode = static_cast<MapMode_e>(++num);
-            }
-            else
-            {
-                playerComp->m_mapMode = MapMode_e::NONE;
-            }
-        }
-        else if(m_changeMapMode && glfwGetKey(m_window, GLFW_KEY_TAB) == GLFW_RELEASE &&
-                !checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_BACK, GLFW_PRESS))
-        {
-            m_changeMapMode = false;
-        }
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
         if(moveComp->m_ejectData)
@@ -175,22 +156,7 @@ void InputSystem::treatPlayerInput()
             changeToTopPlayerWeapon(*weaponComp);
             playerComp->m_playerShoot = false;
         }
-        // treatPlayerMove(*playerComp, *moveComp, *mapComp);
-
-        if(checkPlayerKeyTriggered(ControlKey_e::TURN_RIGHT))
-        {
-            playerComp->m_spriteType = PlayerSpriteType_e::RUN_RIGHT;
-            mapComp->m_absoluteMapPositionPX.first += moveComp->m_velocity;
-        }
-        else if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT))
-        {
-            playerComp->m_spriteType = PlayerSpriteType_e::RUN_LEFT;
-            mapComp->m_absoluteMapPositionPX.first -= moveComp->m_velocity;
-        }
-        else
-        {
-            playerComp->m_spriteType = PlayerSpriteType_e::STATIC;
-        }
+        treatPlayerMoveAndOrientation(*playerComp, *mapComp, *moveComp, *it);
         if(checkPlayerKeyTriggered(ControlKey_e::JUMP))
         {
             GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(*it);
@@ -243,12 +209,101 @@ void InputSystem::treatPlayerInput()
                     playerComp->m_playerShoot = true;
                     AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
                     audioComp->m_soundElements[weaponComp->m_currentWeapon]->m_toPlay = true;
-                    m_mainEngine->playerAttack(*it, *playerComp, mapComp->m_absoluteMapPositionPX, moveComp->m_degreeOrientation);
+                    m_mainEngine->playerAttack(*it, *playerComp, mapComp->m_absoluteMapPositionPX);
                 }
             }
         }
         m_scrollUp = false;
         m_scrollDown = false;
+    }
+}
+
+//===================================================================
+void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp, MapCoordComponent &mapComp, MoveableComponent &moveComp, uint32_t playerEntity)
+{
+    playerComp.m_currentAim.fill(false);
+    if(checkPlayerKeyTriggered(ControlKey_e::TURN_RIGHT))
+    {
+        playerComp.m_spriteType = PlayerSpriteType_e::RUN_RIGHT;
+        playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
+        mapComp.m_absoluteMapPositionPX.first += moveComp.m_velocity;
+        playerComp.m_currentDirectionRight = true;
+    }
+    else if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT))
+    {
+        playerComp.m_spriteType = PlayerSpriteType_e::RUN_LEFT;
+        playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
+        mapComp.m_absoluteMapPositionPX.first -= moveComp.m_velocity;
+        playerComp.m_currentDirectionRight = false;
+    }
+    else
+    {
+        playerComp.m_spriteType = PlayerSpriteType_e::STATIC;
+    }
+    //TMP LOOK UP
+    if(checkPlayerKeyTriggered(ControlKey_e::MOVE_FORWARD))
+    {
+        treatDiagUpAim(playerComp);
+    }
+    //TMP LOOK DOWN
+    else if(checkPlayerKeyTriggered(ControlKey_e::MOVE_BACKWARD))
+    {
+        GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(playerEntity);
+        assert(gravityComp);
+        if(gravityComp->m_fall)
+        {
+            std::cerr << "DOWN\n";
+            playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::DOWN)] = true;
+        }
+    }
+    //TMP LOOK MID UP
+    else if(checkPlayerKeyTriggered(ControlKey_e::STRAFE_LEFT))
+    {
+        playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::UP)] = true;
+        if(playerComp.m_currentDirectionRight)
+        {
+            playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
+            playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_UP_RIGHT;
+        }
+        else
+        {
+            playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
+            playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_UP_LEFT;
+        }
+    }
+    //TMP LOOK MID DOWN
+    else if(checkPlayerKeyTriggered(ControlKey_e::STRAFE_RIGHT))
+    {
+        playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::DOWN)] = true;
+        if(playerComp.m_currentDirectionRight)
+        {
+            playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
+            playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_DOWN_RIGHT;
+        }
+        else
+        {
+            playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
+            playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_DOWN_LEFT;
+        }
+    }
+
+}
+
+//===================================================================
+void InputSystem::treatDiagUpAim(PlayerConfComponent &playerComp)
+{
+    playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::UP)] = true;
+    if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)])
+    {
+        playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_UP_RIGHT;
+    }
+    else if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)])
+    {
+        playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_UP_LEFT;
+    }
+    else
+    {
+        playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_UP;
     }
 }
 

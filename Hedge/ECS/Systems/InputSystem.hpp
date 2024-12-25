@@ -130,6 +130,7 @@ public:
     static void addGamepad(int gamepadID);
     static void scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
 private:
+    void treatDiagUpAim(PlayerConfComponent &playerComp);
     void updateDetectRect(PlayerConfComponent &playerComp, MapCoordComponent &mapPlayerComp);
     void gamepadUpdate();
     bool checkStandardButtonGamepadKeyStatus(uint32_t key, uint32_t status);
@@ -137,6 +138,7 @@ private:
     void setUsedComponents();
     void getGamepadInputs();
     void treatPlayerInput();
+    void treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp, MapCoordComponent &mapComp, MoveableComponent &moveComp, uint32_t playerEntity);
     std::optional<double> getXMouseMotion();
     bool checkPlayerKeyTriggered(ControlKey_e key);
     void treatMenu();
