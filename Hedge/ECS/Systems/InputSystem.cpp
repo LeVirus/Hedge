@@ -157,16 +157,22 @@ void InputSystem::treatPlayerInput()
             playerComp->m_playerShoot = false;
         }
         treatPlayerMoveAndOrientation(*playerComp, *mapComp, *moveComp, *it);
+        GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(*it);
+        assert(gravityComp);
+        if(!gravityComp->m_memOnGround)
+        {
+            playerComp->m_spriteType = PlayerSpriteType_e::JUMP;
+        }
         if(checkPlayerKeyTriggered(ControlKey_e::JUMP))
         {
-            GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(*it);
-            assert(gravityComp);
             if(!gravityComp->m_jump && gravityComp->m_onGround)
             {
                 gravityComp->m_jump = true;
                 gravityComp->m_onGround = false;
                 gravityComp->m_memOnGround = false;
                 playerComp->m_spriteType = PlayerSpriteType_e::JUMP;
+                //reinit sprite
+                playerComp->m_currentSprite = 0;
             }
         }
         updateDetectRect(*playerComp, *mapComp);
@@ -286,7 +292,6 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
             playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_DOWN_LEFT;
         }
     }
-
 }
 
 //===================================================================

@@ -61,12 +61,12 @@ void StaticDisplaySystem::execSystem()
         SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(
             playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
         confWeaponsVertexFromComponent(*playerComp, *spriteComp);
-        drawVertex(spriteComp->m_spriteData->m_textureNum, VertexID_e::WEAPON);
+        // drawVertex(spriteComp->m_spriteData->m_textureNum, VertexID_e::WEAPON);
 
         drawStandardStaticSprite(VertexID_e::PANNEL, *playerComp);
         drawStandardStaticSprite(VertexID_e::AMMO_ICON, *playerComp);
         drawStandardStaticSprite(VertexID_e::LIFE_ICON, *playerComp);
-        drawTeleportAnimation(*playerComp);
+        // drawTeleportAnimation(*playerComp);
         drawWriteInfoPlayer(*playerComp);
         std::string strAmmoDisplay = std::to_string(weaponComp->m_weaponsData[weaponComp->m_currentWeapon].m_ammunationsCount);
         drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::AMMO_WRITE)], VertexID_e::AMMO_WRITE, Font_e::STANDARD, strAmmoDisplay);
