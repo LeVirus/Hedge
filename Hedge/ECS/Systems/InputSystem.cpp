@@ -165,6 +165,7 @@ void InputSystem::treatPlayerInput()
             {
                 gravityComp->m_jump = true;
                 gravityComp->m_onGround = false;
+                gravityComp->m_memOnGround = false;
                 playerComp->m_spriteType = PlayerSpriteType_e::JUMP;
             }
         }
@@ -250,9 +251,8 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
     {
         GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(playerEntity);
         assert(gravityComp);
-        if(gravityComp->m_fall)
+        if(!gravityComp->m_memOnGround)
         {
-            std::cerr << "DOWN\n";
             playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::DOWN)] = true;
         }
     }

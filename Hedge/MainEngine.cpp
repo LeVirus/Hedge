@@ -632,7 +632,7 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
                 GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(playerEntity);
                 assert(gravityComp);
                 //if in the air shoot down
-                if(!gravityComp->m_onGround)
+                if(!gravityComp->m_memOnGround)
                 {
                     confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, -90.0f);
                 }

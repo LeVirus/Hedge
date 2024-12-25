@@ -940,18 +940,26 @@ void CollisionSystem::collisionCircleRectEject(CollisionArgs &args, float circle
         crushMode = args.tagCompB.m_tagA == CollisionTag_e::WALL_CT;
     }
     //if player touch ground
-    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && diffY < 0)
+    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
     {
         GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
         assert(gravityComp);
-        gravityComp->m_onGround = true;
-        gravityComp->m_jump = false;
-        if(gravityComp->m_fall)
+        if(diffY < 0)
         {
-            //cancel gravity
-            mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
-            gravityComp->m_fall = false;
-            diffY = std::numeric_limits<float>::epsilon();
+            gravityComp->m_onGround = true;
+            gravityComp->m_memOnGround = true;
+            gravityComp->m_jump = false;
+            if(gravityComp->m_fall)
+            {
+                //cancel gravity
+                mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
+                gravityComp->m_fall = false;
+                diffY = std::numeric_limits<float>::epsilon();
+            }
+        }
+        else
+        {
+            gravityComp->m_memOnGround = false;
         }
     }
     collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
