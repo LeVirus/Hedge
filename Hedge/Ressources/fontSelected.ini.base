@@ -1,0 +1,583 @@
+#248 x 4416
+#131 14  168 68
+[a]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.0031
+textureWeight = 0.1491
+textureHeight = 0.0159
+
+#131 109  167 164
+[b]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.0246
+textureWeight = 0.1451
+textureHeight = 0.0159
+
+#133 206  168 260
+#H 41
+[c]
+texture = 15
+texturePosX = 0.5362
+texturePosY = 0.0466
+textureWeight = 0.1411
+textureHeight = 0.0159
+
+#131 301  168 356
+# HEIGHT 55
+[d]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.0681
+textureWeight = 0.1491
+textureHeight = 0.0159
+
+#131 398  168 452
+[e]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.0901
+textureWeight = 0.1491
+textureHeight = 0.0159
+
+#135 493  164 548
+[f]
+texture = 15
+texturePosX = 0.5443
+texturePosY = 0.1116
+textureWeight = 0.1169
+textureHeight = 0.0159
+
+#131 590  169 660
+[g]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.1336
+textureWeight = 0.1532
+textureHeight = 0.0159
+
+#131 685  166 740
+[h]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.1551
+textureWeight = 0.1411
+textureHeight = 0.0159
+
+#141 782  156 843
+[i]
+texture = 15
+texturePosX = 0.5685
+texturePosY = 0.1783
+textureWeight = 0.0604
+textureHeight = 0.0159
+
+#139 878  159 952
+[j]
+texture = 15
+texturePosX = 0.5604
+texturePosY = 0.1988
+textureWeight = 0.1169
+textureHeight = 0.0159
+
+#133 973  166 1028
+[k]
+texture = 15
+texturePosX = 0.5362
+texturePosY = 0.2203
+textureWeight = 0.133
+textureHeight = 0.0159
+
+#141 1060  157 1124
+[l]
+texture = 15
+texturePosX = 0.5685
+texturePosY = 0.2420
+textureWeight = 0.0645
+textureHeight = 0.0159
+
+#121 1166  177 1220
+[m]
+texture = 15
+texturePosX = 0.4879
+texturePosY = 0.2640
+textureWeight = 0.2258
+textureHeight = 0.0159
+
+#131 1262  168 1316
+[n]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.2857
+textureWeight = 0.1491
+textureHeight = 0.0159
+
+#131 1358  168 1412
+#37
+[o]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.3075
+textureWeight = 0.1491
+textureHeight = 0.0159
+
+#130 1454  169 1525
+[p]
+texture = 15
+texturePosX = 0.5241
+texturePosY = 0.3292
+textureWeight = 0.1572
+textureHeight = 0.0159
+
+#131 1546  169 1621
+[q]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.3509
+textureWeight = 0.1532
+textureHeight = 0.0159
+
+#135 1648  165 1700
+[r]
+texture = 15
+texturePosX = 0.5443
+texturePosY = 0.3731
+textureWeight = 0.1209
+textureHeight = 0.0159
+
+#131 1742  167 1796
+[s]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.3944
+textureWeight = 0.1451
+textureHeight = 0.0159
+
+#135 1838  163 1892
+[t]
+texture = 15
+texturePosX = 0.5443
+texturePosY = 0.4162
+textureWeight = 0.1129
+textureHeight = 0.0159
+
+#131 1934  167 1988
+[u]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.4379
+textureWeight = 0.1451
+textureHeight = 0.0159
+
+#131 2030  169 2084
+[v]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.4596
+textureWeight = 0.1532
+textureHeight = 0.0159
+
+#123 2126  178 2180
+[w]
+texture = 15
+texturePosX = 0.4959
+texturePosY = 0.4814
+textureWeight = 0.2217
+textureHeight = 0.0159
+
+#131 2222  167 2276
+[x]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.5031
+textureWeight = 0.1451
+textureHeight = 0.0159
+
+#131 2318  167 2379
+[y]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.5249
+textureWeight = 0.1451
+textureHeight = 0.0159
+
+#133 2414  167 2468
+[z]
+texture = 15
+texturePosX = 0.5362
+texturePosY = 0.5466
+textureWeight = 0.137
+textureHeight = 0.0159
+
+#189 14  236 69
+[A]
+texture = 15
+texturePosX = 0.762
+texturePosY = 0.0031
+textureWeight = 0.1895
+textureHeight = 0.0159
+
+#192 110  232 165
+[B]
+texture = 15
+texturePosX = 0.7741
+texturePosY = 0.0246
+textureWeight = 0.1612
+textureHeight = 0.0159
+
+#192 206  235 261
+[C]
+texture = 15
+texturePosX = 0.7741
+texturePosY = 0.0466
+textureWeight = 0.1693
+textureHeight = 0.0159
+
+#190 302  234 357
+#55 H
+[D]
+texture = 15
+texturePosX = 0.7661
+texturePosY = 0.0683
+textureWeight = 0.1774
+textureHeight = 0.0159
+
+#194 398  233 453
+[E]
+texture = 15
+texturePosX = 0.7822
+texturePosY = 0.0901
+textureWeight = 0.1572
+textureHeight = 0.0159
+
+#194 494  230 549
+[F]
+texture = 15
+texturePosX = 0.7822
+texturePosY = 0.1118
+textureWeight = 0.1451
+textureHeight = 0.0159
+
+#192 590  235 645
+[G]
+texture = 15
+texturePosX = 0.7741
+texturePosY = 0.1336
+textureWeight = 0.1733
+textureHeight = 0.0159
+
+#190 686  234 741
+[H]
+texture = 15
+texturePosX = 0.7661
+texturePosY = 0.1553
+textureWeight = 0.1774
+textureHeight = 0.0159
+
+#206 782  221 837
+[I]
+texture = 15
+texturePosX = 0.8306
+texturePosY = 0.177
+textureWeight = 0.0604
+textureHeight = 0.0159
+
+#196 878  230 933
+[J]
+texture = 15
+texturePosX = 0.7903
+texturePosY = 0.1988
+textureWeight = 0.137
+textureHeight = 0.0159
+
+#194 974  234 1029
+[K]
+texture = 15
+texturePosX = 0.7822
+texturePosY = 0.2205
+textureWeight = 0.1612
+textureHeight = 0.0159
+
+#194 1060  232 1115
+[L]
+texture = 15
+texturePosX = 0.7822
+texturePosY = 0.24
+textureWeight = 0.1532
+textureHeight = 0.0159
+
+#186 1166  242 1221
+[M]
+texture = 15
+texturePosX = 0.75
+texturePosY = 0.264
+textureWeight = 0.2258
+textureHeight = 0.0159
+
+#192 1262  236 1317
+[N]
+texture = 15
+texturePosX = 0.7741
+texturePosY = 0.2857
+textureWeight = 0.1774
+textureHeight = 0.0159
+
+#190 1358  236 1413
+[O]
+texture = 15
+texturePosX = 0.7661
+texturePosY = 0.3075
+textureWeight = 0.1854
+textureHeight = 0.0159
+
+#194 1454  234 1509
+[P]
+texture = 15
+texturePosX = 0.7822
+texturePosY = 0.3292
+textureWeight = 0.1612
+textureHeight = 0.0159
+
+#190 1546  236 1610
+[Q]
+texture = 15
+texturePosX = 0.7661
+texturePosY = 0.35
+textureWeight = 0.1854
+textureHeight = 0.0159
+
+#192 1648  233 1703
+[R]
+texture = 15
+texturePosX = 0.7741
+texturePosY = 0.3731
+textureWeight = 0.1653
+textureHeight = 0.0159
+
+#192 1742  233 1797
+[S]
+texture = 15
+texturePosX = 0.7741
+texturePosY = 0.3944
+textureWeight = 0.1653
+textureHeight = 0.0159
+
+#192 1838  236 1893
+[T]
+texture = 15
+texturePosX = 0.7741
+texturePosY = 0.4162
+textureWeight = 0.1774
+textureHeight = 0.0159
+
+#190 1934  234 1989
+[U]
+texture = 15
+texturePosX = 0.7661
+texturePosY = 0.4379
+textureWeight = 0.1774
+textureHeight = 0.0159
+
+#190 2030  237 2085
+[V]
+texture = 15
+texturePosX = 0.7661
+texturePosY = 0.4596
+textureWeight = 0.1895
+textureHeight = 0.0159
+
+#178 2126  246 2181
+[W]
+texture = 15
+texturePosX = 0.7177
+texturePosY = 0.4814
+textureWeight = 0.2741
+textureHeight = 0.0159
+
+#191 2222  235 2277
+[X]
+texture = 15
+texturePosX = 0.7701
+texturePosY = 0.5031
+textureWeight = 0.1774
+textureHeight = 0.0159
+
+#190 2318  235 2373
+[Y]
+texture = 15
+texturePosX = 0.7661
+texturePosY = 0.5249
+textureWeight = 0.1814
+textureHeight = 0.0159
+
+#192 2414  232 2469
+[Z]
+texture = 15
+texturePosX = 0.7741
+texturePosY = 0.5466
+textureWeight = 0.1612
+textureHeight = 0.0159
+
+#NUMBER
+#127 2510   174 2660 
+[0]
+texture = 15
+texturePosX = 0.512
+texturePosY = 0.5683
+textureWeight = 0.1895
+textureHeight = 0.0159
+
+#136 2660 b  162
+[1]
+texture = 15
+texturePosX = 0.5483
+texturePosY = 0.5899
+textureWeight = 0.1048
+textureHeight = 0.0159
+
+#131 2702  2756 b  169
+[2]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.6118
+textureWeight = 0.1532
+textureHeight = 0.0159
+
+#131 2798  2852 b  170
+[3]
+texture = 15
+texturePosX = 0.5282
+texturePosY = 0.6336
+textureWeight = 0.1572
+textureHeight = 0.0159
+
+#128 2894  2948 b  172
+[4]
+texture = 15
+texturePosX = 0.5161
+texturePosY = 0.6553
+textureWeight = 0.1774
+textureHeight = 0.0159
+
+#130 2990  3044 b  171
+[5]
+texture = 15
+texturePosX = 0.5241
+texturePosY = 0.6770
+textureWeight = 0.1653
+textureHeight = 0.0159
+
+#129 3086  3140 b  172
+[6]
+texture = 15
+texturePosX = 0.5201
+texturePosY = 0.6988
+textureWeight = 0.1733
+textureHeight = 0.0159
+
+#127 3182  3236 b  170
+[7]
+texture = 15
+texturePosX = 0.5120
+texturePosY = 0.7205
+textureWeight = 0.1733
+textureHeight = 0.0159
+
+#128 3278  3332 b  171
+[8]
+texture = 15
+texturePosX = 0.5161
+texturePosY = 0.7423
+textureWeight = 0.1733
+textureHeight = 0.0159
+
+#129 3374  3428 b  172
+[9]
+texture = 15
+texturePosX = 0.5201
+texturePosY = 0.7640
+textureWeight = 0.1733
+textureHeight = 0.0159
+
+#143   158
+[:]
+texture = 15
+texturePosX = 0.5725
+texturePosY = 0.8507
+textureWeight = 0.0645
+textureHeight = 0.0159
+
+
+#128
+[+]
+texture = 15
+texturePosX = 0.5161
+texturePosY = 0.8947
+textureWeight = 0.1699
+textureHeight = 0.0159
+
+
+#125
+[-]
+texture = 15
+texturePosX = 0.504
+texturePosY = 0.9165
+textureWeight = 0.1568
+textureHeight = 0.0159
+
+#123 177
+[/]
+texture = 15
+texturePosX = 0.4959
+texturePosY = 0.9812
+textureWeight = 0.2177
+textureHeight = 0.0159
+
+#142 158
+[!]
+texture = 15
+texturePosX = 0.5725
+texturePosY = 0.9595
+textureWeight = 0.0645
+textureHeight = 0.0159
+
+#129 168
+[?]
+texture = 15
+texturePosX = 0.5201
+texturePosY = 0.9377
+textureWeight = 0.1572
+textureHeight = 0.0159
+
+#120 180
+[%]
+texture = 15
+texturePosX = 0.4798
+texturePosY = 0.8723
+textureWeight = 0.2419
+textureHeight = 0.0139
+
+#142 158
+[.]
+texture = 15
+texturePosX = 0.5725
+texturePosY = 0.7855
+textureWeight = 0.0645
+textureHeight = 0.0159
+
+#142 158
+[,]
+texture = 15
+texturePosX = 0.5725
+texturePosY = 0.8072
+textureWeight = 0.0645
+textureHeight = 0.0159
+
+#142  158
+[;]
+texture = 15
+texturePosX = 0.5725
+texturePosY = 0.829
+textureWeight = 0.0645
+textureHeight = 0.0159

@@ -1,0 +1,787 @@
+[SoundUtils]
+PickUpObjectSound = ItemPick.wav
+DoorOpeningSound = DoorOpening.wav
+HitSound = FistAttack.wav
+TeleportSound = Teleport.wav
+PlayerDeathSound = Death.wav
+TriggerSound = Trigger.flac
+
+[GraphicUtils]
+GenericMenuSprite = SpriteBackgroundGenericMenu
+TitleMenuSprite = SpriteBackgroundTitleMenu
+LeftMenuSprite = SpriteBackgroundLeftMenu
+RightLeftMenuSprite = SpriteBackgroundRightLeftMenu
+PannelSprite = SpritePannel
+LifeIconSprite = SpriteLifeIcon
+AmmoIconSprite = SpriteAmmoIcon
+FistIcon = SpriteFAA
+GunIcon = SpriteGSt
+SpriteWeightFist = 0.4
+SpriteHeightFist = 0.4
+SpriteWeightGun = 0.4
+SpriteHeightGun = 0.4
+ShotgunID = ObjectShotgun
+PlasmaRifleID = ObjectPlasmaRifle
+BazookaID = ObjectBazooka
+MachineGunID = ObjectMachineGun
+
+[TelepAnim]
+Sprite = SpriteAnimTeleportA SpriteAnimTeleportB
+SpriteWeightGame = 1.1
+SpriteHeightGame = 1.8
+
+[MessageLogA]
+Sprite = SpriteLog
+SpriteWeightGame = 0.4
+SpriteHeightGame = 1.2
+
+[MessageLogB]
+Sprite = SpriteBackStars
+SpriteWeightGame = 0.4
+SpriteHeightGame = 0.6
+
+[WallBackroom]
+Sprite = SpriteWallBackroom
+
+[WallA]
+Sprite = SpriteWallMetalCol
+
+[WallB]
+Sprite = SpriteWallLight
+
+[WallC]
+Sprite = SpriteMetalGroundB
+
+[WallD]
+Sprite = SpriteMetalGroundA
+
+[WallE]
+Sprite = SpriteWallD
+
+[WallF]
+Sprite = SpriteWallE
+
+[WallG]
+Sprite = SpriteWallF
+
+[WallH]
+Sprite = SpriteWallG
+
+[WallOldA]
+Sprite = SpriteWallA SpriteWallB 
+
+[WallOldB]
+Sprite = SpriteWallB
+
+[WallOldC]
+Sprite = SpriteWallC
+
+[WallScreen]
+Sprite = SpriteSimetraLogo SpriteSimetraWrite
+Time = 0.5 1.5
+
+[WallLogo]
+Sprite = SpriteSimetraLogo
+
+[DoorVertical]
+Sprite = SpriteMetalDoor
+Vertical = true
+
+[DoorHorizontal]
+Sprite = SpriteMetalDoor
+Vertical = false
+
+[DoorCardV]
+Sprite = SpriteMetalDoor
+Vertical = true
+CardID = ObjectPurpleCard
+
+[DoorCardPurpleH]
+Sprite = SpriteMetalDoor
+Vertical = false
+CardID = ObjectPurpleCard
+
+[DoorCardGreenV]
+Sprite = SpriteMetalDoor
+Vertical = true
+CardID = ObjectGreenCard
+
+[DoorCardGreenH]
+Sprite = SpriteMetalDoor
+Vertical = false
+CardID = ObjectGreenCard
+
+[DoorCardBlueV]
+Sprite = SpriteMetalDoor
+Vertical = true
+CardID = ObjectBlueCard
+
+[DoorCardBlueH]
+Sprite = SpriteMetalDoor
+Vertical = false
+CardID = ObjectBlueCard
+
+[DoorCardGoldV]
+Sprite = SpriteMetalDoor
+Vertical = true
+CardID = ObjectGoldCard
+
+[DoorCardGoldH]
+Sprite = SpriteMetalDoor
+Vertical = false
+CardID = ObjectGoldCard
+
+[TriggerA]
+Sprite = SpriteTriggerA
+SpriteWeightGame = 0.4
+SpriteHeightGame = 0.8
+
+[Player]
+RunRight = SpritePlayerRunRightA SpritePlayerRunRightB SpritePlayerRunRightC SpritePlayerRunRightD SpritePlayerRunRightE SpritePlayerRunRightF SpritePlayerRunRightG SpritePlayerRunRightH SpritePlayerRunRightI SpritePlayerRunRightJ
+RunLeft = SpritePlayerRunLeftA SpritePlayerRunLeftB SpritePlayerRunLeftC SpritePlayerRunLeftD SpritePlayerRunLeftE SpritePlayerRunLeftF SpritePlayerRunLeftG SpritePlayerRunLeftH SpritePlayerRunLeftI SpritePlayerRunLeftJ
+ShootUpRight = SpritePlayerShootUpLookRight
+ShootUpLeft = SpritePlayerShootUpLookLeft
+ShootRight = SpritePlayerShootRightA SpritePlayerShootRightB SpritePlayerShootRightC
+ShootLeft = SpritePlayerShootLeftA SpritePlayerShootLeftB SpritePlayerShootLeftC
+StayRight = SpritePlayerStayRightA SpritePlayerStayRightB SpritePlayerStayRightC SpritePlayerStayRightD 
+StayLeft = SpritePlayerStayLeftA SpritePlayerStayLeftB SpritePlayerStayLeftC SpritePlayerStayLeftD 
+JumpRight = SpritePlayerJumpRightA SpritePlayerJumpRightB SpritePlayerJumpRightC SpritePlayerJumpRightD SpritePlayerJumpRightE SpritePlayerJumpRightF 
+JumpLeft = SpritePlayerJumpLeftA SpritePlayerJumpLeftB SpritePlayerJumpLeftC SpritePlayerJumpLeftD SpritePlayerJumpLeftE SpritePlayerJumpLeftF 
+DamageRight = SpritePlayerDamageRightA SpritePlayerDamageRightB
+DamageLeft = SpritePlayerDamageLeftA SpritePlayerDamageLeftB
+DyingSprite = SpriteADA SpriteADB SpriteADC SpriteADD SpriteADE SpriteADF
+Touched = SpriteADA
+Life = 200
+Velocity = 0.6
+MeleeDamage = 33
+SpriteWeightGame = 2.1
+SpriteHeightGame = 1.6
+FrozenOnAttack = false
+
+
+[EnemyArachnotron]
+StaticSpriteFront = SpriteAFA SpriteAFB
+StaticSpriteFrontLeft = SpriteAFLA SpriteAFLB
+StaticSpriteFrontRight = SpriteAFRA SpriteAFRB 
+StaticSpriteBack = SpriteABA SpriteABB
+StaticSpriteBackLeft = SpriteABLA SpriteABLB
+StaticSpriteBackRight = SpriteABRA SpriteABRB
+StaticSpriteLeft = SpriteALA SpriteALB
+StaticSpriteRight = SpriteARA SpriteARB
+AttackSprite = SpriteAAA SpriteAAB 
+DyingSprite = SpriteADA SpriteADB SpriteADC SpriteADD SpriteADE SpriteADF
+Touched = SpriteADA
+ShootSpritesID = VisibleShootDemonD
+ShotVelocity = 6
+Life = 200
+Velocity = 0.6
+MeleeDamage = 33
+Damage = 25
+SpriteWeightGame = 2.1 ; value in %
+SpriteHeightGame = 1.6
+traversable = false
+DetectBehaviourSound = BigRoar.wav
+AttackSound = LazerShot2.wav
+DeathSound = DeathRobot.wav
+FrozenOnAttack = false
+
+[EnemyCyberDemon]
+StaticSpriteFront = SpriteCDFA SpriteCDFB
+StaticSpriteFrontLeft = SpriteCDFLA SpriteCDFLB
+StaticSpriteFrontRight = SpriteCDFRA SpriteCDFRB 
+StaticSpriteBack = SpriteCDBA SpriteCDBB
+StaticSpriteBackLeft = SpriteCDBLA SpriteCDBLB
+StaticSpriteBackRight = SpriteCDBRA SpriteCDBRB
+StaticSpriteLeft = SpriteCDLA SpriteCDLB
+StaticSpriteRight = SpriteCDRA SpriteCDRB
+AttackSprite = SpriteCDAA SpriteCDAB 
+DyingSprite = SpriteCDDA SpriteCDDB SpriteCDDC SpriteCDDD SpriteCDDE SpriteCDDF SpriteCDDG SpriteCDDH SpriteCDDI SpriteCDDead
+Touched = SpriteCDDA
+ShootSpritesID = VisibleShootRocket
+DamageZoneRay = 530.0
+ShotVelocity = 5.0
+Life = 300
+Velocity = 0.7
+MeleeDamage = 25
+Damage = 30
+SpriteWeightGame = 0.9 ; value in %
+SpriteHeightGame = 2.4
+traversable = false
+DetectBehaviourSound = BigRoar2.wav
+AttackSound = LazerShot2.wav
+DeathSound = Death3.wav
+FrozenOnAttack = false
+
+[EnemyBaronHell]
+StaticSpriteFront = SpriteBHFA SpriteBHFB
+StaticSpriteFrontLeft = SpriteBHFLA SpriteBHFLB
+StaticSpriteFrontRight = SpriteBHFRA SpriteBHFRB 
+StaticSpriteBack = SpriteBHBA SpriteBHBB
+StaticSpriteBackLeft = SpriteBHBLA SpriteBHBLB
+StaticSpriteBackRight = SpriteBHBRA SpriteBHBRB
+StaticSpriteLeft = SpriteBHLA SpriteBHLB
+StaticSpriteRight = SpriteBHRA SpriteBHRB
+AttackSprite = SpriteBHAA SpriteBHAB SpriteBHAC
+DyingSprite = SpriteBHDA SpriteBHDB SpriteBHDC SpriteBHDD SpriteBHDE SpriteBHDead
+Touched = SpriteBHDA
+ShootSpritesID = VisibleShootDemonB
+MeleeDamage = 12
+ShotVelocity = 4
+Life = 45
+Velocity = 0.7
+Damage = 15
+SpriteWeightGame = 0.9 ; value in %
+SpriteHeightGame = 2.4
+traversable = false
+DetectBehaviourSound = BigRoar3.wav
+AttackSound = AttackBaron.wav
+DeathSound = Death3.wav
+FrozenOnAttack = false
+
+
+[EnemyFlyingDemon]
+StaticSpriteFront = SpriteFDFA SpriteFDFB
+StaticSpriteFrontLeft = SpriteFDFLA SpriteFDFLB
+StaticSpriteFrontRight = SpriteFDFRA SpriteFDFRB 
+StaticSpriteBack = SpriteFDBA SpriteFDBB
+StaticSpriteBackLeft = SpriteFDBLA SpriteFDBLB
+StaticSpriteBackRight = SpriteFDBRA SpriteFDBRB
+StaticSpriteLeft = SpriteFDLA SpriteFDLB
+StaticSpriteRight = SpriteFDRA SpriteFDRB
+AttackSprite = SpriteFDAA SpriteFDAB SpriteFDAC
+DyingSprite = SpriteFDDA SpriteFDDB SpriteFDDC SpriteFDDD SpriteFDDE SpriteFDDead
+Touched = SpriteFDDA
+ShootSpritesID = VisibleShootDemonA
+MeleeDamage = 12
+DropedObjectID = ObjectLittleHeal
+ShotVelocity = 3
+Life = 15
+Velocity = 0.6
+Damage = 15
+SpriteWeightGame = 0.5 ; value in %
+SpriteHeightGame = 1.5
+traversable = false
+DetectBehaviourSound = Roar5.wav
+AttackSound = FireFlyingDemon.wav
+DeathSound = Death4.wav
+FrozenOnAttack = false
+
+
+[EnemyZombieShotgun]
+StaticSpriteFront = SpriteZSFA SpriteZSFB
+StaticSpriteFrontLeft = SpriteZSMFLA SpriteZSMFLB
+StaticSpriteFrontRight = SpriteZSMFRA SpriteZSMFRB 
+StaticSpriteBack = SpriteZSBA SpriteZSBB
+StaticSpriteBackLeft = SpriteZSMBLA SpriteZSMBLB
+StaticSpriteBackRight = SpriteZSMBRA SpriteZSMBRB
+StaticSpriteLeft = SpriteZSLA SpriteZSLB
+StaticSpriteRight = SpriteZSRA SpriteZSRB
+AttackSprite = SpriteZSAA SpriteZSAB 
+DyingSprite = SpriteZSDA SpriteZSDB SpriteZSDC SpriteZSDD SpriteZSDE SpriteZSDead
+Touched = SpriteZSDA
+ShotImpactID = ImpactStd
+DropedObjectID = ObjectShotgunAmmo
+Life = 5
+Velocity = 0.6
+SimultaneousShots = 3
+MeleeDamage = 8
+Damage = 4
+SpriteWeightGame = 0.5 ; value in %
+SpriteHeightGame = 1.4
+traversable = false
+DetectBehaviourSound = Roar2.wav
+AttackSound = ShotgunShot.wav
+DeathSound = Death1.wav
+FrozenOnAttack = true
+
+
+[EnemyDemonClaw]
+StaticSpriteFront = SpriteDCMFA SpriteDCMFB
+StaticSpriteFrontLeft = SpriteDCMMFLA SpriteDCMMFLB
+StaticSpriteFrontRight = SpriteDCMMFRA SpriteDCMMFRB 
+StaticSpriteBack = SpriteDCMBA SpriteDCMBB
+StaticSpriteBackLeft = SpriteDCMMBLA SpriteDCMMBLB
+StaticSpriteBackRight = SpriteDCMMBRA SpriteDCMMBRB
+StaticSpriteLeft = SpriteDCMLA SpriteDCMLB
+StaticSpriteRight = SpriteDCMRA SpriteDCMRB
+AttackSprite = SpriteDCAA SpriteDCAB
+DyingSprite = SpriteDCDA SpriteDCDB SpriteDCDC SpriteDCDD SpriteDCDead
+Touched = SpriteDCDA
+ShootSpritesID = VisibleShootDemonA
+MeleeDamage = 12
+ShotVelocity = 2
+Life = 15
+Velocity = 1.3
+Damage = 15
+SpriteWeightGame = 0.5 ; value in %
+SpriteHeightGame = 1.5
+traversable = false
+DetectBehaviourSound = Roar4.wav
+AttackSound = HitDemon.wav
+DeathSound = Death4.wav
+MeleeOnly = true
+FrozenOnAttack = false
+
+[EnemyDemon]
+StaticSpriteFront = SpriteDFA SpriteDFB
+StaticSpriteFrontLeft = SpriteDMFLA SpriteDMFLB
+StaticSpriteFrontRight = SpriteDMFRA SpriteDMFRB 
+StaticSpriteBack = SpriteDBA SpriteDBB
+StaticSpriteBackLeft = SpriteDMBLA SpriteDMBLB
+StaticSpriteBackRight = SpriteDMBRA SpriteDMBRB
+StaticSpriteLeft = SpriteDLA SpriteDLB
+StaticSpriteRight = SpriteDRA SpriteDRB
+AttackSprite = SpriteEAA SpriteEAB SpriteEAC
+DyingSprite = SpriteDDAA SpriteDDAB SpriteDDAC SpriteDDAD SpriteDDAE
+Touched = SpriteDTF
+ShootSpritesID = VisibleShootDemonC
+MeleeDamage = 3
+ShotVelocity = 2
+Life = 2
+Velocity = 0.5
+Damage = 8
+SpriteWeightGame = 0.5 ; value in %
+SpriteHeightGame = 1.5
+traversable = false
+DetectBehaviourSound = DemonDetect.wav
+AttackSound = FireBall.wav
+DeathSound = Death1.wav
+FrozenOnAttack = true
+
+
+[EnemyMarine]
+StaticSpriteFront = SpriteMFA SpriteMFB
+StaticSpriteFrontLeft = SpriteMFLA SpriteMFLB
+StaticSpriteFrontRight = SpriteMFRA SpriteMFRB 
+StaticSpriteBack = SpriteMBA SpriteMBB
+StaticSpriteBackLeft = SpriteMBLA SpriteMBLB
+StaticSpriteBackRight = SpriteMBRA SpriteMBRB
+StaticSpriteLeft = SpriteMLA SpriteMLB
+StaticSpriteRight = SpriteMRA SpriteMRB
+AttackSprite = SpriteMAA SpriteMAB 
+DyingSprite = SpriteMDAA SpriteMDAB SpriteMDAC SpriteMDAD SpriteMDAE SpriteMDAE
+Touched = SpriteMT
+ShotImpactID = ImpactStd
+DropedObjectID = ObjectGunAmmo
+Life = 5
+Velocity = 0.5
+MeleeDamage = 5
+Damage = 3
+SpriteWeightGame = 0.5 ; value in %
+SpriteHeightGame = 1.4
+traversable = false
+DetectBehaviourSound = Roar3.wav
+AttackSound = GunShot.wav
+DeathSound = Death4.wav
+FrozenOnAttack = true
+
+[WeaponFist]
+WeaponName = Fist
+Possess = true
+BaseAmmo = 1
+Order = 0
+StaticSprite = SpriteFS
+AttackSprite = SpriteFAA SpriteFAB SpriteFAC
+SpriteWeightGame = 0.5 0.5 0.5 0.5
+SpriteHeightGame = 0.6 0.6 0.6 0.5 
+AnimationLatency = 0.08
+MaxAmmo = 0
+Damage = 1
+AttackType = 0
+AnimationType = 1
+LastAnimNum = 1
+
+[WeaponGun]
+WeaponName = Gun
+Possess = true
+BaseAmmo = 20
+Order = 1
+StaticSprite = SpriteGSt
+AttackSprite = SpriteGSh SpriteGAA SpriteGAB
+SpriteWeightGame = 0.4 0.4 0.4 0.4
+SpriteHeightGame = 0.8 0.6 0.6 0.6
+AnimationLatency = 0.12
+MaxAmmo = 100
+AttackType = 1
+ShotImpactID = ImpactStd
+Damage = 1
+AnimationType = 0
+LastAnimNum = 1
+SoundEffect = GunShot.wav
+
+[WeaponShotgun]
+WeaponName = Shotgun
+Order = 2
+StaticSprite = SpriteSSt
+AttackSprite = SpriteSSh SpriteSRA SpriteSRB SpriteSRC
+SpriteWeightGame = 0.5 0.5 0.8 0.6 0.8
+SpriteHeightGame = 1.2 1.0 1.0 1.0 1.0
+AnimationLatency = 0.13
+MaxAmmo = 50
+Damage = 1
+AttackType = 1
+NumberOfShots = 5
+ShotImpactID = ImpactShotgun
+AnimationType = 1
+LastAnimNum = 2
+SoundEffect = ShotgunShot.wav
+ReloadSound = ShotgunReloadB.wav
+
+[WeaponPlasmaRifle]
+WeaponName = Pasma Rifle
+Order = 3
+StaticSprite = SpritePRS 
+AttackSprite = SpritePRAA SpritePRAB SpritePRR
+SpriteWeightGame = 0.5 0.5 0.5 0.5 
+SpriteHeightGame = 1.0 1.0 1.0 1.0 
+AnimationLatency = 0.1
+AttackType = 2
+ShootSpritesID = VisibleShootPlasma
+MaxAmmo = 100
+Damage = 3
+ShotVelocity = 7
+AnimationType = 0
+LastAnimNum = 1
+SoundEffect = LazerShot.wav
+
+[WeaponBazooka]
+WeaponName = Bazooka
+Order = 5
+BaseAmmo = 1
+StaticSprite = SpriteBSt 
+AttackSprite = SpriteBAA SpriteBAB SpriteBAC SpriteBAD
+SpriteWeightGame = 0.5 0.5 0.5 0.5 0.5 
+SpriteHeightGame = 0.5 0.65 0.7 0.75 0.75
+AnimationLatency = 0.12
+AttackType = 2
+ShootSpritesID = VisibleShootRocket
+MaxAmmo = 20
+Damage = 8
+ShotVelocity = 6
+DamageZoneRay = 530.0
+AnimationType = 0
+LastAnimNum = 1
+SoundEffect = ShootBazooka.wav
+
+[WeaponMachineGun]
+WeaponName = Machine Gun
+Order = 4
+BaseAmmo = 0
+StaticSprite = SpriteMGSt 
+AttackSprite = SpriteMGAA SpriteMGAB
+SpriteWeightGame = 0.5 0.5 0.5
+SpriteHeightGame = 0.5 0.65 0.65
+AnimationLatency = 0.08
+ShotImpactID = ImpactStd
+AttackType = 1
+MaxAmmo = 100
+LastAnimNum = 2
+Damage = 2
+AnimationType = 2
+SoundEffect = MachineGunShoot.wav
+
+[ImpactShotgun]
+SpritesStd = SpriteShotImpactA SpriteShotImpactB
+SpriteTouched = SpriteShotImpactTouched
+SpriteWeightGame = 0.15
+SpriteHeightGame = 0.2
+
+[ImpactStd]
+SpritesStd = SpriteShotImpactA SpriteShotImpactB
+SpriteTouched = SpriteShotImpactTouched
+SpriteWeightGame = 0.1
+SpriteHeightGame = 0.15
+
+[VisibleShootDemonA]
+Sprites = SpriteShotA SpriteShotDestructA SpriteShotDestructB SpriteShotDestructC
+SpriteWeightGame = 0.2 0.5 0.8 0.6
+SpriteHeightGame = 0.5 1.0 1.0 1.0
+ImpactSound = DemonAttackImpactB.wav
+
+[VisibleShootDemonB]
+Sprites = SpriteShotB SpriteShotDestructA SpriteShotDestructB SpriteShotDestructC
+SpriteWeightGame = 0.2 0.5 0.8 0.6
+SpriteHeightGame = 0.5 1.0 1.0 1.0
+ImpactSound = ImpactLaser.wav
+
+[VisibleShootDemonC]
+Sprites = SpriteShotC SpriteShotDestructA SpriteShotDestructB SpriteShotDestructC
+SpriteWeightGame = 0.2 0.5 0.8 0.6
+SpriteHeightGame = 0.5 1.0 1.0 1.0
+ImpactSound = DemonAttackImpact.wav
+
+[VisibleShootDemonD]
+Sprites = SpriteShotD SpriteShotDestructA SpriteShotDestructB SpriteShotDestructC
+SpriteWeightGame = 0.2 0.5 0.8 0.6
+SpriteHeightGame = 0.5 1.0 1.0 1.0
+ImpactSound = DemonAttackImpact.wav
+
+[VisibleShootPlasma]
+Sprites = SpritePlayerShot SpriteShotDestructA SpriteShotDestructB SpriteShotDestructC
+SpriteWeightGame = 0.2 0.5 0.6 0.7
+SpriteHeightGame = 0.3 0.5 0.7 0.9
+ImpactSound = ImpactLaser.wav
+
+[VisibleShootRocket]
+Sprites = SpriteBazookaShot SpriteBazookaShotDA  SpriteBazookaShotDB  SpriteBazookaShotDC  
+SpriteWeightGame = 0.1 0.6 0.7 0.8
+SpriteHeightGame = 0.15 0.7 1.0 1.1
+ImpactSound = BazookaExplosion.wav
+
+[ObjectGunAmmo]
+Sprite = SpriteItemGunAmmo
+SpriteWeightGame = 0.2 ; value in %
+SpriteHeightGame = 0.5
+Type = 1
+WeaponID = WeaponGun
+Containing = 5
+
+[ObjectBazookaAmmo]
+Sprite = SpriteItemBazookaAmmo
+SpriteWeightGame = 0.2 ; value in %
+SpriteHeightGame = 0.5
+Type = 1
+WeaponID = WeaponBazooka
+Containing = 1
+
+[ObjectBazooka]
+Sprite = SpriteItemBazooka
+SpriteWeightGame = 0.4 ; value in %
+SpriteHeightGame = 0.4
+Type = 0
+WeaponID = WeaponBazooka
+Containing = 1
+
+[ObjectMachineGunAmmo]
+Sprite = SpriteItemMachineGunAmmo
+SpriteWeightGame = 0.2 ; value in %
+SpriteHeightGame = 0.5
+Type = 1
+WeaponID = WeaponMachineGun
+Containing = 20
+
+[ObjectMachineGun]
+Sprite = SpriteItemMachineGun
+SpriteWeightGame = 0.4 ; value in %
+SpriteHeightGame = 0.4
+Type = 0
+WeaponID = WeaponMachineGun
+Containing = 1
+
+[ObjectShotgunAmmo]
+Sprite = SpriteItemShotgunAmmo
+SpriteWeightGame = 0.2 ; value in %
+SpriteHeightGame = 0.5
+Type = 1
+WeaponID = WeaponShotgun
+Containing = 10
+
+[ObjectShotgun]
+Sprite = SpriteSO
+SpriteWeightGame = 0.4 ; value in %
+SpriteHeightGame = 0.5
+Type = 0
+WeaponID = WeaponShotgun
+Containing = 5
+
+[ObjectPlasmaRifle]
+Sprite = SpritePRO
+SpriteWeightGame = 0.4 ; value in %
+SpriteHeightGame = 0.5
+Type = 0
+WeaponID = WeaponPlasmaRifle
+Containing = 5
+
+[ObjectPlasmaRifleAmmo]
+Sprite = SpritePRAm
+SpriteWeightGame = 0.2 ; value in %
+SpriteHeightGame = 0.4
+Type = 1
+WeaponID = WeaponPlasmaRifle
+Containing = 20
+
+[ObjectLittleHeal]
+Sprite = SpriteItemHeal
+SpriteWeightGame = 0.2 ; value in %
+SpriteHeightGame = 0.5
+Type = 2
+Containing = 10
+
+[ObjectPurpleCard]
+CardName = Purple Card
+Sprite = SpriteSimetraCardPurple
+SpriteWeightGame = 0.1365
+SpriteHeightGame = 0.4665
+Type = 3
+CardID = 0
+
+[ObjectBlueCard]
+CardName = Blue Card
+Sprite = SpriteSimetraCardBlue
+SpriteWeightGame = 0.1365
+SpriteHeightGame = 0.4665
+Type = 3
+CardID = 1
+
+[ObjectGreenCard]
+CardName = Green Card
+Sprite = SpriteSimetraCardGreen
+SpriteWeightGame = 0.1365
+SpriteHeightGame = 0.4665
+Type = 3
+CardID = 2
+
+[ObjectGoldCard]
+CardName = Gold Card
+Sprite = SpriteSimetraCardGold
+SpriteWeightGame = 0.1365
+SpriteHeightGame = 0.4665
+Type = 3
+CardID = 3
+
+[GroundLittleStorage]
+Sprite = SpriteLittleStorage
+SpriteWeightGame = 0.4
+SpriteHeightGame = 0.8
+traversable = false
+
+[GroundTable]
+Sprite = SpriteTable
+SpriteWeightGame = 0.5
+SpriteHeightGame = 0.8
+traversable = false
+
+[GroundChair]
+Sprite = SpriteChair
+SpriteWeightGame = 0.4
+SpriteHeightGame = 0.9
+traversable = false
+
+[GroundStorage]
+Sprite = SpriteLittleStorage
+SpriteWeightGame = 0.4
+SpriteHeightGame = 1.2
+traversable = false
+
+[GroundGigerA]
+Sprite = SpriteGigerGroundA
+SpriteWeightGame = 0.8
+SpriteHeightGame = 0.5
+traversable = false
+
+[GroundGigerB]
+Sprite = SpriteGigerGroundB
+SpriteWeightGame = 0.8
+SpriteHeightGame = 0.5
+traversable = false
+
+[GroundGigerC]
+Sprite = SpriteGigerGroundC
+SpriteWeightGame = 0.54
+SpriteHeightGame = 0.85
+traversable = false
+
+[CeilingGigerA]
+Sprite = SpriteGigerCeilingA
+SpriteWeightGame = 0.62
+SpriteHeightGame = 0.92
+traversable = false
+
+[CeilingGigerB]
+Sprite = SpriteGigerCeilingB
+SpriteWeightGame = 0.38
+SpriteHeightGame = 0.61
+traversable = false
+
+[CeilingGigerC]
+Sprite = SpriteGigerCeilingC
+SpriteWeightGame = 0.85
+SpriteHeightGame = 0.53
+traversable = false
+
+[CeilingGigerD]
+Sprite = SpriteGigerCeilingD
+SpriteWeightGame = 0.38
+SpriteHeightGame = 1.32
+traversable = false
+
+[GroundTreeA]
+Sprite = SpriteTreeA
+SpriteWeightGame = 1.0
+SpriteHeightGame = 2.02
+traversable = false
+
+[GroundTreeB]
+Sprite = SpriteTreeB
+SpriteWeightGame = 1.02
+SpriteHeightGame = 2.0
+traversable = false
+
+[GroundTreeC]
+Sprite = SpriteTreeC
+SpriteWeightGame = 0.9
+SpriteHeightGame = 2.2
+traversable = false
+
+[GroundTreeD]
+Sprite = SpriteTreeD
+SpriteWeightGame = 0.7
+SpriteHeightGame = 2.1
+traversable = false
+
+[GroundTreeE]
+Sprite = SpriteTreeE
+SpriteWeightGame = 1.2
+SpriteHeightGame = 2.0
+traversable = false
+
+[GroundTreeF]
+Sprite = SpriteTreeF
+SpriteWeightGame = 0.8
+SpriteHeightGame = 2.2
+traversable = false
+
+[GroundTreeG]
+Sprite = SpriteTreeG
+SpriteWeightGame = 0.7
+SpriteHeightGame = 2.2
+traversable = false
+
+[GroundTreeH]
+Sprite = SpriteTreeB
+SpriteWeightGame = 1.2
+SpriteHeightGame = 2.0
+traversable = true
+
+
+[TeleportInvisible]
+Sprite = SpriteInvisibleTeleport
+SpriteWeightGame = 0.0
+SpriteHeightGame = 0.0
+traversable = true
+
+[Teleport]
+Sprite = SpriteGigerTeleport
+SpriteWeightGame = 0.7
+SpriteHeightGame = 0.46
+traversable = true
+
+[Barrel]
+ExplosionSound = ExplosionBarrel.wav
+StaticSprite = SpriteBarrelsSA SpriteBarrelsSB
+StaticSpriteWeightGame = 0.3
+StaticSpriteHeightGame = 1.0
+ExplosionSprite = SpriteBarrelsDA SpriteBarrelsDB SpriteBarrelsDC
+ExplosionSpriteWeightGame = 0.5 0.6 0.7
+ExplosionSpriteHeightGame = 1.1 1.2 1.3 
+
+[CeilingPanel]
+Sprite = SpriteExit
+SpriteWeightGame = 0.3
+SpriteHeightGame = 0.2
+traversable = false
+
+[Exit]
+Sprite = SpriteExitSwitch 
+SpriteWeightGame = 0.4
+SpriteHeightGame = 0.8
