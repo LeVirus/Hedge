@@ -236,6 +236,10 @@ public:
     {
         return m_enemyData;
     }
+    inline const PlayerData &getPlayerData()const
+    {
+        return m_playerData;
+    }
     inline const std::vector<SpriteData> &getPictureSpriteData()const
     {
         return m_pictureData.getSpriteData();
@@ -367,6 +371,7 @@ private:
     void loadTriggerLevelData(const std::string &sectionName);
     void loadDoorData();
     void loadPositionDoorData();
+    void loadPlayerDate();
     void loadEnemyData();
     //return true if one enemy is end level
     bool loadPositionEnemyData();
@@ -378,6 +383,7 @@ private:
     PairStrPairFloat_t loadPreviewWeaponData(const std::string &iniObject);
     void loadEnemySprites(const std::string &sectionName,
                           EnemySpriteElementType_e spriteTypeEnum, EnemyData &enemyData);
+    void loadPlayerSprites(const std::string &sectionName, PlayerSpriteElementType_e spriteTypeEnum);
     void deleteWall(const PairUI_t &coord);
     bool loadPositionExit();
     std::vector<uint16_t> getVectSpriteNum(const std::string_view section, const std::string_view param);
@@ -406,6 +412,7 @@ private:
     BarrelData m_barrelElement;
     std::map<std::string, DoorData> m_doorData;
     std::map<std::string, EnemyData> m_enemyData;
+    PlayerData m_playerData;
     std::map<std::string, MemSpriteData> m_triggerDisplayData;
     std::vector<MemSpriteData> m_displayTeleportData;
     std::vector<PairUI_t> m_secretsPos;

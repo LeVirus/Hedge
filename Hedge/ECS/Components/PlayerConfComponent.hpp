@@ -81,27 +81,27 @@ struct PlayerConfComponent : public ECS::Component
     virtual ~PlayerConfComponent() = default;
 };
 
-struct PlayerData
-{
+// struct PlayerData
+// {
 
-    //after dying animation the ennemy is represented by the last sprite
-    //contained in m_dyingSprites
-    std::vector<uint16_t> m_staticSprites, m_runLeftSprites, m_runRightSprites,
-        m_runShootLeftSprites, m_runShootRightSprites, m_runShootUpRightSprites, m_runShootDownRightSprites, m_runShootUpLeftSprites, m_runShootDownLeftSprites, m_runShootUpSprites,
-        m_shootLeftSprites, m_shootRightSprites, m_shootUpRightSprites, m_shootDownRightSprites, m_shootUpLeftSprites, m_shootDownLeftSprites, m_shootUpSprites,
-        m_jumpSprites, m_jumpShootLeftSprites, m_jumpShootRightSprites, m_jumpShootUpRightSprites, m_jumpShootDownRightSprites, m_jumpShootUpLeftSprites, m_jumpShootDownLeftSprites,
-        m_jumpShootUpSprites, m_jumpShootDownSprites, m_crouchLeftSprites, m_crouchRightSprites;
+//     //after dying animation the ennemy is represented by the last sprite
+//     //contained in m_dyingSprites
+//     std::vector<uint16_t> m_staticSprites, m_runLeftSprites, m_runRightSprites,
+//         m_runShootLeftSprites, m_runShootRightSprites, m_runShootUpRightSprites, m_runShootDownRightSprites, m_runShootUpLeftSprites, m_runShootDownLeftSprites, m_runShootUpSprites,
+//         m_shootLeftSprites, m_shootRightSprites, m_shootUpRightSprites, m_shootDownRightSprites, m_shootUpLeftSprites, m_shootDownLeftSprites, m_shootUpSprites,
+//         m_jumpSprites, m_jumpShootLeftSprites, m_jumpShootRightSprites, m_jumpShootUpRightSprites, m_jumpShootDownRightSprites, m_jumpShootUpLeftSprites, m_jumpShootDownLeftSprites,
+//         m_jumpShootUpSprites, m_jumpShootDownSprites, m_crouchLeftSprites, m_crouchRightSprites;
 
-    //In Game sprite size in % relative to a tile
-    PairDouble_t m_inGameSpriteSize;
-    std::pair<uint32_t, uint32_t> m_TileGamePosition;
-    std::string m_visibleShootID, m_impactID, m_dropedObjectID;
-    std::string m_detectBehaviourSoundFile, m_attackSoundFile, m_deathSoundFile;
-    uint32_t m_attackPower, m_life;
-    std::optional<uint32_t> m_meleeDamage, m_simultaneousShot;
-    bool m_frozenOnAttack;
-    std::optional<PairUI_t> m_endLevelPos;
-    std::optional<float> m_damageZone;
-    float m_velocity, m_shotVelocity;
-    bool m_traversable, m_meleeOnly;
-};
+//     //In Game sprite size in % relative to a tile
+//     PairDouble_t m_inGameSpriteSize;
+//     std::pair<uint32_t, uint32_t> m_TileGamePosition;
+//     std::string m_visibleShootID, m_impactID, m_dropedObjectID;
+//     std::string m_detectBehaviourSoundFile, m_attackSoundFile, m_deathSoundFile;
+//     uint32_t m_attackPower, m_life;
+//     std::optional<uint32_t> m_meleeDamage, m_simultaneousShot;
+//     bool m_frozenOnAttack;
+//     std::optional<PairUI_t> m_endLevelPos;
+//     std::optional<float> m_damageZone;
+//     float m_velocity, m_shotVelocity;
+//     bool m_traversable, m_meleeOnly;
+// };

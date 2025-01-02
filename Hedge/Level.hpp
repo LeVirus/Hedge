@@ -67,6 +67,24 @@ struct ElementRaycast
     SpriteTextureComponent const *m_spriteComp;
 };
 
+struct PlayerData
+{
+    std::vector<uint16_t> m_runRightSprites, m_runLeftSprites, m_shootUpLookRightSprites,
+        m_shootUpLookLeftSprites, m_shootRightSprites, m_shootLeftSprites,
+        m_stayRightSprites, m_stayLeftSprites, m_jumpRightSprites, m_jumpLeftSprites, m_damageRightSprites, m_damageLeftSprites;
+
+    //In Game sprite size in % relative to a tile
+    PairDouble_t m_inGameSpriteSize;
+    PairUI_t m_TileGamePosition;
+    std::string m_visibleShootID, m_impactID;
+    std::string m_attackSoundFile, m_deathSoundFile;
+    uint32_t m_attackPower, m_life;
+    std::optional<uint32_t> m_meleeDamage, m_simultaneousShot;
+    bool m_frozenOnAttack;
+    std::optional<float> m_damageZone;
+    float m_velocity, m_shotVelocity;
+};
+
 struct EnemyData
 {
     //m_staticSprites represent the motionless enemy

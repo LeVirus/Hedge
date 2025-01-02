@@ -1280,6 +1280,55 @@ void LevelManager::loadPositionDoorData()
 }
 
 //===================================================================
+void LevelManager::loadPlayerDate()
+{
+    std::vector<std::string> vectINISections;
+    vectINISections = m_ini.getSectionNamesContaining("Player");
+    assert(vectINISections.size() == 1);
+
+    std::string str;
+    std::optional<std::string> val;
+    val = m_ini.getValue(vectINISections[0], "SpriteWeightGame");
+    assert(val);
+    m_playerData.m_inGameSpriteSize.first = std::stof(*val);
+    val = m_ini.getValue(vectINISections[0], "SpriteHeightGame");
+    assert(val);
+    m_playerData.m_attackPower = std::stoi(*val);
+    val = m_ini.getValue(vectINISections[0], "Life");
+    assert(val);
+    m_playerData.m_life = std::stoi(*val);
+    val = m_ini.getValue(vectINISections[0], "Velocity");
+    assert(val);
+    m_playerData.m_velocity = std::stof(*val);
+    val = m_ini.getValue(vectINISections[0], "MeleeDamage");
+    if(val)
+    {
+        m_playerData.m_meleeDamage = std::stoi(*val);
+    }
+    val = m_ini.getValue(vectINISections[0], "DeathSound");
+    assert(val);
+    m_playerData.m_deathSoundFile = *val;
+
+    val = m_ini.getValue(vectINISections[0], "FrozenOnAttack");
+    assert(val);
+    std::optional<bool> resBool = toBool(*val);
+    assert(resBool);
+    m_playerData.m_frozenOnAttack = *resBool;
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_UP_LOOK_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::STAY_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::DAMAGE_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_UP_LOOK_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::STAY_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::DAMAGE_LEFT);
+}
+
+//===================================================================
 void LevelManager::loadEnemyData()
 {
     std::vector<std::string> vectINISections;
@@ -1382,7 +1431,6 @@ void LevelManager::loadEnemyData()
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::ATTACK, m_enemyData[vectINISections[i]]);
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::DYING, m_enemyData[vectINISections[i]]);
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::TOUCHED, m_enemyData[vectINISections[i]]);
-
     }
 }
 
@@ -1670,6 +1718,79 @@ void LevelManager::loadEnemySprites(const std::string &sectionName,
 }
 
 //======================================================
+void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSpriteElementType_e spriteTypeEnum)
+{
+    std::vector<uint16_t> *vectPtr = nullptr;
+    std::string spriteType;
+    switch(spriteTypeEnum)
+    {
+    case PlayerSpriteElementType_e::RUN_RIGHT:
+        spriteType = "RunRight";
+        vectPtr = &m_playerData.m_runRightSprites;
+        break;
+    case PlayerSpriteElementType_e::SHOOT_UP_LOOK_RIGHT:
+        spriteType = "ShootUpRight";
+        vectPtr = &m_playerData.m_shootUpLookRightSprites;
+        break;
+    case PlayerSpriteElementType_e::SHOOT_RIGHT:
+        spriteType = "ShootRight";
+        vectPtr = &m_playerData.m_shootRightSprites;
+        break;
+    case PlayerSpriteElementType_e::STAY_RIGHT:
+        spriteType = "StayRight";
+        vectPtr = &m_playerData.m_stayRightSprites;
+        break;
+    case PlayerSpriteElementType_e::JUMP_RIGHT:
+        spriteType = "JumpRight";
+        vectPtr = &m_playerData.m_jumpRightSprites;
+        break;
+    case PlayerSpriteElementType_e::DAMAGE_RIGHT:
+        spriteType = "DamageRight";
+        vectPtr = &m_playerData.m_damageRightSprites;
+        break;
+    case PlayerSpriteElementType_e::RUN_LEFT:
+        spriteType = "RunLeft";
+        vectPtr = &m_playerData.m_runLeftSprites;
+        break;
+    case PlayerSpriteElementType_e::SHOOT_UP_LOOK_LEFT:
+        spriteType = "ShootUpLeft";
+        vectPtr = &m_playerData.m_shootUpLookLeftSprites;
+        break;
+    case PlayerSpriteElementType_e::SHOOT_LEFT:
+        spriteType = "ShootLeft";
+        vectPtr = &m_playerData.m_shootLeftSprites;
+        break;
+    case PlayerSpriteElementType_e::STAY_LEFT:
+        spriteType = "StayLeft";
+        vectPtr = &m_playerData.m_stayLeftSprites;
+        break;
+    case PlayerSpriteElementType_e::JUMP_LEFT:
+        spriteType = "JumpLeft";
+        vectPtr = &m_playerData.m_jumpLeftSprites;
+        break;
+    case PlayerSpriteElementType_e::DAMAGE_LEFT:
+        spriteType = "DamageLeft";
+        vectPtr = &m_playerData.m_damageLeftSprites;
+        break;
+    }
+    assert(vectPtr);
+    std::optional<std::string> val = m_ini.getValue(sectionName, spriteType);
+    assert(val);
+    std::string sprites = *val;
+    assert((!sprites.empty()) && "Player sprites cannot be loaded.");
+    std::istringstream iss(sprites);
+    vectStr_t results(std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>());
+    vectPtr->reserve(results.size());
+    std::optional<uint16_t> optIdentifier;
+    for(uint32_t i = 0; i < results.size(); ++i)
+    {
+        optIdentifier = m_pictureData.getIdentifier(results[i]);
+        assert(optIdentifier);
+        vectPtr->emplace_back(*optIdentifier);
+    }
+}
+
+//======================================================
 std::vector<uint32_t> convertStrToVectUI(const std::string &str)
 {
     std::istringstream iss(str);
@@ -1735,6 +1856,7 @@ void LevelManager::loadStandardData(const std::string &INIFileName)
     loadDoorData();
     loadVisibleShotDisplayData();
     loadShotImpactDisplayData();
+    loadPlayerDate();
     loadEnemyData();
     loadUtilsData();
     m_weaponINIAssociated.clear();

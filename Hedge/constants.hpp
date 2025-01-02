@@ -266,6 +266,22 @@ enum class EnemySpriteElementType_e
     TOUCHED
 };
 
+enum class PlayerSpriteElementType_e
+{
+    RUN_RIGHT,
+    SHOOT_UP_LOOK_RIGHT,
+    SHOOT_RIGHT,
+    STAY_RIGHT,
+    JUMP_RIGHT,
+    DAMAGE_RIGHT,
+    RUN_LEFT,
+    SHOOT_UP_LOOK_LEFT,
+    SHOOT_LEFT,
+    STAY_LEFT,
+    JUMP_LEFT,
+    DAMAGE_LEFT
+};
+
 enum class EnemySpriteType_e
 {
     STATIC_FRONT,
