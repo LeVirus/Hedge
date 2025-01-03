@@ -266,21 +266,6 @@ enum class EnemySpriteElementType_e
     TOUCHED
 };
 
-enum class PlayerSpriteElementType_e
-{
-    RUN_RIGHT,
-    SHOOT_UP_LOOK_RIGHT,
-    SHOOT_RIGHT,
-    STAY_RIGHT,
-    JUMP_RIGHT,
-    DAMAGE_RIGHT,
-    RUN_LEFT,
-    SHOOT_UP_LOOK_LEFT,
-    SHOOT_LEFT,
-    STAY_LEFT,
-    JUMP_LEFT,
-    DAMAGE_LEFT
-};
 
 enum class EnemySpriteType_e
 {
@@ -298,37 +283,20 @@ enum class EnemySpriteType_e
     TOTAL_SPRITE
 };
 
-enum class PlayerSpriteType_e
+enum class PlayerSpriteElementType_e
 {
-    STATIC = 0,
-    RUN_LEFT,
     RUN_RIGHT,
-    RUN_SHOOT_LEFT,
-    RUN_SHOOT_RIGHT,
-    RUN_SHOOT_UP_RIGHT,
-    RUN_SHOOT_DOWN_RIGHT,
-    RUN_SHOOT_UP_LEFT,
-    RUN_SHOOT_DOWN_LEFT,
-    RUN_SHOOT_UP,
+    SHOOT_UP_LOOK_RIGHT,
     SHOOT_RIGHT,
-    SHOOT_UP_RIGHT,
-    SHOOT_DOWN_RIGHT,
+    STAY_RIGHT,
+    JUMP_RIGHT,
+    DAMAGE_RIGHT,
+    RUN_LEFT,
+    SHOOT_UP_LOOK_LEFT,
     SHOOT_LEFT,
-    SHOOT_UP_LEFT,
-    SHOOT_DOWN_LEFT,
-    SHOOT_UP,
-    TAKE_DAMAGE,
-    JUMP_SHOOT_RIGHT,
-    JUMP_SHOOT_UP_RIGHT,
-    JUMP_SHOOT_DOWN_RIGHT,
-    JUMP_SHOOT_LEFT,
-    JUMP_SHOOT_UP_LEFT,
-    JUMP_SHOOT_DOWN_LEFT,
-    JUMP_SHOOT_UP,
-    JUMP_SHOOT_DOWN,
-    JUMP,
-    CROUCH_LEFT,
-    CROUCH_RIGHT
+    STAY_LEFT,
+    JUMP_LEFT,
+    DAMAGE_LEFT
 };
 
 enum class WallSpriteType_e
@@ -485,9 +453,14 @@ inline const float TOTAL_DISTANCE_FOG = MAX_DISTANCE_VIEW - MIN_DISTANCE_FOG - L
 inline const float SCREEN_VERT_BACKGROUND_GL_STEP = 1.0f / RAYCAST_GROUND_CEILING_NUMBER;
 inline const float SCREEN_HORIZ_BACKGROUND_GL_STEP = 2.0f / RAYCAST_LINE_NUMBER;
 inline const double WRITE_LETTER_GL_OFFSET = 0.01;
-inline const std::string RESSOURCES_DIR_STR = std::string(getenv("HOME")) + "/.local/share/Arnihs/";
-inline const std::string SHADER_DIR_STR = RESSOURCES_DIR_STR + "Shader/";
-inline const std::string TEXTURES_DIR_STR = RESSOURCES_DIR_STR + "Textures/";
+
+inline const std::string RESSOURCES_DIR_STR = "../../Hedge/Ressources/";
+inline const std::string SHADER_DIR_STR = "../../Hedge/Ressources/Shader/";
+inline const std::string TEXTURES_DIR_STR = "../../Hedge/Ressources/Textures/";
+// inline const std::string RESSOURCES_DIR_STR = std::string(getenv("HOME")) + "/.local/share/Arnihs/";
+// inline const std::string SHADER_DIR_STR = RESSOURCES_DIR_STR + "Shader/";
+// inline const std::string TEXTURES_DIR_STR = RESSOURCES_DIR_STR + "Textures/";
+
 inline const std::map<MenuMode_e, PairPairFloatStr_t> MAP_MENU_DATA =
 {
     {MenuMode_e::TITLE,

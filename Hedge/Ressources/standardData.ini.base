@@ -136,7 +136,7 @@ Sprite = SpriteTriggerA
 SpriteWeightGame = 0.4
 SpriteHeightGame = 0.8
 
-[Player]
+[PlayerAAAA]
 RunRight = SpritePlayerRunRightA SpritePlayerRunRightB SpritePlayerRunRightC SpritePlayerRunRightD SpritePlayerRunRightE SpritePlayerRunRightF SpritePlayerRunRightG SpritePlayerRunRightH SpritePlayerRunRightI SpritePlayerRunRightJ
 RunLeft = SpritePlayerRunLeftA SpritePlayerRunLeftB SpritePlayerRunLeftC SpritePlayerRunLeftD SpritePlayerRunLeftE SpritePlayerRunLeftF SpritePlayerRunLeftG SpritePlayerRunLeftH SpritePlayerRunLeftI SpritePlayerRunLeftJ
 ShootUpRight = SpritePlayerShootUpLookRight

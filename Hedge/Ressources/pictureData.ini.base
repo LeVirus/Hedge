@@ -2844,53 +2844,53 @@ textureHeight = 0,0641
 ###########################################################JUMP
 #XX 30
 #YY 195-156 = 39
-#28
+#28 28
 [SpritePlayerJumpRightA]
 texture = 22
-texturePosX = 
+texturePosX = 0,037641154328
 texturePosY = 0,195734002509
-textureWeight = 0,0376411543287
-textureHeight = 0,0610328638498
+textureWeight = 0.06 #0,0376411543287
+textureHeight = 0.09  #0,0610328638498
 
 #103
 [SpritePlayerJumpRightB]
 texture = 22
-texturePosX = 0,129234629862
-texturePosY = 0,195734002509
-textureWeight = 0,0376411543287
-textureHeight = 0,0610328638498
+texturePosX = 0,1292
+texturePosY = 0,1957
+textureWeight = 0,0976
+textureHeight = 0,0910
 
 #185
 [SpritePlayerJumpRightC]
 texture = 22
 texturePosX = 0,232120451694
 texturePosY = 0,195734002509
-textureWeight = 0,0376411543287
-textureHeight = 0,0610328638498
+textureWeight = 0,0676411543287
+textureHeight = 0,0910328638498
 
 #263
 [SpritePlayerJumpRightD]
 texture = 22
 texturePosX = 0,329987452948
 texturePosY = 0,195734002509
-textureWeight = 0,0376411543287
-textureHeight = 0,0610328638498
+textureWeight = 0,0676411543287
+textureHeight = 0,0910328638498
 
 #346
 [SpritePlayerJumpRightE]
 texture = 22
 texturePosX = 0,434127979925
 texturePosY = 0,195734002509
-textureWeight = 0,0376411543287
-textureHeight = 0,0610328638498
+textureWeight = 0,0676411543287
+textureHeight = 0,0910328638498
 
 #428
 [SpritePlayerJumpRightF]
 texture = 22
 texturePosX = 0,537013801757
 texturePosY = 0,195734002509
-textureWeight = 0,0376411543287
-textureHeight = 0,0610328638498
+textureWeight = 0,0676411543287
+textureHeight = 0,0910328638498
 
 
 #XX 671 - 7 = 30

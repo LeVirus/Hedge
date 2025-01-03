@@ -5,7 +5,7 @@
 #include <array>
 #include <set>
 
-using MapPlayerSprite_t = std::map<PlayerSpriteType_e, PairUI_t>;
+using MapPlayerSprite_t = std::map<PlayerSpriteElementType_e, PairUI_t>;
 
 enum class MapMode_e
 {
@@ -75,7 +75,7 @@ struct PlayerConfComponent : public ECS::Component
     MapMode_e m_mapMode = MapMode_e::NONE;
     MoveOrientation_e m_previousMove = MoveOrientation_e::FORWARD;
     MapPlayerSprite_t m_mapSpriteAssociate;
-    PlayerSpriteType_e m_spriteType = PlayerSpriteType_e::STATIC;
+    PlayerSpriteElementType_e m_spriteType = PlayerSpriteElementType_e::STAY_RIGHT;
     bool m_currentDirectionRight = true;
     std::array<bool, static_cast<uint32_t>(PlayerAimDirection_e::TOTAL)> m_currentAim;
     virtual ~PlayerConfComponent() = default;

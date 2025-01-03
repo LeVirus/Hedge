@@ -46,8 +46,8 @@ int main(int argc, char *argv[])
 		//std::ifstream inStream("./fontStandard.ini.base");
 		//std::cout << "./" + path + "/level.ini.dd \n";
 		//std::ifstream inStream("./" + path + "/level.ini.dec");
-//		std::ifstream inStream("./standardData.ini.base");
-		std::ifstream inStream("./pictureData.ini.base");
+		std::ifstream inStream("./standardData.ini");
+//		std::ifstream inStream("./pictureData.ini.base");
 		if(inStream.fail())
 		{
 				std::cout << "Fail\n";
@@ -57,13 +57,13 @@ int main(int argc, char *argv[])
 		std::ostringstream ostringStream;
 		ostringStream << inStream.rdbuf();
 		inStream.close();
-		std::string dataString = encrypt(ostringStream.str(), KEY);
+		std::string dataString = decrypt(ostringStream.str(), KEY);
 
 		//std::ofstream outStream("./fontData.ini");
 		//std::ofstream outStream("./CustomLevels/FabbDec");
 		//std::ofstream outStream("./" + path + "/level.ini");
-//		std::ofstream outStream("./standardData.ini");
-		std::ofstream outStream("./pictureData.ini");
+		std::ofstream outStream("./standardData.ini.base");
+	//	std::ofstream outStream("./pictureData.ini");
 		outStream << dataString;
 		outStream.close();
 		std::cout << "OK\n";

@@ -1285,7 +1285,6 @@ void LevelManager::loadPlayerDate()
     std::vector<std::string> vectINISections;
     vectINISections = m_ini.getSectionNamesContaining("Player");
     assert(vectINISections.size() == 1);
-
     std::string str;
     std::optional<std::string> val;
     val = m_ini.getValue(vectINISections[0], "SpriteWeightGame");
@@ -1305,9 +1304,6 @@ void LevelManager::loadPlayerDate()
     {
         m_playerData.m_meleeDamage = std::stoi(*val);
     }
-    val = m_ini.getValue(vectINISections[0], "DeathSound");
-    assert(val);
-    m_playerData.m_deathSoundFile = *val;
 
     val = m_ini.getValue(vectINISections[0], "FrozenOnAttack");
     assert(val);

@@ -161,7 +161,14 @@ void InputSystem::treatPlayerInput()
         assert(gravityComp);
         if(!gravityComp->m_memOnGround)
         {
-            playerComp->m_spriteType = PlayerSpriteType_e::JUMP;
+            if(playerComp->m_currentDirectionRight)
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_RIGHT;
+            }
+            else
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
+            }
         }
         if(checkPlayerKeyTriggered(ControlKey_e::JUMP))
         {
@@ -170,7 +177,14 @@ void InputSystem::treatPlayerInput()
                 gravityComp->m_jump = true;
                 gravityComp->m_onGround = false;
                 gravityComp->m_memOnGround = false;
-                playerComp->m_spriteType = PlayerSpriteType_e::JUMP;
+                if(playerComp->m_currentDirectionRight)
+                {
+                    playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_RIGHT;
+                }
+                else
+                {
+                    playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
+                }
                 //reinit sprite
                 playerComp->m_currentSprite = 0;
             }
@@ -231,21 +245,28 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
     playerComp.m_currentAim.fill(false);
     if(checkPlayerKeyTriggered(ControlKey_e::TURN_RIGHT))
     {
-        playerComp.m_spriteType = PlayerSpriteType_e::RUN_RIGHT;
+        playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_RIGHT;
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
         mapComp.m_absoluteMapPositionPX.first += moveComp.m_velocity;
         playerComp.m_currentDirectionRight = true;
     }
     else if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT))
     {
-        playerComp.m_spriteType = PlayerSpriteType_e::RUN_LEFT;
+        playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_LEFT;
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
         mapComp.m_absoluteMapPositionPX.first -= moveComp.m_velocity;
         playerComp.m_currentDirectionRight = false;
     }
     else
     {
-        playerComp.m_spriteType = PlayerSpriteType_e::STATIC;
+        if(playerComp.m_currentDirectionRight)
+        {
+            playerComp.m_spriteType = PlayerSpriteElementType_e::STAY_RIGHT;
+        }
+        else
+        {
+            playerComp.m_spriteType = PlayerSpriteElementType_e::STAY_LEFT;
+        }
     }
     //TMP LOOK UP
     if(checkPlayerKeyTriggered(ControlKey_e::MOVE_FORWARD))
@@ -269,13 +290,13 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         if(playerComp.m_currentDirectionRight)
         {
             playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
-            playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_UP_RIGHT;
-        }
+            //OOOK TMP
+            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;        }
         else
         {
             playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
-            playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_UP_LEFT;
-        }
+            //OOOK TMP
+            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_LEFT;        }
     }
     //TMP LOOK MID DOWN
     else if(checkPlayerKeyTriggered(ControlKey_e::STRAFE_RIGHT))
@@ -284,12 +305,14 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         if(playerComp.m_currentDirectionRight)
         {
             playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
-            playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_DOWN_RIGHT;
+            //OOOK TMP
+            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;
         }
         else
         {
             playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
-            playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_DOWN_LEFT;
+            //OOOK TMP
+            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_LEFT;
         }
     }
 }
@@ -300,15 +323,23 @@ void InputSystem::treatDiagUpAim(PlayerConfComponent &playerComp)
     playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::UP)] = true;
     if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)])
     {
-        playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_UP_RIGHT;
+        //OOOOK TMP
+        playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;
     }
     else if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)])
     {
-        playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_UP_LEFT;
+        playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_LEFT;
     }
     else
     {
-        playerComp.m_spriteType = PlayerSpriteType_e::SHOOT_UP;
+        if(playerComp.m_currentDirectionRight)
+        {
+            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_UP_LOOK_RIGHT;
+        }
+        else
+        {
+            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_UP_LOOK_LEFT;
+        }
     }
 }
 
