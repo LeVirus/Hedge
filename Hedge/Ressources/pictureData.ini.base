@@ -2535,449 +2535,507 @@ texturePosY = 0.72972
 textureWeight = 0.07522
 textureHeight = 0.10395
 
-
-#XX 33
-#YY UP 25     37
-#28 29  50 64
 [SpritePlayerRunRightA]
 texture = 22
-texturePosX = 0,04140
-texturePosY = 0,03912
-textureWeight = 0,0414
-textureHeight = 0,0579
+texturePosX = 0.0200753
+texturePosY = 0.0422535
+textureWeight = 0.0476788
+textureHeight = 0.057903
 
-#104 27 132 64
 [SpritePlayerRunRightB]
 texture = 22
-texturePosX = 0,13048
-texturePosY = 0,03912
-textureWeight = 0,0414
-textureHeight = 0,0579
+texturePosX = 0.120451
+texturePosY = 0.0422535
+textureWeight = 0.0476788
+textureHeight = 0.057903
 
-#183 26 2163
 [SpritePlayerRunRightC]
 texture = 22
-texturePosX = 0,22961
-texturePosY = 0,03912
-textureWeight = 0,0414
-textureHeight = 0,0579
+texturePosX = 0.220827
+texturePosY = 0.0422535
+textureWeight = 0.0476788
+textureHeight = 0.057903
 
-#259 27 292 61
 [SpritePlayerRunRightD]
 texture = 22
-texturePosX = 0,32496
-texturePosY = 0,03912
-textureWeight = 0,0414
-textureHeight = 0,0579
+texturePosX = 0.321203
+texturePosY = 0.0422535
+textureWeight = 0.0476788
+textureHeight = 0.057903
 
-#344 28 3764
 [SpritePlayerRunRightE]
 texture = 22
-texturePosX = 0,43161
-texturePosY = 0,03912
-textureWeight = 0,0414
-textureHeight = 0,0579
+texturePosX = 0.421579
+texturePosY = 0.0422535
+textureWeight = 0.0476788
+textureHeight = 0.057903
 
-#426
 [SpritePlayerRunRightF]
 texture = 22
-texturePosX = 0,53450
-texturePosY = 0,03912
-textureWeight = 0,0414
-textureHeight = 0,0579
+texturePosX = 0.521955
+texturePosY = 0.0422535
+textureWeight = 0.0476788
+textureHeight = 0.057903
 
-#504 27 527 64
 [SpritePlayerRunRightG]
 texture = 22
-texturePosX = 0,63237
-texturePosY = 0,03912
-textureWeight = 0,0414
-textureHeight = 0,0579
+texturePosX = 0.622331
+texturePosY = 0.0422535
+textureWeight = 0.0476788
+textureHeight = 0.057903
 
-#583 26 6 63
 [SpritePlayerRunRightH]
 texture = 22
-texturePosX = 0,73274
-texturePosY = 0,03912
-textureWeight = 0,0414
-textureHeight = 0,0579
+texturePosX = 0.722707
+texturePosY = 0.0422535
+textureWeight = 0.0476788
+textureHeight = 0.057903
 
-#660 691 61
 [SpritePlayerRunRightI]
 texture = 22
-texturePosX = 0,82810
-texturePosY = 0,03912
-textureWeight = 0,0414
-textureHeight = 0,0579
+texturePosX = 0.823083
+texturePosY = 0.0422535
+textureWeight = 0.0476788
+textureHeight = 0.057903
 
-#744 28 767 64
 [SpritePlayerRunRightJ]
 texture = 22
-texturePosX = 0,93350
-texturePosY = 0,03912
-textureWeight = 0,0414
-textureHeight = 0,0579
+texturePosX = 0.923459
+texturePosY = 0.0422535
+textureWeight = 0.0476788
+textureHeight = 0.057903
 
-
-#size x ::547 - 514 = 33
-#size y :: 378 - 341 = 37
-#XX 39  
-[SpritePlayerRunLeftA]
-texture = 22
-texturePosX = 0,04893
-texturePosY = 0,53364 
-textureWeight = 0,0414
-textureHeight = 0,0579
-
-#115
-[SpritePlayerRunLeftB]
-texture = 22
-texturePosX = 0,24717
-texturePosY = 0,53364 
-textureWeight = 0,0414
-textureHeight = 0,0579
-
-#197
-[SpritePlayerRunLeftC]
-texture = 22
-texturePosX = 0,24717
-texturePosY = 0,53364 
-textureWeight = 0,0414
-textureHeight = 0,0579
-
-#279
-[SpritePlayerRunLeftD]
-texture = 22
-texturePosX = 0,35006
-texturePosY = 0,53364 
-textureWeight = 0,0414
-textureHeight = 0,0579
-
-#359
-[SpritePlayerRunLeftE]
-texture = 22
-texturePosX = 0,45043
-texturePosY = 0,53364 
-textureWeight = 0,0414
-textureHeight = 0,0579
-
-#436
-[SpritePlayerRunLeftF]
-texture = 22
-texturePosX = 0,54705
-texturePosY = 0,53364 
-textureWeight = 0,0414
-textureHeight = 0,0579
-
-#514
-[SpritePlayerRunLeftG]
-texture = 22
-texturePosX = 0,64491
-texturePosY = 0,53364 
-textureWeight = 0,0414
-textureHeight = 0,0579
-
-#596
-[SpritePlayerRunLeftH]
-texture = 22
-texturePosX = 0,74780
-texturePosY = 0,53364 
-textureWeight = 0,0414
-textureHeight = 0,0579
-
-#674
-[SpritePlayerRunLeftI]
-texture = 22
-texturePosX = 0,84567
-texturePosY = 0,53364 
-textureWeight = 0,0414
-textureHeight = 0,0579
-
-#756
-[SpritePlayerRunLeftJ]
-texture = 22
-texturePosX = 0,94855
-texturePosY = 0,53364 
-textureWeight = 0,0414
-textureHeight = 0,0579
-
-
-########################################################"LINE 2
-#YY 128 - 87 = 41
-#XX 
-#32 87  5128
-[SpritePlayerShootUpLookRight]
-texture = 22
-texturePosX = 0,04015
-texturePosY = 0,13615
-textureWeight = 0,0276
-textureHeight = 0,0641
-
-#XX 126 - 1 = 22
-#102
 [SpritePlayerShootRightA]
 texture = 22
-texturePosX = 0,12797
-texturePosY = 0,13615
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.119197
+texturePosY = 0.140845
+textureWeight = 0.0414053
+textureHeight = 0.0594679
 
-#182
 [SpritePlayerShootRightB]
 texture = 22
-texturePosX = 0,22835
-texturePosY = 0,13615
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.219573
+texturePosY = 0.140845
+textureWeight = 0.0414053
+textureHeight = 0.0594679
 
-#262
 [SpritePlayerShootRightC]
 texture = 22
-texturePosX = 0,32873
-texturePosY = 0,13615
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.319949
+texturePosY = 0.140845
+textureWeight = 0.0414053
+textureHeight = 0.0594679
 
-#327 
+[SpritePlayerShootUpLookRight]
+texture = 22
+texturePosX = 0.0276035
+texturePosY = 0.13615
+textureWeight = 0.0414053
+textureHeight = 0.0641628
+
 [SpritePlayerStayRightA]
 texture = 22
-texturePosX = 0,41028
-texturePosY = 0,13615
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.400251
+texturePosY = 0.13615
+textureWeight = 0.0414053
+textureHeight = 0.0641628
 
-#405
 [SpritePlayerStayRightB]
 texture = 22
-texturePosX = 0,50815
-texturePosY = 0,13615
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.500627
+texturePosY = 0.13615
+textureWeight = 0.0414053
+textureHeight = 0.0641628
 
-#489
 [SpritePlayerStayRightC]
 texture = 22
-texturePosX = 0,61355
-texturePosY = 0,13615
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.601003
+texturePosY = 0.13615
+textureWeight = 0.0414053
+textureHeight = 0.0641628
 
-#568
 [SpritePlayerStayRightD]
 texture = 22
-texturePosX = 0,71267
-texturePosY = 0,13615
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.701379
+texturePosY = 0.13615
+textureWeight = 0.0414053
+textureHeight = 0.0641628
 
-
-
-########################################################"LINE 2 LEFT
-#YY 4 - 443 = 41
-#XX 68- 702 = 22
-#754
-[SpritePlayerShootUpLookLeft]
+[SpritePlayerRunLeftA]
 texture = 22
-texturePosX = 0,9460
-texturePosY = 0,6932
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.04266
+texturePosY = 0.527387
+textureWeight = 0.0414053
+textureHeight = 0.0657277
 
-#680
-[SpritePlayerShootLeftA]
+[SpritePlayerRunLeftB]
 texture = 22
-texturePosX = 0,8531
-texturePosY = 0,6932
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.143036
+texturePosY = 0.527387
+textureWeight = 0.0414053
+textureHeight = 0.0657277
 
-#600
-[SpritePlayerShootLeftB]
+[SpritePlayerRunLeftC]
 texture = 22
-texturePosX = 0,7528
-texturePosY = 0,6932
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.243412
+texturePosY = 0.527387
+textureWeight = 0.0414053
+textureHeight = 0.0657277
 
-#521
-[SpritePlayerShootLeftC]
+[SpritePlayerRunLeftD]
 texture = 22
-texturePosX = 0,6537
-texturePosY = 0,6932
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.343788
+texturePosY = 0.527387
+textureWeight = 0.0414053
+textureHeight = 0.0657277
 
-#458
+[SpritePlayerRunLeftE]
+texture = 22
+texturePosX = 0.444164
+texturePosY = 0.527387
+textureWeight = 0.0414053
+textureHeight = 0.0657277
+
+[SpritePlayerRunLeftF]
+texture = 22
+texturePosX = 0.54454
+texturePosY = 0.527387
+textureWeight = 0.0414053
+textureHeight = 0.0657277
+
+[SpritePlayerRunLeftG]
+texture = 22
+texturePosX = 0.644916
+texturePosY = 0.527387
+textureWeight = 0.0414053
+textureHeight = 0.0657277
+
+[SpritePlayerRunLeftH]
+texture = 22
+texturePosX = 0.745292
+texturePosY = 0.527387
+textureWeight = 0.0414053
+textureHeight = 0.0657277
+
+[SpritePlayerRunLeftI]
+texture = 22
+texturePosX = 0.845668
+texturePosY = 0.527387
+textureWeight = 0.0414053
+textureHeight = 0.0657277
+
+[SpritePlayerRunLeftJ]
+texture = 22
+texturePosX = 0.946044
+texturePosY = 0.527387
+textureWeight = 0.0414053
+textureHeight = 0.0657277
+
 [SpritePlayerStayLeftA]
 texture = 22
-texturePosX = 0,5734
-texturePosY = 0,6932
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.267252
+texturePosY = 0.630673
+textureWeight = 0.0414053
+textureHeight = 0.0625978
 
-#378
 [SpritePlayerStayLeftB]
 texture = 22
-texturePosX = 0,4742
-texturePosY = 0,6932
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.367628
+texturePosY = 0.630673
+textureWeight = 0.0414053
+textureHeight = 0.0625978
 
-#299
 [SpritePlayerStayLeftC]
 texture = 22
-texturePosX = 0,3751
-texturePosY = 0,6932
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.468004
+texturePosY = 0.630673
+textureWeight = 0.0414053
+textureHeight = 0.0625978
 
-#218
 [SpritePlayerStayLeftD]
 texture = 22
-texturePosX = 0,2735
-texturePosY = 0,6932
-textureWeight = 0,0276
-textureHeight = 0,0641
+texturePosX = 0.56838
+texturePosY = 0.630673
+textureWeight = 0.0414053
+textureHeight = 0.0625978
 
-
-
-###########################################################JUMP
-#XX 30
-#YY 195-156 = 39
-#28 28
 [SpritePlayerJumpRightA]
 texture = 22
-texturePosX = 0,037641154328
-texturePosY = 0,195734002509
-textureWeight = 0.06 #0,0376411543287
-textureHeight = 0.09  #0,0610328638498
+texturePosX = 0.0313676
+texturePosY = 0.244131
+textureWeight = 0.0414053
+textureHeight = 0.0610329
 
-#103
 [SpritePlayerJumpRightB]
 texture = 22
-texturePosX = 0,1292
-texturePosY = 0,1957
-textureWeight = 0,0976
-textureHeight = 0,0910
+texturePosX = 0.131744
+texturePosY = 0.244131
+textureWeight = 0.0414053
+textureHeight = 0.0610329
 
-#185
 [SpritePlayerJumpRightC]
 texture = 22
-texturePosX = 0,232120451694
-texturePosY = 0,195734002509
-textureWeight = 0,0676411543287
-textureHeight = 0,0910328638498
+texturePosX = 0.23212
+texturePosY = 0.244131
+textureWeight = 0.0414053
+textureHeight = 0.0610329
 
-#263
 [SpritePlayerJumpRightD]
 texture = 22
-texturePosX = 0,329987452948
-texturePosY = 0,195734002509
-textureWeight = 0,0676411543287
-textureHeight = 0,0910328638498
+texturePosX = 0.332496
+texturePosY = 0.244131
+textureWeight = 0.0414053
+textureHeight = 0.0610329
 
-#346
 [SpritePlayerJumpRightE]
 texture = 22
-texturePosX = 0,434127979925
-texturePosY = 0,195734002509
-textureWeight = 0,0676411543287
-textureHeight = 0,0910328638498
+texturePosX = 0.432872
+texturePosY = 0.244131
+textureWeight = 0.0414053
+textureHeight = 0.0610329
 
-#428
 [SpritePlayerJumpRightF]
 texture = 22
-texturePosX = 0,537013801757
-texturePosY = 0,195734002509
-textureWeight = 0,0676411543287
-textureHeight = 0,0910328638498
+texturePosX = 0.533248
+texturePosY = 0.244131
+textureWeight = 0.0414053
+textureHeight = 0.0610329
 
-
-#XX 671 - 7 = 30
-#YY 471 - 51= 49
-#350
 [SpritePlayerJumpLeftA]
 texture = 22
-texturePosX = 0,4391
-texturePosY = 0,6604
-textureWeight = 0,0376
-textureHeight = 0,0614
+texturePosX = 0.435383
+texturePosY = 0.735524
+textureWeight = 0.0414053
+textureHeight = 0.0625978
 
-#431
 [SpritePlayerJumpLeftB]
 texture = 22
-texturePosX = 0,5407
-texturePosY = 0,6604
-textureWeight = 0,0376
-textureHeight = 0,0614
+texturePosX = 0.535759
+texturePosY = 0.735524
+textureWeight = 0.0414053
+textureHeight = 0.0625978
 
-#515
 [SpritePlayerJumpLeftC]
 texture = 22
-texturePosX = 0,6461
-texturePosY = 0,6604
-textureWeight = 0,0376
-textureHeight = 0,0614
+texturePosX = 0.636135
+texturePosY = 0.735524
+textureWeight = 0.0414053
+textureHeight = 0.0625978
 
-#592
 [SpritePlayerJumpLeftD]
 texture = 22
-texturePosX = 0,7427
-texturePosY = 0,6604
-textureWeight = 0,0376
-textureHeight = 0,0614
+texturePosX = 0.736511
+texturePosY = 0.735524
+textureWeight = 0.0414053
+textureHeight = 0.0625978
 
-#671
 [SpritePlayerJumpLeftE]
 texture = 22
-texturePosX = 0,8419
-texturePosY = 0,6604
-textureWeight = 0,0376
-textureHeight = 0,0614
+texturePosX = 0.836887
+texturePosY = 0.735524
+textureWeight = 0.0414053
+textureHeight = 0.0625978
 
-#750
 [SpritePlayerJumpLeftF]
 texture = 22
-texturePosX = 0,9410
-texturePosY = 0,6604
-textureWeight = 0,0376
-textureHeight = 0,0614
+texturePosX = 0.937263
+texturePosY = 0.735524
+textureWeight = 0.0414053
+textureHeight = 0.0625978
 
+[SpritePlayerRunShootRightA]
+texture = 22
+texturePosX = 0.0163112
+texturePosY = 0.330203
+textureWeight = 0.0414053
+textureHeight = 0.0625978
 
-#XX 176 - 2 = 27
-#YY 283 - 318 = 35
-#100
+[SpritePlayerRunShootRightB]
+texture = 22
+texturePosX = 0.116687
+texturePosY = 0.330203
+textureWeight = 0.0414053
+textureHeight = 0.0625978
+
+[SpritePlayerRunShootRightC]
+texture = 22
+texturePosX = 0.217063
+texturePosY = 0.330203
+textureWeight = 0.0414053
+textureHeight = 0.0625978
+
+[SpritePlayerRunShootRightD]
+texture = 22
+texturePosX = 0.317439
+texturePosY = 0.330203
+textureWeight = 0.0414053
+textureHeight = 0.0625978
+
+[SpritePlayerRunShootRightE]
+texture = 22
+texturePosX = 0.417815
+texturePosY = 0.330203
+textureWeight = 0.0414053
+textureHeight = 0.0625978
+
+[SpritePlayerRunShootRightF]
+texture = 22
+texturePosX = 0.518191
+texturePosY = 0.330203
+textureWeight = 0.0414053
+textureHeight = 0.0625978
+
+[SpritePlayerRunShootRightG]
+texture = 22
+texturePosX = 0.618567
+texturePosY = 0.330203
+textureWeight = 0.0414053
+textureHeight = 0.0625978
+
+[SpritePlayerRunShootRightH]
+texture = 22
+texturePosX = 0.718943
+texturePosY = 0.330203
+textureWeight = 0.0414053
+textureHeight = 0.0625978
+
+[SpritePlayerRunShootRightI]
+texture = 22
+texturePosX = 0.819319
+texturePosY = 0.330203
+textureWeight = 0.0414053
+textureHeight = 0.0625978
+
+[SpritePlayerRunShootRightJ]
+texture = 22
+texturePosX = 0.919695
+texturePosY = 0.330203
+textureWeight = 0.0414053
+textureHeight = 0.0625978
+
 [SpritePlayerDamageRightA]
 texture = 22
-texturePosX = 0,1254 
-texturePosY = 0,4976
-textureWeight = 0,0338
-textureHeight = 0,0547
+texturePosX = 0.119197
+texturePosY = 0.43349
+textureWeight = 0.0414053
+textureHeight = 0.0641628
 
-#176
 [SpritePlayerDamageRightB]
 texture = 22
-texturePosX = 0,2208
-texturePosY = 0,4976
-textureWeight = 0,0338
-textureHeight = 0,0547
+texturePosX = 0.215809
+texturePosY = 0.43349
+textureWeight = 0.0414053
+textureHeight = 0.0641628
 
 
-#XX 27
-#YY 597 - 633
-#683
+[SpritePlayerShootLeftA]
+texture = 22
+texturePosX = 0.648683
+texturePosY = 0.629108
+textureWeight = 0.0414053
+textureHeight = 0.0641628
+
+[SpritePlayerShootLeftB]
+texture = 22
+texturePosX = 0.749059
+texturePosY = 0.629108
+textureWeight = 0.0414053
+textureHeight = 0.0641628
+
+[SpritePlayerShootLeftC]
+texture = 22
+texturePosX = 0.849435
+texturePosY = 0.629108
+textureWeight = 0.0414053
+textureHeight = 0.0641628
+
+[SpritePlayerShootUpLookLeft]
+texture = 22
+texturePosX = 0.939774
+texturePosY = 0.629108
+textureWeight = 0.0414053
+textureHeight = 0.0641628
+
+[SpritePlayerRunShootLeftA]
+texture = 22
+texturePosX = 0.0501882
+texturePosY = 0.821596
+textureWeight = 0.0439147
+textureHeight = 0.0641628
+
+[SpritePlayerRunShootLeftB]
+texture = 22
+texturePosX = 0.150564
+texturePosY = 0.821596
+textureWeight = 0.0439147
+textureHeight = 0.0641628
+
+[SpritePlayerRunShootLeftC]
+texture = 22
+texturePosX = 0.25094
+texturePosY = 0.821596
+textureWeight = 0.0439147
+textureHeight = 0.0641628
+
+[SpritePlayerRunShootLeftD]
+texture = 22
+texturePosX = 0.351316
+texturePosY = 0.821596
+textureWeight = 0.0439147
+textureHeight = 0.0641628
+
+[SpritePlayerRunShootLeftE]
+texture = 22
+texturePosX = 0.451692
+texturePosY = 0.821596
+textureWeight = 0.0439147
+textureHeight = 0.0641628
+
+[SpritePlayerRunShootLeftF]
+texture = 22
+texturePosX = 0.552068
+texturePosY = 0.821596
+textureWeight = 0.0439147
+textureHeight = 0.0641628
+
+[SpritePlayerRunShootLeftG]
+texture = 22
+texturePosX = 0.652444
+texturePosY = 0.821596
+textureWeight = 0.0439147
+textureHeight = 0.0641628
+
+[SpritePlayerRunShootLeftH]
+texture = 22
+texturePosX = 0.75282
+texturePosY = 0.821596
+textureWeight = 0.0439147
+textureHeight = 0.0641628
+
+[SpritePlayerRunShootLeftI]
+texture = 22
+texturePosX = 0.853196
+texturePosY = 0.821596
+textureWeight = 0.0439147
+textureHeight = 0.0641628
+
+[SpritePlayerRunShootLeftJ]
+texture = 22
+texturePosX = 0.953572
+texturePosY = 0.821596
+textureWeight = 0.0439147
+textureHeight = 0.0641628
+
 [SpritePlayerDamageLeftA]
 texture = 22
-texturePosX = 0,8569
-texturePosY = 0,9342
-textureWeight = 0,0338
-textureHeight = 0,0547
+texturePosX = 0.752823
+texturePosY = 0.926448
+textureWeight = 0.0414053
+textureHeight = 0.0641628
 
-#601
 [SpritePlayerDamageLeftB]
 texture = 22
-texturePosX = 0,7540
-texturePosY = 0,9342
-textureWeight = 0,0338
-textureHeight = 0,0547
-
+texturePosX = 0.853199
+texturePosY = 0.926448
+textureWeight = 0.0414053
+textureHeight = 0.0641628

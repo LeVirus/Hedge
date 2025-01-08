@@ -234,6 +234,24 @@ void InputSystem::treatPlayerInput()
                 }
             }
         }
+        if(checkPlayerKeyTriggered(ControlKey_e::SHOOT))
+        {
+            if(playerComp->m_currentDirectionRight)
+            {
+                // if(playerComp->m_spriteType == PlayerSpriteElementType_e::RUN_RIGHT)
+                // {
+                //     playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;
+                // }
+                // else
+                // {
+                    playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;
+                // }
+            }
+            else
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_LEFT;
+            }
+        }
         m_scrollUp = false;
         m_scrollDown = false;
     }
