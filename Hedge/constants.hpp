@@ -296,7 +296,9 @@ enum class PlayerSpriteElementType_e
     SHOOT_LEFT,
     STAY_LEFT,
     JUMP_LEFT,
-    DAMAGE_LEFT
+    DAMAGE_LEFT,
+    SHOOT_RUN_RIGHT,
+    SHOOT_RUN_LEFT
 };
 
 enum class WallSpriteType_e

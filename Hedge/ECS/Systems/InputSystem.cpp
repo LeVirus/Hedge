@@ -234,18 +234,21 @@ void InputSystem::treatPlayerInput()
                 }
             }
         }
-        if(checkPlayerKeyTriggered(ControlKey_e::SHOOT))
+        if(checkPlayerKeyTriggered(ControlKey_e::SHOOT) && (playerComp->m_spriteType != PlayerSpriteElementType_e::DAMAGE_LEFT && playerComp->m_spriteType != PlayerSpriteElementType_e::DAMAGE_RIGHT))
         {
-            if(playerComp->m_currentDirectionRight)
+            //If run
+            if(playerComp->m_spriteType == PlayerSpriteElementType_e::RUN_RIGHT)
             {
-                // if(playerComp->m_spriteType == PlayerSpriteElementType_e::RUN_RIGHT)
-                // {
-                //     playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;
-                // }
-                // else
-                // {
-                    playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;
-                // }
+                playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RUN_RIGHT;
+            }
+            else if(playerComp->m_spriteType == PlayerSpriteElementType_e::RUN_LEFT)
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RUN_LEFT;
+            }
+            //else if not run
+            else if(playerComp->m_currentDirectionRight)
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;
             }
             else
             {

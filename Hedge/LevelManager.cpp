@@ -1322,6 +1322,8 @@ void LevelManager::loadPlayerDate()
     loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::STAY_LEFT);
     loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_LEFT);
     loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::DAMAGE_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_RUN_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_RUN_RIGHT);
 }
 
 //===================================================================
@@ -1767,6 +1769,14 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
     case PlayerSpriteElementType_e::DAMAGE_LEFT:
         spriteType = "DamageLeft";
         vectPtr = &m_playerData.m_damageLeftSprites;
+        break;
+    case PlayerSpriteElementType_e::SHOOT_RUN_LEFT:
+        spriteType = "PlayerRunShootLeft";
+        vectPtr = &m_playerData.m_shootRunLeft;
+        break;
+    case PlayerSpriteElementType_e::SHOOT_RUN_RIGHT:
+        spriteType = "PlayerRunShootRight";
+        vectPtr = &m_playerData.m_shootRunRight;
         break;
     }
     assert(vectPtr);

@@ -71,7 +71,7 @@ struct PlayerData
 {
     std::vector<uint16_t> m_runRightSprites, m_runLeftSprites, m_shootUpLookRightSprites,
         m_shootUpLookLeftSprites, m_shootRightSprites, m_shootLeftSprites,
-        m_stayRightSprites, m_stayLeftSprites, m_jumpRightSprites, m_jumpLeftSprites, m_damageRightSprites, m_damageLeftSprites;
+        m_stayRightSprites, m_stayLeftSprites, m_jumpRightSprites, m_jumpLeftSprites, m_damageRightSprites, m_damageLeftSprites, m_shootRunRight, m_shootRunLeft;
 
     //In Game sprite size in % relative to a tile
     PairDouble_t m_inGameSpriteSize;
