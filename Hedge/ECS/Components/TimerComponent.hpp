@@ -11,6 +11,7 @@ struct TimerComponent : public ECS::Component
     std::chrono::time_point<std::chrono::system_clock> m_clock;
     std::optional<uint32_t> m_timeIntervalOptional;
     uint32_t m_cycleCountA = 0, m_cycleCountB = 0, m_cycleCountC = 0, m_cycleCountD = 0;
+    std::pair<uint32_t, uint32_t> m_pairMemCycle;
     virtual ~TimerComponent() = default;
 };
 

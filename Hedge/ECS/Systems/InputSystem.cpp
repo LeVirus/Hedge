@@ -145,6 +145,33 @@ void InputSystem::treatPlayerInput()
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
+        if(playerComp->m_damageAnim)
+        {
+            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+            assert(timerComp);
+            if(++timerComp->m_pairMemCycle.first >= timerComp->m_pairMemCycle.second)
+            {
+                playerComp->m_damageAnim = false;
+            }
+            return;
+        }
+        if(playerComp->m_takeDamage)
+        {
+            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+            assert(timerComp);
+            timerComp->m_pairMemCycle = {0, m_intervalDamageAnim};
+            playerComp->m_takeDamage = false;
+            playerComp->m_damageAnim = true;
+            if(playerComp->m_currentDirectionRight)
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::DAMAGE_RIGHT;
+            }
+            else
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::DAMAGE_LEFT;
+            }
+            return;
+        }
         if(moveComp->m_ejectData)
         {
             return;

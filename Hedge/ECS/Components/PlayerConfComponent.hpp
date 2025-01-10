@@ -59,7 +59,7 @@ struct PlayerConfComponent : public ECS::Component
             m_life -= damage;
         }
     }
-    bool m_playerShoot = false, m_takeDamage = false, m_inMovement = false, m_inputModified, m_firstMenu = true,
+    bool m_playerShoot = false, m_takeDamage = false, m_damageAnim = false, m_inMovement = false, m_inputModified, m_firstMenu = true,
     m_pickItem = false, m_crush = false, m_frozen = false, m_insideWall = false, m_keyboardInputMenuMode = true;
     std::pair<bool, std::string> m_infoWriteData = {false, ""};
     std::set<uint32_t> m_card;
