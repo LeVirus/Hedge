@@ -224,6 +224,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         updateEnemyDirection(enemyConfComp, *moveComp, enemyMapComp);
         if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOT)
         {
+            enemyShoot(enemyConfComp, *moveComp, enemyMapComp, distancePlayer);
             activeSound(enemyEntity, static_cast<uint32_t>(EnemySoundEffect_e::ATTACK));
         }
     }
@@ -236,6 +237,22 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
             MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
             m_mainEngine->addEntityToZone(enemyEntity, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
         }
+    }
+}
+
+//===================================================================
+void IASystem::enemyShoot(EnemyConfComponent &enemyConfComp, MoveableComponent &moveComp,
+                          MapCoordComponent &enemyMapComp, float distancePlayer)
+{
+    if(enemyConfComp.m_meleeAttackDamage && distancePlayer < 32.0f)
+    {
+        PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+        playerConfComp->takeDamage(*enemyConfComp.m_meleeAttackDamage);
+    }
+    else if(enemyConfComp.m_visibleShot)
+    {
+        confVisibleShoot(enemyConfComp.m_visibleAmmo, enemyMapComp.m_absoluteMapPositionPX,
+                         moveComp.m_degreeOrientation, CollisionTag_e::BULLET_ENEMY_CT);
     }
 }
 
