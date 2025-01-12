@@ -940,7 +940,7 @@ void CollisionSystem::collisionCircleRectEject(CollisionArgs &args, float circle
         crushMode = args.tagCompB.m_tagA == CollisionTag_e::WALL_CT;
     }
     //if player touch ground
-    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
         GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
         assert(gravityComp);
