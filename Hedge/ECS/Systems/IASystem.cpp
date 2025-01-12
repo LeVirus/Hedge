@@ -232,9 +232,17 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
     {
         if(enemyConfComp.m_attackPhase != EnemyAttackPhase_e::SHOOTED)
         {
-            moveElementFromAngle(moveComp->m_velocity, getRadiantAngle(moveComp->m_degreeOrientation),
-                                 enemyMapComp.m_absoluteMapPositionPX);
+            // moveElementFromAngle(moveComp->m_velocity, getRadiantAngle(moveComp->m_degreeOrientation), enemyMapComp.m_absoluteMapPositionPX);
+            MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
             MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
+            if(mapComp->m_absoluteMapPositionPX.first < playerMapComp->m_absoluteMapPositionPX.first)
+            {
+                mapComp->m_absoluteMapPositionPX.first += moveComp->m_velocity;
+            }
+            else
+            {
+                mapComp->m_absoluteMapPositionPX.first -= moveComp->m_velocity;
+            }
             m_mainEngine->addEntityToZone(enemyEntity, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
         }
     }

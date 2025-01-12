@@ -2479,6 +2479,7 @@ uint32_t MainEngine::createEnemyEntity()
     vect[Components_e::ENEMY_CONF_COMPONENT] = 1;
     vect[Components_e::TIMER_COMPONENT] = 1;
     vect[Components_e::AUDIO_COMPONENT] = 1;
+    vect[Components_e::GRAVITY_COMPONENT] = 1;
     return Ecsm_t::instance().addEntity(vect);
 }
 
