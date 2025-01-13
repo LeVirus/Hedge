@@ -217,6 +217,7 @@ void InputSystem::treatPlayerInput()
             }
         }
         updateDetectRect(*playerComp, *mapComp);
+        m_mainEngine->addEntityToZone(m_playerEntity, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
         // if(checkPlayerKeyTriggered(ControlKey_e::ACTION))
         // {
         //     uint32_t actionEntity = playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::ACTION)];

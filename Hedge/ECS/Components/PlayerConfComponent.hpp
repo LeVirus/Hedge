@@ -64,7 +64,7 @@ struct PlayerConfComponent : public ECS::Component
     std::pair<bool, std::string> m_infoWriteData = {false, ""};
     std::set<uint32_t> m_card;
     uint32_t m_currentCursorPos = 0, m_currentSelectedSaveFile, m_life = 100, m_currentCustomLevelCusorMenu, m_levelToLoad, m_velocityInertie = 0, m_memEntityAssociated, m_currentSprite,
-        m_standardSpriteInterval = 0.5 / FPS_VALUE;
+        m_standardSpriteInterval = 0.2 / FPS_VALUE;
     std::array<uint32_t, static_cast<uint32_t>(PlayerEntities_e::TOTAL)> m_vectEntities;
     //display only weapons when changing weapons
     std::array<uint32_t, 6> m_vectPossessedWeaponsPreviewEntities;
