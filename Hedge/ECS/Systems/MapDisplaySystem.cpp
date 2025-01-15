@@ -165,6 +165,7 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
             assert(coord);
             mapComp->m_coord = *coord;
         }
+        EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(*it);
         if(checkBoundEntityMap(*mapComp, min, max))
         {
             //get absolute position corner
@@ -174,7 +175,18 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
             //convert absolute position to relative
             relativePosMapGL = {diffPosPX.first * MAP_LOCAL_SIZE_GL / m_localLevelSizePX,
                                 diffPosPX.second * MAP_LOCAL_SIZE_GL / m_localLevelSizePX};
+            if(enemyComp)
+            {
+                enemyComp->m_behaviourMode = EnemyBehaviourMode_e::ATTACK;
+            }
             confMiniMapVertexElement(relativePosMapGL, *it);
+        }
+        else
+        {
+            if(enemyComp)
+            {
+                enemyComp->m_behaviourMode = EnemyBehaviourMode_e::PASSIVE;
+            }
         }
     }
 }

@@ -91,10 +91,10 @@ void IASystem::execSystem()
         MapCoordComponent *enemyMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         distancePlayer = getDistance(playerMapComp->m_absoluteMapPositionPX,
                                      enemyMapComp->m_absoluteMapPositionPX);
-        if(enemyConfComp->m_behaviourMode != EnemyBehaviourMode_e::ATTACK)
-        {
-            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*it);
-        }
+        // if(enemyConfComp->m_behaviourMode != EnemyBehaviourMode_e::ATTACK)
+        // {
+        //      TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*it);
+        // }
         if(enemyConfComp->m_behaviourMode == EnemyBehaviourMode_e::ATTACK)
         {
             treatEnemyBehaviourAttack(*it, *enemyMapComp, *enemyConfComp, distancePlayer);
