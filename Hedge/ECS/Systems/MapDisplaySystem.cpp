@@ -26,7 +26,7 @@ MapDisplaySystem::MapDisplaySystem()
 //===================================================================
 void MapDisplaySystem::confLevelData()
 {
-    m_localLevelSizePX = Level::getRangeView() * 2;
+    m_localLevelSizePX = 500.0f;//Level::getRangeView() * 2;
     m_sizeLevelPX = {Level::getSize().first * LEVEL_TILE_SIZE_PX,
                     Level::getSize().second * LEVEL_TILE_SIZE_PX};
     m_miniMapTileSizeGL = (LEVEL_TILE_SIZE_PX * MAP_LOCAL_SIZE_GL) / m_localLevelSizePX;
@@ -169,8 +169,8 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
         if(checkBoundEntityMap(*mapComp, min, max))
         {
             //get absolute position corner
-            corner = getUpLeftCorner(*mapComp, *it);
             m_entitiesToDisplay.emplace_back(*it);
+            corner = getUpLeftCorner(*mapComp, *it);
             diffPosPX = corner - mapCompPlayer->m_absoluteMapPositionPX;
             //convert absolute position to relative
             relativePosMapGL = {diffPosPX.first * MAP_LOCAL_SIZE_GL / m_localLevelSizePX,
