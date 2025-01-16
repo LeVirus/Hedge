@@ -1,7 +1,7 @@
 Introduction============================
 
 L'objectif du projet est de réaliser un jeu du style Run n Gun en 2 dimensions. Les influances principalles étant Contra, Gunstar Heroes et Metal Slug.
-Le jeu sera sur ordinateur Windows, Linux (et peut-etre Mac si Godot le permet).
+Le jeu sera sur ordinateur Windows, Linux 
 Le jeu se déroulera dans l'univers du vidéaste Hedge, les éléments définissant cet univers seront développés dans un chapitre dédié.
 Le protagoniste dirigé sera le personnage Hedge.
 Le jeu sera développé en C++ à partir d'un fork du jeu Arnihs.

@@ -1,0 +1,67 @@
+))
+Add stair to make player go up or down without jump
+
+))
+Make bosses
+	-Change music when arena is reached
+	-Freeze camera
+
+))
+Make speed shots (player + enemies)
+
+))
+Make enemies hitbox fit display
+	-Modif display scale on map
+
+))
+Make several (2) background with movement while player move
+	-Add foreground background
+
+))
+Remove invisible bullets stuff
+
+))
+Add CaC attack with animation
+
+))
+Make all animation for shooting in 8 directions
+
+))
+Add grenades
+	-Add pickable object + make animation + timer and explosion (friendly fire enabled)
+
+))
+Add "rage" jauge to make special attack
+	-Animation with game paused?
+	-Real Time?
+
+))
+Add several life for a level
+	-Player repop if lifes is remaining or game over if not
+
+))
+Put checkpoint (still works?)
+
+))
+Add moving platforms
+
+))
+Add special platform with can be traversed by down and go down when pressing down + jump
+
+))
+Add pitfall
+	-Freeze camera to min max
+
+))
+Add vehicule
+	-moto
+	-tank
+
+))
+Add offensive object
+	-Turrels
+	-Flames
+	-Pick
+
+))
+Add flying enemies
