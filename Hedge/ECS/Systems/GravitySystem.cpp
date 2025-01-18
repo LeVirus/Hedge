@@ -16,6 +16,10 @@ void GravitySystem::execSystem()
     {
         GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(*it);
         assert(gravComp);
+        if(gravComp->m_freeze)
+        {
+            continue;
+        }
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         assert(mapComp);
         if(gravComp->m_jump)

@@ -26,7 +26,7 @@ MapDisplaySystem::MapDisplaySystem()
 //===================================================================
 void MapDisplaySystem::confLevelData()
 {
-    m_localLevelSizePX = 500.0f;//Level::getRangeView() * 2;
+    m_localLevelSizePX = 350.0f;//Level::getRangeView() * 2;
     m_sizeLevelPX = {Level::getSize().first * LEVEL_TILE_SIZE_PX,
                     Level::getSize().second * LEVEL_TILE_SIZE_PX};
     m_miniMapTileSizeGL = (LEVEL_TILE_SIZE_PX * MAP_LOCAL_SIZE_GL) / m_localLevelSizePX;

@@ -255,6 +255,9 @@ void CollisionSystem::treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t dam
         {
             ++(*playerComp->m_enemiesKilled);
         }
+        GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(enemyEntityNum );
+        assert(gravComp);
+        gravComp->m_freeze = true;
         enemyConfCompB->m_behaviourMode = EnemyBehaviourMode_e::DYING;
         enemyConfCompB->m_touched = false;
         enemyConfCompB->m_playDeathSound = true;
