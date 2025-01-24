@@ -95,6 +95,7 @@ void IASystem::execSystem()
         // {
         //      TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*it);
         // }
+        std::cerr << (int)enemyConfComp->m_behaviourMode << "\n";
         if(enemyConfComp->m_behaviourMode == EnemyBehaviourMode_e::ATTACK)
         {
             treatEnemyBehaviourAttack(*it, *enemyMapComp, *enemyConfComp, distancePlayer);

@@ -175,7 +175,7 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
             //convert absolute position to relative
             relativePosMapGL = {diffPosPX.first * MAP_LOCAL_SIZE_GL / m_localLevelSizePX,
                                 diffPosPX.second * MAP_LOCAL_SIZE_GL / m_localLevelSizePX};
-            if(enemyComp)
+            if(enemyComp && enemyComp->m_life > 0)
             {
                 enemyComp->m_behaviourMode = EnemyBehaviourMode_e::ATTACK;
             }
@@ -183,7 +183,7 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
         }
         else
         {
-            if(enemyComp)
+            if(enemyComp && enemyComp->m_life > 0)
             {
                 enemyComp->m_behaviourMode = EnemyBehaviourMode_e::PASSIVE;
             }
