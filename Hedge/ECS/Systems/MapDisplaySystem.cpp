@@ -142,7 +142,7 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
     PairFloat_t corner, diffPosPX, relativePosMapGL;
     PairUI_t max, min;
     getMapDisplayLimit(playerPos, min, max);
-    m_entitiesToDisplay.clear();    
+    m_entitiesToDisplay.clear();
     m_entitiesToDisplay.reserve(m_usedEntities.size());
     for(std::set<uint32_t>::const_iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
@@ -262,25 +262,34 @@ void MapDisplaySystem::getMapDisplayLimit(PairFloat_t &playerPos,
 }
 
 //===================================================================
-void MapDisplaySystem::confMiniMapVertexElement(const PairFloat_t &glPosition,
-                                         uint32_t entityNum)
+void MapDisplaySystem::confMiniMapVertexElement(const PairFloat_t &glPosition, uint32_t entityNum)
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(entityNum);
     assert(posComp);
     posComp->m_vertex.resize(4);
-    //CONSIDER THAT MAP X AND Y ARE THE SAME
-    if(posComp->m_vertex.empty())
+    SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
+    assert(spriteComp);
+    if(!spriteComp->m_displaySize)
     {
-        posComp->m_vertex.resize(4);
+        //CONSIDER THAT MAP X AND Y ARE THE SAME
+        if(posComp->m_vertex.empty())
+        {
+            posComp->m_vertex.resize(4);
+        }
+        posComp->m_vertex[0] = {0 + glPosition.first, 0 + glPosition.second};
+        posComp->m_vertex[1] = {0 + glPosition.first + m_miniMapTileSizeGL, 0 + glPosition.second};
+        posComp->m_vertex[2] = {0 + glPosition.first + m_miniMapTileSizeGL, 0 + glPosition.second - m_miniMapTileSizeGL};
+        posComp->m_vertex[3] = {0 + glPosition.first, 0 + glPosition.second - m_miniMapTileSizeGL};
     }
-    posComp->m_vertex[0] = {0 + glPosition.first,
-                            0 + glPosition.second};
-    posComp->m_vertex[1] = {0 + glPosition.first + m_miniMapTileSizeGL,
-                            0 + glPosition.second};
-    posComp->m_vertex[2] = {0 + glPosition.first + m_miniMapTileSizeGL,
-                            0 + glPosition.second - m_miniMapTileSizeGL};
-    posComp->m_vertex[3] = {0 + glPosition.first,
-                            0 + glPosition.second - m_miniMapTileSizeGL};
+    else
+    {
+        float sizeX = spriteComp->m_displaySize->first * (LEVEL_TILE_SIZE_PX * MAP_LOCAL_SIZE_GL) / m_localLevelSizePX,
+            sizeY = spriteComp->m_displaySize->second * (LEVEL_TILE_SIZE_PX * MAP_LOCAL_SIZE_GL) / m_localLevelSizePX;
+        posComp->m_vertex[0] = {0 + glPosition.first, 0 + glPosition.second};
+        posComp->m_vertex[1] = {0 + glPosition.first + sizeX, 0 + glPosition.second};
+        posComp->m_vertex[2] = {0 + glPosition.first + sizeX, 0 + glPosition.second - sizeY};
+        posComp->m_vertex[3] = {0 + glPosition.first, 0 + glPosition.second - sizeY};
+    }
 }
 
 //===================================================================
@@ -339,7 +348,7 @@ void MapDisplaySystem::drawMapVertex()
 void MapDisplaySystem::drawPlayerOnMap()
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(m_playerNum);
-    ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(m_playerNum);    
+    ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(m_playerNum);
     Ecsm_t::instance().getSystem<ColorDisplaySystem>(static_cast<uint32_t>(Systems_e::COLOR_DISPLAY_SYSTEM))->drawEntity(*posComp, *colorComp);
 }
 

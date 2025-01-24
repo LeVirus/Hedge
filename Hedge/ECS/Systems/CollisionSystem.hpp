@@ -82,6 +82,7 @@ private:
     //Collisions treatment
     void collisionCircleRectEject(CollisionArgs &args,
                                   float circleRay, const RectangleCollisionComponent &rectCollB, bool visibleShotFirstEject = false);
+    void collisionRectRectEject(CollisionArgs &args);
     float getVerticalCircleRectEject(const EjectYArgs &args, bool &limitEject, bool visibleShot);
     float getHorizontalCircleRectEject(const EjectXArgs &args, bool &limitEject, bool visibleShot);
     void collisionCircleCircleEject(CollisionArgs &args,

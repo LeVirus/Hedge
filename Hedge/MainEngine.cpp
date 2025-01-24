@@ -1308,7 +1308,6 @@ uint32_t MainEngine::loadWeaponsEntity(const LevelManager &levelManager)
 bool MainEngine::loadEnemiesEntities(const LevelManager &levelManager)
 {
     const std::map<std::string, EnemyData> &enemiesData = levelManager.getEnemiesData();
-    float collisionRay;
     bool exit = false;
     std::array<SoundElement, 3> currentSoundElements;
     bool loadFromCheckpoint = (!m_memEnemiesStateFromCheckpoint.empty());
@@ -1319,12 +1318,11 @@ bool MainEngine::loadEnemiesEntities(const LevelManager &levelManager)
         currentSoundElements[0] = loadSound(it->second.m_detectBehaviourSoundFile);
         currentSoundElements[1] = loadSound(it->second.m_attackSoundFile);
         currentSoundElements[2] = loadSound(it->second.m_deathSoundFile);
-        collisionRay = it->second.m_inGameSpriteSize.first * LEVEL_TWO_THIRD_TILE_SIZE_PX;
         const SpriteData &memSpriteData = levelManager.getPictureData().
                 getSpriteData()[it->second.m_staticFrontSprites[0]];
         for(uint32_t j = 0; j < it->second.m_TileGamePosition.size(); ++j)
         {
-            exit |= createEnemy(levelManager, memSpriteData, it->second, collisionRay, loadFromCheckpoint, j, currentSoundElements);
+            exit |= createEnemy(levelManager, memSpriteData, it->second, loadFromCheckpoint, j, currentSoundElements, it->second.m_inGameSpriteSize);
         }
     }
     return exit;
@@ -1453,12 +1451,12 @@ void MainEngine::confBaseWallData(uint32_t wallEntity, const SpriteData &memSpri
 
 //===================================================================
 bool MainEngine::createEnemy(const LevelManager &levelManager, const SpriteData &memSpriteData, const EnemyData &enemyData,
-                             float collisionRay, bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements)
+                             bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements, const std::pair<float, float> &inGameSpriteSize)
 {
     bool exit = false;
     uint32_t numEntity = createEnemyEntity();
     confBaseComponent(numEntity, memSpriteData, enemyData.m_TileGamePosition[index],
-                      CollisionShape_e::CIRCLE_C, CollisionTag_e::ENEMY_CT);
+                      CollisionShape_e::RECTANGLE_C, CollisionTag_e::ENEMY_CT, inGameSpriteSize);
     EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(numEntity);
     assert(enemyComp);
     if(enemyData.m_endLevelPos && (*enemyData.m_endLevelPos) == enemyData.m_TileGamePosition[index])
@@ -1466,9 +1464,9 @@ bool MainEngine::createEnemy(const LevelManager &levelManager, const SpriteData 
         enemyComp->m_endLevel = true;
         exit = true;
     }
-    CircleCollisionComponent *circleComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(numEntity);
-    assert(circleComp);
-    circleComp->m_ray = collisionRay;
+    SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(numEntity);
+    assert(spriteComp);
+    spriteComp->m_displaySize = inGameSpriteSize;
     enemyComp->m_life = enemyData.m_life;
     enemyComp->m_visibleShot = !(enemyData.m_visibleShootID.empty());
     enemyComp->m_countTillLastAttack = 0;
@@ -2472,7 +2470,7 @@ uint32_t MainEngine::createEnemyEntity()
     vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
     vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
     vect[Components_e::MAP_COORD_COMPONENT] = 1;
-    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     vect[Components_e::MOVEABLE_COMPONENT] = 1;
     vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
@@ -2595,7 +2593,7 @@ uint32_t MainEngine::createObjectEntity()
 //===================================================================
 void MainEngine::confBaseComponent(uint32_t entityNum, const SpriteData &memSpriteData,
                                    const std::optional<PairUI_t> &coordLevel, CollisionShape_e collisionShape,
-                                   CollisionTag_e tag)
+                                   CollisionTag_e tag, std::optional<const PairFloat_t> inGameSpriteSize)
 {
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
@@ -2605,14 +2603,7 @@ void MainEngine::confBaseComponent(uint32_t entityNum, const SpriteData &memSpri
     if(coordLevel)
     {
         mapComp->m_coord = *coordLevel;
-        if(tag == CollisionTag_e::WALL_CT)
-        {
             mapComp->m_absoluteMapPositionPX = getAbsolutePosition(*coordLevel);
-        }
-        else
-        {
-            mapComp->m_absoluteMapPositionPX = getCenteredAbsolutePosition(*coordLevel);
-        }
         m_physicalEngine.addEntityToZone(entityNum, mapComp->m_coord);
     }
     GeneralCollisionComponent *tagComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(entityNum);
@@ -2622,7 +2613,15 @@ void MainEngine::confBaseComponent(uint32_t entityNum, const SpriteData &memSpri
     {
         RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(entityNum);
         assert(rectComp);
-        rectComp->m_size = {LEVEL_TILE_SIZE_PX, LEVEL_TILE_SIZE_PX};
+        if(tag == CollisionTag_e::WALL_CT)
+        {
+            rectComp->m_size = {LEVEL_TILE_SIZE_PX, LEVEL_TILE_SIZE_PX};
+        }
+        else
+        {
+            assert(inGameSpriteSize);
+            rectComp->m_size = {inGameSpriteSize->first * LEVEL_TILE_SIZE_PX, inGameSpriteSize->second * LEVEL_TILE_SIZE_PX};
+        }
     }
     tagComp->m_tagA = tag;
 }

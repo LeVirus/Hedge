@@ -422,7 +422,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
 {
     MapDisplaySystem *mapSystem = Ecsm_t::instance().getSystem<MapDisplaySystem>(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM));
     assert(mapSystem);
-    if(mapSystem->entityAlreadyDiscovered(args.entityNumB))
+    if(args.tagCompA.m_tagA == CollisionTag_e::DETECT_MAP_CT && mapSystem->entityAlreadyDiscovered(args.entityNumB))
     {
         return;
     }
@@ -437,6 +437,10 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         assert(rectCompB);
         collision = checkRectRectCollision(args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size,
                                args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size);
+        if(collision && args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
+        {
+            collisionRectRectEject(args);
+        }
     }
         break;
     case CollisionShape_e::CIRCLE_C:
@@ -967,6 +971,71 @@ void CollisionSystem::collisionCircleRectEject(CollisionArgs &args, float circle
     }
     collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
     addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
+}
+
+//===================================================================
+void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
+{
+    MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(args.entityNumA);
+    MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(args.entityNumA);
+    RectangleCollisionComponent *rectCollA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA);
+    RectangleCollisionComponent *rectCollB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
+    assert(rectCollA);
+    assert(rectCollB);
+    assert(mapComp);
+    assert(moveComp);
+    float radiantEjectedAngle = getRadiantAngle(moveComp->m_currentDegreeMoveDirection);
+    float elementPosXA = args.mapCompA.m_absoluteMapPositionPX.first;
+    float elementPosYA = args.mapCompA.m_absoluteMapPositionPX.second;
+    float elementPosX = args.mapCompB.m_absoluteMapPositionPX.first;
+    float elementPosY = args.mapCompB.m_absoluteMapPositionPX.second;
+    float elementSecondPosX = elementPosX + rectCollB->m_size.first;
+    float elementSecondPosY = elementPosY + rectCollB->m_size.second;
+    bool angleBehavior = false, limitEjectY = false, limitEjectX = false, crushMode = false;
+    //collision on angle of rect
+    if((elementPosXA < elementPosX || elementPosXA > elementSecondPosX) &&
+        (elementPosYA < elementPosY || elementPosYA > elementSecondPosY))
+    {
+        angleBehavior = true;
+    }
+    float pointElementX = (elementPosXA < elementPosX) ? elementPosX : elementSecondPosX;
+    float pointElementY = (elementPosYA < elementPosY) ? elementPosY : elementSecondPosY;
+    float diffY, diffX = EPSILON_FLOAT;
+    bool visibleShot = (args.tagCompA.m_tagA == CollisionTag_e::BULLET_ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT);
+    diffY = getVerticalCircleRectEject({elementPosXA, elementPosYA, pointElementX, elementPosY,
+                                        elementSecondPosY, rectCollA->m_size.second, radiantEjectedAngle, angleBehavior}, limitEjectY, visibleShot);
+    diffX = getHorizontalCircleRectEject({elementPosXA, elementPosYA, pointElementY, elementPosX, elementSecondPosX,
+                                          rectCollA->m_size.first, radiantEjectedAngle, angleBehavior}, limitEjectX, visibleShot);
+    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
+    {
+        crushMode = args.tagCompB.m_tagA == CollisionTag_e::WALL_CT;
+    }
+    //if player touch ground
+    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
+    {
+        GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
+        assert(gravityComp);
+        if(diffY < 0)
+        {
+            gravityComp->m_onGround = true;
+            gravityComp->m_memOnGround = true;
+            gravityComp->m_jump = false;
+            if(gravityComp->m_fall)
+            {
+                //cancel gravity
+                mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
+                gravityComp->m_fall = false;
+                diffY = std::numeric_limits<float>::epsilon();
+            }
+        }
+        else
+        {
+            gravityComp->m_memOnGround = false;
+        }
+    }
+    collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
+    addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
+
 }
 
 //===================================================================

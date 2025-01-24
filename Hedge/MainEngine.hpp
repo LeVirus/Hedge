@@ -304,7 +304,7 @@ private:
     void confMapDetectShapeEntity(const PairFloat_t &playerPos);
     bool loadEnemiesEntities(const LevelManager &levelManager);
     bool createEnemy(const LevelManager &levelManager, const SpriteData &memSpriteData, const EnemyData &enemyData,
-                         float collisionRay, bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements);
+                         bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements, const std::pair<float, float> &inGameSpriteSize);
     void loadNonVisibleEnemyAmmoStuff(bool loadFromCheckpoint, uint32_t currentEnemy,
                                       const EnemyData &enemyData, const LevelManager &levelManager,
                                       EnemyConfComponent &enemyComp);
@@ -355,7 +355,7 @@ private:
     uint32_t createObjectEntity();
     uint32_t createDisplayTeleportEntity();
     void confBaseComponent(uint32_t entityNum, const SpriteData &memSpriteData, const std::optional<PairUI_t> &coordLevel,
-                           CollisionShape_e collisionShape, CollisionTag_e tag);
+                           CollisionShape_e collisionShape, CollisionTag_e tag, std::optional<const PairFloat_t> inGameSpriteSize = {});
     void loadEnemySprites(const std::vector<SpriteData> &vectSprite, const EnemyData &enemiesData,
                           uint32_t numEntity, EnemyConfComponent &enemyComp, const MapVisibleShotData_t &visibleShot);
     void loadVisibleShotData(const std::vector<SpriteData> &vectSprite, const std::vector<uint32_t> &visibleAmmo,
