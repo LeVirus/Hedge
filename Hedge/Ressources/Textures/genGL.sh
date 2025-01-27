@@ -15,7 +15,7 @@ calc(){ awk "BEGIN { print "$*" }"; }
 
 if [ $# -ne 9 ]
 then
-	echo "Error bad number of arguments."
+	echo "Error bad number of arguments. $# "
 	exit
 fi
 if [ ! -f $7 ]

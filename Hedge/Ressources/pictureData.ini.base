@@ -3039,3 +3039,11 @@ texturePosX = 0.853199
 texturePosY = 0.926448
 textureWeight = 0.0414053
 textureHeight = 0.0641628
+Error bad number of arguments.
+
+[SpritePlayerGunShoot]
+texture = 1
+texturePosX = 0.823958
+texturePosY = 0.168527
+textureWeight = 0.0166667
+textureHeight = 0.0167411

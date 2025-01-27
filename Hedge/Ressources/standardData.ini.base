@@ -402,11 +402,12 @@ StaticSprite = SpriteGSt
 AttackSprite = SpriteGSh SpriteGAA SpriteGAB
 SpriteWeightGame = 0.4 0.4 0.4 0.4
 SpriteHeightGame = 0.8 0.6 0.6 0.6
-AnimationLatency = 0.12
+AnimationLatency = 0.05
 MaxAmmo = 100
-AttackType = 1
-ShotImpactID = ImpactStd
+AttackType = 2
+ShootSpritesID = VisibleShootGun
 Damage = 1
+ShotVelocity = 17
 AnimationType = 0
 LastAnimNum = 1
 SoundEffect = GunShot.wav
@@ -517,6 +518,12 @@ Sprites = SpriteShotD SpriteShotDestructA SpriteShotDestructB SpriteShotDestruct
 SpriteWeightGame = 0.2 0.5 0.8 0.6
 SpriteHeightGame = 0.5 1.0 1.0 1.0
 ImpactSound = DemonAttackImpact.wav
+
+[VisibleShootGun]
+Sprites = SpritePlayerGunShoot SpriteShotDestructA SpriteShotDestructB SpriteShotDestructC
+SpriteWeightGame = 0.1 0.25 0.3 0.35
+SpriteHeightGame = 0.15 0.25 0.35 0.45
+ImpactSound = ImpactLaser.wav
 
 [VisibleShootPlasma]
 Sprites = SpritePlayerShot SpriteShotDestructA SpriteShotDestructB SpriteShotDestructC
