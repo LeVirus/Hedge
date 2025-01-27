@@ -57,12 +57,6 @@ void StaticDisplaySystem::execSystem()
     {
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
         WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-        //DRAW WEAPON
-        SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(
-            playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-        confWeaponsVertexFromComponent(*playerComp, *spriteComp);
-        // drawVertex(spriteComp->m_spriteData->m_textureNum, VertexID_e::WEAPON);
-
         drawStandardStaticSprite(VertexID_e::PANNEL, *playerComp);
         drawStandardStaticSprite(VertexID_e::AMMO_ICON, *playerComp);
         drawStandardStaticSprite(VertexID_e::LIFE_ICON, *playerComp);
@@ -495,47 +489,6 @@ void StaticDisplaySystem::drawWriteVertex(uint32_t numEntity, VertexID_e type, F
     }
     confWriteVertex(*writeComp, *posComp, type);
     drawVertex(writeComp->m_numTexture, type);
-}
-
-//===================================================================
-void StaticDisplaySystem::confWeaponsVertexFromComponent(PlayerConfComponent &playerComp,
-                                                         SpriteTextureComponent &weaponSpriteComp)
-{
-    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(
-        playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(
-        playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-    MemPositionsVertexComponents *memPosComp = Ecsm_t::instance().getComponent<MemPositionsVertexComponents,
-                                                                               Components_e::MEM_POSITIONS_VERTEX_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-    WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-    assert(!posComp->m_vertex.empty());
-    if(weaponComp->m_weaponChange)
-    {
-        setDisplayWeaponChange(*posComp, playerComp, *memPosComp);
-    }
-    else
-    {
-        if(playerComp.m_playerShoot)
-        {
-            timerComp->m_cycleCountA = 0;
-            weaponComp->m_numWeaponSprite = weaponComp->getStdCurrentWeaponSprite() + 1;
-            setWeaponSprite(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)], weaponComp->m_numWeaponSprite);
-            playerComp.m_playerShoot = false;
-            weaponComp->m_timerShootActive = true;
-            weaponComp->m_shootFirstPhase = true;
-        }
-        else if(weaponComp->m_timerShootActive)
-        {
-            treatWeaponShootAnimation(playerComp, *timerComp);
-        }
-        else if(!weaponComp->m_timerShootActive)
-        {
-            setWeaponMovement(playerComp, *posComp, *memPosComp);
-        }
-    }
-    uint32_t index = static_cast<uint32_t>(VertexID_e::WEAPON);
-    m_vertices[index].clear();
-    m_vertices[index].loadVertexStandartTextureComponent(*posComp, weaponSpriteComp);
 }
 
 //===================================================================

@@ -1292,6 +1292,7 @@ void LevelManager::loadPlayerDate()
     m_playerData.m_inGameSpriteSize.first = std::stof(*val);
     val = m_ini.getValue(vectINISections[0], "SpriteHeightGame");
     assert(val);
+    m_playerData.m_inGameSpriteSize.second = std::stof(*val);
     m_playerData.m_attackPower = std::stoi(*val);
     val = m_ini.getValue(vectINISections[0], "Life");
     assert(val);

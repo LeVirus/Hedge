@@ -2638,7 +2638,7 @@ void MainEngine::loadPlayerEntity(const LevelManager &levelManager)
     vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
     vect[Components_e::MEM_POSITIONS_VERTEX_COMPONENT] = 1;
     vect[Components_e::INPUT_COMPONENT] = 1;
-    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     vect[Components_e::PLAYER_CONF_COMPONENT] = 1;
     vect[Components_e::TIMER_COMPONENT] = 1;
@@ -2665,13 +2665,13 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     PositionVertexComponent *pos = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(entityNum);
     MapCoordComponent *map = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
     MoveableComponent *move = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(entityNum);
-    CircleCollisionComponent *circleColl = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
+    RectangleCollisionComponent *rectColl = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(entityNum);
     GeneralCollisionComponent *tagColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(entityNum);
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(entityNum);
     assert(pos);
     assert(map);
     assert(move);
-    assert(circleColl);
+    assert(rectColl);
     assert(tagColl);
     assert(playerConf);
     const PlayerData &playerData = levelManager.getPlayerData();
@@ -2698,14 +2698,15 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     move->m_degreeOrientation = getDegreeAngleFromDirection(playerDir);
     move->m_velocity = 2.5f;
     map->m_absoluteMapPositionPX = getCenteredAbsolutePosition(map->m_coord);
-    circleColl->m_ray = PLAYER_RAY;
-    updatePlayerArrow(*move, *pos);
+    SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
+    assert(spriteComp);
+    spriteComp->m_displaySize = playerData.m_inGameSpriteSize;
+    std::cerr << playerData.m_inGameSpriteSize.first << "  " << playerData.m_inGameSpriteSize.second << " \n";
+
+
+    rectColl->m_size = playerData.m_inGameSpriteSize;
     tagColl->m_tagA = CollisionTag_e::PLAYER_CT;
-    tagColl->m_shape = CollisionShape_e::CIRCLE_C;
-    //set standard weapon sprite
-    StaticDisplaySystem *staticDisplay = Ecsm_t::instance().getSystem<StaticDisplaySystem>(static_cast<uint32_t>(Systems_e::STATIC_DISPLAY_SYSTEM));
-    assert(staticDisplay);
-    staticDisplay->setWeaponSprite(numWeaponEntity, weaponConf->m_weaponsData[weaponConf->m_currentWeapon].m_memPosSprite.first);
+    tagColl->m_shape = CollisionShape_e::RECTANGLE_C;
     confWriteEntities();
     confMenuEntities();
     confLifeAmmoPannelEntities();

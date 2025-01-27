@@ -437,7 +437,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         assert(rectCompB);
         collision = checkRectRectCollision(args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size,
                                args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size);
-        if(collision && args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
+        if(collision && (args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT))
         {
             collisionRectRectEject(args);
         }

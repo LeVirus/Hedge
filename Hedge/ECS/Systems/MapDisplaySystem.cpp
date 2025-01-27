@@ -149,10 +149,6 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
         GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
         // if(!genComp)continue;
         assert(genComp);
-        if(genComp->m_tagA == CollisionTag_e::EXPLOSION_CT)
-        {
-            continue;
-        }
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         if(!mapComp)
         {
@@ -276,19 +272,19 @@ void MapDisplaySystem::confMiniMapVertexElement(const PairFloat_t &glPosition, u
         {
             posComp->m_vertex.resize(4);
         }
-        posComp->m_vertex[0] = {0 + glPosition.first, 0 + glPosition.second};
-        posComp->m_vertex[1] = {0 + glPosition.first + m_miniMapTileSizeGL, 0 + glPosition.second};
-        posComp->m_vertex[2] = {0 + glPosition.first + m_miniMapTileSizeGL, 0 + glPosition.second - m_miniMapTileSizeGL};
-        posComp->m_vertex[3] = {0 + glPosition.first, 0 + glPosition.second - m_miniMapTileSizeGL};
+        posComp->m_vertex[0] = {glPosition.first, glPosition.second};
+        posComp->m_vertex[1] = {glPosition.first + m_miniMapTileSizeGL, glPosition.second};
+        posComp->m_vertex[2] = {glPosition.first + m_miniMapTileSizeGL, glPosition.second - m_miniMapTileSizeGL};
+        posComp->m_vertex[3] = {glPosition.first, glPosition.second - m_miniMapTileSizeGL};
     }
     else
     {
         float sizeX = spriteComp->m_displaySize->first * (LEVEL_TILE_SIZE_PX * MAP_LOCAL_SIZE_GL) / m_localLevelSizePX,
             sizeY = spriteComp->m_displaySize->second * (LEVEL_TILE_SIZE_PX * MAP_LOCAL_SIZE_GL) / m_localLevelSizePX;
-        posComp->m_vertex[0] = {0 + glPosition.first, 0 + glPosition.second};
-        posComp->m_vertex[1] = {0 + glPosition.first + sizeX, 0 + glPosition.second};
-        posComp->m_vertex[2] = {0 + glPosition.first + sizeX, 0 + glPosition.second - sizeY};
-        posComp->m_vertex[3] = {0 + glPosition.first, 0 + glPosition.second - sizeY};
+        posComp->m_vertex[0] = {glPosition.first, glPosition.second};
+        posComp->m_vertex[1] = {glPosition.first + sizeX, glPosition.second};
+        posComp->m_vertex[2] = {glPosition.first + sizeX, glPosition.second - sizeY};
+        posComp->m_vertex[3] = {glPosition.first, glPosition.second - sizeY};
     }
 }
 
