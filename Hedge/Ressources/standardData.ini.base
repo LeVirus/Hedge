@@ -156,8 +156,8 @@ Touched = SpriteADA
 Life = 200
 Velocity = 0.6
 MeleeDamage = 33
-SpriteWeightGame = 2.1
-SpriteHeightGame = 1.6
+SpriteWeightGame = 0.9
+SpriteHeightGame = 1.4
 FrozenOnAttack = false
 
 

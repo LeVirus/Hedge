@@ -2697,14 +2697,12 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     Direction_e playerDir = level.getPlayerDepartureDirection();
     move->m_degreeOrientation = getDegreeAngleFromDirection(playerDir);
     move->m_velocity = 2.5f;
-    map->m_absoluteMapPositionPX = getCenteredAbsolutePosition(map->m_coord);
+    map->m_absoluteMapPositionPX = getAbsolutePosition(map->m_coord);
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
     assert(spriteComp);
     spriteComp->m_displaySize = playerData.m_inGameSpriteSize;
-    std::cerr << playerData.m_inGameSpriteSize.first << "  " << playerData.m_inGameSpriteSize.second << " \n";
-
-
-    rectColl->m_size = playerData.m_inGameSpriteSize;
+    rectColl->m_size = {playerData.m_inGameSpriteSize.first * LEVEL_TILE_SIZE_PX, playerData.m_inGameSpriteSize.second * LEVEL_TILE_SIZE_PX};
+    std::cerr << playerData.m_inGameSpriteSize.first << "  " << playerData.m_inGameSpriteSize.second << "\n";
     tagColl->m_tagA = CollisionTag_e::PLAYER_CT;
     tagColl->m_shape = CollisionShape_e::RECTANGLE_C;
     confWriteEntities();

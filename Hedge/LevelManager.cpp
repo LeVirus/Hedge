@@ -1305,7 +1305,6 @@ void LevelManager::loadPlayerDate()
     {
         m_playerData.m_meleeDamage = std::stoi(*val);
     }
-
     val = m_ini.getValue(vectINISections[0], "FrozenOnAttack");
     assert(val);
     std::optional<bool> resBool = toBool(*val);
