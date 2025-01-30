@@ -157,6 +157,14 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
         }
         if(m_playerNum == *it)
         {
+            if(mapComp->m_absoluteMapPositionPX.first < EPSILON_FLOAT)
+            {
+                mapComp->m_absoluteMapPositionPX.first = EPSILON_FLOAT;
+            }
+            if(mapComp->m_absoluteMapPositionPX.second < EPSILON_FLOAT)
+            {
+                mapComp->m_absoluteMapPositionPX.second = EPSILON_FLOAT;
+            }
             std::optional<PairUI_t> coord = getLevelCoord(mapComp->m_absoluteMapPositionPX);
             assert(coord);
             mapComp->m_coord = *coord;
