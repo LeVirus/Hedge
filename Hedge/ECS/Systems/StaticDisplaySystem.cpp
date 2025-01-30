@@ -57,6 +57,18 @@ void StaticDisplaySystem::execSystem()
     {
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
         WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+        if(!weaponComp->m_timerShootActive && playerComp->m_playerShoot)
+        {
+            weaponComp->m_timerShootActive = true;
+            const WeaponData &currentWeapon = weaponComp->m_weaponsData[weaponComp->m_currentWeapon];
+            weaponComp->m_numWeaponSprite = currentWeapon.m_memPosSprite.first;
+            timerComp->m_cycleCountA = 0;
+        }
+        if(weaponComp->m_timerShootActive)
+        {
+            treatWeaponShootAnimation(*playerComp, *timerComp);
+        }
         drawStandardStaticSprite(VertexID_e::PANNEL, *playerComp);
         drawStandardStaticSprite(VertexID_e::AMMO_ICON, *playerComp);
         drawStandardStaticSprite(VertexID_e::LIFE_ICON, *playerComp);

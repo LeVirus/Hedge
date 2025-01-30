@@ -1259,7 +1259,7 @@ uint32_t MainEngine::loadWeaponsEntity(const LevelManager &levelManager)
         }
         weaponConf->m_weaponsData[weaponToTreat].m_weaponPower = vectWeapons[i].m_damage;
         weaponConf->m_weaponsData[weaponToTreat].m_animMode = vectWeapons[i].m_animMode;
-        weaponConf->m_weaponsData[weaponToTreat].m_intervalLatency = vectWeapons[i].m_animationLatency / FPS_VALUE;
+        weaponConf->m_weaponsData[weaponToTreat].m_intervalLatency = vectWeapons[i].m_animationLatency;
         weaponConf->m_weaponsData[weaponToTreat].m_visibleShotID = vectWeapons[i].m_visibleShootID;
         weaponConf->m_weaponsData[weaponToTreat].m_weaponName = vectWeapons[i].m_weaponName;
         weaponConf->m_weaponsData[weaponToTreat].m_impactID = vectWeapons[i].m_impactID;
@@ -2702,7 +2702,6 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     assert(spriteComp);
     spriteComp->m_displaySize = playerData.m_inGameSpriteSize;
     rectColl->m_size = {playerData.m_inGameSpriteSize.first * LEVEL_TILE_SIZE_PX, playerData.m_inGameSpriteSize.second * LEVEL_TILE_SIZE_PX};
-    std::cerr << playerData.m_inGameSpriteSize.first << "  " << playerData.m_inGameSpriteSize.second << "\n";
     tagColl->m_tagA = CollisionTag_e::PLAYER_CT;
     tagColl->m_shape = CollisionShape_e::RECTANGLE_C;
     confWriteEntities();
