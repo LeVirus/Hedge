@@ -5,9 +5,7 @@
 #include <iostream>
 
 //===================================================================
-bool checkCircleRectCollision(const PairFloat_t &cicleCenter,
-                              const float circleRay,
-                              const PairFloat_t &rectOrigin,
+bool checkCircleRectCollision(const PairFloat_t &cicleCenter, const float circleRay, const PairFloat_t &rectOrigin,
                               const PairFloat_t &rectSize)
 {
     float circleDiameter = circleRay * 2.0f;

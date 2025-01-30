@@ -449,6 +449,13 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         assert(circleCompB);
         collision = checkCircleRectCollision(args.mapCompB.m_absoluteMapPositionPX, circleCompB->m_ray,
                                  args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size);
+        if(collision)
+        {
+            if(args.tagCompB.m_tagA == CollisionTag_e::OBJECT_CT)
+            {
+                treatPlayerPickObject(args);
+            }
+        }
     }
         break;
     case CollisionShape_e::SEGMENT_C:
