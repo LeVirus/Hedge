@@ -239,7 +239,8 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
             {
                 mapComp->m_absoluteMapPositionPX.first -= moveComp->m_velocity;
             }
-            m_mainEngine->addEntityToZone(enemyEntity, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
+            mapComp->m_coord = *getLevelCoord(mapComp->m_absoluteMapPositionPX);
+            m_mainEngine->addEntityToZone(enemyEntity, mapComp->m_coord);
         }
     }
 }
