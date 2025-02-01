@@ -261,6 +261,10 @@ void InputSystem::treatPlayerInput()
                     m_mainEngine->playerAttack(*it, *playerComp, mapComp->m_absoluteMapPositionPX);
                 }
             }
+            else
+            {
+                playerComp->m_playerShoot = false;
+            }
         }
         if(checkPlayerKeyTriggered(ControlKey_e::SHOOT) && (playerComp->m_spriteType != PlayerSpriteElementType_e::DAMAGE_LEFT && playerComp->m_spriteType != PlayerSpriteElementType_e::DAMAGE_RIGHT))
         {
