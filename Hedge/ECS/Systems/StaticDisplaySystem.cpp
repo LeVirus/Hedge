@@ -80,7 +80,9 @@ void StaticDisplaySystem::execSystem()
                          std::to_string(playerComp->m_life));
         if(weaponComp->m_weaponChange)
         {
-            drawWeaponsPreviewPlayer(*playerComp, *weaponComp);
+            WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+            weaponComp->m_weaponChange = false;
+            // drawWeaponsPreviewPlayer(*playerComp, *weaponComp);
         }
     }
 }
@@ -590,7 +592,7 @@ void StaticDisplaySystem::treatWeaponShootAnimation(PlayerConfComponent &playerC
                 }
             }
         }
-        setWeaponSprite(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)], weaponComp->m_numWeaponSprite);
+        // setWeaponSprite(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)], weaponComp->m_numWeaponSprite);
         timerComp.m_cycleCountA = 0;
     }
 }
@@ -709,6 +711,7 @@ void StaticDisplaySystem::setDisplayWeaponChange(PositionVertexComponent &posCom
             setWeaponSprite(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)], weaponComp->getStdCurrentWeaponSprite());
             float diffVert = posComp.m_vertex[3].second - posComp.m_vertex[0].second;
             modVertexPos(posComp, {EPSILON_FLOAT, diffVert});
+            weaponComp->m_weaponChange = false;
         }
     }
     //move up
