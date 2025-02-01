@@ -109,10 +109,6 @@ private:
     void drawLineWriteVertex(PositionVertexComponent &posComp, WriteComponent &writeComp);
     void confWeaponsVertexFromComponent(PlayerConfComponent &playerComp, SpriteTextureComponent &weaponSpriteComp);
     void treatWeaponShootAnimation(PlayerConfComponent &playerComp, TimerComponent &timerComp);
-    void setDisplayWeaponChange(PositionVertexComponent &posComp, PlayerConfComponent &playerComp,
-                                MemPositionsVertexComponents &memPosComp);
-    void setWeaponMovement(PlayerConfComponent &playerComp, PositionVertexComponent &posComp,
-                           MemPositionsVertexComponents &memPosComp);
 private:
     uint32_t m_playerEntity;
     MainEngine *m_mainEngine;
