@@ -1053,21 +1053,22 @@ float CollisionSystem::getVerticalCircleRectEject(const EjectYArgs& args, bool &
 {
     float adj, diffYA = EPSILON_FLOAT, diffYB;
     if(std::abs(std::sin(args.radiantAngle)) < 0.01f &&
-            (args.angleMode || args.circlePosY < args.elementPosY || args.circlePosY > args.elementSecondPosY))
+        (args.angleMode || args.circlePosY < args.elementPosY || args.circlePosY > args.elementSecondPosY))
     {
         float distUpPoint = std::abs(args.circlePosY - args.elementPosY),
-                distDownPoint = std::abs(args.circlePosY - args.elementSecondPosY);
-        limitEject = true;
-        if(distUpPoint < distDownPoint)
+            distDownPoint = std::abs(args.circlePosY - args.elementSecondPosY),
+            diff = distUpPoint - distDownPoint;
+        if(std::abs(diff) < 4.0f)
         {
-            --diffYA;
-        }
-        else
-        {
-            ++diffYA;
-        }
-        if(limitEject)
-        {
+            limitEject = true;
+            if(diff < 0.0f)
+            {
+                --diffYA;
+            }
+            else
+            {
+                ++diffYA;
+            }
             return diffYA;
         }
     }
