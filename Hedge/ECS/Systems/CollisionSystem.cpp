@@ -1014,16 +1014,16 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     {
         crushMode = args.tagCompB.m_tagA == CollisionTag_e::WALL_CT;
     }
+    GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
     //if player touch ground
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
-        GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
         assert(gravityComp);
         if(diffY < 0)
         {
             gravityComp->m_onGround = true;
             gravityComp->m_memOnGround = true;
-            gravityComp->m_jump = false;
+            // gravityComp->m_jump = false;
             if(gravityComp->m_fall)
             {
                 //cancel gravity
