@@ -995,26 +995,28 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     assert(mapComp);
     assert(moveComp);
     float radiantEjectedAngle = getRadiantAngle(moveComp->m_currentDegreeMoveDirection);
-    float elementPosXA = args.mapCompA.m_absoluteMapPositionPX.first;
-    float elementPosYA = args.mapCompA.m_absoluteMapPositionPX.second;
-    float elementPosX = args.mapCompB.m_absoluteMapPositionPX.first;
-    float elementPosY = args.mapCompB.m_absoluteMapPositionPX.second;
-    float elementSecondPosX = elementPosX + rectCollB->m_size.first;
-    float elementSecondPosY = elementPosY + rectCollB->m_size.second;
+    float elementAPosX = args.mapCompA.m_absoluteMapPositionPX.first;
+    float elementAPosY = args.mapCompA.m_absoluteMapPositionPX.second;
+    float elementASecondPosX = elementAPosX+ rectCollA->m_size.first;
+    float elementASecondPosY = elementAPosY+ rectCollA->m_size.second;
+    float elementBPosX = args.mapCompB.m_absoluteMapPositionPX.first;
+    float elementBPosY = args.mapCompB.m_absoluteMapPositionPX.second;
+    float elementBSecondPosX = elementBPosX + rectCollB->m_size.first;
+    float elementBSecondPosY = elementBPosY + rectCollB->m_size.second;
     bool angleBehavior = false, limitEjectY = false, limitEjectX = false, crushMode = false;
     //collision on angle of rect
-    if((elementPosXA < elementPosX || elementPosXA > elementSecondPosX) &&
-        (elementPosYA < elementPosY || elementPosYA > elementSecondPosY))
+    if((elementAPosX < elementBPosX || elementAPosX > elementBSecondPosX) &&
+        (elementAPosY < elementBPosY || elementAPosY > elementBSecondPosY))
     {
         angleBehavior = true;
     }
-    float pointElementX = (elementPosXA < elementPosX) ? elementPosX : elementSecondPosX;
-    float pointElementY = (elementPosYA < elementPosY) ? elementPosY : elementSecondPosY;
+    float pointElementX = (elementAPosX < elementBPosX) ? elementBPosX : elementBSecondPosX;
+    float pointElementY = (elementAPosY < elementBPosY) ? elementBPosY : elementBSecondPosY;
     float diffY, diffX = EPSILON_FLOAT;
     bool visibleShot = (args.tagCompA.m_tagA == CollisionTag_e::BULLET_ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT);
-    diffY = getVerticalCircleRectEject({elementPosXA, elementPosYA, pointElementX, elementPosY,
-                                        elementSecondPosY, rectCollA->m_size.second, radiantEjectedAngle, angleBehavior}, limitEjectY, visibleShot);
-    diffX = getHorizontalCircleRectEject({elementPosXA, elementPosYA, pointElementY, elementPosX, elementSecondPosX,
+    diffY = getVerticalRectRectEject({elementAPosX, elementAPosY, elementASecondPosY,
+                                      elementBPosX, elementBPosY, elementBSecondPosY, radiantEjectedAngle, angleBehavior}, limitEjectY);
+    diffX = getHorizontalCircleRectEject({elementAPosX, elementAPosY, pointElementY, elementBPosX, elementBSecondPosX,
                                           rectCollA->m_size.first, radiantEjectedAngle, angleBehavior}, limitEjectX, visibleShot);
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
@@ -1049,7 +1051,7 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
 }
 
 //===================================================================
-float CollisionSystem::getVerticalCircleRectEject(const EjectYArgs& args, bool &limitEject, bool visibleShot)
+float CollisionSystem::getVerticalCircleRectEject(const EjectCircleYArgs& args, bool &limitEject, bool visibleShot)
 {
     float adj, diffYA = EPSILON_FLOAT, diffYB;
     if(std::abs(std::sin(args.radiantAngle)) < 0.01f &&
@@ -1114,7 +1116,7 @@ float CollisionSystem::getVerticalCircleRectEject(const EjectYArgs& args, bool &
 }
 
 //===================================================================
-float CollisionSystem::getHorizontalCircleRectEject(const EjectXArgs &args, bool &limitEject, bool visibleShot)
+float CollisionSystem::getHorizontalCircleRectEject(const EjectCircleXArgs &args, bool &limitEject, bool visibleShot)
 {
     float adj, diffXA = EPSILON_FLOAT, diffXB;
     if(std::abs(std::cos(args.radiantAngle)) < 0.01f && (args.angleMode || args.circlePosX < args.elementPosX ||
@@ -1177,6 +1179,46 @@ float CollisionSystem::getHorizontalCircleRectEject(const EjectXArgs &args, bool
 }
 
 //===================================================================
+float CollisionSystem::getVerticalRectRectEject(const EjectRectYArgs &args, bool &limitEject)
+{
+    float diffYA = EPSILON_FLOAT;
+    float distUpPoint = std::abs(args.elementASecondPosY - args.elementBPosY),
+        distDownPoint = std::abs(args.elementBSecondPosY - args.elementAPosY),
+        diff = distUpPoint - distDownPoint;
+
+    if(std::abs(diff) < 4.0f)
+    {
+        limitEject = true;
+        if(diff < 0.0f)
+        {
+            --diffYA;
+        }
+        else
+        {
+            ++diffYA;
+        }
+        return diffYA;
+    }
+    //EJECT UP
+    if((args.elementASecondPosY < args.elementBSecondPosY || args.elementAPosY < args.elementBPosY) && args.elementASecondPosY > args.elementBPosY)
+    {
+        diffYA -= (args.elementASecondPosY - args.elementBPosY);
+    }
+    //EJECT DOWN
+    else if(args.elementAPosY < args.elementBSecondPosY)
+    {
+        diffYA += (args.elementBSecondPosY - args.elementAPosY);
+    }
+    return diffYA;
+}
+
+//===================================================================
+float CollisionSystem::getHorizontalRectRectEject(const EjectRectXArgs &args, bool &limitEject)
+{
+
+}
+
+//===================================================================
 void CollisionSystem::collisionEject(MapCoordComponent &mapComp, float diffX, float diffY, bool limitEjectY, bool limitEjectX, bool crushCase)
 {
     float minEject = std::min(std::abs(diffY), std::abs(diffX));
@@ -1196,7 +1238,7 @@ void CollisionSystem::collisionEject(MapCoordComponent &mapComp, float diffX, fl
         }
         mapComp.m_absoluteMapPositionPX.second += diffY;
     }
-    if(!limitEjectY && (limitEjectX || std::abs(diffY) > std::abs(diffX)))
+    else if(!limitEjectY && (limitEjectX || std::abs(diffY) > std::abs(diffX)))
     {
         if(crushCase)
         {

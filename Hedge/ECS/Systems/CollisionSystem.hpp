@@ -11,8 +11,10 @@ struct SegmentCollisionComponent;
 struct MapCoordComponent;
 struct GeneralCollisionComponent;
 struct CollisionArgs;
-struct EjectYArgs;
-struct EjectXArgs;
+struct EjectCircleYArgs;
+struct EjectCircleXArgs;
+struct EjectRectXArgs;
+struct EjectRectYArgs;
 struct PlayerConfComponent;
 struct WeaponComponent;
 struct ShotConfComponent;
@@ -83,8 +85,12 @@ private:
     void collisionCircleRectEject(CollisionArgs &args,
                                   float circleRay, const RectangleCollisionComponent &rectCollB, bool visibleShotFirstEject = false);
     void collisionRectRectEject(CollisionArgs &args);
-    float getVerticalCircleRectEject(const EjectYArgs &args, bool &limitEject, bool visibleShot);
-    float getHorizontalCircleRectEject(const EjectXArgs &args, bool &limitEject, bool visibleShot);
+    float getVerticalCircleRectEject(const EjectCircleYArgs &args, bool &limitEject, bool visibleShot);
+    float getHorizontalCircleRectEject(const EjectCircleXArgs &args, bool &limitEject, bool visibleShot);
+
+    float getVerticalRectRectEject(const EjectRectYArgs &args, bool &limitEject);
+    float getHorizontalRectRectEject(const EjectRectXArgs &args, bool &limitEject);
+
     void collisionCircleCircleEject(CollisionArgs &args,
                                     const CircleCollisionComponent &circleCollA,
                                     const CircleCollisionComponent &circleCollB);
@@ -135,14 +141,28 @@ struct CollisionArgs
     MapCoordComponent &mapCompA, &mapCompB;
 };
 
-struct EjectXArgs
+struct EjectRectXArgs
+{
+    float elementAPosY, elementAPosX, elementASecondPosX,
+        elementBPosY, elementBPosX, elementBSecondPosX, radiantAngle;
+    bool angleMode;
+};
+
+struct EjectRectYArgs
+{
+    float elementAPosX, elementAPosY, elementASecondPosY,
+        elementBPosX, elementBPosY, elementBSecondPosY, radiantAngle;
+    bool angleMode;
+};
+
+struct EjectCircleXArgs
 {
     float circlePosX, circlePosY, elementPosY, elementPosX,
     elementSecondPosX, ray, radiantAngle;
     bool angleMode;
 };
 
-struct EjectYArgs
+struct EjectCircleYArgs
 {
     float circlePosX, circlePosY, elementPosX, elementPosY,
     elementSecondPosY, ray, radiantAngle;
