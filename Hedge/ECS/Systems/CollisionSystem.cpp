@@ -1010,14 +1010,13 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     {
         angleBehavior = true;
     }
-    float pointElementX = (elementAPosX < elementBPosX) ? elementBPosX : elementBSecondPosX;
-    float pointElementY = (elementAPosY < elementBPosY) ? elementBPosY : elementBSecondPosY;
     float diffY, diffX = EPSILON_FLOAT;
-    bool visibleShot = (args.tagCompA.m_tagA == CollisionTag_e::BULLET_ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT);
-    diffY = getVerticalRectRectEject({elementAPosX, elementAPosY, elementASecondPosY,
-                                      elementBPosX, elementBPosY, elementBSecondPosY, radiantEjectedAngle, angleBehavior}, limitEjectY);
-    diffX = getHorizontalCircleRectEject({elementAPosX, elementAPosY, pointElementY, elementBPosX, elementBSecondPosX,
-                                          rectCollA->m_size.first, radiantEjectedAngle, angleBehavior}, limitEjectX, visibleShot);
+    //eject Y
+    diffY = getRectRectEject({elementAPosX, elementAPosY, elementASecondPosY,
+                              elementBPosX, elementBPosY, elementBSecondPosY, radiantEjectedAngle, angleBehavior}, limitEjectY);
+    //eject X
+    diffX = getRectRectEject({elementAPosY, elementAPosX, elementASecondPosX,
+                              elementBPosY, elementBPosX, elementBSecondPosX, radiantEjectedAngle, angleBehavior}, limitEjectY);
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
         crushMode = args.tagCompB.m_tagA == CollisionTag_e::WALL_CT;
@@ -1179,7 +1178,7 @@ float CollisionSystem::getHorizontalCircleRectEject(const EjectCircleXArgs &args
 }
 
 //===================================================================
-float CollisionSystem::getVerticalRectRectEject(const EjectRectYArgs &args, bool &limitEject)
+float CollisionSystem::getRectRectEject(const EjectRectRectArgs &args, bool &limitEject)
 {
     float diffYA = EPSILON_FLOAT;
     float distUpPoint = std::abs(args.elementASecondPosY - args.elementBPosY),
@@ -1210,12 +1209,6 @@ float CollisionSystem::getVerticalRectRectEject(const EjectRectYArgs &args, bool
         diffYA += (args.elementBSecondPosY - args.elementAPosY);
     }
     return diffYA;
-}
-
-//===================================================================
-float CollisionSystem::getHorizontalRectRectEject(const EjectRectXArgs &args, bool &limitEject)
-{
-
 }
 
 //===================================================================

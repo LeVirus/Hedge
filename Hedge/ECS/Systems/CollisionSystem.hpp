@@ -14,7 +14,7 @@ struct CollisionArgs;
 struct EjectCircleYArgs;
 struct EjectCircleXArgs;
 struct EjectRectXArgs;
-struct EjectRectYArgs;
+struct EjectRectRectArgs;
 struct PlayerConfComponent;
 struct WeaponComponent;
 struct ShotConfComponent;
@@ -88,9 +88,7 @@ private:
     float getVerticalCircleRectEject(const EjectCircleYArgs &args, bool &limitEject, bool visibleShot);
     float getHorizontalCircleRectEject(const EjectCircleXArgs &args, bool &limitEject, bool visibleShot);
 
-    float getVerticalRectRectEject(const EjectRectYArgs &args, bool &limitEject);
-    float getHorizontalRectRectEject(const EjectRectXArgs &args, bool &limitEject);
-
+    float getRectRectEject(const EjectRectRectArgs &args, bool &limitEject);
     void collisionCircleCircleEject(CollisionArgs &args,
                                     const CircleCollisionComponent &circleCollA,
                                     const CircleCollisionComponent &circleCollB);
@@ -141,14 +139,7 @@ struct CollisionArgs
     MapCoordComponent &mapCompA, &mapCompB;
 };
 
-struct EjectRectXArgs
-{
-    float elementAPosY, elementAPosX, elementASecondPosX,
-        elementBPosY, elementBPosX, elementBSecondPosX, radiantAngle;
-    bool angleMode;
-};
-
-struct EjectRectYArgs
+struct EjectRectRectArgs
 {
     float elementAPosX, elementAPosY, elementASecondPosY,
         elementBPosX, elementBPosY, elementBSecondPosY, radiantAngle;
