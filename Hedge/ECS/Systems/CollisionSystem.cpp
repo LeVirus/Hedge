@@ -994,7 +994,6 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     assert(rectCollB);
     assert(mapComp);
     assert(moveComp);
-    float radiantEjectedAngle = getRadiantAngle(moveComp->m_currentDegreeMoveDirection);
     float elementAPosX = args.mapCompA.m_absoluteMapPositionPX.first;
     float elementAPosY = args.mapCompA.m_absoluteMapPositionPX.second;
     float elementASecondPosX = elementAPosX+ rectCollA->m_size.first;
@@ -1003,20 +1002,14 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     float elementBPosY = args.mapCompB.m_absoluteMapPositionPX.second;
     float elementBSecondPosX = elementBPosX + rectCollB->m_size.first;
     float elementBSecondPosY = elementBPosY + rectCollB->m_size.second;
-    bool angleBehavior = false, limitEjectY = false, limitEjectX = false, crushMode = false;
-    //collision on angle of rect
-    if((elementAPosX < elementBPosX || elementAPosX > elementBSecondPosX) &&
-        (elementAPosY < elementBPosY || elementAPosY > elementBSecondPosY))
-    {
-        angleBehavior = true;
-    }
+    bool limitEjectY = false, limitEjectX = false, crushMode = false;
     float diffY, diffX = EPSILON_FLOAT;
     //eject Y
     diffY = getRectRectEject({elementAPosX, elementAPosY, elementASecondPosY,
-                              elementBPosX, elementBPosY, elementBSecondPosY, radiantEjectedAngle, angleBehavior}, limitEjectY);
+                              elementBPosX, elementBPosY, elementBSecondPosY}, limitEjectY);
     //eject X
     diffX = getRectRectEject({elementAPosY, elementAPosX, elementASecondPosX,
-                              elementBPosY, elementBPosX, elementBSecondPosX, radiantEjectedAngle, angleBehavior}, limitEjectY);
+                              elementBPosY, elementBPosX, elementBSecondPosX}, limitEjectY);
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
         crushMode = args.tagCompB.m_tagA == CollisionTag_e::WALL_CT;

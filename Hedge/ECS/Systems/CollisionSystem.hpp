@@ -142,8 +142,7 @@ struct CollisionArgs
 struct EjectRectRectArgs
 {
     float elementAPosX, elementAPosY, elementASecondPosY,
-        elementBPosX, elementBPosY, elementBSecondPosY, radiantAngle;
-    bool angleMode;
+        elementBPosX, elementBPosY, elementBSecondPosY;
 };
 
 struct EjectCircleXArgs
