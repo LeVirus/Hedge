@@ -1023,7 +1023,7 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
         {
             gravityComp->m_onGround = true;
             gravityComp->m_memOnGround = true;
-            if(std::abs(diffY) > 3.0f && std::abs(diffY) > std::abs(diffX))
+            if(/*std::abs(diffY) > 3.0f &&*/ std::abs(diffY) > std::abs(diffX))
             {
                 gravityComp->m_fall = true;
                 gravityComp->m_onGround = false;
@@ -1031,10 +1031,14 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
             }
             else if(gravityComp->m_fall)
             {
-                //cancel gravity
-                mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
-                gravityComp->m_fall = false;
-                diffY = std::numeric_limits<float>::epsilon();
+                if(std::abs(std::abs(diffY) - std::abs(diffX)) >= 1.0f)
+                {
+                    diffY = 15.0f;
+                    //cancel gravity
+                    mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
+                    gravityComp->m_fall = false;
+                    diffY = std::numeric_limits<float>::epsilon();
+                }
             }
         }
         else
@@ -1171,6 +1175,7 @@ float CollisionSystem::getRectRectEject(const EjectRectRectArgs &args, bool &lim
     {
         diffYA += (args.elementBSecondPosY - args.elementAPosY);
     }
+    // assert(diffYA > 1.0f);
     return diffYA;
 }
 
