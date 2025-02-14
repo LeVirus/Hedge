@@ -1,12 +1,11 @@
 ))
-Enemies stay stuck on ground
-
-))
 Animation jump/fall first frame issue if loop several times
 
 ))
-Visible shoot stay stuck in first zone===========================OK
+Enemies stay stuck on ground================================OK
 
+))
+Visible shoot stay stuck in first zone===========================OK
 
 ))
 Issue collision in vertical wall==========================================OK

@@ -120,6 +120,10 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
         if(playerConfComp->m_currentSprite == it->second.second)
         {
             playerConfComp->m_currentSprite = it->second.first;
+            if(playerConfComp->m_spriteType == PlayerSpriteElementType_e::JUMP_RIGHT || playerConfComp->m_spriteType == PlayerSpriteElementType_e::JUMP_LEFT)
+            {
+                ++playerConfComp->m_currentSprite;
+            }
         }
         else
         {
