@@ -1019,7 +1019,9 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     //if player touch ground
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
-        if(diffY < 0)
+        //if y change is lower than Y
+        bool YChange = (std::abs(diffY) < std::abs(diffX));
+        if(YChange && diffY < 0)
         {
             gravityComp->m_onGround = true;
             gravityComp->m_memOnGround = true;
@@ -1033,7 +1035,6 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
             {
                 if(std::abs(std::abs(diffY) - std::abs(diffX)) >= 1.0f)
                 {
-                    diffY = 15.0f;
                     //cancel gravity
                     mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
                     gravityComp->m_fall = false;
@@ -1043,9 +1044,16 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
         }
         else
         {
-            gravityComp->m_memOnGround = false;
-            gravityComp->m_onGround = false;
-            gravityComp->m_fall = true;
+            if(gravityComp->m_memOnGround)
+            {
+                gravityComp->m_fall = false;
+            }
+            else
+            {
+                gravityComp->m_memOnGround = false;
+                gravityComp->m_onGround = false;
+                gravityComp->m_fall = true;
+            }
         }
     }
     collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
