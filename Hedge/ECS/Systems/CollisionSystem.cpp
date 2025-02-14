@@ -1017,7 +1017,7 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
     assert(gravityComp);
     //if player touch ground
-    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
+    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
     {
         //if y change is lower than Y
         bool YChange = (std::abs(diffY) < std::abs(diffX));
@@ -1054,6 +1054,28 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
                 gravityComp->m_onGround = false;
                 gravityComp->m_fall = true;
             }
+        }
+    }
+    else if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
+    {
+        GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
+        assert(gravityComp);
+        if(diffY < 0)
+        {
+            gravityComp->m_onGround = true;
+            gravityComp->m_memOnGround = true;
+            gravityComp->m_jump = false;
+            if(gravityComp->m_fall)
+            {
+                //cancel gravity
+                mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
+                gravityComp->m_fall = false;
+                diffY = std::numeric_limits<float>::epsilon();
+            }
+        }
+        else
+        {
+            gravityComp->m_memOnGround = false;
         }
     }
     collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
