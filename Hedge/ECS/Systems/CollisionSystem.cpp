@@ -1023,7 +1023,7 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
         {
             gravityComp->m_onGround = true;
             gravityComp->m_memOnGround = true;
-            if(/*std::abs(diffY) > 3.0f &&*/ std::abs(diffY) > std::abs(diffX))
+            if(std::abs(diffY) > std::abs(diffX))
             {
                 gravityComp->m_fall = true;
                 gravityComp->m_onGround = false;
@@ -1044,6 +1044,7 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
         else
         {
             gravityComp->m_memOnGround = false;
+            gravityComp->m_onGround = false;
             gravityComp->m_fall = true;
         }
     }
