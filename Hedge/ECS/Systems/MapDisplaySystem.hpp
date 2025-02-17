@@ -22,7 +22,6 @@ public:
     void setVectTextures(std::vector<Texture> &vectTexture);
     void execSystem()override;
     void drawMiniMap();
-    void drawFullMap();
     void setShader(Shader &shader);
     inline bool entityAlreadyDiscovered(uint32_t entityNum)const
     {
@@ -48,6 +47,11 @@ public:
     {
         return m_entitiesDetectedData;
     }
+    inline void memBackgroundEntity(uint32_t entity)
+    {
+        m_background = entity;
+    }
+    void updateBackground(bool right);
 private:
     void confFullMapPositionVertexEntities();
     void confVertexPlayerOnFullMap();
@@ -62,8 +66,11 @@ private:
     bool checkBoundEntityMap(const MapCoordComponent &mapCoordComp, const PairUI_t &minBound, const PairUI_t &maxBound);
     void getMapDisplayLimit(PairFloat_t &playerPos, PairUI_t &min, PairUI_t &max);
     PairFloat_t getUpLeftCorner(const MapCoordComponent &mapCoordComp, uint32_t entityNum);
+    void confVertexGroundCeiling();
+    void drawBackground();
 private:
     uint32_t m_playerNum;
+    float m_backgroundPosLateral = 0.0f;
     std::map<uint32_t, PairUI_t> m_entitiesDetectedData;
     std::vector<uint32_t> m_entitiesToDisplay;
     PairFloat_t m_sizeLevelPX, m_fullMapTileSizePX, m_fullMapTileSizeGL;
@@ -72,6 +79,8 @@ private:
     float m_localLevelSizePX;
     float m_miniMapTileSizeGL;
     std::vector<Texture> *m_ptrVectTexture = nullptr;
+    std::optional<uint32_t> m_background;
+    VerticesData m_backgroundTextVertice;
 };
 
 //Adapt to GL context

@@ -9,6 +9,7 @@
 #include <ECS/Components/AudioComponent.hpp>
 #include <ECS/Components/WeaponComponent.hpp>
 #include <ECS/Systems/StaticDisplaySystem.hpp>
+#include <ECS/Systems/MapDisplaySystem.hpp>
 #include "PhysicalEngine.hpp"
 #include <MainEngine.hpp>
 #include <cassert>
@@ -301,6 +302,9 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_RIGHT;
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
         mapComp.m_absoluteMapPositionPX.first += moveComp.m_velocity;
+        MapDisplaySystem *mapDisplay = Ecsm_t::instance().getSystem<MapDisplaySystem>(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM));
+        assert(mapDisplay);
+        mapDisplay->updateBackground(true);
         playerComp.m_currentDirectionRight = true;
     }
     else if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT))
@@ -308,6 +312,9 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_LEFT;
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
         mapComp.m_absoluteMapPositionPX.first -= moveComp.m_velocity;
+        MapDisplaySystem *mapDisplay = Ecsm_t::instance().getSystem<MapDisplaySystem>(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM));
+        assert(mapDisplay);
+        mapDisplay->updateBackground(false);
         playerComp.m_currentDirectionRight = false;
     }
     else

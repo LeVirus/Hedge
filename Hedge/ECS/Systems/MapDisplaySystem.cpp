@@ -34,6 +34,7 @@ void MapDisplaySystem::confLevelData()
                            m_sizeLevelPX.second / Level::getSize().second};
     m_fullMapTileSizeGL = {m_fullMapTileSizePX.first * FULL_MAP_SIZE_GL / m_sizeLevelPX.first,
                           m_fullMapTileSizePX.second * FULL_MAP_SIZE_GL / m_sizeLevelPX.second};
+    m_background = std::nullopt;
 }
 
 //===================================================================
@@ -51,14 +52,34 @@ void MapDisplaySystem::setShader(Shader &shader)
 }
 
 //===================================================================
+void MapDisplaySystem::updateBackground(bool right)
+{
+    if(right)
+    {
+        m_backgroundPosLateral -= 0.01f;
+        if(m_backgroundPosLateral <= -1.00f)
+        {
+            m_backgroundPosLateral = 1.0f + std::fmod(m_backgroundPosLateral, 1.00f);
+        }
+    }
+    else
+    {
+        m_backgroundPosLateral += 0.01f;
+        if(m_backgroundPosLateral >= 1.00f)
+        {
+            m_backgroundPosLateral = -1.0f + std::fmod(m_backgroundPosLateral, 1.00f);
+        }
+    }
+}
+
+//===================================================================
 void MapDisplaySystem::execSystem()
 {
+    confVertexGroundCeiling();
+    drawBackground();
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerNum);
     assert(playerConfComp);
     drawMiniMap();
-    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(m_playerNum);
-    MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(m_playerNum);
-    updatePlayerArrow(*moveComp, *posComp);
 }
 
 //===================================================================
@@ -67,15 +88,6 @@ void MapDisplaySystem::drawMiniMap()
     confMiniMapPositionVertexEntities();
     fillMiniMapVertexFromEntities();
     drawMapVertex();
-}
-
-//===================================================================
-void MapDisplaySystem::drawFullMap()
-{
-    confFullMapPositionVertexEntities();
-    fillMiniMapVertexFromEntities();
-    drawMapVertex();
-    confVertexPlayerOnFullMap();
 }
 
 //===================================================================
@@ -233,6 +245,37 @@ PairFloat_t MapDisplaySystem::getUpLeftCorner(const MapCoordComponent &mapCoordC
     {
         return mapCoordComp.m_absoluteMapPositionPX;
     }
+}
+
+//===================================================================
+void MapDisplaySystem::confVertexGroundCeiling()
+{
+    float midPos = m_backgroundPosLateral, leftPos = midPos - 2.0f, rightPos = midPos + 2.0f;
+    // assert(m_background);
+    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_background);
+    assert(posComp);
+    posComp->m_vertex[0].first = leftPos;
+    posComp->m_vertex[3].first = leftPos;
+    posComp->m_vertex[1].first = midPos;
+    posComp->m_vertex[2].first = midPos;
+    posComp->m_vertex[4].first = rightPos;
+    posComp->m_vertex[5].first = rightPos;
+}
+
+//===================================================================
+void MapDisplaySystem::drawBackground()
+{
+    // assert(m_background);
+    m_shader->use();
+    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_background);
+    assert(posComp);
+    SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(*m_background);
+    assert(spriteComp);
+    m_ptrVectTexture->operator[](static_cast<uint32_t>(spriteComp->m_spriteData->m_textureNum)).bind();
+    m_backgroundTextVertice.clear();
+    m_backgroundTextVertice.loadVertexStandartTextureComponent(*posComp, *spriteComp);
+    m_backgroundTextVertice.confVertexBuffer();
+    m_backgroundTextVertice.drawElement();
 }
 
 //===================================================================
