@@ -604,15 +604,15 @@ void GraphicEngine::memFogColorEntity(uint32_t entity)
 }
 
 //===================================================================
-void GraphicEngine::memGroundBackgroundFPSSystemEntity(uint32_t entity, bool simpleTexture)
+void GraphicEngine::memGroundBackgroundFPSSystemEntity(uint32_t entity)
 {
     m_mapSystem->memBackgroundEntity(entity);
 }
 
 //===================================================================
-void GraphicEngine::memCeilingBackgroundFPSSystemEntity(uint32_t entity, bool simpleTexture)
+void GraphicEngine::memCeilingBackgroundFPSSystemEntity(uint32_t entity)
 {
-    // m_firstPersonSystem->memCeilingBackgroundEntity(entity, simpleTexture);
+    m_mapSystem->memGroundEntity(entity);
 }
 
 //===================================================================

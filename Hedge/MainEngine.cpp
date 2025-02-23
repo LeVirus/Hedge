@@ -1026,7 +1026,7 @@ void MainEngine::loadBackgroundEntities(const GroundCeilingData &groundData, con
     {
         entity = createBackgroundEntity(false);
         confGroundSimpleTextBackgroundComponents(entity, groundData, levelManager.getPictureSpriteData());
-        memGroundBackgroundFPSSystemEntity(entity, true);
+        memGroundBackgroundFPSSystemEntity(entity);
     }
     else if(groundData.m_apparence[colorIndex])
     {
@@ -1038,14 +1038,15 @@ void MainEngine::loadBackgroundEntities(const GroundCeilingData &groundData, con
     {
         entity = createBackgroundEntity(false);
         confTiledTextBackgroundComponents(entity, groundData, levelManager.getPictureSpriteData());
-        memGroundBackgroundFPSSystemEntity(entity, false);
+        memGroundBackgroundFPSSystemEntity(entity);
     }
 
+    //GROUND DISPLAY
     if(ceilingData.m_apparence[simpleTextIndex])
     {
         entity = createBackgroundEntity(false);
         confCeilingSimpleTextBackgroundComponents(entity, ceilingData, levelManager.getPictureSpriteData());
-        memCeilingBackgroundFPSSystemEntity(entity, true);
+        memCeilingBackgroundFPSSystemEntity(entity);
     }
     else if(ceilingData.m_apparence[colorIndex])
     {
@@ -1057,7 +1058,7 @@ void MainEngine::loadBackgroundEntities(const GroundCeilingData &groundData, con
     {
         entity = createBackgroundEntity(false);
         confTiledTextBackgroundComponents(entity, ceilingData, levelManager.getPictureSpriteData());
-        memCeilingBackgroundFPSSystemEntity(entity, false);
+        memCeilingBackgroundFPSSystemEntity(entity);
     }
     loadFogEntities();
 }

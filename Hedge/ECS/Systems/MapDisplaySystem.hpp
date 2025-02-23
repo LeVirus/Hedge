@@ -51,6 +51,11 @@ public:
     {
         m_background = entity;
     }
+    inline void memGroundEntity(uint32_t entity)
+    {
+        m_ground = entity;
+    }
+
     void updateBackground(bool right);
 private:
     void confFullMapPositionVertexEntities();
@@ -64,7 +69,7 @@ private:
     void confFullMapVertexElement(const PairFloat_t &absolutePositionPX, uint32_t entityNum);
     void setVertexStaticElementPosition(uint32_t entityNum);
     bool checkBoundEntityMap(const MapCoordComponent &mapCoordComp, const PairUI_t &minBound, const PairUI_t &maxBound);
-    void getMapDisplayLimit(PairFloat_t &playerPos, PairUI_t &min, PairUI_t &max);
+    void getMapDisplayLimit(const PairFloat_t &playerPos, PairUI_t &min, PairUI_t &max);
     PairFloat_t getUpLeftCorner(const MapCoordComponent &mapCoordComp, uint32_t entityNum);
     void confVertexGroundCeiling();
     void drawBackground();
@@ -79,8 +84,8 @@ private:
     float m_localLevelSizePX;
     float m_miniMapTileSizeGL;
     std::vector<Texture> *m_ptrVectTexture = nullptr;
-    std::optional<uint32_t> m_background;
-    VerticesData m_backgroundTextVertice;
+    std::optional<uint32_t> m_background, m_ground;
+    VerticesData m_backgroundTextVertice, m_groundTextVertice;
 };
 
 //Adapt to GL context

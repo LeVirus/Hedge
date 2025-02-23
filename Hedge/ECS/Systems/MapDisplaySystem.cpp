@@ -15,6 +15,7 @@
 #include <constants.hpp>
 #include <PhysicalEngine.hpp>
 #include <alias.hpp>
+#include <cmath>
 
 //===================================================================
 //WARNING CONSIDER THAT LENGHT AND WEIGHT ARE THE SAME
@@ -75,6 +76,7 @@ void MapDisplaySystem::updateBackground(bool right)
 //===================================================================
 void MapDisplaySystem::execSystem()
 {
+    MapCoordComponent *mapCompPlayer = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
     confVertexGroundCeiling();
     drawBackground();
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerNum);
@@ -250,16 +252,40 @@ PairFloat_t MapDisplaySystem::getUpLeftCorner(const MapCoordComponent &mapCoordC
 //===================================================================
 void MapDisplaySystem::confVertexGroundCeiling()
 {
-    float midPos = m_backgroundPosLateral, leftPos = midPos - 2.0f, rightPos = midPos + 2.0f;
-    // assert(m_background);
-    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_background);
+    float leftPos = m_backgroundPosLateral - 2.0f, rightPos = m_backgroundPosLateral + 2.0f;
+    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_ground);
     assert(posComp);
+    MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
+    assert(mapComp);
+    uint32_t levelSizeY = Level::getSize().second;
+    PairUI_t min, max;
+    getMapDisplayLimit(mapComp->m_absoluteMapPositionPX, min, max);
+    float posDownScreen = mapComp->m_absoluteMapPositionPX.second + m_localLevelSizePX;
+    float posGround = (levelSizeY - 5) * LEVEL_TILE_SIZE_PX;
+    float diffPosPX = posDownScreen - posGround;
+    if(diffPosPX < 0.0f)
+    {
+        posComp->m_vertex[0].second = -1.1;
+        posComp->m_vertex[1].second = -1.1;
+        posComp->m_vertex[4].second = -1.1;
+        return;
+    }
+    float groundGLy = -1.0f + (diffPosPX * MAP_LOCAL_SIZE_GL / m_localLevelSizePX);
+    //GROUND
     posComp->m_vertex[0].first = leftPos;
     posComp->m_vertex[3].first = leftPos;
-    posComp->m_vertex[1].first = midPos;
-    posComp->m_vertex[2].first = midPos;
+    posComp->m_vertex[1].first = m_backgroundPosLateral;
+    posComp->m_vertex[2].first = m_backgroundPosLateral;
     posComp->m_vertex[4].first = rightPos;
     posComp->m_vertex[5].first = rightPos;
+
+    posComp->m_vertex[0].second = groundGLy;
+    posComp->m_vertex[1].second = groundGLy;
+    posComp->m_vertex[4].second = groundGLy;
+
+    posComp->m_vertex[2].second = -1.0f;
+    posComp->m_vertex[3].second = -1.0f;
+    posComp->m_vertex[5].second = -1.0f;
 }
 
 //===================================================================
@@ -276,35 +302,46 @@ void MapDisplaySystem::drawBackground()
     m_backgroundTextVertice.loadVertexStandartTextureComponent(*posComp, *spriteComp);
     m_backgroundTextVertice.confVertexBuffer();
     m_backgroundTextVertice.drawElement();
+
+    //GROUND
+    posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_ground);
+    assert(posComp);
+    spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(*m_ground);
+    assert(spriteComp);
+    m_ptrVectTexture->operator[](static_cast<uint32_t>(spriteComp->m_spriteData->m_textureNum)).bind();
+    m_groundTextVertice.clear();
+    m_groundTextVertice.loadVertexStandartTextureComponent(*posComp, *spriteComp);
+    m_groundTextVertice.confVertexBuffer();
+    m_groundTextVertice.drawElement();
 }
 
 //===================================================================
-void MapDisplaySystem::getMapDisplayLimit(PairFloat_t &playerPos,
-                                          PairUI_t &min, PairUI_t &max)
+void MapDisplaySystem::getMapDisplayLimit(const PairFloat_t &playerPos, PairUI_t &min, PairUI_t &max)
 {
     assert(playerPos.first >= 0.0f || playerPos.second >= 0.0f);
     //getBound
+    PairFloat_t pos = playerPos;
     float rangeView = Level::getRangeView();
-    playerPos.first += rangeView;
-    playerPos.second += rangeView;
-    max = *getLevelCoord(playerPos);
-    playerPos.first -= rangeView * 2;
-    if(playerPos.first < LEVEL_TILE_SIZE_PX)
+    pos.first += rangeView;
+    pos.second += rangeView;
+    max = *getLevelCoord(pos);
+    pos.first -= rangeView * 2;
+    if(pos.first < LEVEL_TILE_SIZE_PX)
     {
         min.first = 0;
     }
     else
     {
-        min.first = static_cast<uint32_t>(playerPos.first / LEVEL_TILE_SIZE_PX);
+        min.first = static_cast<uint32_t>(pos.first / LEVEL_TILE_SIZE_PX);
     }
-    playerPos.second -= rangeView * 2;
-    if(playerPos.second < LEVEL_TILE_SIZE_PX)
+    pos.second -= rangeView * 2;
+    if(pos.second < LEVEL_TILE_SIZE_PX)
     {
         min.second = 0;
     }
     else
     {
-        min.second = static_cast<uint32_t>(playerPos.second / LEVEL_TILE_SIZE_PX);
+        min.second = static_cast<uint32_t>(pos.second / LEVEL_TILE_SIZE_PX);
     }
 }
 

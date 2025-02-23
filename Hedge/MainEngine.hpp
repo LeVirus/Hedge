@@ -379,13 +379,13 @@ private:
     {
         m_graphicEngine.memFogColorEntity(entity);
     }
-    inline void memCeilingBackgroundFPSSystemEntity(uint32_t entity, bool simpleTexture)
+    inline void memCeilingBackgroundFPSSystemEntity(uint32_t entity)
     {
-        m_graphicEngine.memCeilingBackgroundFPSSystemEntity(entity, simpleTexture);
+        m_graphicEngine.memCeilingBackgroundFPSSystemEntity(entity);
     }
-    inline void memGroundBackgroundFPSSystemEntity(uint32_t entity, bool simpleTexture)
+    inline void memGroundBackgroundFPSSystemEntity(uint32_t entity)
     {
-        m_graphicEngine.memGroundBackgroundFPSSystemEntity(entity, simpleTexture);
+        m_graphicEngine.memGroundBackgroundFPSSystemEntity(entity);
     }
 private:
     LevelState_e m_currentLevelState;
