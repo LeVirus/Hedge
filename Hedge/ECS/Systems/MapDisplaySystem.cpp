@@ -82,6 +82,7 @@ void MapDisplaySystem::execSystem()
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerNum);
     assert(playerConfComp);
     drawMiniMap();
+    drawGround();
 }
 
 //===================================================================
@@ -303,10 +304,14 @@ void MapDisplaySystem::drawBackground()
     m_backgroundTextVertice.confVertexBuffer();
     m_backgroundTextVertice.drawElement();
 
-    //GROUND
-    posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_ground);
+}
+
+//===================================================================
+void MapDisplaySystem::drawGround()
+{
+    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_ground);
     assert(posComp);
-    spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(*m_ground);
+    SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(*m_ground);
     assert(spriteComp);
     m_ptrVectTexture->operator[](static_cast<uint32_t>(spriteComp->m_spriteData->m_textureNum)).bind();
     m_groundTextVertice.clear();

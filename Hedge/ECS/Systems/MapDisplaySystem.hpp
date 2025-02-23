@@ -73,6 +73,7 @@ private:
     PairFloat_t getUpLeftCorner(const MapCoordComponent &mapCoordComp, uint32_t entityNum);
     void confVertexGroundCeiling();
     void drawBackground();
+    void drawGround();
 private:
     uint32_t m_playerNum;
     float m_backgroundPosLateral = 0.0f;
