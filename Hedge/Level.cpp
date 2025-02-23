@@ -4,7 +4,6 @@
 #include <ECS/Components/MoveableComponent.hpp>
 #include <cassert>
 
-float Level::m_rangeViewPX;
 PairUI_t Level::m_size;
 std::vector<ElementRaycast> Level::m_levelCaseType;
 std::string Level::m_musicFile;
@@ -12,7 +11,6 @@ std::string Level::m_musicFile;
 //===================================================================
 Level::Level()
 {
-    m_rangeViewPX = 350.0f;
 }
 
 //===================================================================

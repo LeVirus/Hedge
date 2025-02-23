@@ -170,12 +170,6 @@ public:
     {
         m_size = pairLevelSize;
     }
-
-    inline static float getRangeView()
-    {
-        return Level::m_rangeViewPX;
-    }
-
     /**
      * @brief updateVisualOrientation Modify vertex position relative to orientation.
      */

@@ -27,7 +27,7 @@ MapDisplaySystem::MapDisplaySystem()
 //===================================================================
 void MapDisplaySystem::confLevelData()
 {
-    m_localLevelSizePX = 350.0f;//Level::getRangeView() * 2;
+    m_localLevelSizePX = 350.0f;
     m_sizeLevelPX = {Level::getSize().first * LEVEL_TILE_SIZE_PX,
                     Level::getSize().second * LEVEL_TILE_SIZE_PX};
     m_miniMapTileSizeGL = (LEVEL_TILE_SIZE_PX * MAP_LOCAL_SIZE_GL) / m_localLevelSizePX;
@@ -321,11 +321,10 @@ void MapDisplaySystem::getMapDisplayLimit(const PairFloat_t &playerPos, PairUI_t
     assert(playerPos.first >= 0.0f || playerPos.second >= 0.0f);
     //getBound
     PairFloat_t pos = playerPos;
-    float rangeView = Level::getRangeView();
-    pos.first += rangeView;
-    pos.second += rangeView;
+    pos.first += m_localLevelSizePX;
+    pos.second += m_localLevelSizePX;
     max = *getLevelCoord(pos);
-    pos.first -= rangeView * 2;
+    pos.first -= m_localLevelSizePX * 2;
     if(pos.first < LEVEL_TILE_SIZE_PX)
     {
         min.first = 0;
@@ -334,7 +333,7 @@ void MapDisplaySystem::getMapDisplayLimit(const PairFloat_t &playerPos, PairUI_t
     {
         min.first = static_cast<uint32_t>(pos.first / LEVEL_TILE_SIZE_PX);
     }
-    pos.second -= rangeView * 2;
+    pos.second -= m_localLevelSizePX * 2;
     if(pos.second < LEVEL_TILE_SIZE_PX)
     {
         min.second = 0;
