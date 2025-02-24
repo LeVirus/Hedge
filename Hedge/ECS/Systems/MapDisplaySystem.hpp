@@ -55,8 +55,6 @@ public:
     {
         m_ground = entity;
     }
-
-    void updateBackground(bool right);
 private:
     void confFullMapPositionVertexEntities();
     void confVertexPlayerOnFullMap();
@@ -71,12 +69,14 @@ private:
     bool checkBoundEntityMap(const MapCoordComponent &mapCoordComp, const PairUI_t &minBound, const PairUI_t &maxBound);
     void getMapDisplayLimit(const PairFloat_t &playerPos, PairUI_t &min, PairUI_t &max);
     PairFloat_t getUpLeftCorner(const MapCoordComponent &mapCoordComp, uint32_t entityNum);
-    void confVertexGroundCeiling();
+    void confVertexGroundAndBackground();
+    void updateBackgroundLateralPos();
     void drawBackground();
     void drawGround();
 private:
     uint32_t m_playerNum;
-    float m_backgroundPosLateral = 0.0f;
+    bool m_firstLoop = true;
+    float m_backgroundPosLateral = 0.0f, m_memPreviousPos;
     std::map<uint32_t, PairUI_t> m_entitiesDetectedData;
     std::vector<uint32_t> m_entitiesToDisplay;
     PairFloat_t m_sizeLevelPX, m_fullMapTileSizePX, m_fullMapTileSizeGL;

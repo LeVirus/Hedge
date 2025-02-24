@@ -27,6 +27,7 @@ MapDisplaySystem::MapDisplaySystem()
 //===================================================================
 void MapDisplaySystem::confLevelData()
 {
+    m_firstLoop = true;
     m_localLevelSizePX = 350.0f;
     m_sizeLevelPX = {Level::getSize().first * LEVEL_TILE_SIZE_PX,
                     Level::getSize().second * LEVEL_TILE_SIZE_PX};
@@ -53,30 +54,9 @@ void MapDisplaySystem::setShader(Shader &shader)
 }
 
 //===================================================================
-void MapDisplaySystem::updateBackground(bool right)
-{
-    if(right)
-    {
-        m_backgroundPosLateral -= 0.01f;
-        if(m_backgroundPosLateral <= -1.00f)
-        {
-            m_backgroundPosLateral = 1.0f + std::fmod(m_backgroundPosLateral, 1.00f);
-        }
-    }
-    else
-    {
-        m_backgroundPosLateral += 0.01f;
-        if(m_backgroundPosLateral >= 1.00f)
-        {
-            m_backgroundPosLateral = -1.0f + std::fmod(m_backgroundPosLateral, 1.00f);
-        }
-    }
-}
-
-//===================================================================
 void MapDisplaySystem::execSystem()
 {
-    confVertexGroundCeiling();
+    confVertexGroundAndBackground();
     drawBackground();
     drawMiniMap();
     drawGround();
@@ -248,8 +228,9 @@ PairFloat_t MapDisplaySystem::getUpLeftCorner(const MapCoordComponent &mapCoordC
 }
 
 //===================================================================
-void MapDisplaySystem::confVertexGroundCeiling()
+void MapDisplaySystem::confVertexGroundAndBackground()
 {
+    updateBackgroundLateralPos();
     float leftPos = m_backgroundPosLateral - 2.0f, rightPos = m_backgroundPosLateral + 2.0f;
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_background);
     assert(posComp);
@@ -260,8 +241,7 @@ void MapDisplaySystem::confVertexGroundCeiling()
     posComp->m_vertex[2].first = m_backgroundPosLateral;
     posComp->m_vertex[4].first = rightPos;
     posComp->m_vertex[5].first = rightPos;
-
-
+    //GROUND
     posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_ground);
     assert(posComp);
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
@@ -280,7 +260,6 @@ void MapDisplaySystem::confVertexGroundCeiling()
         return;
     }
     float groundGLy = -1.0f + (diffPosPX * MAP_LOCAL_SIZE_GL / m_localLevelSizePX);
-    //GROUND
     posComp->m_vertex[0].first = leftPos;
     posComp->m_vertex[3].first = leftPos;
     posComp->m_vertex[1].first = m_backgroundPosLateral;
@@ -295,8 +274,22 @@ void MapDisplaySystem::confVertexGroundCeiling()
     posComp->m_vertex[2].second = -1.0f;
     posComp->m_vertex[3].second = -1.0f;
     posComp->m_vertex[5].second = -1.0f;
+}
 
-
+//===================================================================
+void MapDisplaySystem::updateBackgroundLateralPos()
+{
+    MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
+    assert(mapComp);
+    if(!m_firstLoop)
+    {
+        m_backgroundPosLateral += (m_memPreviousPos - mapComp->m_absoluteMapPositionPX.first) / m_localLevelSizePX;
+    }
+    else
+    {
+        m_firstLoop = false;
+    }
+    m_memPreviousPos = mapComp->m_absoluteMapPositionPX.first;
 }
 
 //===================================================================
