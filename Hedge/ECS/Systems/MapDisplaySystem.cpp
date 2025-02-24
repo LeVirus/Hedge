@@ -76,11 +76,8 @@ void MapDisplaySystem::updateBackground(bool right)
 //===================================================================
 void MapDisplaySystem::execSystem()
 {
-    MapCoordComponent *mapCompPlayer = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
     confVertexGroundCeiling();
     drawBackground();
-    PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerNum);
-    assert(playerConfComp);
     drawMiniMap();
     drawGround();
 }
@@ -254,7 +251,18 @@ PairFloat_t MapDisplaySystem::getUpLeftCorner(const MapCoordComponent &mapCoordC
 void MapDisplaySystem::confVertexGroundCeiling()
 {
     float leftPos = m_backgroundPosLateral - 2.0f, rightPos = m_backgroundPosLateral + 2.0f;
-    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_ground);
+    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_background);
+    assert(posComp);
+    //BACKGROUND
+    posComp->m_vertex[0].first = leftPos;
+    posComp->m_vertex[3].first = leftPos;
+    posComp->m_vertex[1].first = m_backgroundPosLateral;
+    posComp->m_vertex[2].first = m_backgroundPosLateral;
+    posComp->m_vertex[4].first = rightPos;
+    posComp->m_vertex[5].first = rightPos;
+
+
+    posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_ground);
     assert(posComp);
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
     assert(mapComp);
@@ -287,6 +295,8 @@ void MapDisplaySystem::confVertexGroundCeiling()
     posComp->m_vertex[2].second = -1.0f;
     posComp->m_vertex[3].second = -1.0f;
     posComp->m_vertex[5].second = -1.0f;
+
+
 }
 
 //===================================================================
