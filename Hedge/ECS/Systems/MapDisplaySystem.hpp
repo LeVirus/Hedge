@@ -76,7 +76,7 @@ private:
 private:
     uint32_t m_playerNum;
     bool m_firstLoop = true;
-    float m_backgroundPosLateral = 0.0f, m_memPreviousPos;
+    float m_groundPosLateral = 0.0f, m_backgroundPosLateral = 0.0f, m_memPreviousPos;
     std::map<uint32_t, PairUI_t> m_entitiesDetectedData;
     std::vector<uint32_t> m_entitiesToDisplay;
     PairFloat_t m_sizeLevelPX, m_fullMapTileSizePX, m_fullMapTileSizeGL;

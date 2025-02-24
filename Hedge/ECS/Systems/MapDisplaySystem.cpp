@@ -252,18 +252,19 @@ void MapDisplaySystem::confVertexGroundAndBackground()
     float posDownScreen = mapComp->m_absoluteMapPositionPX.second + m_localLevelSizePX;
     float posGround = (levelSizeY - 5) * LEVEL_TILE_SIZE_PX;
     float diffPosPX = posDownScreen - posGround;
-    if(diffPosPX < 0.0f)
-    {
-        posComp->m_vertex[0].second = -1.1;
-        posComp->m_vertex[1].second = -1.1;
-        posComp->m_vertex[4].second = -1.1;
-        return;
-    }
+    // if(diffPosPX < 0.0f)
+    // {
+    //     posComp->m_vertex[0].second = -1.1;
+    //     posComp->m_vertex[1].second = -1.1;
+    //     posComp->m_vertex[4].second = -1.1;
+    //     return;
+    // }
+    leftPos = m_groundPosLateral - 2.0f, rightPos = m_groundPosLateral + 2.0f;
     float groundGLy = -1.0f + (diffPosPX * MAP_LOCAL_SIZE_GL / m_localLevelSizePX);
     posComp->m_vertex[0].first = leftPos;
     posComp->m_vertex[3].first = leftPos;
-    posComp->m_vertex[1].first = m_backgroundPosLateral;
-    posComp->m_vertex[2].first = m_backgroundPosLateral;
+    posComp->m_vertex[1].first = m_groundPosLateral;
+    posComp->m_vertex[2].first = m_groundPosLateral;
     posComp->m_vertex[4].first = rightPos;
     posComp->m_vertex[5].first = rightPos;
 
@@ -283,7 +284,25 @@ void MapDisplaySystem::updateBackgroundLateralPos()
     assert(mapComp);
     if(!m_firstLoop)
     {
-        m_backgroundPosLateral += (m_memPreviousPos - mapComp->m_absoluteMapPositionPX.first) / m_localLevelSizePX;
+
+        m_backgroundPosLateral += (m_memPreviousPos - mapComp->m_absoluteMapPositionPX.first) / (m_localLevelSizePX * 1.5f);
+        if(m_backgroundPosLateral <= -1.00f)
+        {
+            m_backgroundPosLateral = 1.0f + std::fmod(m_backgroundPosLateral, 1.00f);
+        }
+        else if(m_backgroundPosLateral >= 1.00f)
+        {
+            m_backgroundPosLateral = -1.0f + std::fmod(m_backgroundPosLateral, 1.00f);
+        }
+        m_groundPosLateral += (m_memPreviousPos - mapComp->m_absoluteMapPositionPX.first) / m_localLevelSizePX;
+        if(m_groundPosLateral <= -1.00f)
+        {
+            m_groundPosLateral = 1.0f + std::fmod(m_groundPosLateral, 1.00f);
+        }
+        else if(m_groundPosLateral >= 1.00f)
+        {
+            m_groundPosLateral = -1.0f + std::fmod(m_groundPosLateral, 1.00f);
+        }
     }
     else
     {
