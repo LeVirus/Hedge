@@ -84,6 +84,7 @@ void CollisionSystem::execSystem()
         if(moveCompA && (tagCompA->m_tagA == CollisionTag_e::PLAYER_CT || tagCompA->m_tagA == CollisionTag_e::ENEMY_CT))
         {
             treatGeneralCrushing(*it);
+            treatLimitLevel(*it);
         }
         if(segmentCompA && m_memDistCurrentBulletColl.second > EPSILON_FLOAT)
         {
@@ -220,6 +221,32 @@ void CollisionSystem::treatGeneralCrushing(uint32_t entityNum)
     if(playerComp->m_crush)
     {
         playerComp->takeDamage(1);
+    }
+}
+
+//===================================================================
+void CollisionSystem::treatLimitLevel(uint32_t entityNum)
+{
+    MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
+    assert(mapComp);
+    RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(entityNum);
+    assert(rectComp);
+    PairUI_t limitLevel = Level::getSize();
+    if(mapComp->m_absoluteMapPositionPX.first < 0.0f)
+    {
+        mapComp->m_absoluteMapPositionPX.first = 0.0f;
+    }
+    else if(mapComp->m_absoluteMapPositionPX.first + rectComp->m_size.first > (limitLevel.first * LEVEL_TILE_SIZE_PX))
+    {
+        mapComp->m_absoluteMapPositionPX.first = limitLevel.first * LEVEL_TILE_SIZE_PX - rectComp->m_size.first ;
+    }
+    if(mapComp->m_absoluteMapPositionPX.second < 0.0f)
+    {
+        mapComp->m_absoluteMapPositionPX.second = 0.0f;
+    }
+    else if(mapComp->m_absoluteMapPositionPX.second + rectComp->m_size.second > (limitLevel.second * LEVEL_TILE_SIZE_PX))
+    {
+        mapComp->m_absoluteMapPositionPX.second = limitLevel.second * LEVEL_TILE_SIZE_PX - + rectComp->m_size.second;
     }
 }
 
@@ -1080,7 +1107,6 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     }
     collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
     addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
-
 }
 
 //===================================================================
