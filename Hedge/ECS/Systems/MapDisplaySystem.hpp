@@ -21,7 +21,7 @@ public:
     void confLevelData();
     void setVectTextures(std::vector<Texture> &vectTexture);
     void execSystem()override;
-    void drawMiniMap();
+    void drawMiniMap(const PairFloat_t &centerScreenPos, const PairUI_t &min, const PairUI_t &max);
     void setShader(Shader &shader);
     inline bool entityAlreadyDiscovered(uint32_t entityNum)const
     {
@@ -62,7 +62,7 @@ private:
     void fillMiniMapVertexFromEntities();
     void drawMapVertex();
     void drawPlayerOnMap();
-    void confMiniMapPositionVertexEntities();
+    void confMiniMapPositionVertexEntities(const PairFloat_t &centerScreenPos, const PairUI_t &min, const PairUI_t &max);
     PairFloat_t getCenterScreen(const PairFloat_t &playerMap, const PairUI_t &min, const PairUI_t &max)const;
     void confMiniMapVertexElement(const PairFloat_t &glPosition, uint32_t entityNum);
     void confFullMapVertexElement(const PairFloat_t &absolutePositionPX, uint32_t entityNum);
@@ -70,7 +70,7 @@ private:
     bool checkBoundEntityMap(const PairUI_t &centerScreen, const PairUI_t &minBound, const PairUI_t &maxBound);
     void getMapDisplayLimit(const PairFloat_t &playerPos, PairUI_t &min, PairUI_t &max);
     PairFloat_t getUpLeftCorner(const MapCoordComponent &mapCoordComp, uint32_t entityNum);
-    void confVertexGroundAndBackground();
+    void confVertexGroundAndBackground(const PairFloat_t &centerScreenPos);
     void updateBackgroundLateralPos();
     void drawBackground();
     void drawGround();

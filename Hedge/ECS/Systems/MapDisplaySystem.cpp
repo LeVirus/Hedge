@@ -57,16 +57,22 @@ void MapDisplaySystem::setShader(Shader &shader)
 //===================================================================
 void MapDisplaySystem::execSystem()
 {
-    confVertexGroundAndBackground();
+    MapCoordComponent *mapCompPlayer = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
+    PairFloat_t playerPos = mapCompPlayer->m_absoluteMapPositionPX;
+    PairUI_t max, min;
+    getMapDisplayLimit(playerPos, min, max);
+    PairFloat_t centerScreen = getCenterScreen(mapCompPlayer->m_absoluteMapPositionPX, min, max);
+
+    confVertexGroundAndBackground(centerScreen);
     drawBackground();
-    drawMiniMap();
+    drawMiniMap(centerScreen, min, max);
     drawGround();
 }
 
 //===================================================================
-void MapDisplaySystem::drawMiniMap()
+void MapDisplaySystem::drawMiniMap(const PairFloat_t &centerScreenPos, const PairUI_t &min, const PairUI_t &max)
 {
-    confMiniMapPositionVertexEntities();
+    confMiniMapPositionVertexEntities(centerScreenPos, min, max);
     fillMiniMapVertexFromEntities();
     drawMapVertex();
 }
@@ -128,13 +134,9 @@ void MapDisplaySystem::confVertexPlayerOnFullMap()
 }
 
 //===================================================================
-void MapDisplaySystem::confMiniMapPositionVertexEntities()
+void MapDisplaySystem::confMiniMapPositionVertexEntities(const PairFloat_t &centerScreenPos, const PairUI_t &min, const PairUI_t &max)
 {
-    MapCoordComponent *mapCompPlayer = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
-    PairFloat_t playerPos = mapCompPlayer->m_absoluteMapPositionPX, centerScreen;
     PairFloat_t corner, diffPosPX, relativePosMapGL;
-    PairUI_t max, min;
-    getMapDisplayLimit(playerPos, min, max);
     m_entitiesToDisplay.clear();
     m_entitiesToDisplay.reserve(m_usedEntities.size());
     for(std::set<uint32_t>::const_iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
@@ -154,13 +156,12 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
             mapComp->m_coord = *coord;
         }
         EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(*it);
-        centerScreen = getCenterScreen(playerPos, min, max);
         if(checkBoundEntityMap(mapComp->m_coord, min, max))
         {
             //get absolute position corner
             m_entitiesToDisplay.emplace_back(*it);
             corner = getUpLeftCorner(*mapComp, *it);
-            diffPosPX = corner - centerScreen;
+            diffPosPX = corner - centerScreenPos;
             //convert absolute position to relative
             relativePosMapGL = {diffPosPX.first * MAP_LOCAL_SIZE_GL / m_localLevelSizePX,
                                 diffPosPX.second * MAP_LOCAL_SIZE_GL / m_localLevelSizePX};
@@ -184,14 +185,12 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
 PairFloat_t MapDisplaySystem::getCenterScreen(const PairFloat_t &playerMap, const PairUI_t &min, const PairUI_t &max)const
 {
     PairFloat_t finalPos = playerMap;
-    std::cerr << max.first << "  " << finalPos.first + m_localLevelSizePX << " > " << m_sizeLevelPX.first << " DA\n";
     if(min.first == 0 && finalPos.first - m_localLevelSizePX < 0.0f)
     {
         finalPos.first = m_localLevelSizePX;
     }
     else if(max.first >= Level::getSize().first && finalPos.first + m_localLevelSizePX > m_sizeLevelPX.first)
     {
-        std::cerr << "DA\n";
         finalPos.first = m_sizeLevelPX.first - m_localLevelSizePX;
     }
     if(min.second == 0 && finalPos.second - m_localLevelSizePX < 0.0f)
@@ -246,7 +245,7 @@ PairFloat_t MapDisplaySystem::getUpLeftCorner(const MapCoordComponent &mapCoordC
 }
 
 //===================================================================
-void MapDisplaySystem::confVertexGroundAndBackground()
+void MapDisplaySystem::confVertexGroundAndBackground(const PairFloat_t &centerScreenPos)
 {
     updateBackgroundLateralPos();
     float leftPos = m_backgroundPosLateral - 2.0f, rightPos = m_backgroundPosLateral + 2.0f;
@@ -262,21 +261,10 @@ void MapDisplaySystem::confVertexGroundAndBackground()
     //GROUND
     posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_ground);
     assert(posComp);
-    MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
-    assert(mapComp);
     uint32_t levelSizeY = Level::getSize().second;
-    PairUI_t min, max;
-    getMapDisplayLimit(mapComp->m_absoluteMapPositionPX, min, max);
-    float posDownScreen = mapComp->m_absoluteMapPositionPX.second + m_localLevelSizePX;
+    float posDownScreen = centerScreenPos.second + m_localLevelSizePX;
     float posGround = (levelSizeY - 5) * LEVEL_TILE_SIZE_PX;
     float diffPosPX = posDownScreen - posGround;
-    // if(diffPosPX < 0.0f)
-    // {
-    //     posComp->m_vertex[0].second = -1.1;
-    //     posComp->m_vertex[1].second = -1.1;
-    //     posComp->m_vertex[4].second = -1.1;
-    //     return;
-    // }
     leftPos = m_groundPosLateral - 2.0f, rightPos = m_groundPosLateral + 2.0f;
     float groundGLy = -1.0f + (diffPosPX * MAP_LOCAL_SIZE_GL / m_localLevelSizePX);
     posComp->m_vertex[0].first = leftPos;
