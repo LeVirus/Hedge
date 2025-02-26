@@ -29,6 +29,7 @@ void MapDisplaySystem::confLevelData()
 {
     m_firstLoop = true;
     m_localLevelSizePX = 350.0f;
+    m_localLevelSizeCase = m_localLevelSizePX / LEVEL_TILE_SIZE_PX + 1;
     m_sizeLevelPX = {Level::getSize().first * LEVEL_TILE_SIZE_PX,
                     Level::getSize().second * LEVEL_TILE_SIZE_PX};
     m_miniMapTileSizeGL = (LEVEL_TILE_SIZE_PX * MAP_LOCAL_SIZE_GL) / m_localLevelSizePX;
@@ -130,7 +131,7 @@ void MapDisplaySystem::confVertexPlayerOnFullMap()
 void MapDisplaySystem::confMiniMapPositionVertexEntities()
 {
     MapCoordComponent *mapCompPlayer = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
-    PairFloat_t playerPos = mapCompPlayer->m_absoluteMapPositionPX;
+    PairFloat_t playerPos = mapCompPlayer->m_absoluteMapPositionPX, centerScreen;
     PairFloat_t corner, diffPosPX, relativePosMapGL;
     PairUI_t max, min;
     getMapDisplayLimit(playerPos, min, max);
@@ -139,7 +140,6 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
     for(std::set<uint32_t>::const_iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
         GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
-        // if(!genComp)continue;
         assert(genComp);
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         if(!mapComp)
@@ -149,25 +149,18 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
         }
         if(m_playerNum == *it)
         {
-            if(mapComp->m_absoluteMapPositionPX.first < EPSILON_FLOAT)
-            {
-                mapComp->m_absoluteMapPositionPX.first = EPSILON_FLOAT;
-            }
-            if(mapComp->m_absoluteMapPositionPX.second < EPSILON_FLOAT)
-            {
-                mapComp->m_absoluteMapPositionPX.second = EPSILON_FLOAT;
-            }
             std::optional<PairUI_t> coord = getLevelCoord(mapComp->m_absoluteMapPositionPX);
             assert(coord);
             mapComp->m_coord = *coord;
         }
         EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(*it);
-        if(checkBoundEntityMap(*mapComp, min, max))
+        centerScreen = getCenterScreen(playerPos, min, max);
+        if(checkBoundEntityMap(mapComp->m_coord, min, max))
         {
             //get absolute position corner
             m_entitiesToDisplay.emplace_back(*it);
             corner = getUpLeftCorner(*mapComp, *it);
-            diffPosPX = corner - mapCompPlayer->m_absoluteMapPositionPX;
+            diffPosPX = corner - centerScreen;
             //convert absolute position to relative
             relativePosMapGL = {diffPosPX.first * MAP_LOCAL_SIZE_GL / m_localLevelSizePX,
                                 diffPosPX.second * MAP_LOCAL_SIZE_GL / m_localLevelSizePX};
@@ -185,6 +178,31 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities()
             }
         }
     }
+}
+
+//===================================================================
+PairFloat_t MapDisplaySystem::getCenterScreen(const PairFloat_t &playerMap, const PairUI_t &min, const PairUI_t &max)const
+{
+    PairFloat_t finalPos = playerMap;
+    std::cerr << max.first << "  " << finalPos.first + m_localLevelSizePX << " > " << m_sizeLevelPX.first << " DA\n";
+    if(min.first == 0 && finalPos.first - m_localLevelSizePX < 0.0f)
+    {
+        finalPos.first = m_localLevelSizePX;
+    }
+    else if(max.first >= Level::getSize().first && finalPos.first + m_localLevelSizePX > m_sizeLevelPX.first)
+    {
+        std::cerr << "DA\n";
+        finalPos.first = m_sizeLevelPX.first - m_localLevelSizePX;
+    }
+    if(min.second == 0 && finalPos.second - m_localLevelSizePX < 0.0f)
+    {
+        finalPos.second = m_localLevelSizePX;
+    }
+    else if(max.second >= Level::getSize().second && finalPos.second + m_localLevelSizePX > m_sizeLevelPX.second)
+    {
+        finalPos.second = m_sizeLevelPX.second - m_localLevelSizePX;
+    }
+    return finalPos;
 }
 
 //===================================================================
@@ -425,17 +443,17 @@ void MapDisplaySystem::confFullMapVertexElement(const PairFloat_t &absolutePosit
 }
 
 //===================================================================
-bool MapDisplaySystem::checkBoundEntityMap(const MapCoordComponent &mapCoordComp,
+bool MapDisplaySystem::checkBoundEntityMap(const PairUI_t &centerScreen,
                                            const PairUI_t &minBound,
                                            const PairUI_t &maxBound)
 {
-    if(mapCoordComp.m_coord.first < minBound.first ||
-            mapCoordComp.m_coord.second < minBound.second)
+    if(centerScreen.first < minBound.first ||
+            centerScreen.second < minBound.second)
     {
         return false;
     }
-    if(mapCoordComp.m_coord.first > maxBound.first ||
-            mapCoordComp.m_coord.second > maxBound.second)
+    if(centerScreen.first > maxBound.first ||
+            centerScreen.second > maxBound.second)
     {
         return false;
     }

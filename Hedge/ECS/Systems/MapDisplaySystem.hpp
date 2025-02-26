@@ -63,10 +63,11 @@ private:
     void drawMapVertex();
     void drawPlayerOnMap();
     void confMiniMapPositionVertexEntities();
+    PairFloat_t getCenterScreen(const PairFloat_t &playerMap, const PairUI_t &min, const PairUI_t &max)const;
     void confMiniMapVertexElement(const PairFloat_t &glPosition, uint32_t entityNum);
     void confFullMapVertexElement(const PairFloat_t &absolutePositionPX, uint32_t entityNum);
     void setVertexStaticElementPosition(uint32_t entityNum);
-    bool checkBoundEntityMap(const MapCoordComponent &mapCoordComp, const PairUI_t &minBound, const PairUI_t &maxBound);
+    bool checkBoundEntityMap(const PairUI_t &centerScreen, const PairUI_t &minBound, const PairUI_t &maxBound);
     void getMapDisplayLimit(const PairFloat_t &playerPos, PairUI_t &min, PairUI_t &max);
     PairFloat_t getUpLeftCorner(const MapCoordComponent &mapCoordComp, uint32_t entityNum);
     void confVertexGroundAndBackground();
@@ -83,6 +84,7 @@ private:
     Shader *m_shader;
     std::vector<VerticesData> m_vectMapVerticesData;
     float m_localLevelSizePX;
+    uint32_t m_localLevelSizeCase;
     float m_miniMapTileSizeGL;
     std::vector<Texture> *m_ptrVectTexture = nullptr;
     std::optional<uint32_t> m_background, m_ground;
