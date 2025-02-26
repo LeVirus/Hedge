@@ -29,6 +29,7 @@ void MapDisplaySystem::confLevelData()
 {
     m_firstLoop = true;
     m_localLevelSizePX = 350.0f;
+    m_visibleTile = (m_localLevelSizePX / LEVEL_TILE_SIZE_PX + 1) * 2;
     m_localLevelSizeCase = m_localLevelSizePX / LEVEL_TILE_SIZE_PX + 1;
     m_sizeLevelPX = {Level::getSize().first * LEVEL_TILE_SIZE_PX,
                     Level::getSize().second * LEVEL_TILE_SIZE_PX};
@@ -353,27 +354,36 @@ void MapDisplaySystem::getMapDisplayLimit(const PairFloat_t &playerPos, PairUI_t
 {
     assert(playerPos.first >= 0.0f || playerPos.second >= 0.0f);
     //getBound
-    PairFloat_t pos = playerPos;
-    pos.first += m_localLevelSizePX;
-    pos.second += m_localLevelSizePX;
-    max = *getLevelCoord(pos);
-    pos.first -= m_localLevelSizePX * 2;
-    if(pos.first < LEVEL_TILE_SIZE_PX)
+    PairFloat_t posMax = {playerPos.first + m_localLevelSizePX, playerPos.second + m_localLevelSizePX},
+        posMin = {playerPos.first - m_localLevelSizePX, playerPos.second - m_localLevelSizePX};
+    max = *getLevelCoord(posMax);
+    if(posMin.first < LEVEL_TILE_SIZE_PX)
     {
         min.first = 0;
+        max.first = m_visibleTile;
+    }
+    else if(posMax.first >= m_sizeLevelPX.first)
+    {
+        max.first = Level::getSize().first;
+        min.first = max.first - m_visibleTile;
     }
     else
     {
-        min.first = static_cast<uint32_t>(pos.first / LEVEL_TILE_SIZE_PX);
+        min.first = static_cast<uint32_t>(posMin.first / LEVEL_TILE_SIZE_PX);
     }
-    pos.second -= m_localLevelSizePX * 2;
-    if(pos.second < LEVEL_TILE_SIZE_PX)
+    if(posMin.second < LEVEL_TILE_SIZE_PX)
     {
         min.second = 0;
+        max.second = m_visibleTile;
+    }
+    else if(posMax.second >= m_sizeLevelPX.second)
+    {
+        max.second = Level::getSize().second;
+        min.second = max.second - m_visibleTile;
     }
     else
     {
-        min.second = static_cast<uint32_t>(pos.second / LEVEL_TILE_SIZE_PX);
+        min.second = static_cast<uint32_t>(posMin.second / LEVEL_TILE_SIZE_PX);
     }
 }
 

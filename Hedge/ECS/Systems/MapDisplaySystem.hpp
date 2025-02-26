@@ -81,6 +81,7 @@ private:
     std::map<uint32_t, PairUI_t> m_entitiesDetectedData;
     std::vector<uint32_t> m_entitiesToDisplay;
     PairFloat_t m_sizeLevelPX, m_fullMapTileSizePX, m_fullMapTileSizeGL;
+    uint32_t m_visibleTile;
     Shader *m_shader;
     std::vector<VerticesData> m_vectMapVerticesData;
     float m_localLevelSizePX;
