@@ -276,7 +276,7 @@ void MapDisplaySystem::confVertexGroundAndBackground(const PairFloat_t &centerSc
     float posGround = (levelSizeY - 5) * LEVEL_TILE_SIZE_PX;
     float diffPosPX = posDownScreen - posGround;
     leftPos = m_groundPosLateral - 2.0f, rightPos = m_groundPosLateral + 2.0f;
-    float groundGLy = -1.0f + (diffPosPX * MAP_LOCAL_SIZE_GL / m_localLevelSizePX);
+    float groundGLy = -1.0f + (diffPosPX * MAP_LOCAL_SIZE_GL / m_localLevelSizePX), groundDownPos = groundGLy - (LEVEL_TILE_SIZE_PX * 5 * MAP_LOCAL_SIZE_GL) / m_localLevelSizePX;
     posComp->m_vertex[0].first = leftPos;
     posComp->m_vertex[3].first = leftPos;
     posComp->m_vertex[1].first = m_groundPosLateral;
@@ -288,9 +288,9 @@ void MapDisplaySystem::confVertexGroundAndBackground(const PairFloat_t &centerSc
     posComp->m_vertex[1].second = groundGLy;
     posComp->m_vertex[4].second = groundGLy;
 
-    posComp->m_vertex[2].second = -1.0f;
-    posComp->m_vertex[3].second = -1.0f;
-    posComp->m_vertex[5].second = -1.0f;
+    posComp->m_vertex[2].second = groundDownPos;
+    posComp->m_vertex[3].second = groundDownPos;
+    posComp->m_vertex[5].second = groundDownPos;
 }
 
 //===================================================================
