@@ -76,7 +76,7 @@ private:
     void drawGround();
 private:
     uint32_t m_playerNum;
-    bool m_firstLoop = true;
+    bool m_firstLoop = true, m_backgroundLock = false;
     float m_groundPosLateral = 0.0f, m_backgroundPosLateral = 0.0f, m_memPreviousPos;
     std::map<uint32_t, PairUI_t> m_entitiesDetectedData;
     std::vector<uint32_t> m_entitiesToDisplay;

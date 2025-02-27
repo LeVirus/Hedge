@@ -27,6 +27,7 @@ MapDisplaySystem::MapDisplaySystem()
 //===================================================================
 void MapDisplaySystem::confLevelData()
 {
+    m_backgroundLock = false;
     m_firstLoop = true;
     m_localLevelSizePX = 350.0f;
     m_visibleTile = (m_localLevelSizePX / LEVEL_TILE_SIZE_PX + 1) * 2;
@@ -248,6 +249,14 @@ PairFloat_t MapDisplaySystem::getUpLeftCorner(const MapCoordComponent &mapCoordC
 //===================================================================
 void MapDisplaySystem::confVertexGroundAndBackground(const PairFloat_t &centerScreenPos)
 {
+    if(!m_firstLoop && m_backgroundLock)
+    {
+        m_backgroundLock = false;
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
+        assert(mapComp);
+        m_memPreviousPos = mapComp->m_absoluteMapPositionPX.first;
+        return;
+    }
     updateBackgroundLateralPos();
     float leftPos = m_backgroundPosLateral - 2.0f, rightPos = m_backgroundPosLateral + 2.0f;
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_background);
@@ -357,21 +366,23 @@ void MapDisplaySystem::getMapDisplayLimit(const PairFloat_t &playerPos, PairUI_t
     PairFloat_t posMax = {playerPos.first + m_localLevelSizePX, playerPos.second + m_localLevelSizePX},
         posMin = {playerPos.first - m_localLevelSizePX, playerPos.second - m_localLevelSizePX};
     max = *getLevelCoord(posMax);
-    if(posMin.first < LEVEL_TILE_SIZE_PX)
+    if(posMin.first < 0.0f)
     {
         min.first = 0;
         max.first = m_visibleTile;
+        m_backgroundLock = true;
     }
     else if(posMax.first >= m_sizeLevelPX.first)
     {
         max.first = Level::getSize().first;
         min.first = max.first - m_visibleTile;
+        m_backgroundLock = true;
     }
     else
     {
         min.first = static_cast<uint32_t>(posMin.first / LEVEL_TILE_SIZE_PX);
     }
-    if(posMin.second < LEVEL_TILE_SIZE_PX)
+    if(posMin.second < 0.0f)
     {
         min.second = 0;
         max.second = m_visibleTile;
