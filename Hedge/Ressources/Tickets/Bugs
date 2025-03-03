@@ -1,5 +1,9 @@
 ))
-Animation jump/fall first frame issue if loop several times
+Ground issue display if player appear on limit level lateral
+
+
+))
+Animation jump/fall first frame issue if loop several times=====================OK
 
 ))
 Enemies stay stuck on ground================================OK

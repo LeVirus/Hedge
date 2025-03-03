@@ -279,7 +279,7 @@ private:
     void displayTransitionMenu(MenuMode_e mode = MenuMode_e::TRANSITION_LEVEL, bool redTransition = false);
     void confMenuBarMenuEntity(uint32_t musicEntity, uint32_t effectEntity, uint32_t turnSensitivity);
     void confUnifiedColorEntity(uint32_t entityNum, const tupleFloat_t &color, bool transparent);
-    void loadBackgroundEntities(const GroundCeilingData &groundData, const GroundCeilingData &backgroundData, const LevelManager &levelManager);
+    void loadBackgroundEntities(const GroundCeilingData &groundData, const GroundCeilingData &backgroundData, const GroundCeilingData &middleData, const LevelManager &levelManager);
     void loadFogEntities();
     void confColorBackgroundComponents(uint32_t entity, const GroundCeilingData &groundData, bool ground);
     void confGroundSimpleTextBackgroundComponents(uint32_t entity, const GroundCeilingData &groundData, const std::vector<SpriteData> &vectSprite);
@@ -382,6 +382,10 @@ private:
     inline void memCeilingBackgroundFPSSystemEntity(uint32_t entity)
     {
         m_graphicEngine.memCeilingBackgroundFPSSystemEntity(entity);
+    }
+    inline void memMiddleBackgroundFPSSystemEntity(uint32_t entity)
+    {
+        m_graphicEngine.memMiddleBackgroundFPSSystemEntity(entity);
     }
     inline void memGroundBackgroundFPSSystemEntity(uint32_t entity)
     {

@@ -51,7 +51,7 @@ class PictureData
 public:
     PictureData();
     void setTexturePath(const vectStr_t &vectTextures);
-    void setBackgroundData(const GroundCeilingData &ground, const GroundCeilingData &ceiling);
+    void setBackgroundData(const GroundCeilingData &ground, const GroundCeilingData &ceiling, const GroundCeilingData &middleData);
     void setSpriteData(const SpriteData &spriteData, const std::string &identifier);
     std::optional<uint16_t> getIdentifier(const std::string &spriteName)const;
     void display();
@@ -61,9 +61,10 @@ public:
     inline const std::vector<SpriteData> &getSpriteData()const {return m_vectSpriteData;}
     inline const GroundCeilingData &getCeilingData()const {return m_ceilingData;}
     inline const GroundCeilingData &getGroundData()const {return m_groundData;}
+    inline const GroundCeilingData &getMiddleData()const {return m_middleData;}
 private:
     vectStr_t m_vectTexturePath;
-    GroundCeilingData m_groundData, m_ceilingData;
+    GroundCeilingData m_groundData, m_ceilingData, m_middleData;
     std::vector<SpriteData> m_vectSpriteData;
     std::map<std::string, uint16_t> m_mapIdentifier;
     bool m_upToDate = false;

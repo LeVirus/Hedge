@@ -1015,10 +1015,9 @@ uint32_t MainEngine::createTextureEntity()
 }
 
 //===================================================================
-void MainEngine::loadBackgroundEntities(const GroundCeilingData &groundData, const GroundCeilingData &ceilingData,
+void MainEngine::loadBackgroundEntities(const GroundCeilingData &groundData, const GroundCeilingData &ceilingData, const GroundCeilingData &middleData,
                                         const LevelManager &levelManager)
 {
-
     uint32_t entity, colorIndex = static_cast<uint32_t>(DisplayType_e::COLOR),
             simpleTextIndex = static_cast<uint32_t>(DisplayType_e::SIMPLE_TEXTURE),
             tiledTextIndex = static_cast<uint32_t>(DisplayType_e::TEXTURED_TILE);
@@ -1034,7 +1033,7 @@ void MainEngine::loadBackgroundEntities(const GroundCeilingData &groundData, con
         confColorBackgroundComponents(entity, groundData, true);
         memColorSystemEntity(entity);
     }
-    if(groundData.m_apparence[tiledTextIndex])
+    else if(groundData.m_apparence[tiledTextIndex])
     {
         entity = createBackgroundEntity(false);
         confTiledTextBackgroundComponents(entity, groundData, levelManager.getPictureSpriteData());
@@ -1054,11 +1053,19 @@ void MainEngine::loadBackgroundEntities(const GroundCeilingData &groundData, con
         confColorBackgroundComponents(entity, ceilingData, false);
         memColorSystemEntity(entity);
     }
-    if(ceilingData.m_apparence[tiledTextIndex])
+    else if(ceilingData.m_apparence[tiledTextIndex])
     {
         entity = createBackgroundEntity(false);
         confTiledTextBackgroundComponents(entity, ceilingData, levelManager.getPictureSpriteData());
         memCeilingBackgroundFPSSystemEntity(entity);
+    }
+
+    //MIDDLE
+    if(middleData.m_apparence[simpleTextIndex])
+    {
+        entity = createBackgroundEntity(false);
+        confCeilingSimpleTextBackgroundComponents(entity, middleData, levelManager.getPictureSpriteData());
+        memMiddleBackgroundFPSSystemEntity(entity);
     }
     loadFogEntities();
 }
@@ -1155,6 +1162,7 @@ void MainEngine::loadLevel(const LevelManager &levelManager)
     m_graphicEngine.clearBarrelEntitiesToDelete();
     loadBackgroundEntities(levelManager.getPictureData().getGroundData(),
                            levelManager.getPictureData().getCeilingData(),
+                           levelManager.getPictureData().getMiddleData(),
                            levelManager);
     Level::initLevelElementArray();
     loadPlayerEntity(levelManager);
@@ -3379,12 +3387,12 @@ void MainEngine::confCeilingSimpleTextBackgroundComponents(uint32_t entity, cons
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(entity);
     assert(posComp);
     posComp->m_vertex.reserve(6);
-    posComp->m_vertex.emplace_back(-1.0f, 1.0f);
-    posComp->m_vertex.emplace_back(1.0f, 1.0f);
-    posComp->m_vertex.emplace_back(1.0f, 0.0f);
-    posComp->m_vertex.emplace_back(-1.0f, 0.0f);
-    posComp->m_vertex.emplace_back(3.0f, 1.0f);
-    posComp->m_vertex.emplace_back(3.0f, 0.0f);
+    posComp->m_vertex.emplace_back(-1.0f, 0.8f);
+    posComp->m_vertex.emplace_back(1.0f, 0.8f);
+    posComp->m_vertex.emplace_back(1.0f, -1.0f);
+    posComp->m_vertex.emplace_back(-1.0f, -1.0f);
+    posComp->m_vertex.emplace_back(3.0f, 0.8f);
+    posComp->m_vertex.emplace_back(3.0f, -1.0f);
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entity);
     assert(spriteComp);
     assert(vectSprite.size() >= groundData.m_spriteSimpleTextNum);

@@ -55,6 +55,10 @@ public:
     {
         m_ground = entity;
     }
+    inline void memMiddleEntity(uint32_t entity)
+    {
+        m_middle = entity;
+    }
 private:
     void confFullMapPositionVertexEntities();
     void confVertexPlayerOnFullMap();
@@ -73,11 +77,12 @@ private:
     void confVertexGroundAndBackground(const PairFloat_t &centerScreenPos);
     void updateBackgroundLateralPos();
     void drawBackground();
+    void drawMiddle();
     void drawGround();
 private:
     uint32_t m_playerNum;
     bool m_firstLoop = true, m_backgroundLock = false;
-    float m_groundPosLateral = 0.0f, m_backgroundPosLateral = 0.0f, m_memPreviousPos;
+    float m_groundPosLateral = 0.0f, m_backgroundPosLateral = 0.0f, m_middlePosLateral = 0.0f, m_memPreviousPos;
     std::map<uint32_t, PairUI_t> m_entitiesDetectedData;
     std::vector<uint32_t> m_entitiesToDisplay;
     PairFloat_t m_sizeLevelPX, m_fullMapTileSizePX, m_fullMapTileSizeGL;
@@ -88,8 +93,8 @@ private:
     uint32_t m_localLevelSizeCase;
     float m_miniMapTileSizeGL;
     std::vector<Texture> *m_ptrVectTexture = nullptr;
-    std::optional<uint32_t> m_background, m_ground;
-    VerticesData m_backgroundTextVertice, m_groundTextVertice;
+    std::optional<uint32_t> m_background, m_ground, m_middle;
+    VerticesData m_backgroundTextVertice, m_groundTextVertice, m_middleTextVertice;
 };
 
 //Adapt to GL context

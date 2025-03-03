@@ -1,3 +1,10 @@
+
+))
+Make enemies hitbox fit display==============================OK
+	-Modif display scale on map
+
+
+
 ))
 Add stair to make player go up or down without jump
 
@@ -8,10 +15,6 @@ Make bosses
 
 ))
 Make speed shots (player + enemies)
-
-))
-Make enemies hitbox fit display
-	-Modif display scale on map
 
 ))
 Make several (2) background with movement while player move

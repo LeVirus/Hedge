@@ -86,9 +86,11 @@ void PictureData::clear()
 }
 
 //===================================================================
-void PictureData::setBackgroundData(const GroundCeilingData &ground, const GroundCeilingData &ceiling)
+void PictureData::setBackgroundData(const GroundCeilingData &ground, const GroundCeilingData &ceiling, const GroundCeilingData &middleData)
 {
     m_groundData = ground;
     m_ceilingData = ceiling;
+    m_middleData = middleData;
+    assert(middleData.m_apparence[(int)DisplayType_e::SIMPLE_TEXTURE]);
 }
 

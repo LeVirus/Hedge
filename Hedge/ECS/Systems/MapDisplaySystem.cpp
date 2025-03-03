@@ -67,6 +67,7 @@ void MapDisplaySystem::execSystem()
 
     confVertexGroundAndBackground(centerScreen);
     drawBackground();
+    drawMiddle();
     drawMiniMap(centerScreen, min, max);
     drawGround();
 }
@@ -291,6 +292,16 @@ void MapDisplaySystem::confVertexGroundAndBackground(const PairFloat_t &centerSc
     posComp->m_vertex[2].second = groundDownPos;
     posComp->m_vertex[3].second = groundDownPos;
     posComp->m_vertex[5].second = groundDownPos;
+
+    //MIDDLE
+    posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_middle);
+    assert(posComp);
+    posComp->m_vertex[0].first = leftPos;
+    posComp->m_vertex[3].first = leftPos;
+    posComp->m_vertex[1].first = m_backgroundPosLateral;
+    posComp->m_vertex[2].first = m_backgroundPosLateral;
+    posComp->m_vertex[4].first = rightPos;
+    posComp->m_vertex[5].first = rightPos;
 }
 
 //===================================================================
@@ -330,7 +341,6 @@ void MapDisplaySystem::updateBackgroundLateralPos()
 //===================================================================
 void MapDisplaySystem::drawBackground()
 {
-    // assert(m_background);
     m_shader->use();
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_background);
     assert(posComp);
@@ -342,6 +352,21 @@ void MapDisplaySystem::drawBackground()
     m_backgroundTextVertice.confVertexBuffer();
     m_backgroundTextVertice.drawElement();
 
+}
+
+//===================================================================
+void MapDisplaySystem::drawMiddle()
+{
+    m_shader->use();
+    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_middle);
+    assert(posComp);
+    SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(*m_middle);
+    assert(spriteComp);
+    m_ptrVectTexture->operator[](static_cast<uint32_t>(spriteComp->m_spriteData->m_textureNum)).bind();
+    m_backgroundTextVertice.clear();
+    m_backgroundTextVertice.loadVertexStandartTextureComponent(*posComp, *spriteComp);
+    m_backgroundTextVertice.confVertexBuffer();
+    m_backgroundTextVertice.drawElement();
 }
 
 //===================================================================

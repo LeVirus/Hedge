@@ -610,6 +610,12 @@ void GraphicEngine::memGroundBackgroundFPSSystemEntity(uint32_t entity)
 }
 
 //===================================================================
+void GraphicEngine::memMiddleBackgroundFPSSystemEntity(uint32_t entity)
+{
+    m_mapSystem->memMiddleEntity(entity);
+}
+
+//===================================================================
 void GraphicEngine::memCeilingBackgroundFPSSystemEntity(uint32_t entity)
 {
     m_mapSystem->memGroundEntity(entity);

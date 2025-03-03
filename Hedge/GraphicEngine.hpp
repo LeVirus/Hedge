@@ -127,6 +127,7 @@ public:
     void memFogColorEntity(uint32_t entity);
     void memGroundBackgroundFPSSystemEntity(uint32_t entity);
     void memCeilingBackgroundFPSSystemEntity(uint32_t entity);
+    void memMiddleBackgroundFPSSystemEntity(uint32_t entity);
     void setTransition(bool gamePaused, bool redTransition = false);
     void unsetTransition(bool gamePaused, bool unsetRedTransition = false);
     void mainDisplay(bool gamePaused);

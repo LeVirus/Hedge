@@ -83,12 +83,13 @@ bool LevelManager::loadBackgroundData()
 {
     std::optional<std::string> valA, valB, valC;
     std::vector<std::string> sections = m_ini.getSectionNamesContaining("GroundBackground");
-    GroundCeilingData groundData, ceilingData;
+    GroundCeilingData groundData, middleData, ceilingData;
     uint32_t colorIndex = static_cast<uint32_t>(DisplayType_e::COLOR),
             simpleTextureIndex = static_cast<uint32_t>(DisplayType_e::SIMPLE_TEXTURE),
             tiledTextureIndex = static_cast<uint32_t>(DisplayType_e::TEXTURED_TILE);
     groundData.m_apparence.reset();
     ceilingData.m_apparence.reset();
+    middleData.m_apparence.reset();
     for(uint32_t i = 0; i < sections.size() ; ++i)
     {
         if(sections[i] == "ColorGroundBackground")
@@ -204,7 +205,29 @@ bool LevelManager::loadBackgroundData()
             ceilingData.m_apparence[tiledTextureIndex] = true;
         }
     }
-    m_pictureData.setBackgroundData(groundData, ceilingData);
+
+    sections = m_ini.getSectionNamesContaining("MiddleBackground");
+    for(uint32_t i = 0; i < sections.size() ; ++i)
+    {
+        if(sections[i] == "SimpleTextureMiddleBackground")
+        {
+            valA = m_ini.getValue(sections[i], "sprite");
+            if(!valA)
+            {
+                std::cout << "Error while loading background picture" << std::endl;
+                return false;
+            }
+            std::optional<uint16_t> picNum = m_pictureData.getIdentifier(*valA);
+            if(!picNum)
+            {
+                std::cout << "Error while loading background picture" << std::endl;
+                return false;
+            }
+            middleData.m_spriteSimpleTextNum = *picNum;
+            middleData.m_apparence[simpleTextureIndex] = true;
+        }
+    }
+    m_pictureData.setBackgroundData(groundData, ceilingData, middleData);
     return true;
 }
 
