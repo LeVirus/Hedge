@@ -74,7 +74,8 @@ private:
     bool checkBoundEntityMap(const PairUI_t &centerScreen, const PairUI_t &minBound, const PairUI_t &maxBound);
     void getMapDisplayLimit(const PairFloat_t &playerPos, PairUI_t &min, PairUI_t &max);
     PairFloat_t getUpLeftCorner(const MapCoordComponent &mapCoordComp, uint32_t entityNum);
-    void confVertexGroundAndBackground(const PairFloat_t &centerScreenPos);
+    void confVertexBackground();
+    void confVertexGround(const PairFloat_t &centerScreenPos);
     void updateBackgroundLateralPos();
     void drawBackground();
     void drawMiddle();

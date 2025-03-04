@@ -65,7 +65,8 @@ void MapDisplaySystem::execSystem()
     getMapDisplayLimit(playerPos, min, max);
     PairFloat_t centerScreen = getCenterScreen(mapCompPlayer->m_absoluteMapPositionPX, min, max);
 
-    confVertexGroundAndBackground(centerScreen);
+    confVertexBackground();
+    confVertexGround(centerScreen);
     drawBackground();
     drawMiddle();
     drawMiniMap(centerScreen, min, max);
@@ -248,7 +249,7 @@ PairFloat_t MapDisplaySystem::getUpLeftCorner(const MapCoordComponent &mapCoordC
 }
 
 //===================================================================
-void MapDisplaySystem::confVertexGroundAndBackground(const PairFloat_t &centerScreenPos)
+void MapDisplaySystem::confVertexBackground()
 {
     if(!m_firstLoop && m_backgroundLock)
     {
@@ -281,15 +282,19 @@ void MapDisplaySystem::confVertexGroundAndBackground(const PairFloat_t &centerSc
     posComp->m_vertex[2].first = m_middlePosLateral;
     posComp->m_vertex[4].first = rightPos;
     posComp->m_vertex[5].first = rightPos;
+}
 
+//===================================================================
+void MapDisplaySystem::confVertexGround(const PairFloat_t &centerScreenPos)
+{
     //GROUND
-    posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_ground);
+    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_ground);
     assert(posComp);
     uint32_t levelSizeY = Level::getSize().second;
     float posDownScreen = centerScreenPos.second + m_localLevelSizePX;
     float posGround = (levelSizeY - 5) * LEVEL_TILE_SIZE_PX;
     float diffPosPX = posDownScreen - posGround;
-    leftPos = m_groundPosLateral - 2.0f, rightPos = m_groundPosLateral + 2.0f;
+    float leftPos = m_groundPosLateral - 2.0f, rightPos = m_groundPosLateral + 2.0f;
     float groundGLy = -1.0f + (diffPosPX * MAP_LOCAL_SIZE_GL / m_localLevelSizePX), groundDownPos = groundGLy - (LEVEL_TILE_SIZE_PX * 5 * MAP_LOCAL_SIZE_GL) / m_localLevelSizePX;
     posComp->m_vertex[0].first = leftPos;
     posComp->m_vertex[3].first = leftPos;
