@@ -200,9 +200,9 @@ void GraphicEngine::displayGameIteration()
 {
     m_colorSystem->execSystem();
     m_visionSystem->execSystem();
-    m_staticDisplaySystem->execSystem();
     Ecsm_t::instance().updateEntitiesFromSystem(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM));
     m_mapSystem->execSystem();
+    m_staticDisplaySystem->execSystem();
 }
 
 //===================================================================

@@ -4,6 +4,12 @@ Make enemies hitbox fit display==============================OK
 	-Modif display scale on map
 
 
+))
+Make several (2) background with movement while player move=======================OK
+	-Add foreground background
+
+=============================================================================================================================
+=============================================================================================================================
 
 ))
 Add stair to make player go up or down without jump
@@ -14,11 +20,12 @@ Make bosses
 	-Freeze camera
 
 ))
-Make speed shots (player + enemies)
+Add lock scrolling
 
 ))
-Make several (2) background with movement while player move
-	-Add foreground background
+Make speed shots (player + enemies)
+	-Fix bullet travers enemies
+
 
 ))
 Remove invisible bullets stuff

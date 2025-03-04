@@ -64,7 +64,6 @@ void MapDisplaySystem::execSystem()
     PairUI_t max, min;
     getMapDisplayLimit(playerPos, min, max);
     PairFloat_t centerScreen = getCenterScreen(mapCompPlayer->m_absoluteMapPositionPX, min, max);
-
     confVertexBackground();
     confVertexGround(centerScreen);
     drawBackground();
