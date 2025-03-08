@@ -12,6 +12,10 @@ Make several (2) background with movement while player move=====================
 =============================================================================================================================
 
 ))
+Make speed shots (player + enemies)
+	-Fix bullet travers enemies
+
+))
 Add stair to make player go up or down without jump
 
 ))
@@ -21,11 +25,6 @@ Make bosses
 
 ))
 Add lock scrolling
-
-))
-Make speed shots (player + enemies)
-	-Fix bullet travers enemies
-
 
 ))
 Remove invisible bullets stuff

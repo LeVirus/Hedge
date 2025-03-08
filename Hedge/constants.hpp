@@ -70,6 +70,7 @@ enum Components_e
     CHECKPOINT_COMPONENT,
     LOG_COMPONENT,
     GRAVITY_COMPONENT,
+    MOVEABLE_WALL_CONF_COMPONENT,
     TOTAL_COMPONENTS
 };
 
@@ -196,7 +197,8 @@ enum class Systems_e
     STATIC_DISPLAY_SYSTEM,
     IA_SYSTEM,
     SOUND_SYSTEM,
-    GRAVITY_SYSTEM
+    GRAVITY_SYSTEM,
+    PLATFORM_SYSTEM
 };
 
 enum class DisplayType_e

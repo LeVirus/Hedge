@@ -12,13 +12,14 @@ struct VisionComponent;
 class DoorWallSystem;
 class IASystem;
 class GravitySystem;
+class PlatformSystem;
 
 class PhysicalEngine
 {
 public:
     PhysicalEngine();
     void runIteration(bool gamePaused);
-    void linkSystems(InputSystem *inputSystem, CollisionSystem * collisionSystem, IASystem *iaSystem, GravitySystem *gravSystem);
+    void linkSystems(InputSystem *inputSystem, CollisionSystem * collisionSystem, IASystem *iaSystem, GravitySystem *gravSystem, PlatformSystem *platformSystem);
     void memPlayerEntity(uint32_t playerEntity);
     void confPlayerVisibleShoot(std::vector<uint32_t> &visibleShots,
                                 const PairFloat_t &point, float degreeAngle);
@@ -79,6 +80,7 @@ private:
     CollisionSystem *m_collisionSystem = nullptr;
     IASystem *m_iaSystem = nullptr;
     GravitySystem *m_gravSystem = nullptr;
+    PlatformSystem *m_platformSystem = nullptr;
 };
 
 void moveElementFromAngle(float distanceMove, float radiantAngle, PairFloat_t &point, bool backgroundRaycastMode = false);

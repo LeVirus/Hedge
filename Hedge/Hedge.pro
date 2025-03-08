@@ -12,6 +12,7 @@ SOURCES += main.cpp \
     AudioEngine.cpp \
     ECS/Systems/GravitySystem.cpp \
     ECS/Systems/IASystem.cpp \
+    ECS/Systems/PlatformSystem.cpp \
     ECS/Systems/SoundSystem.cpp \
     ECS/Systems/VisionSystem.cpp \
     FontData.cpp \
@@ -43,6 +44,7 @@ HEADERS += \
     ECS/Components/GravityComponent.hpp \
     ECS/Components/LogComponent.hpp \
     ECS/Components/MemSpriteDataComponent.hpp \
+    ECS/Components/MoveableWallComponent.hpp \
     ECS/Components/SegmentCollisionComponent.hpp \
     ECS/Components/ShotConfComponent.hpp \
     ECS/Components/TimerComponent.hpp \
@@ -50,6 +52,7 @@ HEADERS += \
     ECS/Components/WriteComponent.hpp \
     ECS/Systems/GravitySystem.hpp \
     ECS/Systems/IASystem.hpp \
+    ECS/Systems/PlatformSystem.hpp \
     ECS/Systems/SoundSystem.hpp \
     ECS/Systems/VisionSystem.hpp \
     FontData.hpp \

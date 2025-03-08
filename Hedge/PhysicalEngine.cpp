@@ -9,6 +9,7 @@
 #include <ECS/Systems/IASystem.hpp>
 #include <ECS/Systems/GravitySystem.hpp>
 #include <ECS/Systems/InputSystem.hpp>
+#include <ECS/Systems/PlatformSystem.hpp>
 #include <cassert>
 
 //===================================================================
@@ -31,12 +32,13 @@ void PhysicalEngine::runIteration(bool gamePaused)
 
 //===================================================================
 void PhysicalEngine::linkSystems(InputSystem *inputSystem, CollisionSystem *collisionSystem,
-                                 IASystem *iaSystem, GravitySystem *gravSystem)
+                                 IASystem *iaSystem, GravitySystem *gravSystem, PlatformSystem *platformSystem)
 {
     m_inputSystem = inputSystem;
     m_collisionSystem = collisionSystem;
     m_iaSystem = iaSystem;
     m_gravSystem = gravSystem;
+    m_platformSystem = platformSystem;
 }
 
 //===================================================================

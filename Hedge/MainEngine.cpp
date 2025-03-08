@@ -27,6 +27,7 @@
 #include <ECS/Systems/VisionSystem.hpp>
 #include <ECS/Systems/StaticDisplaySystem.hpp>
 #include <ECS/Systems/IASystem.hpp>
+#include <ECS/Systems/PlatformSystem.hpp>
 #include <ECS_Headers/Component.hpp>
 #include <LevelManager.hpp>
 #include <cassert>
@@ -440,6 +441,7 @@ void MainEngine::instanciateSystems()
     Ecsm_t::instance().addNewSystem(std::make_unique<IASystem>());
     Ecsm_t::instance().addNewSystem(std::make_unique<SoundSystem>());
     Ecsm_t::instance().addNewSystem(std::make_unique<GravitySystem>());
+    Ecsm_t::instance().addNewSystem(std::make_unique<PlatformSystem>());
 }
 
 //===================================================================
@@ -1194,6 +1196,7 @@ void MainEngine::loadLevel(const LevelManager &levelManager)
     std::string prologue = treatInfoMessageEndLine(levelManager.getLevelPrologue()),
             epilogue = treatInfoMessageEndLine(levelManager.getLevelEpilogue(), 27);
     m_graphicEngine.updatePrologueAndEpilogue(prologue, epilogue);
+    Ecsm_t::instance().updateEntitiesFromSystem(static_cast<uint32_t>(Systems_e::PLATFORM_SYSTEM));
     //MUUUUUUUUUUUUSSSSS
     m_audioEngine.memoriseEpilogueMusicFilename(levelManager.getLevelEpilogueMusic());
     m_audioEngine.loadMusicFromFile(levelManager.getLevel().getMusicFilename());
@@ -3431,15 +3434,17 @@ void MainEngine::linkSystemsToPhysicalEngine()
     CollisionSystem * coll = Ecsm_t::instance().getSystem<CollisionSystem>(static_cast<uint32_t>(Systems_e::COLLISION_SYSTEM));
     IASystem *iaSystem = Ecsm_t::instance().getSystem<IASystem>(static_cast<uint32_t>(Systems_e::IA_SYSTEM));
     GravitySystem *gravSystem = Ecsm_t::instance().getSystem<GravitySystem>(static_cast<uint32_t>(Systems_e::GRAVITY_SYSTEM));
+    PlatformSystem *platformSystem = Ecsm_t::instance().getSystem<PlatformSystem>(static_cast<uint32_t>(Systems_e::PLATFORM_SYSTEM));
     assert(input);
     assert(coll);
     assert(iaSystem);
     assert(gravSystem);
+    assert(platformSystem);
     input->linkMainEngine(this);
     input->init(m_graphicEngine.getGLWindow());
     iaSystem->linkMainEngine(this);
     coll->linkMainEngine(this);
-    m_physicalEngine.linkSystems(input, coll, iaSystem, gravSystem);
+    m_physicalEngine.linkSystems(input, coll, iaSystem, gravSystem, platformSystem);
 }
 
 //===================================================================
