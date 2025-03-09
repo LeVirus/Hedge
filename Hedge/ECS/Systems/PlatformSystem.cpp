@@ -15,18 +15,16 @@
 #include <alias.hpp>
 
 //===================================================================
-void PlatformSystem::updateEntities()
+PlatformSystem::PlatformSystem()
 {
     addComponentsToSystem(Components_e::MOVEABLE_WALL_CONF_COMPONENT, 1);
 }
 
-
-//===================================================================
 void PlatformSystem::execSystem()
 {
-    if(m_usedEntities.empty() && m_vectMoveableWall.empty())
+    if(m_usedEntities.empty())
     {
-        updateEntities();
+        Ecsm_t::instance().updateEntitiesFromSystem(static_cast<uint32_t>(Systems_e::PLATFORM_SYSTEM));
     }
     // treatTriggers();
     treatMoveableWalls();
@@ -45,11 +43,9 @@ void PlatformSystem::treatMoveableWalls()
 {
     bool next;
     PairUI_t memPreviousPos;
-    OptUint_t numCom;
-    for(uint32_t i = 0; i < m_vectMoveableWall.size(); ++i)
+    for(std::set<uint32_t>::const_iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
-
-        MoveableWallConfComponent *moveWallComp = Ecsm_t::instance().getComponent<MoveableWallConfComponent, Components_e::MOVEABLE_WALL_CONF_COMPONENT>(m_vectMoveableWall[i]);
+        MoveableWallConfComponent *moveWallComp = Ecsm_t::instance().getComponent<MoveableWallConfComponent, Components_e::MOVEABLE_WALL_CONF_COMPONENT>(*it);
         assert(moveWallComp);
         if(!moveWallComp->m_inMovement)
         {
@@ -60,12 +56,12 @@ void PlatformSystem::treatMoveableWalls()
             else
             {
                 moveWallComp->m_manualTrigger = false;
-                triggerMoveableWall(m_vectMoveableWall[i]);
+                triggerMoveableWall(*it);
             }
         }
         next = false;
 
-        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_vectMoveableWall[i]);
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         assert(mapComp);
         Direction_e currentDir = moveWallComp->m_directionMove[moveWallComp->m_currentPhase].first;
         if((currentDir == Direction_e::WEST && mapComp->m_coord.first == 0) ||
@@ -73,15 +69,15 @@ void PlatformSystem::treatMoveableWalls()
             (currentDir == Direction_e::SOUTH && mapComp->m_coord.second == Level::getSize().second - 1) ||
             (currentDir == Direction_e::EAST && mapComp->m_coord.first == Level::getSize().first - 1))
         {
-            stopMoveWallLevelLimitCase(*mapComp, *moveWallComp, m_vectMoveableWall[i]);
+            stopMoveWallLevelLimitCase(*mapComp, *moveWallComp, *it);
             continue;
         }
 
-        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(m_vectMoveableWall[i]);
+        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
         assert(moveComp);
         if(moveWallComp->m_initPos)
         {
-            setInitPhaseMoveWall(*mapComp, *moveWallComp, currentDir, m_vectMoveableWall[i]);
+            setInitPhaseMoveWall(*mapComp, *moveWallComp, currentDir, *it);
         }
         memPreviousPos = mapComp->m_coord;
         switch(currentDir)
@@ -122,10 +118,10 @@ void PlatformSystem::treatMoveableWalls()
         if(next)
         {
             mapComp->m_absoluteMapPositionPX = getAbsolutePosition(mapComp->m_coord);
-            switchToNextPhaseMoveWall(m_vectMoveableWall[i], *mapComp, *moveWallComp, memPreviousPos, m_vectMoveableWall[i]);
+            switchToNextPhaseMoveWall(*it, *mapComp, *moveWallComp, memPreviousPos, *it);
             if(!moveWallComp->m_initPos && moveWallComp->m_triggerBehaviour == TriggerBehaviourType_e::AUTO)
             {
-                setInitPhaseMoveWall(*mapComp, *moveWallComp, currentDir, m_vectMoveableWall[i]);
+                setInitPhaseMoveWall(*mapComp, *moveWallComp, currentDir, *it);
             }
         }
     }
@@ -260,6 +256,7 @@ void PlatformSystem::switchToNextPhaseMoveWall(uint32_t wallEntity, MapCoordComp
             moveWallComp.m_cycleInMovement = (moveWallComp.m_triggerBehaviour == TriggerBehaviourType_e::AUTO);
         }
     }
+    assert(m_refMainEngine);
     m_refMainEngine->addEntityToZone(wallEntity, *getLevelCoord(mapComp.m_absoluteMapPositionPX));
 }
 
@@ -322,7 +319,7 @@ void PlatformSystem::clearSystem()
 {
     m_usedEntities.clear();
     m_cacheUsedComponent.clear();
-    m_vectMoveableWall.clear();
+    m_usedEntities.clear();
     m_vectTrigger.clear();
 }
 

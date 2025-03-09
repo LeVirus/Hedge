@@ -12,12 +12,11 @@ class MainEngine;
 class PlatformSystem : public ECS::System<Components_e::TOTAL_COMPONENTS>
 {
 public:
-    PlatformSystem() = default;
+    PlatformSystem();
     void execSystem()override;
     void clearSystem();
     void memRefMainEngine(MainEngine *mainEngine);
 private:
-    void updateEntities();
     void activeDoorSound(uint32_t entityNum);
     //===================================================================
     void treatMoveableWalls();

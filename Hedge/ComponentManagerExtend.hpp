@@ -23,6 +23,7 @@
 #include "ECS/Components/WeaponComponent.hpp"
 #include "ECS/Components/WriteComponent.hpp"
 #include "ECS/Components/GravityComponent.hpp"
+#include "ECS/Components/MoveableWallComponent.hpp"
 #include <ECS_Headers/ComponentsManager.hpp>
 #include <stdint.h>
 #include <constants.hpp>
@@ -118,6 +119,9 @@ public:
                 break;
             case Components_e::GRAVITY_COMPONENT:
                 treatNewComponent<Components_e::GRAVITY_COMPONENT, GravityComponent>(vectEntity, vect);
+                break;
+            case Components_e::MOVEABLE_WALL_CONF_COMPONENT:
+                treatNewComponent<Components_e::MOVEABLE_WALL_CONF_COMPONENT, MoveableWallConfComponent>(vectEntity, vect);
                 break;
             case Components_e::TOTAL_COMPONENTS:
                 assert(false);

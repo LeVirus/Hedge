@@ -26,6 +26,7 @@ void PhysicalEngine::runIteration(bool gamePaused)
         m_gravSystem->execSystem();
         m_collisionSystem->execSystem();
         m_iaSystem->execSystem();
+        m_platformSystem->execSystem();
     }
     m_inputSystem->execSystem();
 }

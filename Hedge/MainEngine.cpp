@@ -1196,7 +1196,6 @@ void MainEngine::loadLevel(const LevelManager &levelManager)
     std::string prologue = treatInfoMessageEndLine(levelManager.getLevelPrologue()),
             epilogue = treatInfoMessageEndLine(levelManager.getLevelEpilogue(), 27);
     m_graphicEngine.updatePrologueAndEpilogue(prologue, epilogue);
-    Ecsm_t::instance().updateEntitiesFromSystem(static_cast<uint32_t>(Systems_e::PLATFORM_SYSTEM));
     //MUUUUUUUUUUUUSSSSS
     m_audioEngine.memoriseEpilogueMusicFilename(levelManager.getLevelEpilogueMusic());
     m_audioEngine.loadMusicFromFile(levelManager.getLevel().getMusicFilename());
@@ -1431,13 +1430,39 @@ std::vector<uint32_t> MainEngine::loadWallEntitiesWallLoop(const std::vector<Spr
         {
             moveableWallCorrectedPos.second = 0;
         }
-        confBaseWallData(numEntity, memSpriteData, moveableWallCorrectedPos,
-                         currentShape.second.m_triggerBehaviourType, moveable);
+        confBaseWallData(numEntity, memSpriteData, moveableWallCorrectedPos, currentShape.second.m_triggerBehaviourType, moveable);
         if(!moveable)
         {
             continue;
         }
         vectMemEntities.emplace_back(numEntity);
+
+        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(numEntity);
+        assert(moveComp);
+        moveComp->m_velocity = currentShape.second.m_velocity;
+
+        MoveableWallConfComponent *moveWallConfComp = Ecsm_t::instance().getComponent<MoveableWallConfComponent, Components_e::MOVEABLE_WALL_CONF_COMPONENT>(numEntity);
+        assert(moveComp);
+        moveWallConfComp->m_directionMove = currentShape.second.m_directionMove;
+        moveWallConfComp->m_triggerType = currentShape.second.m_triggerType;
+        // if(moveWallConfComp->m_triggerType == TriggerWallMoveType_e::WALL &&
+        //     !(currentShape.second.m_triggerBehaviourType == TriggerBehaviourType_e::ONCE &&
+        //       m_memTriggerWallMoveableWallCheckpointData[shapeNum].first[wallNum] > 0))
+        // {
+        //     moveWallConfComp->m_triggerWallCheckpointData = {shapeNum, {wallNum, 0}};
+        //     compNum = m_ecsManager.getComponentManager().getComponentEmplacement(numEntity, Components_e::GENERAL_COLLISION_COMPONENT);
+        //     assert(compNum);
+        //     GeneralCollisionComponent &genCollComp = m_ecsManager.getComponentManager().getComponentsContainer().m_vectGeneralCollisionComp[*compNum];
+        //     genCollComp.m_tagB = CollisionTag_e::TRIGGER_CT;
+        // }
+        moveWallConfComp->m_triggerBehaviour = currentShape.second.m_triggerBehaviourType;
+        moveWallConfComp->m_manualTrigger = (moveWallConfComp->m_triggerBehaviour == TriggerBehaviourType_e::AUTO);
+        //if load a reversable wall from checkpoint reverse direction
+        if(currentShape.second.m_triggerBehaviourType == TriggerBehaviourType_e::REVERSABLE &&
+            m_memMoveableWallCheckpointData[shapeNum].first % 2 == 1)
+        {
+            reverseDirection(*moveWallConfComp);
+        }
     }
     return vectMemEntities;
 }
@@ -2455,6 +2480,7 @@ uint32_t MainEngine::createWallEntity(bool multiSprite, bool moveable)
     if(moveable)
     {
         vect[Components_e::MOVEABLE_COMPONENT] = 1;
+        vect[Components_e::MOVEABLE_WALL_CONF_COMPONENT] = 1;
     }
     return Ecsm_t::instance().addEntity(vect);
 }
@@ -3419,11 +3445,14 @@ void MainEngine::linkSystemsToGraphicEngine()
     MapDisplaySystem *map = Ecsm_t::instance().getSystem<MapDisplaySystem>(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM));
     VisionSystem *vision = Ecsm_t::instance().getSystem<VisionSystem>(static_cast<uint32_t>(Systems_e::VISION_SYSTEM));
     StaticDisplaySystem *staticDisplay = Ecsm_t::instance().getSystem<StaticDisplaySystem>(static_cast<uint32_t>(Systems_e::STATIC_DISPLAY_SYSTEM));
+    PlatformSystem *platformSystem = Ecsm_t::instance().getSystem<PlatformSystem>(static_cast<uint32_t>(Systems_e::PLATFORM_SYSTEM));
     assert(color);
     assert(map);
     assert(vision);
     assert(staticDisplay);
+    assert(platformSystem);
     staticDisplay->linkMainEngine(this);
+    platformSystem->memRefMainEngine(this);
     m_graphicEngine.linkSystems(color, map, vision, staticDisplay);
 }
 
