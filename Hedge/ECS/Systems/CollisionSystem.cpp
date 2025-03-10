@@ -43,6 +43,7 @@ void CollisionSystem::setUsedComponents()
 void CollisionSystem::execSystem()
 {
     uint32_t i = 0;
+    m_refMainEngine->unsetCurrentWallOnGround();
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it, ++i)
     {
         SegmentCollisionComponent *segmentCompA = nullptr;
@@ -1067,6 +1068,10 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
                     gravityComp->m_fall = false;
                     diffY = std::numeric_limits<float>::epsilon();
                 }
+            }
+            if(gravityComp->m_onGround)
+            {
+                m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
             }
         }
         else

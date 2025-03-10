@@ -248,6 +248,14 @@ public:
     {
         m_physicalEngine.removeEntityToZone(entity);
     }
+    inline void memPlayerCurrentWallOnGround(uint32_t entity)
+    {
+        m_physicalEngine.memPlayerCurrentWallOnGround(entity);
+    }
+    inline void unsetCurrentWallOnGround()
+    {
+        m_physicalEngine.unsetCurrentWallOnGround();
+    }
     void confMenuSelectedLine();
     void setPlayerDeparture(const PairUI_t &pos, Direction_e dir);
     void saveAudioSettings();

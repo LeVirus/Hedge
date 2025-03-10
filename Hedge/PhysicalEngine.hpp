@@ -75,6 +75,8 @@ public:
     {
         m_collisionSystem->removeEntityToZone(entity);
     }
+    void memPlayerCurrentWallOnGround(uint32_t entity);
+    void unsetCurrentWallOnGround();
 private:
     InputSystem *m_inputSystem = nullptr;
     CollisionSystem *m_collisionSystem = nullptr;

@@ -21,6 +21,7 @@ PhysicalEngine::PhysicalEngine()
 //===================================================================
 void PhysicalEngine::runIteration(bool gamePaused)
 {
+    m_inputSystem->execSystem();
     if(!gamePaused)
     {
         m_gravSystem->execSystem();
@@ -28,7 +29,6 @@ void PhysicalEngine::runIteration(bool gamePaused)
         m_iaSystem->execSystem();
         m_platformSystem->execSystem();
     }
-    m_inputSystem->execSystem();
 }
 
 //===================================================================
@@ -49,6 +49,7 @@ void PhysicalEngine::memPlayerEntity(uint32_t playerEntity)
     m_iaSystem->memPlayerDatas(playerEntity);
     m_collisionSystem->memPlayerDatas(playerEntity);
     m_inputSystem->memPlayerEntity(playerEntity);
+    m_platformSystem->memPlayerEntity(playerEntity);
 }
 
 //===================================================================
@@ -96,6 +97,18 @@ void PhysicalEngine::setGamepadKey(const std::array<GamepadInputState, static_ca
         }
         m_inputSystem->updateNewInputKeyGamepad(static_cast<ControlKey_e>(i), gamepadArray[i].m_keyID, inputType, axisSense);
     }
+}
+
+//===================================================================
+void PhysicalEngine::memPlayerCurrentWallOnGround(uint32_t entity)
+{
+    m_platformSystem->memPlayerCurrentWallOnGround(entity);
+}
+
+//===================================================================
+void PhysicalEngine::unsetCurrentWallOnGround()
+{
+    m_platformSystem->unsetCurrentWallOnGround();
 }
 
 //===================================================================

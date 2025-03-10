@@ -107,12 +107,24 @@ void PlatformSystem::treatMoveableWalls()
             }
             break;
         case Direction_e::SOUTH:
+        {
             mapComp->m_absoluteMapPositionPX.second += moveComp->m_velocity;
             if(mapComp->m_absoluteMapPositionPX.second >= moveWallComp->m_nextPhasePos.second)
             {
                 ++mapComp->m_coord.second;
                 next = true;
             }
+            if(m_currentWallPlayerOnGround && *m_currentWallPlayerOnGround == *it)
+            {
+                assert(m_playerEntity != 10000);
+                MapCoordComponent *mapPlayerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
+                assert(mapPlayerComp);
+                mapPlayerComp->m_absoluteMapPositionPX.second += moveComp->m_velocity + 1.0f;
+                GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
+                assert(gravityComp);
+                gravityComp->m_fall = false;
+            }
+        }
             break;
         }
         if(next)
