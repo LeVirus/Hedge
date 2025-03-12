@@ -41,7 +41,7 @@ void PlatformSystem::activeDoorSound(uint32_t entityNum)
 //===================================================================
 void PlatformSystem::treatMoveableWalls()
 {
-    bool next;
+    bool next, playerMovedLateral = false;
     PairUI_t memPreviousPos;
     for(std::set<uint32_t>::const_iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
@@ -83,21 +83,49 @@ void PlatformSystem::treatMoveableWalls()
         switch(currentDir)
         {
         case Direction_e::EAST:
+        {
             mapComp->m_absoluteMapPositionPX.first += moveComp->m_velocity;
             if(mapComp->m_absoluteMapPositionPX.first >= moveWallComp->m_nextPhasePos.first)
             {
                 ++mapComp->m_coord.first;
                 next = true;
             }
+            if(!playerMovedLateral && m_currentWallPlayerOnGround && *m_currentWallPlayerOnGround == *it)
+            {
+                assert(m_playerEntity != 10000);
+                MapCoordComponent *mapPlayerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
+                assert(mapPlayerComp);
+                mapPlayerComp->m_absoluteMapPositionPX.first += moveComp->m_velocity;
+                ++mapPlayerComp->m_absoluteMapPositionPX.second;
+                GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
+                assert(gravityComp);
+                gravityComp->m_fall = false;
+                playerMovedLateral = true;
+            }
             break;
+        }
         case Direction_e::WEST:
+        {
             mapComp->m_absoluteMapPositionPX.first -= moveComp->m_velocity;
             if(mapComp->m_absoluteMapPositionPX.first <= moveWallComp->m_nextPhasePos.first)
             {
                 --mapComp->m_coord.first;
                 next = true;
             }
+            if(!playerMovedLateral && m_currentWallPlayerOnGround && *m_currentWallPlayerOnGround == *it)
+            {
+                assert(m_playerEntity != 10000);
+                MapCoordComponent *mapPlayerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
+                assert(mapPlayerComp);
+                mapPlayerComp->m_absoluteMapPositionPX.first -= moveComp->m_velocity;
+                ++mapPlayerComp->m_absoluteMapPositionPX.second;
+                GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
+                assert(gravityComp);
+                gravityComp->m_fall = false;
+                playerMovedLateral = true;
+            }
             break;
+        }
         case Direction_e::NORTH:
             mapComp->m_absoluteMapPositionPX.second -= moveComp->m_velocity;
             if(mapComp->m_absoluteMapPositionPX.second <= moveWallComp->m_nextPhasePos.second)
@@ -124,11 +152,25 @@ void PlatformSystem::treatMoveableWalls()
                 assert(gravityComp);
                 gravityComp->m_fall = false;
             }
-        }
             break;
+        }
         }
         if(next)
         {
+            if(m_currentWallPlayerOnGround && *m_currentWallPlayerOnGround == *it && (currentDir == Direction_e::EAST || currentDir == Direction_e::WEST))
+            {
+                PairFloat_t correctedPos = getAbsolutePosition(mapComp->m_coord);
+                MapCoordComponent *mapPlayerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
+                assert(mapPlayerComp);
+                if(currentDir == Direction_e::WEST)
+                {
+                    mapPlayerComp->m_absoluteMapPositionPX.first += /*std::abs*/(correctedPos.first - mapComp->m_absoluteMapPositionPX.first);
+                }
+                else
+                {
+                    mapPlayerComp->m_absoluteMapPositionPX.first -= std::abs(mapComp->m_absoluteMapPositionPX.first - correctedPos.first);
+                }
+            }
             mapComp->m_absoluteMapPositionPX = getAbsolutePosition(mapComp->m_coord);
             switchToNextPhaseMoveWall(*it, *mapComp, *moveWallComp, memPreviousPos, *it);
             if(!moveWallComp->m_initPos && moveWallComp->m_triggerBehaviour == TriggerBehaviourType_e::AUTO)
