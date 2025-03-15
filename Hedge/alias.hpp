@@ -29,6 +29,7 @@
 #include <ECS/Components/WeaponComponent.hpp>
 #include <ECS/Components/LogComponent.hpp>
 #include <ECS/Components/MoveableWallComponent.hpp>
+#include <ECS/Components/TriangleStairCollisionComponent.hpp>
 
 #include <tuple>
 #include <ECS_Headers/SystemManager.hpp>
@@ -39,18 +40,19 @@ using TupleComp_t = std::tuple<PositionVertexComponent, SpriteTextureComponent, 
                                MapCoordComponent, InputComponent, CircleCollisionComponent, SegmentCollisionComponent,
                                RectangleCollisionComponent, GeneralCollisionComponent, MoveableComponent, TimerComponent, PlayerConfComponent,
                                EnemyConfComponent, MemPositionsVertexComponents, WriteComponent, ShotConfComponent,
-                               ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent, GravityComponent, MoveableWallConfComponent>;
+                               ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent, GravityComponent, MoveableWallConfComponent, TriangleStairCollisionComponent>;
 
 using Ecsm_t = ECS::ECSManager<Components_e::TOTAL_COMPONENTS, PositionVertexComponent, SpriteTextureComponent, MemSpriteDataComponent, ColorVertexComponent,
                                MapCoordComponent, InputComponent, CircleCollisionComponent, SegmentCollisionComponent,
                                RectangleCollisionComponent, GeneralCollisionComponent, MoveableComponent, TimerComponent, PlayerConfComponent,
                                EnemyConfComponent, MemPositionsVertexComponents, WriteComponent, ShotConfComponent,
-                               ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent, GravityComponent, MoveableWallConfComponent>;
+                               ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent, GravityComponent, MoveableWallConfComponent, TriangleStairCollisionComponent>;
 
 using EcsCompManager_t = ComponentManagerExtend<Components_e::TOTAL_COMPONENTS, PositionVertexComponent, SpriteTextureComponent, MemSpriteDataComponent, ColorVertexComponent,
                                                 MapCoordComponent, InputComponent, CircleCollisionComponent, SegmentCollisionComponent,
                                                 RectangleCollisionComponent, GeneralCollisionComponent, MoveableComponent, TimerComponent, PlayerConfComponent,
                                                 EnemyConfComponent, MemPositionsVertexComponents, WriteComponent, ShotConfComponent,
-                                                ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent, GravityComponent, MoveableWallConfComponent>;
+                                                ObjectConfComponent, WeaponComponent, AudioComponent, CheckpointComponent, LogComponent, GravityComponent, MoveableWallConfComponent,
+                                                TriangleStairCollisionComponent>;
 
 

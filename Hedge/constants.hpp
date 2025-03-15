@@ -71,6 +71,7 @@ enum Components_e
     LOG_COMPONENT,
     GRAVITY_COMPONENT,
     MOVEABLE_WALL_CONF_COMPONENT,
+    TRIANGLE_STAIR_COLLISION_COMPONENT,
     TOTAL_COMPONENTS
 };
 
@@ -370,7 +371,9 @@ enum class CollisionShape_e
 {
     CIRCLE_C,
     RECTANGLE_C,
-    SEGMENT_C
+    SEGMENT_C,
+    TRIANGLE_STAIR_UP,
+    TRIANGLE_STAIR_DOWN
 };
 
 enum class LevelCaseType_e

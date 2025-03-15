@@ -351,7 +351,7 @@ private:
     uint32_t loadWeaponsEntity(const LevelManager &levelManager);
     uint32_t createBackgroundEntity(bool color);
     uint32_t createWeaponEntity();
-    uint32_t createWallEntity(bool multiSprite, bool moveable = false);
+    uint32_t createWallEntity(bool multiSprite, CollisionShape_e collShape, bool moveable = false);
     uint32_t createDoorEntity();
     uint32_t createEnemyEntity();
     uint32_t createShotEntity();
@@ -377,7 +377,7 @@ private:
     void loadWallEntities(const std::map<std::string, MoveableWallData> &wallData, const std::vector<SpriteData> &vectSprite);
     std::vector<uint32_t> loadWallEntitiesWallLoop(const std::vector<SpriteData> &vectSprite, const std::pair<std::string, MoveableWallData> &currentShape,
                                                    bool moveable, uint32_t shapeNum, bool loadFromCheckpoint);
-    void confBaseWallData(uint32_t wallEntity, const SpriteData &memSpriteData, const PairUI_t &coordLevel, TriggerBehaviourType_e triggerType, bool moveable);
+    void confBaseWallData(uint32_t wallEntity, const SpriteData &memSpriteData, const PairUI_t &coordLevel, TriggerBehaviourType_e triggerType, bool moveable, CollisionShape_e collShape);
     void loadPlayerSprites(const std::vector<SpriteData> &vectSprite, const PlayerData &playerData, uint32_t numEntity, PlayerConfComponent &playerComp);
     inline void memColorSystemEntity(uint32_t entity)
     {

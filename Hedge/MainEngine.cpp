@@ -21,6 +21,7 @@
 #include <ECS/Components/ShotConfComponent.hpp>
 #include <ECS/Components/WeaponComponent.hpp>
 #include <ECS/Components/LogComponent.hpp>
+#include <ECS/Components/TriangleStairCollisionComponent.hpp>.hpp>
 #include <ECS/Systems/ColorDisplaySystem.hpp>
 #include <ECS/Systems/MapDisplaySystem.hpp>
 #include <ECS/Systems/CollisionSystem.hpp>
@@ -1340,8 +1341,7 @@ bool MainEngine::loadEnemiesEntities(const LevelManager &levelManager)
 }
 
 //===================================================================
-void MainEngine::loadWallEntities(const std::map<std::string, MoveableWallData> &wallData,
-                                  const std::vector<SpriteData> &vectSprite)
+void MainEngine::loadWallEntities(const std::map<std::string, MoveableWallData> &wallData, const std::vector<SpriteData> &vectSprite)
 {
     assert(!Level::getLevelCaseType().empty());
     // TriggerWallMoveType_e memTriggerType;
@@ -1382,6 +1382,7 @@ std::vector<uint32_t> MainEngine::loadWallEntitiesWallLoop(const std::vector<Spr
     const SpriteData &memSpriteData = vectSprite[currentShape.second.m_sprites[0]];
     uint32_t wallNum = 0;
     pairI_t moveableWallCorrectedPos;
+    CollisionShape_e collShape;
     //Wall Loop
     for(std::set<PairUI_t>::const_iterator it = currentShape.second.m_TileGamePosition.begin();
          it != currentShape.second.m_TileGamePosition.end(); ++it, ++wallNum)
@@ -1392,7 +1393,19 @@ std::vector<uint32_t> MainEngine::loadWallEntitiesWallLoop(const std::vector<Spr
             m_memWallPos.erase(*it);
             continue;
         }
-        uint32_t numEntity = createWallEntity(currentShape.second.m_sprites.size() > 1, moveable);
+        if(currentShape.second.m_upStair)
+        {
+            collShape = CollisionShape_e::TRIANGLE_STAIR_UP;
+        }
+        else if(currentShape.second.m_downStair)
+        {
+            collShape = CollisionShape_e::TRIANGLE_STAIR_DOWN;
+        }
+        else
+        {
+            collShape = CollisionShape_e::RECTANGLE_C;
+        }
+        uint32_t numEntity = createWallEntity(currentShape.second.m_sprites.size() > 1, collShape, moveable);
         std::map<PairUI_t, uint32_t>::iterator itt = m_memWallPos.find(*it);
         if(itt != m_memWallPos.end())
         {
@@ -1430,7 +1443,7 @@ std::vector<uint32_t> MainEngine::loadWallEntitiesWallLoop(const std::vector<Spr
         {
             moveableWallCorrectedPos.second = 0;
         }
-        confBaseWallData(numEntity, memSpriteData, moveableWallCorrectedPos, currentShape.second.m_triggerBehaviourType, moveable);
+        confBaseWallData(numEntity, memSpriteData, moveableWallCorrectedPos, currentShape.second.m_triggerBehaviourType, moveable, collShape);
         if(!moveable)
         {
             continue;
@@ -1469,11 +1482,9 @@ std::vector<uint32_t> MainEngine::loadWallEntitiesWallLoop(const std::vector<Spr
 
 //===================================================================
 void MainEngine::confBaseWallData(uint32_t wallEntity, const SpriteData &memSpriteData,
-                                  const PairUI_t& coordLevel, TriggerBehaviourType_e triggerType, bool moveable)
+                                  const PairUI_t& coordLevel, TriggerBehaviourType_e triggerType, bool moveable, CollisionShape_e collShape)
 {
-    confBaseComponent(wallEntity, memSpriteData, coordLevel,
-                      CollisionShape_e::RECTANGLE_C, CollisionTag_e::WALL_CT);
-
+    confBaseComponent(wallEntity, memSpriteData, coordLevel, collShape, CollisionTag_e::WALL_CT);
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(wallEntity);
     assert(spriteComp);
     LevelCaseType_e type = moveable ? LevelCaseType_e::WALL_MOVE_LC : LevelCaseType_e::WALL_LC;
@@ -2463,14 +2474,21 @@ uint32_t MainEngine::createWeaponEntity()
 }
 
 //===================================================================
-uint32_t MainEngine::createWallEntity(bool multiSprite, bool moveable)
+uint32_t MainEngine::createWallEntity(bool multiSprite, CollisionShape_e collShape, bool moveable)
 {
     std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
     vect.fill(0);
     vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
     vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
     vect[Components_e::MAP_COORD_COMPONENT] = 1;
-    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
+    if(collShape == CollisionShape_e::RECTANGLE_C)
+    {
+        vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
+    }
+    else
+    {
+        vect[Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT] = 1;
+    }
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     if(multiSprite)
     {
@@ -2660,6 +2678,20 @@ void MainEngine::confBaseComponent(uint32_t entityNum, const SpriteData &memSpri
             assert(inGameSpriteSize);
             rectComp->m_size = {inGameSpriteSize->first * LEVEL_TILE_SIZE_PX, inGameSpriteSize->second * LEVEL_TILE_SIZE_PX};
         }
+    }
+    else if(collisionShape == CollisionShape_e::TRIANGLE_STAIR_UP)
+    {
+        TriangleStairCollisionComponent *triangleStairColl = Ecsm_t::instance().getComponent<TriangleStairCollisionComponent, Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT>(entityNum);
+        assert(triangleStairColl);
+        triangleStairColl->m_size = {LEVEL_TILE_SIZE_PX, LEVEL_TILE_SIZE_PX};
+        triangleStairColl->m_upStair = true;
+    }
+    else if(collisionShape == CollisionShape_e::TRIANGLE_STAIR_DOWN)
+    {
+        TriangleStairCollisionComponent *triangleStairColl = Ecsm_t::instance().getComponent<TriangleStairCollisionComponent, Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT>(entityNum);
+        assert(triangleStairColl);
+        triangleStairColl->m_size = {LEVEL_TILE_SIZE_PX, LEVEL_TILE_SIZE_PX};
+        triangleStairColl->m_upStair = false;
     }
     tagComp->m_tagA = tag;
 }

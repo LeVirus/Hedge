@@ -1,13 +1,3 @@
-
-))
-Make enemies hitbox fit display==============================OK
-	-Modif display scale on map
-
-
-))
-Make several (2) background with movement while player move=======================OK
-	-Add foreground background
-
 =============================================================================================================================
 =============================================================================================================================
 
@@ -17,6 +7,10 @@ Make speed shots (player + enemies)
 
 ))
 Add stair to make player go up or down without jump
+
+))
+Add pitfall
+	-Freeze camera to min max
 
 ))
 Make bosses
@@ -52,14 +46,7 @@ Add several life for a level
 Put checkpoint (still works?)
 
 ))
-Add moving platforms
-
-))
 Add special platform with can be traversed by down and go down when pressing down + jump
-
-))
-Add pitfall
-	-Freeze camera to min max
 
 ))
 Add vehicule
@@ -74,3 +61,20 @@ Add offensive object
 
 ))
 Add flying enemies
+
+=============================================================================================================================
+=============================================================================================================================
+
+))
+Make enemies hitbox fit display==============================OK
+	-Modif display scale on map
+
+
+))
+Make several (2) background with movement while player move=======================OK
+	-Add foreground background
+
+))
+Add moving platforms=============================OK
+
+

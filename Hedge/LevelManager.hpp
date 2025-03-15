@@ -72,6 +72,7 @@ struct MoveableWallData
     float m_velocity;
     std::optional<AssociatedTriggerData> m_associatedTriggerData;
     std::optional<PairUI_t> m_groundTriggerPos;
+    bool m_upStair = false, m_downStair = false;
 };
 
 struct SettingsData

@@ -1184,6 +1184,14 @@ void LevelManager::loadPositionWall()
             std::cout << "WARNING errors in " << vectINISections[i] << " datas skip\n";
             continue;
         }
+        if((*wallDisplayID).contains("WallStairUp"))
+        {
+            m_mainWallData[vectINISections[i]].m_upStair = true;
+        }
+        else if((*wallDisplayID).contains("WallStairUp"))
+        {
+            m_mainWallData[vectINISections[i]].m_downStair = true;
+        }
         it = m_wallData.find(*wallDisplayID);
         if(it == m_wallData.end())
         {

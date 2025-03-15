@@ -40,6 +40,12 @@ Sprite = SpriteBackStars
 SpriteWeightGame = 0.4
 SpriteHeightGame = 0.6
 
+[WallStairUp]
+Sprite = SpriteDMBLA
+
+[WallStairDown]
+Sprite = SpriteDRA
+
 [WallBackroom]
 Sprite = SpriteWallBackroom
 

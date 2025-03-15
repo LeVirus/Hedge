@@ -24,6 +24,7 @@
 #include "ECS/Components/WriteComponent.hpp"
 #include "ECS/Components/GravityComponent.hpp"
 #include "ECS/Components/MoveableWallComponent.hpp"
+#include "ECS/Components/TriangleStairCollisionComponent.hpp"
 #include <ECS_Headers/ComponentsManager.hpp>
 #include <stdint.h>
 #include <constants.hpp>
@@ -123,6 +124,9 @@ public:
             case Components_e::MOVEABLE_WALL_CONF_COMPONENT:
                 treatNewComponent<Components_e::MOVEABLE_WALL_CONF_COMPONENT, MoveableWallConfComponent>(vectEntity, vect);
                 break;
+            case Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT:
+                treatNewComponent<Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT, TriangleStairCollisionComponent>(vectEntity, vect);
+                break;
             case Components_e::TOTAL_COMPONENTS:
                 assert(false);
                 break;
@@ -162,6 +166,7 @@ private:
         ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::AUDIO_COMPONENT, AudioComponent>().reserve(size);
         ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::CHECKPOINT_COMPONENT, CheckpointComponent>().reserve(size);
         ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::LOG_COMPONENT, LogComponent>().reserve(size);
+        ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT, TriangleStairCollisionComponent>().reserve(size);
     }
 
     template <uint32_t numComponent, Component_C CC>
