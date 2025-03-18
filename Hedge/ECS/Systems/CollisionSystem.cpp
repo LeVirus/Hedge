@@ -638,6 +638,8 @@ bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args, bool shotEx
         }
     }
         break;
+    case CollisionShape_e::TRIANGLE_STAIR_DOWN:
+    case CollisionShape_e::TRIANGLE_STAIR_UP:
     case CollisionShape_e::SEGMENT_C:
     {
     }
@@ -948,6 +950,8 @@ void CollisionSystem::checkCollisionFirstSegment(uint32_t numEntityA, uint32_t n
     assert(segmentCompA);
     switch(tagCompB.m_shape)
     {
+    case CollisionShape_e::TRIANGLE_STAIR_DOWN:
+    case CollisionShape_e::TRIANGLE_STAIR_UP:
     case CollisionShape_e::RECTANGLE_C:
     case CollisionShape_e::SEGMENT_C:
     {
@@ -1178,13 +1182,7 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
         {
             gravityComp->m_onGround = true;
             gravityComp->m_memOnGround = true;
-            if(std::abs(diffY) > std::abs(diffX))
-            {
-                gravityComp->m_fall = true;
-                gravityComp->m_onGround = false;
-                gravityComp->m_memOnGround = false;
-            }
-            else if(gravityComp->m_fall)
+            if(gravityComp->m_fall)
             {
                 if(std::abs(std::abs(diffY) - std::abs(diffX)) >= 1.0f)
                 {
@@ -1228,12 +1226,16 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
             }
             if(down && diffX > 0.0f && elementAPosX > elementBPosX)
             {
+                gravityComp->m_onGround = true;
+                gravityComp->m_memOnGround = true;
                 mapComp->m_absoluteMapPositionPX.second = (elementBPosY - rectCollA->m_size.second) + std::fmod(elementAPosX, LEVEL_TILE_SIZE_PX);
                 addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
                 return;
             }
             else if(!down && elementASecondPosX < elementBSecondPosX)
             {
+                gravityComp->m_onGround = true;
+                gravityComp->m_memOnGround = true;
                 mapComp->m_absoluteMapPositionPX.second = (elementBSecondPosY - rectCollA->m_size.second) - std::fmod(elementASecondPosX, LEVEL_TILE_SIZE_PX);
                 addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
                 return;
