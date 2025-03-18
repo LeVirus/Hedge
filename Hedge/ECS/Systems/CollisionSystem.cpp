@@ -491,6 +491,36 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         break;
     case CollisionShape_e::SEGMENT_C:
         break;
+    case CollisionShape_e::TRIANGLE_STAIR_DOWN:
+    {
+        TriangleStairCollisionComponent *triangleCompB = Ecsm_t::instance().getComponent<TriangleStairCollisionComponent, Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT>(args.entityNumB);
+        assert(triangleCompB);
+        collision = checkRectRectCollision(args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size,
+                                           args.mapCompB.m_absoluteMapPositionPX, triangleCompB->m_size);
+        if(collision)
+        {
+            if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT)
+            {
+                collisionRectTriangleDownEject(args);
+            }
+        }
+    }
+    break;
+    case CollisionShape_e::TRIANGLE_STAIR_UP:
+    {
+        TriangleStairCollisionComponent *triangleCompB = Ecsm_t::instance().getComponent<TriangleStairCollisionComponent, Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT>(args.entityNumB);
+        assert(triangleCompB);
+        collision = checkRectRectCollision(args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size,
+                                           args.mapCompB.m_absoluteMapPositionPX, triangleCompB->m_size);
+        if(collision)
+        {
+            if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+            {
+                collisionRectTriangleDownEject(args);
+            }
+        }
+    }
+    break;
     }
     if(collision)
     {
@@ -1015,13 +1045,11 @@ void CollisionSystem::collisionCircleRectEject(CollisionArgs &args, float circle
 void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
 {
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(args.entityNumA);
-    MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(args.entityNumA);
     RectangleCollisionComponent *rectCollA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA);
     RectangleCollisionComponent *rectCollB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
     assert(rectCollA);
     assert(rectCollB);
     assert(mapComp);
-    assert(moveComp);
     float elementAPosX = args.mapCompA.m_absoluteMapPositionPX.first;
     float elementAPosY = args.mapCompA.m_absoluteMapPositionPX.second;
     float elementASecondPosX = elementAPosX+ rectCollA->m_size.first;
@@ -1085,6 +1113,121 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
                 gravityComp->m_memOnGround = false;
                 gravityComp->m_onGround = false;
                 gravityComp->m_fall = true;
+            }
+        }
+    }
+    else if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
+    {
+        GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
+        assert(gravityComp);
+        if(diffY < 0)
+        {
+            gravityComp->m_onGround = true;
+            gravityComp->m_memOnGround = true;
+            gravityComp->m_jump = false;
+            if(gravityComp->m_fall)
+            {
+                //cancel gravity
+                mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
+                gravityComp->m_fall = false;
+                diffY = std::numeric_limits<float>::epsilon();
+            }
+        }
+        else
+        {
+            gravityComp->m_memOnGround = false;
+        }
+    }
+    collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
+    addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
+}
+
+//===================================================================
+void CollisionSystem::collisionRectTriangleDownEject(CollisionArgs &args)
+{
+    MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(args.entityNumA);
+    RectangleCollisionComponent *rectCollA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA);
+    TriangleStairCollisionComponent *triangleCollB = Ecsm_t::instance().getComponent<TriangleStairCollisionComponent, Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT>(args.entityNumB);
+    assert(rectCollA);
+    assert(triangleCollB);
+    assert(mapComp);
+    float elementAPosX = args.mapCompA.m_absoluteMapPositionPX.first;
+    float elementAPosY = args.mapCompA.m_absoluteMapPositionPX.second;
+    float elementASecondPosX = elementAPosX+ rectCollA->m_size.first;
+    float elementASecondPosY = elementAPosY+ rectCollA->m_size.second;
+    float elementBPosX = args.mapCompB.m_absoluteMapPositionPX.first;
+    float elementBPosY = args.mapCompB.m_absoluteMapPositionPX.second;
+    float elementBSecondPosX = elementBPosX + triangleCollB->m_size.first;
+    float elementBSecondPosY = elementBPosY + triangleCollB->m_size.second;
+    bool limitEjectY = false, limitEjectX = false, crushMode = false;
+    float diffY, diffX = EPSILON_FLOAT;
+    //eject Y
+    diffY = getRectRectEject({elementAPosX, elementAPosY, elementASecondPosY,
+                              elementBPosX, elementBPosY, elementBSecondPosY}, limitEjectY);
+    //eject X
+    diffX = getRectRectEject({elementAPosY, elementAPosX, elementASecondPosX,
+                              elementBPosY, elementBPosX, elementBSecondPosX}, limitEjectY);
+    // if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
+    // {
+    //     crushMode = args.tagCompB.m_tagA == CollisionTag_e::WALL_CT;
+    // }
+    GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
+    assert(gravityComp);
+    //if player touch ground
+    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+    {
+        //if y change is lower than Y
+        bool YChange = (std::abs(diffY) < std::abs(diffX));
+        if(YChange && diffY < 0)
+        {
+            gravityComp->m_onGround = true;
+            gravityComp->m_memOnGround = true;
+            if(std::abs(diffY) > std::abs(diffX))
+            {
+                gravityComp->m_fall = true;
+                gravityComp->m_onGround = false;
+                gravityComp->m_memOnGround = false;
+            }
+            else if(gravityComp->m_fall)
+            {
+                if(std::abs(std::abs(diffY) - std::abs(diffX)) >= 1.0f)
+                {
+                    //cancel gravity
+                    mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
+                    gravityComp->m_fall = false;
+                    diffY = std::numeric_limits<float>::epsilon();
+                }
+            }
+            //if player go down
+            if(elementAPosX > elementBPosX)
+            {
+                mapComp->m_absoluteMapPositionPX.second = (elementBPosY - rectCollA->m_size.second) + std::fmod(elementAPosX, LEVEL_TILE_SIZE_PX);
+                addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
+                return;
+            }
+            if(gravityComp->m_onGround)
+            {
+                m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
+            }
+        }
+        //EJECT X
+        else
+        {
+            if(gravityComp->m_memOnGround)
+            {
+                gravityComp->m_fall = false;
+            }
+            else
+            {
+                gravityComp->m_memOnGround = false;
+                gravityComp->m_onGround = false;
+                gravityComp->m_fall = true;
+            }
+            if(diffX > 0.0f && elementAPosX > elementBPosX)
+            {
+                mapComp->m_absoluteMapPositionPX.second = (elementBPosY - rectCollA->m_size.second) + std::fmod(elementAPosX, LEVEL_TILE_SIZE_PX);
+                addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
+                return;
             }
         }
     }
