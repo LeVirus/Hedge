@@ -1213,7 +1213,7 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
             }
         }
         //EJECT X
-        else if(!YChange)
+        else if(!YChange && ((down && diffX > 0.0f) || (!down && diffX < 0.0f)))
         {
             if(gravityComp->m_memOnGround)
             {
@@ -1226,7 +1226,7 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 gravityComp->m_onGround = false;
                 gravityComp->m_fall = true;
             }
-            if( down && diffX > 0.0f && elementAPosX > elementBPosX)
+            if(down && diffX > 0.0f && elementAPosX > elementBPosX)
             {
                 mapComp->m_absoluteMapPositionPX.second = (elementBPosY - rectCollA->m_size.second) + std::fmod(elementAPosX, LEVEL_TILE_SIZE_PX);
                 addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
