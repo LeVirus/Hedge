@@ -499,9 +499,9 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                                            args.mapCompB.m_absoluteMapPositionPX, triangleCompB->m_size);
         if(collision)
         {
-            if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT)
+            if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
             {
-                collisionRectTriangleDownEject(args);
+                collisionRectTriangleEject(args, true);
             }
         }
     }
@@ -516,7 +516,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         {
             if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
             {
-                collisionRectTriangleDownEject(args);
+                collisionRectTriangleEject(args, false);
             }
         }
     }
@@ -1143,7 +1143,7 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
 }
 
 //===================================================================
-void CollisionSystem::collisionRectTriangleDownEject(CollisionArgs &args)
+void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
 {
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(args.entityNumA);
     RectangleCollisionComponent *rectCollA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA);
@@ -1195,9 +1195,15 @@ void CollisionSystem::collisionRectTriangleDownEject(CollisionArgs &args)
                 }
             }
             //if player go down
-            if(elementAPosX > elementBPosX)
+            if(down && elementAPosX > elementBPosX)
             {
                 mapComp->m_absoluteMapPositionPX.second = (elementBPosY - rectCollA->m_size.second) + std::fmod(elementAPosX, LEVEL_TILE_SIZE_PX);
+                addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
+                return;
+            }
+            else if(!down && elementASecondPosX < elementBSecondPosX)
+            {
+                mapComp->m_absoluteMapPositionPX.second = (elementBSecondPosY - rectCollA->m_size.second) - std::fmod(elementASecondPosX, LEVEL_TILE_SIZE_PX);
                 addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
                 return;
             }
@@ -1220,12 +1226,19 @@ void CollisionSystem::collisionRectTriangleDownEject(CollisionArgs &args)
                 gravityComp->m_onGround = false;
                 gravityComp->m_fall = true;
             }
-            if(diffX > 0.0f && elementAPosX > elementBPosX)
+            if( down && diffX > 0.0f && elementAPosX > elementBPosX)
             {
                 mapComp->m_absoluteMapPositionPX.second = (elementBPosY - rectCollA->m_size.second) + std::fmod(elementAPosX, LEVEL_TILE_SIZE_PX);
                 addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
                 return;
             }
+            else if(!down && elementASecondPosX < elementBSecondPosX)
+            {
+                mapComp->m_absoluteMapPositionPX.second = (elementBSecondPosY - rectCollA->m_size.second) - std::fmod(elementASecondPosX, LEVEL_TILE_SIZE_PX);
+                addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
+                return;
+            }
+
         }
     }
     if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)

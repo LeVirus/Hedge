@@ -1188,7 +1188,7 @@ void LevelManager::loadPositionWall()
         {
             m_mainWallData[vectINISections[i]].m_upStair = true;
         }
-        else if((*wallDisplayID).contains("WallStairUp"))
+        else if((*wallDisplayID).contains("WallStairDown"))
         {
             m_mainWallData[vectINISections[i]].m_downStair = true;
         }

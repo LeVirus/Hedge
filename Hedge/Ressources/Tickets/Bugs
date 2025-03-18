@@ -1,4 +1,10 @@
 ))
+Player stay stuck if move lateral on stair
+
+))
+Player display jump animation after jump on stair.
+
+))
 Enemies cross wall if falling down.
 
 ))
