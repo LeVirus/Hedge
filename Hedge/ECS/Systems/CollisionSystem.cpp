@@ -1170,7 +1170,7 @@ void CollisionSystem::collisionRectTriangleDownEject(CollisionArgs &args)
     GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
     assert(gravityComp);
     //if player touch ground
-    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && !gravityComp->m_jump)
+    if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || (args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && !gravityComp->m_jump))
     {
         //if y change is lower than Y
         bool YChange = (std::abs(diffY) < std::abs(diffX));
@@ -1228,7 +1228,7 @@ void CollisionSystem::collisionRectTriangleDownEject(CollisionArgs &args)
             }
         }
     }
-    else if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
+    if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
         GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
         assert(gravityComp);
