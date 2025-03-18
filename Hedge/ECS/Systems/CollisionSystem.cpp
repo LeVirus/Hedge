@@ -1167,10 +1167,6 @@ void CollisionSystem::collisionRectTriangleDownEject(CollisionArgs &args)
     //eject X
     diffX = getRectRectEject({elementAPosY, elementAPosX, elementASecondPosX,
                               elementBPosY, elementBPosX, elementBSecondPosX}, limitEjectY);
-    // if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
-    // {
-    //     crushMode = args.tagCompB.m_tagA == CollisionTag_e::WALL_CT;
-    // }
     GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
     assert(gravityComp);
     //if player touch ground
@@ -1211,7 +1207,7 @@ void CollisionSystem::collisionRectTriangleDownEject(CollisionArgs &args)
             }
         }
         //EJECT X
-        else
+        else if(!YChange)
         {
             if(gravityComp->m_memOnGround)
             {
