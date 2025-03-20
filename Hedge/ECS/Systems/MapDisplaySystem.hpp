@@ -76,6 +76,7 @@ private:
     PairFloat_t getUpLeftCorner(const MapCoordComponent &mapCoordComp, uint32_t entityNum);
     void confVertexBackground();
     void confVertexGround(const PairFloat_t &centerScreenPos);
+    void confVertexMiddle(const PairFloat_t &centerScreenPos);
     void updateBackgroundLateralPos();
     void drawBackground();
     void drawMiddle();

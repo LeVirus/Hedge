@@ -66,6 +66,7 @@ void MapDisplaySystem::execSystem()
     PairFloat_t centerScreen = getCenterScreen(mapCompPlayer->m_absoluteMapPositionPX, min, max);
     confVertexBackground();
     confVertexGround(centerScreen);
+    confVertexMiddle(centerScreen);
     drawBackground();
     drawMiddle();
     drawMiniMap(centerScreen, min, max);
@@ -301,6 +302,22 @@ void MapDisplaySystem::confVertexGround(const PairFloat_t &centerScreenPos)
     posComp->m_vertex[2].first = m_groundPosLateral;
     posComp->m_vertex[4].first = rightPos;
     posComp->m_vertex[5].first = rightPos;
+
+    posComp->m_vertex[0].second = groundGLy;
+    posComp->m_vertex[1].second = groundGLy;
+    posComp->m_vertex[4].second = groundGLy;
+
+    posComp->m_vertex[2].second = groundDownPos;
+    posComp->m_vertex[3].second = groundDownPos;
+    posComp->m_vertex[5].second = groundDownPos;
+}
+
+//===================================================================
+void MapDisplaySystem::confVertexMiddle(const PairFloat_t &centerScreenPos)
+{
+    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_middle);
+    assert(posComp);
+    float groundGLy = (centerScreenPos.second * MAP_LOCAL_SIZE_GL / (Level::getSize().second * LEVEL_TILE_SIZE_PX)), groundDownPos = groundGLy - 1.8f;
 
     posComp->m_vertex[0].second = groundGLy;
     posComp->m_vertex[1].second = groundGLy;
