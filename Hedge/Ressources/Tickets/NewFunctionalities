@@ -2,11 +2,13 @@
 =============================================================================================================================
 
 ))
-Make speed shots (player + enemies)
-	-Fix bullet travers enemies
+Add elements to avoid in levels
+	-Acid falling from ceiling
+	-Electric ark
 
 ))
-Add stair to make player go up or down without jump
+Make speed shots (player + enemies)
+	-Fix bullet travers enemies
 
 ))
 Add pitfall
@@ -76,5 +78,8 @@ Make several (2) background with movement while player move=====================
 
 ))
 Add moving platforms=============================OK
+
+))
+Add stair to make player go up or down without jump===============================OK
 
 

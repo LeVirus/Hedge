@@ -21,19 +21,19 @@ void ZoneLevelColl::updateEntityToZones(uint32_t entityNum, const PairUI_t &coor
             modY = coord.second % m_zoneSize, xModif = x;
     bool limitX = false;
     addEntityToZone(entityNum, {x, y});
-    if(modX == 0 && x != 0)
+    if(modX <= 1 && x != 0)
     {
         limitX = true;
         --xModif;
         addEntityToZone(entityNum, {x - 1, y});
     }
-    else if(modX == 19 && x != m_size.first - 1)
+    else if(modX >= (m_zoneSize - 2) && x != m_size.first - 1)
     {
         limitX = true;
         addEntityToZone(entityNum, {x + 1, y});
         ++xModif;
     }
-    if(modY == 0 && y != 0)
+    if(modY <= 1 && y != 0)
     {
         addEntityToZone(entityNum, {x, y - 1});
         if(limitX)
@@ -41,7 +41,7 @@ void ZoneLevelColl::updateEntityToZones(uint32_t entityNum, const PairUI_t &coor
             addEntityToZone(entityNum, {xModif, y - 1});
         }
     }
-    else if(modY == 19 && y != m_size.second - 1)
+    else if(modY >= (m_zoneSize - 2) && y != m_size.second - 1)
     {
         addEntityToZone(entityNum, {x, y + 1});
         if(limitX)

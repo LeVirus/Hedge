@@ -1205,7 +1205,7 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
                 return;
             }
-            if(gravityComp->m_onGround)
+            if(gravityComp->m_onGround && args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
             {
                 m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
             }

@@ -1,6 +1,4 @@
 
-))
-Enemies cross wall if falling down.
 
 
 
@@ -33,3 +31,5 @@ Visible shoot stay stuck in first zone===========================OK
 ))
 Issue collision in vertical wall==========================================OK
 
+))
+Enemies cross wall if falling down.====================OK
