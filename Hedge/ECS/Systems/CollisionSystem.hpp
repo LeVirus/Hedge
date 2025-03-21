@@ -111,7 +111,7 @@ private:
     void activeSound(uint32_t entityNum);
     bool checkEnemyRemoveCollisionMask(uint32_t entityNum);
     void treatGeneralCrushing(uint32_t entityNum);
-    void treatLimitLevel(uint32_t entityNum);
+    void treatLimitLevel(uint32_t entityNum, CollisionTag_e tag);
     void secondEntitiesLoop(uint32_t entityA, uint32_t currentIteration, GeneralCollisionComponent &tagCompA, bool shotExplosionEject = false);
     bool iterationLoop(uint32_t currentIteration, uint32_t entityA, uint32_t entityB, GeneralCollisionComponent &tagCompA, bool shotExplosionEject);
 private:

@@ -85,7 +85,7 @@ void CollisionSystem::execSystem()
         if(moveCompA && (tagCompA->m_tagA == CollisionTag_e::PLAYER_CT || tagCompA->m_tagA == CollisionTag_e::ENEMY_CT))
         {
             treatGeneralCrushing(*it);
-            treatLimitLevel(*it);
+            treatLimitLevel(*it, tagCompA->m_tagA);
         }
         if(segmentCompA && m_memDistCurrentBulletColl.second > EPSILON_FLOAT)
         {
@@ -226,7 +226,7 @@ void CollisionSystem::treatGeneralCrushing(uint32_t entityNum)
 }
 
 //===================================================================
-void CollisionSystem::treatLimitLevel(uint32_t entityNum)
+void CollisionSystem::treatLimitLevel(uint32_t entityNum, CollisionTag_e tag)
 {
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
     assert(mapComp);
@@ -247,6 +247,17 @@ void CollisionSystem::treatLimitLevel(uint32_t entityNum)
     }
     else if(mapComp->m_absoluteMapPositionPX.second + rectComp->m_size.second > (limitLevel.second * LEVEL_TILE_SIZE_PX))
     {
+        if(tag == CollisionTag_e::PLAYER_CT)
+        {
+            PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(entityNum);
+            playerComp->m_life = 0;
+        }
+        else if(tag == CollisionTag_e::ENEMY_CT)
+        {
+            EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(entityNum);
+            enemyComp->m_life = 0;
+            enemyComp->m_behaviourMode = EnemyBehaviourMode_e::DYING;
+        }
         mapComp->m_absoluteMapPositionPX.second = limitLevel.second * LEVEL_TILE_SIZE_PX - + rectComp->m_size.second;
     }
 }

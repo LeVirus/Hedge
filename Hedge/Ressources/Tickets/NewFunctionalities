@@ -11,10 +11,6 @@ Make speed shots (player + enemies)
 	-Fix bullet travers enemies
 
 ))
-Add pitfall
-	-Freeze camera to min max
-
-))
 Make bosses
 	-Change music when arena is reached
 	-Freeze camera
@@ -82,4 +78,7 @@ Add moving platforms=============================OK
 ))
 Add stair to make player go up or down without jump===============================OK
 
+))
+Add pitfall=====================================OK
+	-Freeze camera to min max--OK
 
