@@ -245,7 +245,7 @@ void CollisionSystem::treatLimitLevel(uint32_t entityNum, CollisionTag_e tag)
     {
         mapComp->m_absoluteMapPositionPX.second = 0.0f;
     }
-    else if(mapComp->m_absoluteMapPositionPX.second + rectComp->m_size.second > (limitLevel.second * LEVEL_TILE_SIZE_PX))
+    else if(mapComp->m_absoluteMapPositionPX.second > ((limitLevel.second + 1) * LEVEL_TILE_SIZE_PX))
     {
         if(tag == CollisionTag_e::PLAYER_CT)
         {
@@ -258,7 +258,6 @@ void CollisionSystem::treatLimitLevel(uint32_t entityNum, CollisionTag_e tag)
             enemyComp->m_life = 0;
             enemyComp->m_behaviourMode = EnemyBehaviourMode_e::DYING;
         }
-        mapComp->m_absoluteMapPositionPX.second = limitLevel.second * LEVEL_TILE_SIZE_PX - + rectComp->m_size.second;
     }
 }
 
