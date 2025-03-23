@@ -356,7 +356,7 @@ enum class CollisionTag_e
     BULLET_ENEMY_CT,
     GHOST_CT,
     OBJECT_CT,
-    EXIT_CT,
+    EXIT_CT, //10
     STATIC_SET_CT,
     IMPACT_CT,
     CHECKPOINT_CT,
@@ -364,7 +364,7 @@ enum class CollisionTag_e
     TELEPORT_ANIM_CT,
     DEAD_CORPSE_CT,
     LOG_CT,
-    DETECT_MAP_CT
+    DETECT_MAP_CT //18
 };
 
 enum class CollisionShape_e

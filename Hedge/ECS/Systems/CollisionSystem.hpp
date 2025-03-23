@@ -103,7 +103,7 @@ private:
     RectangleCollisionComponent &getRectangleComponent(uint32_t entityNum);
     SegmentCollisionComponent &getSegmentComponent(uint32_t entityNum);
     MapCoordComponent &getMapComponent(uint32_t entityNum);
-    void checkCollisionFirstSegment(uint32_t numEntityA, uint32_t numEntityB,
+    bool checkCollisionFirstSegment(CollisionArgs &args, uint32_t numEntityA, uint32_t numEntityB,
                                     GeneralCollisionComponent &tagCompB,
                                     MapCoordComponent &mapCompB);
     void treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t damage = 1);
@@ -128,6 +128,7 @@ private:
     MainEngine *m_refMainEngine;
 };
 
+void destroyShot(uint32_t entity);
 bool opposingDirection(Direction_e dirA, Direction_e dirB);
 bool pickUpWeapon(uint32_t numWeapon, WeaponComponent &weaponComp,
                   uint32_t objectContaining);

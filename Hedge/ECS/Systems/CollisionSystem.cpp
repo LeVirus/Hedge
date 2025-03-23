@@ -56,16 +56,6 @@ void CollisionSystem::execSystem()
             continue;
         }
         m_memCrush.clear();
-        if(tagCompA->m_shape == CollisionShape_e::SEGMENT_C &&
-                (tagCompA->m_tagA == CollisionTag_e::BULLET_PLAYER_CT || tagCompA->m_tagA == CollisionTag_e::BULLET_ENEMY_CT))
-        {
-            m_memDistCurrentBulletColl.second = EPSILON_FLOAT;
-
-            segmentCompA = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(*it);
-            assert(segmentCompA);
-            addEntityToZone(segmentCompA->m_impactEntity, *getLevelCoord(segmentCompA->m_points.second));
-            tagCompA->m_active = false;
-        }
         if(tagCompA->m_tagA == CollisionTag_e::ENEMY_CT)
         {
             if(checkEnemyRemoveCollisionMask(*it))
@@ -447,9 +437,11 @@ bool CollisionSystem::treatCollision(uint32_t entityNumA, uint32_t entityNumB, G
     }
     else if(tagCompA.m_shape == CollisionShape_e::SEGMENT_C)
     {
-        MapCoordComponent *mapCompA = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNumB);
+        MapCoordComponent *mapCompA = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNumA);
+        MapCoordComponent *mapCompB = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNumB);
         assert(tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT || tagCompA.m_tagA == CollisionTag_e::BULLET_ENEMY_CT);
-        checkCollisionFirstSegment(entityNumA, entityNumB, tagCompB, *mapCompA);
+        CollisionArgs args = {entityNumA, entityNumB, tagCompA, tagCompB, *mapCompA, *mapCompB};
+        checkCollisionFirstSegment(args, entityNumA, entityNumB, tagCompB, *mapCompA);
     }
     return true;
 }
@@ -952,9 +944,7 @@ bool pickUpWeapon(uint32_t numWeapon, WeaponComponent &weaponComp, uint32_t obje
 }
 
 //===================================================================
-void CollisionSystem::checkCollisionFirstSegment(uint32_t numEntityA, uint32_t numEntityB,
-                                                 GeneralCollisionComponent &tagCompB,
-                                                 MapCoordComponent &mapCompB)
+bool CollisionSystem::checkCollisionFirstSegment(CollisionArgs &args, uint32_t numEntityA, uint32_t numEntityB, GeneralCollisionComponent &tagCompB, MapCoordComponent &mapCompB)
 {
     SegmentCollisionComponent *segmentCompA = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(numEntityA);
     assert(segmentCompA);
@@ -962,7 +952,19 @@ void CollisionSystem::checkCollisionFirstSegment(uint32_t numEntityA, uint32_t n
     {
     case CollisionShape_e::TRIANGLE_STAIR_DOWN:
     case CollisionShape_e::TRIANGLE_STAIR_UP:
-    case CollisionShape_e::RECTANGLE_C:
+    {
+        TriangleStairCollisionComponent *triangleComp = Ecsm_t::instance().getComponent<TriangleStairCollisionComponent, Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT>(numEntityB);
+        assert(triangleComp);
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(numEntityB);
+        assert(mapComp);
+        SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(numEntityA);
+        assert(segmentComp);
+        if(checkSegmentRectCollision(segmentComp->m_points.first, segmentComp->m_points.second, mapComp->m_absoluteMapPositionPX, triangleComp->m_size))
+        {
+            destroyShot(numEntityA);
+        }
+    }
+    break;
     case CollisionShape_e::SEGMENT_C:
     {
     }
@@ -971,21 +973,59 @@ void CollisionSystem::checkCollisionFirstSegment(uint32_t numEntityA, uint32_t n
     {
         CircleCollisionComponent *circleCompB = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(numEntityB);
         assert(circleCompB);
-        if(checkCircleSegmentCollision(mapCompB.m_absoluteMapPositionPX, circleCompB->m_ray,
-                                       segmentCompA->m_points.first,
-                                       segmentCompA->m_points.second))
+        if(checkCircleSegmentCollision(mapCompB.m_absoluteMapPositionPX, circleCompB->m_ray, segmentCompA->m_points.first, segmentCompA->m_points.second))
         {
-            //Fix impact displayed behind element
-            float distance = getDistance(segmentCompA->m_points.first,
-                                         mapCompB.m_absoluteMapPositionPX) - 5.0f;
-            if(m_memDistCurrentBulletColl.second <= EPSILON_FLOAT ||
-                    distance < m_memDistCurrentBulletColl.second)
-            {
-                m_memDistCurrentBulletColl = {numEntityB, distance};
-            }
+            destroyShot(numEntityA);
         }
     }
         break;
+    case CollisionShape_e::RECTANGLE_C:
+    {
+        RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(numEntityB);
+        assert(rectComp);
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(numEntityB);
+        assert(mapComp);
+        SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(numEntityA);
+        assert(segmentComp);
+        if(checkSegmentRectCollision(segmentComp->m_points.first, segmentComp->m_points.second, mapComp->m_absoluteMapPositionPX, rectComp->m_size))
+        {
+            GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(numEntityA);
+            assert(collComp);
+            if(collComp->m_tagA == CollisionTag_e::BULLET_ENEMY_CT || collComp->m_tagA == CollisionTag_e::BULLET_PLAYER_CT)
+            {
+                ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(numEntityA);
+                assert(shotComp);
+                shotComp->m_destructPhase = true;
+                if(args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT)
+                {
+                    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(numEntityB);
+                    assert(playerComp);
+                    playerComp->takeDamage(shotComp->m_damage);
+                }
+                else if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
+                {
+                    EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(numEntityB);
+                    assert(enemyComp);
+                    enemyComp->takeDamage(shotComp->m_damage);
+                }
+            }
+        }
+    }
+    break;
+    }
+    return false;
+}
+
+//===================================================================
+void destroyShot(uint32_t entity)
+{
+    GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(entity);
+    assert(collComp);
+    if(collComp->m_tagA == CollisionTag_e::BULLET_ENEMY_CT || collComp->m_tagA == CollisionTag_e::BULLET_PLAYER_CT)
+    {
+        ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(entity);
+        assert(shotComp);
+        shotComp->m_destructPhase = true;
     }
 }
 
@@ -1480,3 +1520,4 @@ bool opposingDirection(Direction_e dirA, Direction_e dirB)
     return (bitset[static_cast<uint32_t>(Direction_e::EAST)] && bitset[static_cast<uint32_t>(Direction_e::WEST)]) ||
             (bitset[static_cast<uint32_t>(Direction_e::NORTH)] && bitset[static_cast<uint32_t>(Direction_e::SOUTH)]);
 }
+

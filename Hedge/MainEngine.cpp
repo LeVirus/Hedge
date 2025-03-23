@@ -1825,7 +1825,7 @@ uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool visibleShot)
     assert(genColl);
     genColl->m_active = false;
     genColl->m_tagA = collTag;
-    genColl->m_shape = (visibleShot) ? CollisionShape_e::CIRCLE_C : CollisionShape_e::SEGMENT_C;
+    genColl->m_shape = CollisionShape_e::SEGMENT_C;
     if(visibleShot)
     {
         confVisibleAmmo(ammoNum);
@@ -2571,6 +2571,7 @@ uint32_t MainEngine::createVisibleShotEntity()
     std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
     vect.fill(0);
     vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::SEGMENT_COLLISION_COMPONENT] = 1;
     vect[Components_e::AUDIO_COMPONENT] = 1;
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
