@@ -649,75 +649,81 @@ bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args, bool shotEx
     }
     //TREAT VISIBLE SHOT
     if((args.tagCompA.m_tagA == CollisionTag_e::BULLET_ENEMY_CT) ||
-            (args.tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT))
+        (args.tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT))
     {
-        ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumA);
-        assert(shotConfComp);
-        bool limitX = (args.mapCompA.m_absoluteMapPositionPX.first < LEVEL_THIRD_TILE_SIZE_PX),
-            limitY = (args.mapCompA.m_absoluteMapPositionPX.second < LEVEL_THIRD_TILE_SIZE_PX);
-        //limit level case
-        if(!shotConfComp->m_destructPhase && (limitX || limitY))
-        {
-            if(limitX)
-            {
-                args.mapCompA.m_absoluteMapPositionPX.first = LEVEL_THIRD_TILE_SIZE_PX;
-            }
-            if(limitY)
-            {
-                args.mapCompA.m_absoluteMapPositionPX.second = LEVEL_THIRD_TILE_SIZE_PX;
-            }
-            shotConfComp->m_destructPhase = true;
-            if(shotConfComp->m_damageCircleRayData)
-            {
-                setDamageCircle(*shotConfComp->m_damageCircleRayData, true, args.entityNumA);
-            }
-            return true;
-        }
-        if(collision)
-        {
-            if(args.tagCompB.m_shape == CollisionShape_e::RECTANGLE_C)
-            {
-                if(shotExplosionEject)
-                {
-                    RectangleCollisionComponent *rectCompB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
-                    assert(rectCompB);
-                    collisionCircleRectEject(args, circleCompA->m_ray, *rectCompB, shotExplosionEject);
-                }
-                else if(!shotConfComp->m_ejectMode)
-                {
-                    shotConfComp->m_ejectMode = true;
-                    std::swap(circleCompA->m_ray, shotConfComp->m_ejectExplosionRay);
-                    return false;
-                }
-            }
-            if(shotConfComp->m_destructPhase)
-            {
-                return true;
-            }
-            if(shotConfComp->m_damageCircleRayData)
-            {
-                setDamageCircle(*shotConfComp->m_damageCircleRayData, true, args.entityNumA);
-            }
-            activeSound(args.entityNumA);
-            shotConfComp->m_destructPhase = true;
-            shotConfComp->m_spriteShotNum = 0;
-            if(shotConfComp->m_damageCircleRayData)
-            {
-                return true;
-            }
-            if(args.tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT && args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
-            {
-                treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage);
-            }
-            else if(args.tagCompA.m_tagA == CollisionTag_e::BULLET_ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT)
-            {
-                PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-                assert(playerComp);
-                playerComp->takeDamage(shotConfComp->m_damage);
-            }
-        }
+        treatVisibleShot(args, collision);
     }
     return true;
+}
+
+//===================================================================
+void CollisionSystem::treatVisibleShot(CollisionArgs &args, bool collision)
+{
+    ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumA);
+    assert(shotConfComp);
+    bool limitX = (args.mapCompA.m_absoluteMapPositionPX.first < LEVEL_THIRD_TILE_SIZE_PX),
+        limitY = (args.mapCompA.m_absoluteMapPositionPX.second < LEVEL_THIRD_TILE_SIZE_PX);
+    //limit level case
+    if(!shotConfComp->m_destructPhase && (limitX || limitY))
+    {
+        if(limitX)
+        {
+            args.mapCompA.m_absoluteMapPositionPX.first = LEVEL_THIRD_TILE_SIZE_PX;
+        }
+        if(limitY)
+        {
+            args.mapCompA.m_absoluteMapPositionPX.second = LEVEL_THIRD_TILE_SIZE_PX;
+        }
+        shotConfComp->m_destructPhase = true;
+        if(shotConfComp->m_damageCircleRayData)
+        {
+            setDamageCircle(*shotConfComp->m_damageCircleRayData, true, args.entityNumA);
+        }
+        return;
+    }
+    if(collision)
+    {
+        // if(args.tagCompB.m_shape == CollisionShape_e::RECTANGLE_C)
+        // {
+        //     if(shotExplosionEject)
+        //     {
+        //         RectangleCollisionComponent *rectCompB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
+        //         assert(rectCompB);
+        //         collisionCircleRectEject(args, circleCompA->m_ray, *rectCompB, shotExplosionEject);
+        //     }
+        //     else if(!shotConfComp->m_ejectMode)
+        //     {
+        //         shotConfComp->m_ejectMode = true;
+        //         std::swap(circleCompA->m_ray, shotConfComp->m_ejectExplosionRay);
+        //         return;
+        //     }
+        // }
+        if(shotConfComp->m_destructPhase)
+        {
+            return;
+        }
+        if(shotConfComp->m_damageCircleRayData)
+        {
+            setDamageCircle(*shotConfComp->m_damageCircleRayData, true, args.entityNumA);
+        }
+        activeSound(args.entityNumA);
+        shotConfComp->m_destructPhase = true;
+        shotConfComp->m_spriteShotNum = 0;
+        if(shotConfComp->m_damageCircleRayData)
+        {
+            return;
+        }
+        // if(args.tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT && args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
+        // {
+        //     treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage);
+        // }
+        // else if(args.tagCompA.m_tagA == CollisionTag_e::BULLET_ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT)
+        // {
+        //     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+        //     assert(playerComp);
+        //     playerComp->takeDamage(shotConfComp->m_damage);
+        // }
+    }
 }
 
 //===================================================================
@@ -946,6 +952,7 @@ bool pickUpWeapon(uint32_t numWeapon, WeaponComponent &weaponComp, uint32_t obje
 //===================================================================
 bool CollisionSystem::checkCollisionFirstSegment(CollisionArgs &args, uint32_t numEntityA, uint32_t numEntityB, GeneralCollisionComponent &tagCompB, MapCoordComponent &mapCompB)
 {
+    bool collision = false;
     SegmentCollisionComponent *segmentCompA = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(numEntityA);
     assert(segmentCompA);
     switch(tagCompB.m_shape)
@@ -962,6 +969,7 @@ bool CollisionSystem::checkCollisionFirstSegment(CollisionArgs &args, uint32_t n
         if(checkSegmentRectCollision(segmentComp->m_points.first, segmentComp->m_points.second, mapComp->m_absoluteMapPositionPX, triangleComp->m_size))
         {
             destroyShot(numEntityA);
+            collision = true;
         }
     }
     break;
@@ -976,6 +984,7 @@ bool CollisionSystem::checkCollisionFirstSegment(CollisionArgs &args, uint32_t n
         if(checkCircleSegmentCollision(mapCompB.m_absoluteMapPositionPX, circleCompB->m_ray, segmentCompA->m_points.first, segmentCompA->m_points.second))
         {
             destroyShot(numEntityA);
+            collision = true;
         }
     }
         break;
@@ -1009,9 +1018,15 @@ bool CollisionSystem::checkCollisionFirstSegment(CollisionArgs &args, uint32_t n
                     enemyComp->takeDamage(shotComp->m_damage);
                 }
             }
+            collision = true;
         }
     }
     break;
+    }
+    if((args.tagCompA.m_tagA == CollisionTag_e::BULLET_ENEMY_CT) ||
+        (args.tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT))
+    {
+        treatVisibleShot(args, collision);
     }
     return false;
 }
@@ -1520,4 +1535,3 @@ bool opposingDirection(Direction_e dirA, Direction_e dirB)
     return (bitset[static_cast<uint32_t>(Direction_e::EAST)] && bitset[static_cast<uint32_t>(Direction_e::WEST)]) ||
             (bitset[static_cast<uint32_t>(Direction_e::NORTH)] && bitset[static_cast<uint32_t>(Direction_e::SOUTH)]);
 }
-

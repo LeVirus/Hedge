@@ -106,19 +106,19 @@ void IASystem::treatVisibleShots(const std::vector<uint32_t> &stdAmmo)
         GeneralCollisionComponent *genColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(stdAmmo[i]);
         if(!genColl->m_active)
         {
-            return;
+            continue;
         }
         ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(stdAmmo[i]);
         if(shotComp->m_destructPhase)
         {
-            return;
+            continue;
         }
         TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(stdAmmo[i]);
         if(++timerComp->m_cycleCountA > m_intervalVisibleShotLifeTime)
         {
             genColl->m_active = false;
             timerComp->m_cycleCountA = 0;
-            return;
+            continue;
         }
         MapCoordComponent *ammoMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(stdAmmo[i]);
         MoveableComponent *ammoMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(stdAmmo[i]);
@@ -292,7 +292,7 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
         CircleCollisionComponent *circleTargetComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(visibleShots[currentShot]);
         std::swap(targetShotConfComp->m_ejectExplosionRay, circleTargetComp->m_ray);
     }
-
+    targetShotConfComp->m_destructPhase = false;
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(visibleShots[currentShot]);
     MoveableComponent *ammoMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(visibleShots[currentShot]);
     TimerComponent *ammoTimeComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(visibleShots[currentShot]);
@@ -301,9 +301,15 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     std::optional<PairUI_t> coord = getLevelCoord(point);
     assert(coord);
     mapComp->m_coord = *coord;
+
+    SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(visibleShots[currentShot]);
+    assert(segmentComp);
+
     mapComp->m_absoluteMapPositionPX = point;
+    segmentComp->m_points.first = point;
     m_mainEngine->addEntityToZone(visibleShots[currentShot], mapComp->m_coord);
     moveElementFromAngle(LEVEL_HALF_TILE_SIZE_PX, getRadiantAngle(degreeAngle), mapComp->m_absoluteMapPositionPX);
+    segmentComp->m_points.second = mapComp->m_absoluteMapPositionPX;
     ammoMoveComp->m_degreeOrientation = degreeAngle;
     ammoMoveComp->m_currentDegreeMoveDirection = degreeAngle;
 }

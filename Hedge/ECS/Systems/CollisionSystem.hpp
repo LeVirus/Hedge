@@ -63,6 +63,7 @@ public:
     void updateZonesColl();
     void writePlayerInfo(const std::string &info);
 private:
+    void treatVisibleShot(CollisionArgs &args, bool collision);
     void checkCollisionFirstRect(CollisionArgs &args);
     void treatSegmentShots();
     void rmEnemyCollisionMaskEntity(uint32_t numEntity);

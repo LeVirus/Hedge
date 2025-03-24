@@ -554,12 +554,10 @@ void MainEngine::confPlayerVisibleShoot(std::vector<uint32_t> &playerVisibleShot
 //===================================================================
 void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &playerComp, const PairFloat_t &point)
 {
-    WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent,
-                                                                  Components_e::WEAPON_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+    WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
     assert(weaponConf);
     assert(weaponConf->m_currentWeapon < weaponConf->m_weaponsData.size());
-    WeaponData &currentWeapon = weaponConf->m_weaponsData[
-            weaponConf->m_currentWeapon];
+    WeaponData &currentWeapon = weaponConf->m_weaponsData[weaponConf->m_currentWeapon];
     AttackType_e attackType = currentWeapon.m_attackType;
     if(attackType == AttackType_e::MELEE)
     {
@@ -2434,13 +2432,8 @@ void MainEngine::loadVisibleShotData(const std::vector<SpriteData> &vectSprite, 
 //===================================================================
 void MainEngine::confVisibleAmmo(uint32_t ammoEntity)
 {
-    PairFloat_t pairSpriteSize = {0.2f, 0.3f};
-    float collisionRay = pairSpriteSize.first * LEVEL_HALF_TILE_SIZE_PX;
-    CircleCollisionComponent *circleComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(ammoEntity);
     MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(ammoEntity);
-    assert(circleComp);
     assert(moveComp);
-    circleComp->m_ray = collisionRay;
     moveComp->m_velocity = 5.0f;
 }
 
@@ -2570,7 +2563,6 @@ uint32_t MainEngine::createVisibleShotEntity()
 {
     std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
     vect.fill(0);
-    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
     vect[Components_e::SEGMENT_COLLISION_COMPONENT] = 1;
     vect[Components_e::AUDIO_COMPONENT] = 1;
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
