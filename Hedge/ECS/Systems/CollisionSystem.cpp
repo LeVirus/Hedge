@@ -1017,12 +1017,13 @@ bool CollisionSystem::checkCollisionFirstSegment(CollisionArgs &args, uint32_t n
                 {
                     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(numEntityB);
                     assert(playerComp);
-                    playerComp->takeDamage(shotComp->m_damage);
+                    playerComp->takeDamage(shotComp->m_damage);                
                 }
                 else if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
                 {
                     EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(numEntityB);
                     assert(enemyComp);
+                    treatEnemyTakeDamage(args.entityNumB, shotComp->m_damage);
                     enemyComp->takeDamage(shotComp->m_damage);
                 }
             }
