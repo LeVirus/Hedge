@@ -53,11 +53,13 @@ struct EnemyConfComponent : public ECS::Component
         if(m_life <= damage)
         {
             m_life = 0;
+            m_behaviourMode = EnemyBehaviourMode_e::DYING;
             return false;
         }
         else
         {
             m_life -= damage;
+            m_touched = true;
             return true;
         }
     }
