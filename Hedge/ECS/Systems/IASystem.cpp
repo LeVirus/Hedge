@@ -269,6 +269,7 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     uint32_t currentShot = 0;
     assert(!visibleShots.empty());
     GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(visibleShots[currentShot]);
+    assert(genComp);
     for(; currentShot < visibleShots.size(); ++currentShot)
     {
         if(!genComp->m_active)
@@ -286,6 +287,7 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
         }
     }
     ShotConfComponent *targetShotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(visibleShots[currentShot]);
+    assert(targetShotConfComp);
     if(targetShotConfComp->m_ejectMode)
     {
         targetShotConfComp->m_ejectMode = false;

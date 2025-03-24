@@ -55,6 +55,14 @@ void CollisionSystem::execSystem()
         {
             continue;
         }
+        if(tagCompA->m_tagA == CollisionTag_e::BULLET_ENEMY_CT || tagCompA->m_tagA == CollisionTag_e::BULLET_PLAYER_CT)
+        {
+            ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(*it);
+            if(shotComp && shotComp->m_destructPhase)
+            {
+                continue;
+            }
+        }
         m_memCrush.clear();
         if(tagCompA->m_tagA == CollisionTag_e::ENEMY_CT)
         {
