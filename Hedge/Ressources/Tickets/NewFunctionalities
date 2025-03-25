@@ -1,16 +1,9 @@
 =============================================================================================================================
 
 ))
-Make speed shots (player + enemies)
-	-Fix bullet travers enemies
-
-))
 Make bosses
 	-Change music when arena is reached
 	-Freeze camera
-
-))
-Remove invisible bullets stuff
 
 ))
 Add CaC attack with animation
@@ -87,4 +80,11 @@ Add stair to make player go up or down without jump=============================
 ))
 Add pitfall=====================================OK
 	-Freeze camera to min max--OK
+
+))
+Make speed shots (player + enemies)==============================OK
+	-Fix bullet travers enemies--OK
+
+))
+Remove invisible bullets stuff==========================OK
 

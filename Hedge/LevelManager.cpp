@@ -1645,11 +1645,6 @@ void LevelManager::loadUtilsData()
     assert(val);
     pair.second.second = std::stof(*val) / 2;
     m_weaponsPreviewData.emplace_back(pair);
-
-    val = m_ini.getValue("GraphicUtils", "ShotgunID");
-    assert(val);
-    m_weaponsPreviewData.emplace_back(loadPreviewWeaponData(*val));
-    m_spriteShotgunName = m_weaponsPreviewData.back().first;
     val = m_ini.getValue("GraphicUtils", "PlasmaRifleID");
     assert(val);
     m_weaponsPreviewData.emplace_back(loadPreviewWeaponData(*val));

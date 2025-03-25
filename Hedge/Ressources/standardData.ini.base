@@ -20,7 +20,6 @@ SpriteWeightFist = 0.4
 SpriteHeightFist = 0.4
 SpriteWeightGun = 0.4
 SpriteHeightGun = 0.4
-ShotgunID = ObjectShotgun
 PlasmaRifleID = ObjectPlasmaRifle
 BazookaID = ObjectBazooka
 MachineGunID = ObjectMachineGun
@@ -418,23 +417,26 @@ AnimationType = 0
 LastAnimNum = 1
 SoundEffect = GunShot.wav
 
-[WeaponShotgun]
-WeaponName = Shotgun
+[WeaponMachineGun]
+WeaponName = Machine Gun
 Order = 2
-StaticSprite = SpriteSSt
-AttackSprite = SpriteSSh SpriteSRA SpriteSRB SpriteSRC
-SpriteWeightGame = 0.5 0.5 0.8 0.6 0.8
-SpriteHeightGame = 1.2 1.0 1.0 1.0 1.0
-AnimationLatency = 10
-MaxAmmo = 50
-Damage = 1
-AttackType = 1
-NumberOfShots = 5
-ShotImpactID = ImpactShotgun
-AnimationType = 1
+BaseAmmo = 0
+ShotVelocity = 6
+ShootSpritesID = VisibleShootGun
+StaticSprite = SpriteMGSt 
+AttackSprite = SpriteMGAA SpriteMGAB
+SpriteWeightGame = 0.5 0.5 0.5
+SpriteHeightGame = 0.5 0.65 0.65
+AnimationLatency = 5
+ShotImpactID = ImpactStd
+AttackType = 2
+MaxAmmo = 100
 LastAnimNum = 2
-SoundEffect = ShotgunShot.wav
-ReloadSound = ShotgunReloadB.wav
+ShotVelocity = 17
+Damage = 2
+AnimationType = 2
+SoundEffect = MachineGunShoot.wav
+
 
 [WeaponPlasmaRifle]
 WeaponName = Pasma Rifle
@@ -455,7 +457,7 @@ SoundEffect = LazerShot.wav
 
 [WeaponBazooka]
 WeaponName = Bazooka
-Order = 5
+Order = 4
 BaseAmmo = 1
 StaticSprite = SpriteBSt 
 AttackSprite = SpriteBAA SpriteBAB SpriteBAC SpriteBAD
@@ -471,29 +473,6 @@ DamageZoneRay = 530.0
 AnimationType = 0
 LastAnimNum = 1
 SoundEffect = ShootBazooka.wav
-
-[WeaponMachineGun]
-WeaponName = Machine Gun
-Order = 4
-BaseAmmo = 0
-StaticSprite = SpriteMGSt 
-AttackSprite = SpriteMGAA SpriteMGAB
-SpriteWeightGame = 0.5 0.5 0.5
-SpriteHeightGame = 0.5 0.65 0.65
-AnimationLatency = 5
-ShotImpactID = ImpactStd
-AttackType = 1
-MaxAmmo = 100
-LastAnimNum = 2
-Damage = 2
-AnimationType = 2
-SoundEffect = MachineGunShoot.wav
-
-[ImpactShotgun]
-SpritesStd = SpriteShotImpactA SpriteShotImpactB
-SpriteTouched = SpriteShotImpactTouched
-SpriteWeightGame = 0.15
-SpriteHeightGame = 0.2
 
 [ImpactStd]
 SpritesStd = SpriteShotImpactA SpriteShotImpactB
@@ -582,22 +561,6 @@ SpriteHeightGame = 0.4
 Type = 0
 WeaponID = WeaponMachineGun
 Containing = 1
-
-[ObjectShotgunAmmo]
-Sprite = SpriteItemShotgunAmmo
-SpriteWeightGame = 0.2 ; value in %
-SpriteHeightGame = 0.5
-Type = 1
-WeaponID = WeaponShotgun
-Containing = 10
-
-[ObjectShotgun]
-Sprite = SpriteSO
-SpriteWeightGame = 0.4 ; value in %
-SpriteHeightGame = 0.5
-Type = 0
-WeaponID = WeaponShotgun
-Containing = 5
 
 [ObjectPlasmaRifle]
 Sprite = SpritePRO
