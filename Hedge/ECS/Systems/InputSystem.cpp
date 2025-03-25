@@ -180,8 +180,10 @@ void InputSystem::treatPlayerInput()
         WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
         if(weaponComp->m_weaponToChange)
         {
+            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+            assert(timerComp);
             weaponComp->m_weaponToChange = false;
-            changeToTopPlayerWeapon(*weaponComp);
+            changeToTopPlayerWeapon(*weaponComp, *timerComp);
             playerComp->m_playerShoot = false;
         }
         treatPlayerMoveAndOrientation(*playerComp, *mapComp, *moveComp, *it);
@@ -242,14 +244,16 @@ void InputSystem::treatPlayerInput()
         }
         if(!weaponComp->m_weaponChange && !weaponComp->m_timerShootActive)
         {
+            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+            assert(timerComp);
             //Change weapon
             if(checkPlayerKeyTriggered(ControlKey_e::PREVIOUS_WEAPON) || m_scrollDown)
             {
-                changePlayerWeapon(*weaponComp, false);
+                changePlayerWeapon(*weaponComp, *timerComp, false);
             }
             else if(checkPlayerKeyTriggered(ControlKey_e::NEXT_WEAPON) || m_scrollUp)
             {
-                changePlayerWeapon(*weaponComp, true);
+                changePlayerWeapon(*weaponComp, *timerComp, true);
             }
             //SHOOT
             else if(checkPlayerKeyTriggered(ControlKey_e::SHOOT))
@@ -1591,7 +1595,7 @@ void InputSystem::validInputMenu(PlayerConfComponent &playerComp)
 }
 
 //===================================================================
-void changePlayerWeapon(WeaponComponent &weaponComp, bool next)
+void changePlayerWeapon(WeaponComponent &weaponComp, TimerComponent &timerComp, bool next)
 {
     uint32_t weapon = weaponComp.m_currentWeapon;
     if(!next)
@@ -1634,11 +1638,11 @@ void changePlayerWeapon(WeaponComponent &weaponComp, bool next)
             }
         }while(true);
     }
-    setPlayerWeapon(weaponComp, weapon);
+    setPlayerWeapon(weaponComp, timerComp, weapon);
 }
 
 //===================================================================
-void changeToTopPlayerWeapon(WeaponComponent &weaponComp)
+void changeToTopPlayerWeapon(WeaponComponent &weaponComp, TimerComponent &timerComp)
 {
     uint32_t max = 0;
     for(uint32_t i = 0; i < weaponComp.m_weaponsData.size(); ++i)
@@ -1649,16 +1653,17 @@ void changeToTopPlayerWeapon(WeaponComponent &weaponComp)
             max = i;
         }
     }
-    setPlayerWeapon(weaponComp, max);
+    setPlayerWeapon(weaponComp, timerComp, max);
 }
 
 //===================================================================
-void setPlayerWeapon(WeaponComponent &weaponComp, uint32_t weapon)
+void setPlayerWeapon(WeaponComponent &weaponComp, TimerComponent &timerComp, uint32_t weapon)
 {
     weaponComp.m_timerShootActive = false;
     if(weaponComp.m_currentWeapon != weapon)
     {
         weaponComp.m_currentWeapon = weapon;
+        timerComp.m_cycleCountC = 0;
         weaponComp.m_weaponChange = true;
     }
 }

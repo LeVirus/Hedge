@@ -80,9 +80,14 @@ void StaticDisplaySystem::execSystem()
                          std::to_string(playerComp->m_life));
         if(weaponComp->m_weaponChange)
         {
+            TimerComponent *timerCompPlay = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+            assert(timerCompPlay);
             WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-            weaponComp->m_weaponChange = false;
             drawWeaponsPreviewPlayer(*playerComp, *weaponComp);
+            if(++timerCompPlay->m_cycleCountC >= playerComp->m_standardSpriteInterval * 3)
+            {
+                weaponComp->m_weaponChange = false;
+            }
         }
     }
 }

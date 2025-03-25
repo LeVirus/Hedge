@@ -8,6 +8,7 @@
 struct PlayerConfComponent;
 struct MoveableComponent;
 struct MapCoordComponent;
+struct TimerComponent;
 class MainEngine;
 struct WeaponComponent;
 enum class InputType_e;
@@ -224,7 +225,7 @@ private:
 
 void decrementMenuPosition(PlayerConfComponent &playerConf, uint32_t maxIndex);
 void incrementMenuPosition(PlayerConfComponent &playerConf, uint32_t maxIndex);
-void changePlayerWeapon(WeaponComponent &weaponComp, bool next);
-void changeToTopPlayerWeapon(WeaponComponent &weaponComp);
-void setPlayerWeapon(WeaponComponent &weaponComp, uint32_t weapon);
+void changePlayerWeapon(WeaponComponent &weaponComp, TimerComponent &timerComp, bool next);
+void changeToTopPlayerWeapon(WeaponComponent &weaponComp, TimerComponent &timerComp);
+void setPlayerWeapon(WeaponComponent &weaponComp, TimerComponent &timerComp, uint32_t weapon);
 void joystick_callback(int jid, int event);

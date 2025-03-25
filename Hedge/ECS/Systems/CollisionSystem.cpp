@@ -836,7 +836,9 @@ void CollisionSystem::treatPlayerPickObject(CollisionArgs &args)
     {
     case ObjectType_e::AMMO_WEAPON:
     {
-        if(!pickUpAmmo(*objectComp->m_weaponID, *weaponComp, objectComp->m_containing))
+        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+        assert(timerComp);
+        if(!pickUpAmmo(*objectComp->m_weaponID, *weaponComp, *timerComp, objectComp->m_containing))
         {
             return;
         }
@@ -845,7 +847,9 @@ void CollisionSystem::treatPlayerPickObject(CollisionArgs &args)
         break;
     case ObjectType_e::WEAPON:
     {
-        if(!pickUpWeapon(*objectComp->m_weaponID, *weaponComp, objectComp->m_containing))
+        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+        assert(timerComp);
+        if(!pickUpWeapon(*objectComp->m_weaponID, *weaponComp, *timerComp, objectComp->m_containing))
         {
             return;
         }
@@ -906,7 +910,7 @@ void CollisionSystem::treatCrushing(uint32_t entityNum)
 }
 
 //===================================================================
-bool pickUpAmmo(uint32_t numWeapon, WeaponComponent &weaponComp, uint32_t objectContaining)
+bool pickUpAmmo(uint32_t numWeapon, WeaponComponent &weaponComp, TimerComponent &timerComp, uint32_t objectContaining)
 {
     WeaponData &objectWeapon = weaponComp.m_weaponsData[numWeapon];
     if(objectWeapon.m_ammunationsCount == objectWeapon.m_maxAmmunations)
@@ -917,7 +921,7 @@ bool pickUpAmmo(uint32_t numWeapon, WeaponComponent &weaponComp, uint32_t object
     {
         if(weaponComp.m_currentWeapon < numWeapon)
         {
-            setPlayerWeapon(weaponComp, numWeapon);
+            setPlayerWeapon(weaponComp, timerComp, numWeapon);
         }
     }
     objectWeapon.m_ammunationsCount += objectContaining;
@@ -929,7 +933,7 @@ bool pickUpAmmo(uint32_t numWeapon, WeaponComponent &weaponComp, uint32_t object
 }
 
 //===================================================================
-bool pickUpWeapon(uint32_t numWeapon, WeaponComponent &weaponComp, uint32_t objectContaining)
+bool pickUpWeapon(uint32_t numWeapon, WeaponComponent &weaponComp, TimerComponent &timerComp, uint32_t objectContaining)
 {
     WeaponData &objectWeapon = weaponComp.m_weaponsData[numWeapon];
     if(objectWeapon.m_posses &&
@@ -942,7 +946,7 @@ bool pickUpWeapon(uint32_t numWeapon, WeaponComponent &weaponComp, uint32_t obje
         objectWeapon.m_posses = true;
         if(weaponComp.m_currentWeapon < numWeapon)
         {
-            setPlayerWeapon(weaponComp, numWeapon);
+            setPlayerWeapon(weaponComp, timerComp, numWeapon);
         }
     }
     objectWeapon.m_ammunationsCount += objectContaining;

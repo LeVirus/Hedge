@@ -15,6 +15,7 @@ struct EjectCircleYArgs;
 struct EjectCircleXArgs;
 struct EjectRectXArgs;
 struct EjectRectRectArgs;
+struct TimerComponent;
 struct PlayerConfComponent;
 struct WeaponComponent;
 struct ShotConfComponent;
@@ -131,9 +132,9 @@ private:
 
 void destroyShot(uint32_t entity);
 bool opposingDirection(Direction_e dirA, Direction_e dirB);
-bool pickUpWeapon(uint32_t numWeapon, WeaponComponent &weaponComp,
+bool pickUpWeapon(uint32_t numWeapon, WeaponComponent &weaponComp, TimerComponent &timerComp,
                   uint32_t objectContaining);
-bool pickUpAmmo(uint32_t numWeapon, WeaponComponent &weaponComp, uint32_t objectContaining);
+bool pickUpAmmo(uint32_t numWeapon, WeaponComponent &weaponComp, TimerComponent &timerComp, uint32_t objectContaining);
 Direction_e getDirection(float diffX, float diffY);
 
 struct CollisionArgs
