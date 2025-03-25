@@ -82,7 +82,7 @@ void StaticDisplaySystem::execSystem()
         {
             WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
             weaponComp->m_weaponChange = false;
-            // drawWeaponsPreviewPlayer(*playerComp, *weaponComp);
+            drawWeaponsPreviewPlayer(*playerComp, *weaponComp);
         }
     }
 }
@@ -176,6 +176,7 @@ void StaticDisplaySystem::drawWriteInfoPlayer(PlayerConfComponent &playerComp)
             playerComp.m_infoWriteData.first = false;
             timerComp->m_timeIntervalOptional = {};
             timerComp->m_cycleCountA = 0;
+
         }
     }
 }
@@ -480,10 +481,10 @@ void StaticDisplaySystem::drawWriteVertex(uint32_t numEntity, VertexID_e type, F
 {
     WriteComponent *writeComp = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(numEntity);
     assert(!writeComp->m_vectMessage.empty());
-    if(writeComp->m_vectMessage[0].second.empty())
-    {
-        return;
-    }
+    // if(writeComp->m_vectMessage[0].second.empty())
+    // {
+    //     return;
+    // }
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(numEntity);
     if(!value.empty())
     {

@@ -113,9 +113,9 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
         playerConfComp->m_currentSprite > it->second.second)
     {
         playerConfComp->m_currentSprite = it->second.first;
-        timerComp.m_cycleCountA = 0;
+        timerComp.m_cycleCountD = 0;
     }
-    else if(++timerComp.m_cycleCountA > playerConfComp->m_standardSpriteInterval)
+    else if(++timerComp.m_cycleCountD > playerConfComp->m_standardSpriteInterval)
     {
         if(playerConfComp->m_currentSprite == it->second.second)
         {
@@ -129,7 +129,7 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
         {
             ++playerConfComp->m_currentSprite;
         }
-        timerComp.m_cycleCountA = 0;
+        timerComp.m_cycleCountD = 0;
     }
     spriteComp.m_spriteData = memSpriteComp.m_vectSpriteData[static_cast<uint32_t>(playerConfComp->m_currentSprite)];
 }

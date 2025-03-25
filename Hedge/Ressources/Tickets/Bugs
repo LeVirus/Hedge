@@ -1,5 +1,5 @@
 ))
-Write screen does not work
+Display Preview Weapons
 
 ))
 If weapon fist selected can't change weapons
@@ -41,3 +41,7 @@ Issue collision in vertical wall==========================================OK
 
 ))
 Enemies cross wall if falling down.====================OK
+
+))
+Write screen does not work=======================OK
+
