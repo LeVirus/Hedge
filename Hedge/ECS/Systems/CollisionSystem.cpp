@@ -475,6 +475,10 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         assert(rectCompB);
         collision = checkRectRectCollision(args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size,
                                args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size);
+        if(collision && args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && treatCollisionPlayer(args))
+        {
+            return;
+        }
         if(collision && (args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT))
         {
             if(!(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT))
@@ -570,14 +574,7 @@ bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args, bool shotEx
                                              args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size);
         if(collision)
         {
-            if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
-            {
-                if(treatCollisionPlayer(args, *circleCompA, *rectCompB))
-                {
-                    return true;
-                }
-            }
-            else if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
+            if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
             {
                 bool checkStuck = (args.tagCompB.m_tagA == CollisionTag_e::CHECKPOINT_CT ||
                                    args.tagCompB.m_tagA == CollisionTag_e::LOG_CT || args.tagCompB.m_tagA == CollisionTag_e::STATIC_SET_CT);
@@ -735,7 +732,7 @@ void CollisionSystem::treatVisibleShot(CollisionArgs &args, bool collision)
 }
 
 //===================================================================
-bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args, CircleCollisionComponent &circleCompA, RectangleCollisionComponent &rectCompB)
+bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
 {
    if(args.tagCompB.m_tagA == CollisionTag_e::CHECKPOINT_CT)
     {
@@ -770,7 +767,6 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args, CircleCollisionC
         m_vectEntitiesToDelete.push_back(args.entityNumB);
         return true;
     }
-    collisionCircleRectEject(args, circleCompA.m_ray, rectCompB);
     return false;
 }
 

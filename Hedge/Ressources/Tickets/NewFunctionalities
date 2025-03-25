@@ -22,9 +22,6 @@ Add several life for a level
 	-Player repop if lifes is remaining or game over if not
 
 ))
-Put checkpoint (still works?)
-
-))
 Add flying enemies
 
 ))
@@ -87,4 +84,7 @@ Make speed shots (player + enemies)==============================OK
 
 ))
 Remove invisible bullets stuff==========================OK
+
+))
+Put checkpoint (still works?)=================================OK
 

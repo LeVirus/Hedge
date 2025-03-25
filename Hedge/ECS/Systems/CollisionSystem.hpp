@@ -76,7 +76,7 @@ private:
     //Collisions detection
     void treatCollisionFirstRect(CollisionArgs &args);
     bool treatCollisionFirstCircle(CollisionArgs &args, bool shotExplosionEject = false);
-    bool treatCollisionPlayer(CollisionArgs &args, CircleCollisionComponent &circleCompA, RectangleCollisionComponent &rectCompB);
+    bool treatCollisionPlayer(CollisionArgs &args);
     void setDamageCircle(uint32_t shotEntity, bool active, uint32_t baseEntity = 0);
     void treatActionPlayerCircle(CollisionArgs &args);
     void treatPlayerPickObject(CollisionArgs &args);
