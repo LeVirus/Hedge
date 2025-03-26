@@ -669,6 +669,7 @@ void CollisionSystem::treatVisibleShot(CollisionArgs &args, bool collision)
     bool limitX = (args.mapCompA.m_absoluteMapPositionPX.first < LEVEL_THIRD_TILE_SIZE_PX),
         limitY = (args.mapCompA.m_absoluteMapPositionPX.second < LEVEL_THIRD_TILE_SIZE_PX);
     //limit level case
+
     if(!shotConfComp->m_destructPhase && (limitX || limitY))
     {
         if(limitX)
@@ -1012,7 +1013,6 @@ bool CollisionSystem::checkCollisionFirstSegment(CollisionArgs &args, uint32_t n
             {
                 ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(numEntityA);
                 assert(shotComp);
-                shotComp->m_destructPhase = true;
                 if(args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT)
                 {
                     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(numEntityB);
