@@ -286,6 +286,12 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
             break;
         }
     }
+    PairFloat_t currentPoint = point;
+    if(std::cos(getRadiantAngle(degreeAngle)) < EPSILON_FLOAT)
+    {
+        currentPoint.first += 10;
+    }
+
     ShotConfComponent *targetShotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(visibleShots[currentShot]);
     assert(targetShotConfComp);
     if(targetShotConfComp->m_ejectMode)
@@ -300,15 +306,15 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     TimerComponent *ammoTimeComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(visibleShots[currentShot]);
     genComp->m_active = true;
     ammoTimeComp->m_cycleCountA = 0;
-    std::optional<PairUI_t> coord = getLevelCoord(point);
+    std::optional<PairUI_t> coord = getLevelCoord(currentPoint);
     assert(coord);
     mapComp->m_coord = *coord;
 
     SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(visibleShots[currentShot]);
     assert(segmentComp);
 
-    mapComp->m_absoluteMapPositionPX = point;
-    segmentComp->m_points.first = point;
+    mapComp->m_absoluteMapPositionPX = currentPoint;
+    segmentComp->m_points.first = currentPoint;
     m_mainEngine->addEntityToZone(visibleShots[currentShot], mapComp->m_coord);
     moveElementFromAngle(LEVEL_HALF_TILE_SIZE_PX, getRadiantAngle(degreeAngle), mapComp->m_absoluteMapPositionPX);
     segmentComp->m_points.second = mapComp->m_absoluteMapPositionPX;

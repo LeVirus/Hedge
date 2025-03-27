@@ -104,14 +104,14 @@ void CollisionSystem::updateZonesColl()
 }
 
 //===================================================================
-void CollisionSystem::secondEntitiesLoop(uint32_t entityA, uint32_t currentIteration, GeneralCollisionComponent &tagCompA, bool shotExplosionEject)
+void CollisionSystem::secondEntitiesLoop(uint32_t entityA, uint32_t currentIteration, GeneralCollisionComponent &tagCompA)
 {
     if(tagCompA.m_tagA == CollisionTag_e::DETECT_MAP_CT ||
             tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT || tagCompA.m_tagA == CollisionTag_e::BULLET_ENEMY_CT)
     {
         for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
         {
-            if(!iterationLoop(currentIteration, entityA, *it, tagCompA, shotExplosionEject))
+            if(!iterationLoop(currentIteration, entityA, *it, tagCompA))
             {
                 return;
             }
@@ -122,7 +122,7 @@ void CollisionSystem::secondEntitiesLoop(uint32_t entityA, uint32_t currentItera
     SetUi_t::iterator it = set.begin();
     for(; it != set.end(); ++it)
     {
-        if(!iterationLoop(currentIteration, entityA, *it, tagCompA, shotExplosionEject))
+        if(!iterationLoop(currentIteration, entityA, *it, tagCompA))
         {
             return;
         }
@@ -131,7 +131,7 @@ void CollisionSystem::secondEntitiesLoop(uint32_t entityA, uint32_t currentItera
 
 //===================================================================
 bool CollisionSystem::iterationLoop(uint32_t currentIteration, uint32_t entityA, uint32_t entityB,
-                                    GeneralCollisionComponent &tagCompA, bool shotExplosionEject)
+                                    GeneralCollisionComponent &tagCompA)
 {
     if(currentIteration == entityB)
     {
@@ -147,11 +147,11 @@ bool CollisionSystem::iterationLoop(uint32_t currentIteration, uint32_t entityA,
     {
         return true;
     }
-    if(!treatCollision(entityA, entityB, tagCompA, *tagCompB, shotExplosionEject))
+    if(!treatCollision(entityA, entityB, tagCompA, *tagCompB))
     {
         if(tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT || tagCompA.m_tagA == CollisionTag_e::BULLET_ENEMY_CT)
         {
-            secondEntitiesLoop(entityA, currentIteration, tagCompA, true);
+            secondEntitiesLoop(entityA, currentIteration, tagCompA);
         }
         return false;
     }
@@ -423,7 +423,7 @@ bool CollisionSystem::checkTag(CollisionTag_e entityTagA, CollisionTag_e entityT
 
 //===================================================================
 bool CollisionSystem::treatCollision(uint32_t entityNumA, uint32_t entityNumB, GeneralCollisionComponent &tagCompA,
-                                     GeneralCollisionComponent &tagCompB, bool shotExplosionEject)
+                                     GeneralCollisionComponent &tagCompB)
 {
     if(tagCompA.m_shape == CollisionShape_e::RECTANGLE_C)
     {
@@ -441,7 +441,7 @@ bool CollisionSystem::treatCollision(uint32_t entityNumA, uint32_t entityNumB, G
         assert(mapCompA);
         assert(mapCompB);
         CollisionArgs args = {entityNumA, entityNumB, tagCompA, tagCompB, *mapCompA, *mapCompB};
-        return treatCollisionFirstCircle(args, shotExplosionEject);
+        return treatCollisionFirstCircle(args);
     }
     else if(tagCompA.m_shape == CollisionShape_e::SEGMENT_C)
     {
@@ -554,7 +554,7 @@ void CollisionSystem::writePlayerInfo(const std::string &info)
 }
 
 //===================================================================
-bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args, bool shotExplosionEject)
+bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args)
 {
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_ACTION_CT ||
             args.tagCompA.m_tagA == CollisionTag_e::HIT_PLAYER_CT)

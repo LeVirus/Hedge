@@ -4,9 +4,6 @@ Bug while displaying previous weapons (probably due to shotgun removing)
 ))
 If weapon fist selected can't change weapons
 
-))
-Collision issue if enemies touch player
-
 ============================================================================================================
 ============================================================================================================
 
@@ -47,4 +44,7 @@ Display Preview Weapons=========================OK
 
 ))
 Impact sound don't play sometimes======================OK
+
+))
+Collision issue if enemies touch player===================OK
 

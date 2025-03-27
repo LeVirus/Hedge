@@ -73,10 +73,10 @@ private:
     bool checkTag(CollisionTag_e entityTagA, CollisionTag_e entityTagB);
     //return false if new collision iteration have to be done
     bool treatCollision(uint32_t entityNumA, uint32_t entityNumB, GeneralCollisionComponent &tagCompA,
-                        GeneralCollisionComponent &tagCompB, bool shotExplosionEject = false);
+                        GeneralCollisionComponent &tagCompB);
     //Collisions detection
     void treatCollisionFirstRect(CollisionArgs &args);
-    bool treatCollisionFirstCircle(CollisionArgs &args, bool shotExplosionEject = false);
+    bool treatCollisionFirstCircle(CollisionArgs &args);
     bool treatCollisionPlayer(CollisionArgs &args);
     void setDamageCircle(uint32_t shotEntity, bool active, uint32_t baseEntity = 0);
     void treatActionPlayerCircle(CollisionArgs &args);
@@ -114,8 +114,8 @@ private:
     bool checkEnemyRemoveCollisionMask(uint32_t entityNum);
     void treatGeneralCrushing(uint32_t entityNum);
     void treatLimitLevel(uint32_t entityNum, CollisionTag_e tag);
-    void secondEntitiesLoop(uint32_t entityA, uint32_t currentIteration, GeneralCollisionComponent &tagCompA, bool shotExplosionEject = false);
-    bool iterationLoop(uint32_t currentIteration, uint32_t entityA, uint32_t entityB, GeneralCollisionComponent &tagCompA, bool shotExplosionEject);
+    void secondEntitiesLoop(uint32_t entityA, uint32_t currentIteration, GeneralCollisionComponent &tagCompA);
+    bool iterationLoop(uint32_t currentIteration, uint32_t entityA, uint32_t entityB, GeneralCollisionComponent &tagCompA);
 private:
     std::unique_ptr<ZoneLevelColl> m_zoneLevel;
     uint32_t m_playerEntity;
