@@ -246,6 +246,7 @@ void InputSystem::treatPlayerInput()
         {
             TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
             assert(timerComp);
+
             //Change weapon
             if(checkPlayerKeyTriggered(ControlKey_e::PREVIOUS_WEAPON) || m_scrollDown)
             {

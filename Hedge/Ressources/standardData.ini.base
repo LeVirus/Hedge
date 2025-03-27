@@ -391,11 +391,11 @@ StaticSprite = SpriteFS
 AttackSprite = SpriteFAA SpriteFAB SpriteFAC
 SpriteWeightGame = 0.5 0.5 0.5 0.5
 SpriteHeightGame = 0.6 0.6 0.6 0.5 
-AnimationLatency = 0.08
+AnimationLatency = 10
 MaxAmmo = 0
 Damage = 1
 AttackType = 0
-AnimationType = 1
+AnimationType = 0
 LastAnimNum = 1
 
 [WeaponGun]

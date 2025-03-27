@@ -1,5 +1,3 @@
-))
-If weapon fist selected can't change weapons
 
 ============================================================================================================
 ============================================================================================================
@@ -51,3 +49,5 @@ Bug while displaying previous weapons (probably due to shotgun removing)========
 ))
 Fix machine gun speed attack compared to gun=========================OK
 
+))
+If weapon fist selected can't change weapons=========================OK
