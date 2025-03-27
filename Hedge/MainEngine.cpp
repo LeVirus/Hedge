@@ -3159,15 +3159,12 @@ void MainEngine::confWeaponsPreviewEntities()
             spriteCursorA->m_spriteData = m_memPreviewGunIcon;
             break;
         case 2:
-            spriteCursorA->m_spriteData = m_memPreviewShotgunIcon;
+            spriteCursorA->m_spriteData = m_memPreviewMachineGunIcon;
             break;
         case 3:
             spriteCursorA->m_spriteData = m_memPreviewPlasmaRifleIcon;
             break;
         case 4:
-            spriteCursorA->m_spriteData = m_memPreviewMachineGunIcon;
-            break;
-        case 5:
             spriteCursorA->m_spriteData = m_memPreviewBazookaIcon;
             break;
         default:
@@ -3196,7 +3193,6 @@ void MainEngine::loadStaticSpriteEntities(const LevelManager &levelManager)
             ammoIconSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getAmmoIconSpriteName()),
             fistIconSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getFistIconSpriteName()),
             gunIconSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getGunIconSpriteName()),
-            shotgunIconSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getShotgunIconSpriteName()),
             plasmaRifleIconSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getPlasmaRifleIconSpriteName()),
             machineGunIconSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getMachineGunIconSpriteName()),
             GenericBackgroundSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getGenericMenuSpriteName()),
@@ -3215,7 +3211,6 @@ void MainEngine::loadStaticSpriteEntities(const LevelManager &levelManager)
 
     m_memPreviewFistIcon = &levelManager.getPictureData().getSpriteData()[fistIconSpriteId];
     m_memPreviewGunIcon = &levelManager.getPictureData().getSpriteData()[gunIconSpriteId];
-    m_memPreviewShotgunIcon = &levelManager.getPictureData().getSpriteData()[shotgunIconSpriteId];
     m_memPreviewPlasmaRifleIcon = &levelManager.getPictureData().getSpriteData()[plasmaRifleIconSpriteId];
     m_memPreviewMachineGunIcon = &levelManager.getPictureData().getSpriteData()[machineGunIconSpriteId];
     m_memPreviewBazookaIcon = &levelManager.getPictureData().getSpriteData()[bazookaIconSpriteId];

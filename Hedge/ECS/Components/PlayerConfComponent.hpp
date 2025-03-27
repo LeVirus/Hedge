@@ -67,7 +67,7 @@ struct PlayerConfComponent : public ECS::Component
         m_standardSpriteInterval = 0.2 / FPS_VALUE;
     std::array<uint32_t, static_cast<uint32_t>(PlayerEntities_e::TOTAL)> m_vectEntities;
     //display only weapons when changing weapons
-    std::array<uint32_t, 6> m_vectPossessedWeaponsPreviewEntities;
+    std::array<uint32_t, 5> m_vectPossessedWeaponsPreviewEntities;
     std::optional<uint32_t> m_secretsFound, m_enemiesKilled;
     std::optional<std::pair<uint32_t, Direction_e>> m_currentCheckpoint;
     std::optional<PairUI_t> m_checkpointReached;

@@ -410,7 +410,7 @@ private:
     bool m_gamePaused = false, m_playerMemGear = false, m_levelEnd = false, m_titleMenuMode;
     SpriteData const *m_memVisibleShotA = nullptr,
     *m_memPannel = nullptr, *m_memLifeIcon = nullptr, *m_memAmmoIcon = nullptr,
-    *m_memPreviewFistIcon = nullptr, *m_memPreviewGunIcon = nullptr, *m_memPreviewShotgunIcon = nullptr,
+    *m_memPreviewFistIcon = nullptr, *m_memPreviewGunIcon = nullptr,
     *m_memPreviewPlasmaRifleIcon = nullptr, *m_memPreviewMachineGunIcon = nullptr,
     *m_memPreviewBazookaIcon = nullptr, *m_memBackgroundGenericMenu = nullptr, *m_memBackgroundTitleMenu = nullptr,
     *m_memBackgroundLeftMenu = nullptr, *m_memBackgroundRightLeftMenu = nullptr;

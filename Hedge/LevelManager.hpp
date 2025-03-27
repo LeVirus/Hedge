@@ -188,10 +188,6 @@ public:
     {
         return m_spriteGunName;
     }
-    inline std::string getShotgunIconSpriteName()const
-    {
-        return m_spriteShotgunName;
-    }
     inline std::string getPlasmaRifleIconSpriteName()const
     {
         return m_spritePlasmaRifleName;
@@ -402,7 +398,7 @@ private:
     FontData m_fontData;
     Level m_level;
     std::string m_spritePannelName, m_spriteLifeName, m_spriteAmmoName,
-    m_spriteFistName, m_spriteGunName, m_spriteShotgunName,
+    m_spriteFistName, m_spriteGunName,
     m_spritePlasmaRifleName, m_spriteMachineGunName, m_spriteBazookaName,
     m_spriteGenericMenuName, m_spriteTitleMenuName, m_spriteLeftMenuName, m_spriteRightLeftMenuName;
     StaticLevelElementData m_exitStaticElement;
