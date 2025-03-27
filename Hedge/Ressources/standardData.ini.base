@@ -420,8 +420,7 @@ SoundEffect = GunShot.wav
 [WeaponMachineGun]
 WeaponName = Machine Gun
 Order = 2
-BaseAmmo = 0
-ShotVelocity = 6
+BaseAmmo = 25
 ShootSpritesID = VisibleShootGun
 StaticSprite = SpriteMGSt 
 AttackSprite = SpriteMGAA SpriteMGAB
@@ -434,7 +433,7 @@ MaxAmmo = 100
 LastAnimNum = 2
 ShotVelocity = 17
 Damage = 2
-AnimationType = 2
+AnimationType = 0
 SoundEffect = MachineGunShoot.wav
 
 

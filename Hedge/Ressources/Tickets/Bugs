@@ -48,3 +48,6 @@ Collision issue if enemies touch player===================OK
 ))
 Bug while displaying previous weapons (probably due to shotgun removing)========================OK
 
+))
+Fix machine gun speed attack compared to gun=========================OK
+
