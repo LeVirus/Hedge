@@ -377,7 +377,7 @@ private:
     void loadWallEntities(const std::map<std::string, MoveableWallData> &wallData, const std::vector<SpriteData> &vectSprite);
     std::vector<uint32_t> loadWallEntitiesWallLoop(const std::vector<SpriteData> &vectSprite, const std::pair<std::string, MoveableWallData> &currentShape,
                                                    bool moveable, uint32_t shapeNum, bool loadFromCheckpoint);
-    void confBaseWallData(uint32_t wallEntity, const SpriteData &memSpriteData, const PairUI_t &coordLevel, TriggerBehaviourType_e triggerType, bool moveable, CollisionShape_e collShape);
+    void confBaseWallData(uint32_t wallEntity, const SpriteData &memSpriteData, const PairUI_t &coordLevel, TriggerBehaviourType_e triggerType, bool moveable, CollisionShape_e collShape, bool traversable);
     void loadPlayerSprites(const std::vector<SpriteData> &vectSprite, const PlayerData &playerData, uint32_t numEntity, PlayerConfComponent &playerComp);
     inline void memColorSystemEntity(uint32_t entity)
     {

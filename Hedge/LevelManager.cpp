@@ -1176,6 +1176,10 @@ void LevelManager::loadWallData()
         {
             m_wallData[vectINISections[i]].m_stairDown = true;
         }
+        if(m_ini.getValue(vectINISections[i], "traversable"))
+        {
+            m_wallData[vectINISections[i]].m_traversable = true;
+        }
     }
 }
 
@@ -1208,7 +1212,10 @@ void LevelManager::loadPositionWall()
         {
             m_mainWallData[vectINISections[i]].m_downStair = true;
         }
-
+        if(it->second.m_traversable)
+        {
+            m_mainWallData[vectINISections[i]].m_traversable = true;
+        }
         //Moveable wall
         m_mainWallData.insert({vectINISections[i], MoveableWallData()});
         m_mainWallData[vectINISections[i]].m_sprites = it->second.m_sprites;

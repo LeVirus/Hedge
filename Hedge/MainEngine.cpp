@@ -1441,7 +1441,7 @@ std::vector<uint32_t> MainEngine::loadWallEntitiesWallLoop(const std::vector<Spr
         {
             moveableWallCorrectedPos.second = 0;
         }
-        confBaseWallData(numEntity, memSpriteData, moveableWallCorrectedPos, currentShape.second.m_triggerBehaviourType, moveable, collShape);
+        confBaseWallData(numEntity, memSpriteData, moveableWallCorrectedPos, currentShape.second.m_triggerBehaviourType, moveable, collShape, currentShape.second.m_traversable);
         if(!moveable)
         {
             continue;
@@ -1480,9 +1480,15 @@ std::vector<uint32_t> MainEngine::loadWallEntitiesWallLoop(const std::vector<Spr
 
 //===================================================================
 void MainEngine::confBaseWallData(uint32_t wallEntity, const SpriteData &memSpriteData,
-                                  const PairUI_t& coordLevel, TriggerBehaviourType_e triggerType, bool moveable, CollisionShape_e collShape)
+                                  const PairUI_t& coordLevel, TriggerBehaviourType_e triggerType, bool moveable, CollisionShape_e collShape, bool traversable)
 {
     confBaseComponent(wallEntity, memSpriteData, coordLevel, collShape, CollisionTag_e::WALL_CT);
+    if(traversable)
+    {
+        GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(wallEntity);
+        assert(collComp);
+        collComp->m_wallTraversable = true;
+    }
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(wallEntity);
     assert(spriteComp);
     LevelCaseType_e type = moveable ? LevelCaseType_e::WALL_MOVE_LC : LevelCaseType_e::WALL_LC;

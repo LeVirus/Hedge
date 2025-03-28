@@ -52,6 +52,7 @@ Sprite = SpriteWallBackroom
 
 [WallA]
 Sprite = SpriteWallMetalCol
+traversable = true
 
 [WallB]
 Sprite = SpriteWallLight

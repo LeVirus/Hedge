@@ -8,6 +8,6 @@ struct GeneralCollisionComponent : public ECS::Component
     GeneralCollisionComponent() = default;
     CollisionTag_e m_tagA, m_tagB = CollisionTag_e::GHOST_CT;
     CollisionShape_e m_shape;
-    bool m_active = true;
+    bool m_active = true, m_wallTraversable = false;
     virtual ~GeneralCollisionComponent() = default;
 };

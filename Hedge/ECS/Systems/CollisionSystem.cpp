@@ -1153,6 +1153,17 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     //if player touch ground
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
     {
+        std::cerr << diffY << "  " << diffX << "\n";
+        if(diffY >= 0 || std::abs(diffY) > LEVEL_TILE_SIZE_PX)
+        {
+            GeneralCollisionComponent *CollCompB = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(args.entityNumB);
+            assert(CollCompB);
+            if(CollCompB->m_wallTraversable)
+            {
+                std::cerr << "EJJ\n";
+                return;
+            }
+        }
         //if y change is lower than Y
         bool YChange = (std::abs(diffY) < std::abs(diffX));
         if(YChange && diffY < 0)
@@ -1180,6 +1191,15 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
                 m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
             }
         }
+        // else if(diffY >= 0)
+        // {
+        //     GeneralCollisionComponent *CollCompB = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(args.entityNumB);
+        //     assert(CollCompB);
+        //     if(CollCompB->m_tagA == CollisionTag_e::WALL_CT && CollCompB->m_wallTraversable)
+        //     {
+        //         return;
+        //     }
+        // }
         else
         {
             if(gravityComp->m_memOnGround)

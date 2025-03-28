@@ -53,7 +53,7 @@ struct WallData
     std::vector<uint16_t> m_sprites;
     std::set<PairUI_t> m_TileGamePosition, m_removeGamePosition;
     std::vector<uint32_t> m_cyclesTime;
-    bool m_stairUp = false, m_stairDown = false;
+    bool m_stairUp = false, m_stairDown = false, m_traversable = false;
 };
 
 struct AssociatedTriggerData
@@ -73,7 +73,7 @@ struct MoveableWallData
     float m_velocity;
     std::optional<AssociatedTriggerData> m_associatedTriggerData;
     std::optional<PairUI_t> m_groundTriggerPos;
-    bool m_upStair = false, m_downStair = false;
+    bool m_upStair = false, m_downStair = false, m_traversable = false;
 };
 
 struct SettingsData
