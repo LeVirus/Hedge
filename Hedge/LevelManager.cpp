@@ -1167,6 +1167,15 @@ void LevelManager::loadWallData()
                 m_wallData[vectINISections[i]].m_cyclesTime.emplace_back(time[j] / FPS_VALUE);
             }
         }
+        //Stair cases
+        if(m_ini.getValue(vectINISections[i], "StairUp"))
+        {
+            m_wallData[vectINISections[i]].m_stairUp = true;
+        }
+        else if(m_ini.getValue(vectINISections[i], "StairDown"))
+        {
+            m_wallData[vectINISections[i]].m_stairDown = true;
+        }
     }
 }
 
@@ -1184,20 +1193,22 @@ void LevelManager::loadPositionWall()
             std::cout << "WARNING errors in " << vectINISections[i] << " datas skip\n";
             continue;
         }
-        if((*wallDisplayID).contains("WallStairUp"))
-        {
-            m_mainWallData[vectINISections[i]].m_upStair = true;
-        }
-        else if((*wallDisplayID).contains("WallStairDown"))
-        {
-            m_mainWallData[vectINISections[i]].m_downStair = true;
-        }
         it = m_wallData.find(*wallDisplayID);
         if(it == m_wallData.end())
         {
             std::cout << "WARNING errors in " << vectINISections[i] << " datas skip\n";
             continue;
         }
+
+        if(it->second.m_stairUp)
+        {
+            m_mainWallData[vectINISections[i]].m_upStair = true;
+        }
+        else if(it->second.m_stairDown)
+        {
+            m_mainWallData[vectINISections[i]].m_downStair = true;
+        }
+
         //Moveable wall
         m_mainWallData.insert({vectINISections[i], MoveableWallData()});
         m_mainWallData[vectINISections[i]].m_sprites = it->second.m_sprites;
