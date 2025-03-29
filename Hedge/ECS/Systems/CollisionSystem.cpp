@@ -134,26 +134,20 @@ void CollisionSystem::secondEntitiesLoop(uint32_t entityA, uint32_t currentItera
             firstItJumpDown = true;
             m_playerJumpDown = true;
             m_memPlayerJumpDown = false;
-            // playerComp->m_jumpDown = false;
+            playerComp->m_jumpDown = false;
         }
     }
     for(; it != set.end(); ++it)
     {
-        if(!iterationLoop(currentIteration, entityA, *it, tagCompA))
-        {
-            // return;
-        }
+        iterationLoop(currentIteration, entityA, *it, tagCompA);
     }
     if(tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && (!firstItJumpDown && !m_memPlayerJumpDown))
     {
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(entityA);
         assert(playerComp);
-        playerComp->m_jumpDown = false;
-        if(!m_memPlayerJumpDown)
-        {
-            m_playerJumpDown = false;
-        }
+        m_playerJumpDown = false;
     }
+    firstItJumpDown = false;
 }
 
 //===================================================================

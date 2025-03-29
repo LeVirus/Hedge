@@ -2729,8 +2729,7 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
                                   uint32_t numWeaponEntity, uint32_t numDisplayTeleportEntity)
 {
     m_playerEntity = entityNum;
-    const std::vector<SpriteData> &vectSpriteData =
-            levelManager.getPictureData().getSpriteData();
+    const std::vector<SpriteData> &vectSpriteData = levelManager.getPictureData().getSpriteData();
     PositionVertexComponent *pos = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(entityNum);
     MapCoordComponent *map = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
     MoveableComponent *move = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(entityNum);
