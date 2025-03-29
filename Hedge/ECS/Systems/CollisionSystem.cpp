@@ -118,13 +118,40 @@ void CollisionSystem::secondEntitiesLoop(uint32_t entityA, uint32_t currentItera
         }
         return;
     }
+    bool firstItJumpDown = false;
     SetUi_t set = m_zoneLevel->getEntitiesFromZones(entityA);
     SetUi_t::iterator it = set.begin();
+    if(tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+    {
+        if(m_playerJumpDown)
+        {
+            m_memPlayerJumpDown = false;
+        }
+        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(entityA);
+        assert(playerComp);
+        if(playerComp->m_jumpDown)
+        {
+            firstItJumpDown = true;
+            m_playerJumpDown = true;
+            m_memPlayerJumpDown = false;
+            // playerComp->m_jumpDown = false;
+        }
+    }
     for(; it != set.end(); ++it)
     {
         if(!iterationLoop(currentIteration, entityA, *it, tagCompA))
         {
-            return;
+            // return;
+        }
+    }
+    if(tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && (!firstItJumpDown && !m_memPlayerJumpDown))
+    {
+        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(entityA);
+        assert(playerComp);
+        playerComp->m_jumpDown = false;
+        if(!m_memPlayerJumpDown)
+        {
+            m_playerJumpDown = false;
         }
     }
 }
@@ -1153,14 +1180,14 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     //if player touch ground
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
     {
-        std::cerr << diffY << "  " << diffX << "\n";
-        if(diffY >= 0 || std::abs(diffY) > LEVEL_TILE_SIZE_PX)
+        GeneralCollisionComponent *CollCompB = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(args.entityNumB);
+        assert(CollCompB);
+        if(CollCompB->m_wallTraversable)
         {
-            GeneralCollisionComponent *CollCompB = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(args.entityNumB);
-            assert(CollCompB);
-            if(CollCompB->m_wallTraversable)
+            m_memPlayerJumpDown = true;
+            if(m_playerJumpDown || diffY >= 0 || std::abs(diffY) > LEVEL_TILE_SIZE_PX)
             {
-                std::cerr << "EJJ\n";
+                // m_memPlayerJumpDown = true;
                 return;
             }
         }

@@ -128,6 +128,7 @@ private:
     //3 if moveable wall current direction
     std::vector<std::tuple<PairFloat_t, bool, Direction_e, std::optional<Direction_e>>> m_memCrush;
     MainEngine *m_refMainEngine;
+    bool m_playerJumpDown = false, m_memPlayerJumpDown = false;
 };
 
 void destroyShot(uint32_t entity);

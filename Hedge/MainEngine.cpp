@@ -2746,6 +2746,7 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     const PlayerData &playerData = levelManager.getPlayerData();
     loadPlayerSprites(levelManager.getPictureData().getSpriteData(), playerData, entityNum, *playerConf);
     playerConf->m_life = 100;
+    playerConf->m_jumpDown = false;
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)] = numWeaponEntity;
     playerConf->m_levelToLoad = m_currentLevel;
     playerConf->m_memEntityAssociated = entityNum;

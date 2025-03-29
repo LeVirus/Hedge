@@ -204,19 +204,26 @@ void InputSystem::treatPlayerInput()
         {
             if(!gravityComp->m_jump && gravityComp->m_onGround)
             {
-                gravityComp->m_jump = true;
-                gravityComp->m_onGround = false;
-                gravityComp->m_memOnGround = false;
-                if(playerComp->m_currentDirectionRight)
+                if(checkPlayerKeyTriggered(ControlKey_e::MOVE_BACKWARD))
                 {
-                    playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_RIGHT;
+                    playerComp->m_jumpDown = true;
                 }
                 else
                 {
-                    playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
+                    gravityComp->m_jump = true;
+                    gravityComp->m_onGround = false;
+                    gravityComp->m_memOnGround = false;
+                    if(playerComp->m_currentDirectionRight)
+                    {
+                        playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_RIGHT;
+                    }
+                    else
+                    {
+                        playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
+                    }
+                    //reinit sprite
+                    playerComp->m_currentSprite = 0;
                 }
-                //reinit sprite
-                playerComp->m_currentSprite = 0;
             }
         }
         updateDetectRect(*playerComp, *mapComp);
