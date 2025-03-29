@@ -1178,7 +1178,10 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
         assert(CollCompB);
         if(CollCompB->m_wallTraversable)
         {
-            m_memPlayerJumpDown = true;
+            if(elementASecondPosY < elementBSecondPosY)
+            {
+                m_memPlayerJumpDown = true;
+            }
             if(m_playerJumpDown || diffY >= 0 || std::abs(diffY) > LEVEL_TILE_SIZE_PX)
             {
                 // m_memPlayerJumpDown = true;
