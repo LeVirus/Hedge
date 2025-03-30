@@ -44,6 +44,13 @@ void CollisionSystem::execSystem()
 {
     uint32_t i = 0;
     m_refMainEngine->unsetCurrentWallOnGround();
+    GravityComponent *tagCompA = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
+    assert(tagCompA);
+    if(m_memGround)
+    {
+        tagCompA->m_memOnGround = false;
+    }
+    m_memGround = tagCompA->m_memOnGround;
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it, ++i)
     {
         SegmentCollisionComponent *segmentCompA = nullptr;
@@ -390,6 +397,7 @@ void CollisionSystem::rmEnemyCollisionMaskEntity(uint32_t numEntity)
 void CollisionSystem::initArrayTag()
 {
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::WALL_CT});
+    m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::TRAVERSABLE_WALL_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::ENEMY_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::OBJECT_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::STATIC_SET_CT});
@@ -398,6 +406,7 @@ void CollisionSystem::initArrayTag()
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::SECRET_CT});
 
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::WALL_CT});
+    m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::TRAVERSABLE_WALL_CT});
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::STATIC_SET_CT});
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::EXIT_CT});
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::LOG_CT});
@@ -411,11 +420,15 @@ void CollisionSystem::initArrayTag()
 
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::PLAYER_CT});
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::WALL_CT});
+    m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::TRAVERSABLE_WALL_CT});
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::STATIC_SET_CT});
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::LOG_CT});
 
     m_tagArray.insert({CollisionTag_e::WALL_CT, CollisionTag_e::PLAYER_CT});
     m_tagArray.insert({CollisionTag_e::WALL_CT, CollisionTag_e::ENEMY_CT});
+
+    m_tagArray.insert({CollisionTag_e::TRAVERSABLE_WALL_CT, CollisionTag_e::PLAYER_CT});
+    m_tagArray.insert({CollisionTag_e::TRAVERSABLE_WALL_CT, CollisionTag_e::ENEMY_CT});
 
     m_tagArray.insert({CollisionTag_e::BULLET_ENEMY_CT, CollisionTag_e::PLAYER_CT});
     m_tagArray.insert({CollisionTag_e::BULLET_ENEMY_CT, CollisionTag_e::WALL_CT});
@@ -577,8 +590,7 @@ void CollisionSystem::writePlayerInfo(const std::string &info)
 //===================================================================
 bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args)
 {
-    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_ACTION_CT ||
-            args.tagCompA.m_tagA == CollisionTag_e::HIT_PLAYER_CT)
+    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_ACTION_CT || args.tagCompA.m_tagA == CollisionTag_e::HIT_PLAYER_CT)
     {
         args.tagCompA.m_active = false;
     }
@@ -605,6 +617,17 @@ bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args)
                     previousPos = args.mapCompA.m_absoluteMapPositionPX;
                 }
                 collisionCircleRectEject(args, circleCompA->m_ray, *rectCompB);
+            }
+            else if(args.tagCompA.m_tagA == CollisionTag_e::HIT_PLAYER_CT)
+            {
+                ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumA);
+                assert(shotConfComp);
+                if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
+                {
+                    activeSound(args.entityNumA);
+                    treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage);
+                    return false;
+                }
             }
             else if(args.tagCompA.m_tagA == CollisionTag_e::IMPACT_CT)
             {

@@ -449,4 +449,5 @@ void confBullet(GeneralCollisionComponent &genColl, SegmentCollisionComponent &s
                 CollisionTag_e collTag, const PairFloat_t &point, float degreeAngle);
 void setWeaponPlayer();
 void confActionShape(MapCoordComponent &mapCompAction, GeneralCollisionComponent &genCompAction, const MapCoordComponent &attackerMapComp,
-                     const MoveableComponent &attackerMoveComp);
+                     const MoveableComponent &attackerMoveComp, const std::array<bool, static_cast<uint32_t>(PlayerAimDirection_e::TOTAL)> &array, bool onGround, bool baseDirectionRight);
+float getDegreeAngleFromAim(const std::array<bool, static_cast<uint32_t>(PlayerAimDirection_e::TOTAL)> &array, bool onGround, bool baseDirectionRight);

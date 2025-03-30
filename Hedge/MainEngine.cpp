@@ -556,6 +556,8 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
 {
     WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
     assert(weaponConf);
+    GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(playerEntity);
+    assert(gravComp);
     assert(weaponConf->m_currentWeapon < weaponConf->m_weaponsData.size());
     WeaponData &currentWeapon = weaponConf->m_weaponsData[weaponConf->m_currentWeapon];
     AttackType_e attackType = currentWeapon.m_attackType;
@@ -575,78 +577,18 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
         {
             addEntityToZone(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::HIT_MELEE)], *coord);
         }
-        confActionShape(*actionMapComp, *actionGenColl, *playerMapComp, *playerMoveComp);
+        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(playerEntity);
+        assert(playerComp);
+
+        confActionShape(*actionMapComp, *actionGenColl, *playerMapComp, *playerMoveComp, playerComp->m_currentAim, gravComp->m_onGround, playerComp->m_currentDirectionRight);
         return;
-    }
-    else if(attackType == AttackType_e::BULLETS)
-    {
-        if(currentWeapon.m_simultaneousShots == 1)
-        {
-            // confPlayerBullet(&playerComp, point, degreeAngle, currentWeapon.m_currentBullet);
-            if(currentWeapon.m_currentBullet < MAX_SHOTS - 1)
-            {
-                ++currentWeapon.m_currentBullet;
-            }
-            else
-            {
-                currentWeapon.m_currentBullet = 0;
-            }
-        }
-        else
-        {
-            for(uint32_t i = 0; i < currentWeapon.m_simultaneousShots; ++i)
-            {
-                // confPlayerBullet(&playerComp, point, degreeAngle, i);
-            }
-        }
     }
     else if(attackType == AttackType_e::VISIBLE_SHOTS)
     {
         assert(currentWeapon.m_visibleShootEntities);
-        if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::UP)])
-        {
-            if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)])
-            {
-                confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, 45.0f);
-            }
-            else if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)])
-            {
-                confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, 135.0f);
-            }
-            else
-            {
-                confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, 90.0f);
-            }
-        }
-        else if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::DOWN)])
-        {
-            if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)])
-            {
-                confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, -45.0f);
-            }
-            else if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)])
-            {
-                confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, 225.0f);
-            }
-            else
-            {
-                GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(playerEntity);
-                assert(gravityComp);
-                //if in the air shoot down
-                if(!gravityComp->m_memOnGround)
-                {
-                    confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, -90.0f);
-                }
-                else
-                {
-                    treatBasicDirectionShoot(playerComp, currentWeapon, point);
-                }
-            }
-        }
-        else
-        {
-            treatBasicDirectionShoot(playerComp, currentWeapon, point);
-        }
+
+        float degreeAim = getDegreeAngleFromAim(playerComp.m_currentAim, gravComp->m_onGround, playerComp.m_currentDirectionRight);
+        confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, degreeAim);
     }
     assert(weaponConf->m_weaponsData[weaponConf->m_currentWeapon].m_ammunationsCount > 0);
     --weaponConf->m_weaponsData[weaponConf->m_currentWeapon].m_ammunationsCount;
@@ -709,12 +651,68 @@ void MainEngine::createPlayerImpactEntities(const std::vector<SpriteData> &vectS
 }
 
 //===================================================================
+float getDegreeAngleFromAim(const std::array<bool, static_cast<uint32_t>(PlayerAimDirection_e::TOTAL)> &array, bool onGround, bool baseDirectionRight)
+{
+    if(array[static_cast<uint32_t>(PlayerAimDirection_e::UP)])
+    {
+        if(array[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)])
+        {
+            return 45.0f;
+        }
+        else if(array[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)])
+        {
+            return 135.0f;
+        }
+        else
+        {
+            return 90.0f;
+        }
+    }
+    else if(array[static_cast<uint32_t>(PlayerAimDirection_e::DOWN)])
+    {
+        if(array[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)])
+        {
+            return -45.0f;
+        }
+        else if(array[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)])
+        {
+            return 225.0f;
+        }
+        else
+        {
+            //if in the air shoot down
+            if(!onGround)
+            {
+                return -90.0f;
+            }
+            else if(baseDirectionRight)
+            {
+                return 0.0f;
+            }
+            else
+            {
+                return 180.0f;
+            }
+        }
+    }
+    if(baseDirectionRight)
+    {
+        return 0.0f;
+    }
+    // else if(array[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)])
+    {
+        return 180.0f;
+    }
+}
+
+//===================================================================
 void confActionShape(MapCoordComponent &mapCompAction, GeneralCollisionComponent &genCompAction,
-                     const MapCoordComponent &attackerMapComp, const MoveableComponent &attackerMoveComp)
+                     const MapCoordComponent &attackerMapComp, const MoveableComponent &attackerMoveComp,
+                     const std::array<bool, static_cast<uint32_t>(PlayerAimDirection_e::TOTAL)> &array, bool onGround, bool baseDirectionRight)
 {
     mapCompAction.m_absoluteMapPositionPX = attackerMapComp.m_absoluteMapPositionPX;
-    moveElementFromAngle(LEVEL_HALF_TILE_SIZE_PX, getRadiantAngle(attackerMoveComp.m_degreeOrientation),
-                         mapCompAction.m_absoluteMapPositionPX);
+    float degreeAim = getDegreeAngleFromAim(array, onGround, baseDirectionRight);
+    moveElementFromAngle(LEVEL_HALF_TILE_SIZE_PX, getRadiantAngle(degreeAim), mapCompAction.m_absoluteMapPositionPX);
     genCompAction.m_active = true;
 }
 
@@ -1482,7 +1480,8 @@ std::vector<uint32_t> MainEngine::loadWallEntitiesWallLoop(const std::vector<Spr
 void MainEngine::confBaseWallData(uint32_t wallEntity, const SpriteData &memSpriteData,
                                   const PairUI_t& coordLevel, TriggerBehaviourType_e triggerType, bool moveable, CollisionShape_e collShape, bool traversable)
 {
-    confBaseComponent(wallEntity, memSpriteData, coordLevel, collShape, CollisionTag_e::WALL_CT);
+    CollisionTag_e tag = traversable ? CollisionTag_e::TRAVERSABLE_WALL_CT : CollisionTag_e::WALL_CT;
+    confBaseComponent(wallEntity, memSpriteData, coordLevel, collShape, tag);
     if(traversable)
     {
         GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(wallEntity);
@@ -2668,7 +2667,7 @@ void MainEngine::confBaseComponent(uint32_t entityNum, const SpriteData &memSpri
     {
         RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(entityNum);
         assert(rectComp);
-        if(tag == CollisionTag_e::WALL_CT)
+        if(tag == CollisionTag_e::WALL_CT || tag == CollisionTag_e::TRAVERSABLE_WALL_CT)
         {
             rectComp->m_size = {LEVEL_TILE_SIZE_PX, LEVEL_TILE_SIZE_PX};
         }
@@ -2784,7 +2783,7 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
         if(weaponConf->m_weaponsData[i].m_attackType == AttackType_e::MELEE)
         {
             playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::HIT_MELEE)] = createDamageZoneEntity(weaponConf->m_weaponsData[i].m_weaponPower,
-                                                                   CollisionTag_e::HIT_PLAYER_CT, 10.0f, levelManager.getHitSoundFile());
+                                                                   CollisionTag_e::HIT_PLAYER_CT, 20.0f, levelManager.getHitSoundFile());
             break;
         }
     }

@@ -349,6 +349,7 @@ enum class CollisionTag_e
     PLAYER_CT,
     PLAYER_ACTION_CT,
     WALL_CT,
+    TRAVERSABLE_WALL_CT,
     ENEMY_CT,
     BULLET_PLAYER_CT,
     EXPLOSION_CT,

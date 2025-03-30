@@ -6,9 +6,6 @@ Make bosses
 	-Freeze camera
 
 ))
-Add CaC attack with animation
-
-))
 Make all animation for shooting in 8 directions
 
 
@@ -16,10 +13,6 @@ Make all animation for shooting in 8 directions
 Add "rage" jauge to make special attack
 	-Animation with game paused?
 	-Real Time?
-
-))
-Add several life for a level
-	-Player repop if lifes is remaining or game over if not
 
 ))
 Add flying enemies
@@ -32,9 +25,6 @@ Add lock scrolling
 Add grenades
 	-Add pickable object + make animation + timer and explosion (friendly fire enabled)
 		*********Modif LEVEL EDITOR
-
-))
-Add special platform with can be traversed by down and go down when pressing down + jump
 
 ))
 Add vehicule
@@ -54,6 +44,16 @@ Add elements to avoid in levels
 	-Acid falling from ceiling
 	-Electric ark
 		*********Modif LEVEL EDITOR
+
+))
+Add dialog cutscene 
+	-Display head of charachter talking in the dialog box (like megaman X)
+
+=========================================================================================A VOIR
+
+))
+Add several life for a level
+	-Player repop if lifes is remaining or game over if not
 
 =============================================================================================================================
 =============================================================================================================================
@@ -86,4 +86,10 @@ Remove invisible bullets stuff==========================OK
 
 ))
 Put checkpoint (still works?)=================================OK
+
+))
+Add special platform with can be traversed by down and go down when pressing down + jump============================OK
+
+))
+Add CaC attack with animation============================OK
 
