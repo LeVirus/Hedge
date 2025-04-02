@@ -1,11 +1,6 @@
 =============================================================================================================================
 
 ))
-Make bosses
-	-Change music when arena is reached
-	-Freeze camera
-
-))
 Make all animation for shooting in 8 directions
 
 
@@ -13,9 +8,6 @@ Make all animation for shooting in 8 directions
 Add "rage" jauge to make special attack
 	-Animation with game paused?
 	-Real Time?
-
-))
-Add flying enemies
 
 ))
 Add lock scrolling
@@ -33,6 +25,9 @@ Add vehicule
 		*********Modif LEVEL EDITOR
 
 ))
+Add flying enemies
+
+))
 Add offensive object
 	-Turrels
 	-Flames
@@ -44,6 +39,11 @@ Add elements to avoid in levels
 	-Acid falling from ceiling
 	-Electric ark
 		*********Modif LEVEL EDITOR
+
+))
+Make bosses
+	-Change music when arena is reached
+	-Freeze camera
 
 ))
 Add dialog cutscene 

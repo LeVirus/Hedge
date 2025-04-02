@@ -536,69 +536,24 @@ void StaticDisplaySystem::treatWeaponShootAnimation(PlayerConfComponent &playerC
                 ++weaponComp->m_numWeaponSprite;
             }
         }
-        //RETURN ANIMATION (EX: SHOTGUN)
-        else
+        else if(currentWeapon.m_animMode == AnimationMode_e::STANDART && weaponComp->m_numWeaponSprite == spriteFirstAnim)
         {
-            if(weaponComp->m_shootFirstPhase)
+            if(weaponComp->m_numWeaponSprite < spriteNumLastAnim)
             {
-                //end first phase
-                if(weaponComp->m_numWeaponSprite == currentWeapon.m_memPosSprite.second)
-                {
-                    if(currentWeapon.m_animMode == AnimationMode_e::STANDART)
-                    {
-                        if(weaponComp->m_weaponsData[weaponComp->m_currentWeapon].m_ammunationsCount == 0)
-                        {
-                            weaponComp->m_weaponToChange = true;
-                        }
-                        weaponComp->m_numWeaponSprite = spriteFirstAnim;
-                        weaponComp->m_timerShootActive = false;
-                    }
-                    else if(currentWeapon.m_animMode == AnimationMode_e::RETURN)
-                    {
-                        if(weaponComp->m_weaponsData[weaponComp->m_currentWeapon].m_ammunationsCount == 0)
-                        {
-                            weaponComp->m_weaponToChange = true;
-                        }
-                        else
-                        {
-                            --weaponComp->m_numWeaponSprite;
-                        }
-                    }
-                    weaponComp->m_shootFirstPhase = false;
-                }
-                else
-                {
-                    if(weaponComp->m_numWeaponSprite == currentWeapon.m_memPosSprite.first + 2)
-                    {
-                        AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-                        audioComp->m_soundElements[weaponComp->m_reloadSoundAssociated[weaponComp->m_currentWeapon]]->m_toPlay = true;
-                    }
-                    ++weaponComp->m_numWeaponSprite;
-                }
+                ++weaponComp->m_numWeaponSprite;
             }
             else
             {
-                if(currentWeapon.m_animMode == AnimationMode_e::RETURN && weaponComp->m_numWeaponSprite == spriteNumLastAnim)
-                {
-                    weaponComp->m_timerShootActive = false;
-                    weaponComp->m_numWeaponSprite = spriteFirstAnim;
-                }
-                else if(currentWeapon.m_animMode == AnimationMode_e::STANDART && weaponComp->m_numWeaponSprite == spriteFirstAnim)
-                {
-                    if(weaponComp->m_weaponsData[weaponComp->m_currentWeapon].m_ammunationsCount == 0)
-                    {
-                        weaponComp->m_weaponToChange = true;
-                    }
-                    weaponComp->m_timerShootActive = false;
-                    return;
-                }
-                else
-                {
-                    --weaponComp->m_numWeaponSprite;
-                }
+                weaponComp->m_numWeaponSprite = spriteFirstAnim;
             }
+            if(weaponComp->m_weaponsData[weaponComp->m_currentWeapon].m_ammunationsCount == 0)
+            {
+                weaponComp->m_weaponToChange = true;
+            }
+            weaponComp->m_timerShootActive = false;
+            return;
         }
-        // setWeaponSprite(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)], weaponComp->m_numWeaponSprite);
+        setWeaponSprite(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)], weaponComp->m_numWeaponSprite);
         timerComp.m_cycleCountA = 0;
     }
 }

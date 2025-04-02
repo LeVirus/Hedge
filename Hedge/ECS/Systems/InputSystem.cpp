@@ -361,12 +361,14 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         {
             playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
             //OOOK TMP
-            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;        }
+            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;
+        }
         else
         {
             playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
             //OOOK TMP
-            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_LEFT;        }
+            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_LEFT;
+        }
     }
     //TMP LOOK MID DOWN
     else if(checkPlayerKeyTriggered(ControlKey_e::STRAFE_RIGHT))

@@ -577,16 +577,12 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
         {
             addEntityToZone(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::HIT_MELEE)], *coord);
         }
-        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(playerEntity);
-        assert(playerComp);
-
-        confActionShape(*actionMapComp, *actionGenColl, *playerMapComp, *playerMoveComp, playerComp->m_currentAim, gravComp->m_onGround, playerComp->m_currentDirectionRight);
+        confActionShape(*actionMapComp, *actionGenColl, *playerMapComp, *playerMoveComp, playerComp.m_currentAim, gravComp->m_onGround, playerComp.m_currentDirectionRight);
         return;
     }
     else if(attackType == AttackType_e::VISIBLE_SHOTS)
     {
         assert(currentWeapon.m_visibleShootEntities);
-
         float degreeAim = getDegreeAngleFromAim(playerComp.m_currentAim, gravComp->m_onGround, playerComp.m_currentDirectionRight);
         confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), point, degreeAim);
     }
