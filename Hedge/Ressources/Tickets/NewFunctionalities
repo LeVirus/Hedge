@@ -10,44 +10,42 @@ Add "rage" jauge to make special attack
 	-Real Time?
 
 ))
-Add lock scrolling
-		*********Modif LEVEL EDITOR
+Add enemies
+	-Flying
+	-Turrels
 
 ))
 Add grenades
 	-Add pickable object + make animation + timer and explosion (friendly fire enabled)
-		*********Modif LEVEL EDITOR
+		*********Modif Conf file
 
 ))
 Add vehicule
 	-moto
 	-tank
-		*********Modif LEVEL EDITOR
+		*********Modif Conf file
+		*********Modif LEVEL EDITOR--OK
 
 ))
-Add flying enemies
-
-))
-Add offensive object
-	-Turrels
-	-Flames
-	-Pick
-		*********Modif LEVEL EDITOR
-
-))
-Add elements to avoid in levels
+Add elements to avoid in levels 
 	-Acid falling from ceiling
 	-Electric ark
-		*********Modif LEVEL EDITOR
+	-Flames
+	-Pick
+	-Wall electrized by alternance
+		*********Modif Conf file
+		*********Modif LEVEL EDITOR--OK
 
 ))
 Make bosses
-	-Change music when arena is reached
+	-Change music when arena is reached 
 	-Freeze camera
+		*********Modif LEVEL EDITOR--OK
 
 ))
 Add dialog cutscene 
 	-Display head of charachter talking in the dialog box (like megaman X)
+		*********Modif LEVEL EDITOR--OK
 
 =========================================================================================A VOIR
 
@@ -92,4 +90,8 @@ Add special platform with can be traversed by down and go down when pressing dow
 
 ))
 Add CaC attack with animation============================OK
+
+))
+Add lock scrolling===================================================OK
+		*********Modif LEVEL EDITOR--OK--OK
 

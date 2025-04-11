@@ -259,6 +259,14 @@ void CollisionSystem::treatLimitLevel(uint32_t entityNum, CollisionTag_e tag)
     RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(entityNum);
     assert(rectComp);
     PairUI_t limitLevel = Level::getSize();
+    if(tag == CollisionTag_e::PLAYER_CT)
+    {
+        uint32_t minLevelX = Ecsm_t::instance().getSystem<MapDisplaySystem>(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM))->getMinLevelLock();
+        if(mapComp->m_absoluteMapPositionPX.first < minLevelX)
+        {
+            mapComp->m_absoluteMapPositionPX.first = minLevelX;
+        }
+    }
     if(mapComp->m_absoluteMapPositionPX.first < 0.0f)
     {
         mapComp->m_absoluteMapPositionPX.first = 0.0f;

@@ -314,8 +314,6 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_RIGHT;
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
         mapComp.m_absoluteMapPositionPX.first += moveComp.m_velocity;
-        MapDisplaySystem *mapDisplay = Ecsm_t::instance().getSystem<MapDisplaySystem>(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM));
-        assert(mapDisplay);
         playerComp.m_currentDirectionRight = true;
     }
     else if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT))
@@ -323,8 +321,6 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_LEFT;
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
         mapComp.m_absoluteMapPositionPX.first -= moveComp.m_velocity;
-        MapDisplaySystem *mapDisplay = Ecsm_t::instance().getSystem<MapDisplaySystem>(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM));
-        assert(mapDisplay);
         playerComp.m_currentDirectionRight = false;
     }
     else

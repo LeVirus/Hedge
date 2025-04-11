@@ -132,7 +132,7 @@ public:
     static void setElementTypeCase(const PairUI_t &tilePosition, LevelCaseType_e type);
     static void setMoveableWallStopped(const PairUI_t &tilePosition, bool stopped);
     static void setElementEntityCase(const PairUI_t &tilePosition, uint32_t entity);
-    inline static void setMusicFile(const std::string filename)
+    inline static void setMusicFile(const std::string &filename)
     {
         m_musicFile = filename;
     }
@@ -170,6 +170,14 @@ public:
     {
         m_size = pairLevelSize;
     }
+    inline static void setScrollingLock(bool lock)
+    {
+        m_scrollingLock = lock;
+    }
+    inline static bool getScrollingLock()
+    {
+        return m_scrollingLock;
+    }
     /**
      * @brief updateVisualOrientation Modify vertex position relative to orientation.
      */
@@ -182,6 +190,7 @@ private:
     static std::vector<ElementRaycast> m_levelCaseType;
     static float m_rangeViewPX;
     static std::string m_musicFile;
+    static bool m_scrollingLock;
 };
 
 PairFloat_t getAbsolutePosition(const PairUI_t &coord);

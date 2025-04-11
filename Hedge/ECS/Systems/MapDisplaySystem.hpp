@@ -23,6 +23,7 @@ public:
     void execSystem()override;
     void drawMiniMap(const PairFloat_t &centerScreenPos, const PairUI_t &min, const PairUI_t &max);
     void setShader(Shader &shader);
+    void reinitMemLevelLimit();
     inline bool entityAlreadyDiscovered(uint32_t entityNum)const
     {
         return m_entitiesDetectedData.find(entityNum) != m_entitiesDetectedData.end();
@@ -59,6 +60,10 @@ public:
     {
         m_middle = entity;
     }
+    inline uint32_t getMinLevelLock()const
+    {
+        return m_levelMin;
+    }
 private:
     void confFullMapPositionVertexEntities();
     void confVertexPlayerOnFullMap();
@@ -83,7 +88,7 @@ private:
     void drawGround();
 private:
     uint32_t m_playerNum;
-    bool m_firstLoop = true, m_backgroundLock = false;
+    bool m_firstLoop = true, m_backgroundLock = false, m_freezeBackGround = false;
     float m_groundPosLateral = 0.0f, m_backgroundPosLateral = 0.0f, m_middlePosLateral = 0.0f, m_memPreviousPos;
     std::map<uint32_t, PairUI_t> m_entitiesDetectedData;
     std::vector<uint32_t> m_entitiesToDisplay;
@@ -97,6 +102,7 @@ private:
     std::vector<Texture> *m_ptrVectTexture = nullptr;
     std::optional<uint32_t> m_background, m_ground, m_middle;
     VerticesData m_backgroundTextVertice, m_groundTextVertice, m_middleTextVertice;
+    uint32_t m_levelMin;
 };
 
 //Adapt to GL context

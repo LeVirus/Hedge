@@ -57,13 +57,37 @@ void MapDisplaySystem::setShader(Shader &shader)
 }
 
 //===================================================================
+void MapDisplaySystem::reinitMemLevelLimit()
+{
+    m_levelMin = 0;
+    m_freezeBackGround = false;
+}
+
+//===================================================================
 void MapDisplaySystem::execSystem()
 {
     MapCoordComponent *mapCompPlayer = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
     PairFloat_t playerPos = mapCompPlayer->m_absoluteMapPositionPX;
     PairUI_t max, min;
-    getMapDisplayLimit(playerPos, min, max);
+    if(Level::getScrollingLock())
+    {
+        // min.first
+        if(mapCompPlayer->m_absoluteMapPositionPX.first - m_localLevelSizePX > m_levelMin)
+        {
+            m_levelMin = mapCompPlayer->m_absoluteMapPositionPX.first - m_localLevelSizePX;
+            if(m_levelMin > m_sizeLevelPX.first - m_localLevelSizePX * 2)
+            {
+                m_levelMin = m_sizeLevelPX.first - m_localLevelSizePX * 2;
+            }
+            m_freezeBackGround = false;
+        }
+        else
+        {
+            m_freezeBackGround = true;
+        }
+    }
     PairFloat_t centerScreen = getCenterScreen(mapCompPlayer->m_absoluteMapPositionPX, min, max);
+    getMapDisplayLimit(centerScreen, min, max);
     confVertexBackground();
     confVertexGround(centerScreen);
     confVertexMiddle(centerScreen);
@@ -189,7 +213,11 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities(const PairFloat_t &cent
 PairFloat_t MapDisplaySystem::getCenterScreen(const PairFloat_t &playerMap, const PairUI_t &min, const PairUI_t &max)const
 {
     PairFloat_t finalPos = playerMap;
-    if(min.first == 0 && finalPos.first - m_localLevelSizePX < 0.0f)
+    if(Level::getScrollingLock())
+    {
+        finalPos.first = m_levelMin + m_localLevelSizePX;
+    }
+    else if(min.first == 0 && finalPos.first - m_localLevelSizePX < 0.0f)
     {
         finalPos.first = m_localLevelSizePX;
     }
@@ -197,6 +225,7 @@ PairFloat_t MapDisplaySystem::getCenterScreen(const PairFloat_t &playerMap, cons
     {
         finalPos.first = m_sizeLevelPX.first - m_localLevelSizePX;
     }
+    //if Scrolling lock active
     if(min.second == 0 && finalPos.second - m_localLevelSizePX < 0.0f)
     {
         finalPos.second = m_localLevelSizePX;
@@ -333,7 +362,7 @@ void MapDisplaySystem::updateBackgroundLateralPos()
 {
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
     assert(mapComp);
-    if(!m_firstLoop)
+    if(!m_firstLoop && !m_freezeBackGround)
     {
         //BACKGROUND
         m_backgroundPosLateral += (m_memPreviousPos - mapComp->m_absoluteMapPositionPX.first) / (m_localLevelSizePX * 1.5f);

@@ -1189,6 +1189,9 @@ void MainEngine::loadLevel(const LevelManager &levelManager)
     std::string prologue = treatInfoMessageEndLine(levelManager.getLevelPrologue()),
             epilogue = treatInfoMessageEndLine(levelManager.getLevelEpilogue(), 27);
     m_graphicEngine.updatePrologueAndEpilogue(prologue, epilogue);
+    MapDisplaySystem *mapDisplay = Ecsm_t::instance().getSystem<MapDisplaySystem>(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM));
+    assert(mapDisplay);
+    mapDisplay->reinitMemLevelLimit();
     //MUUUUUUUUUUUUSSSSS
     m_audioEngine.memoriseEpilogueMusicFilename(levelManager.getLevelEpilogueMusic());
     m_audioEngine.loadMusicFromFile(levelManager.getLevel().getMusicFilename());

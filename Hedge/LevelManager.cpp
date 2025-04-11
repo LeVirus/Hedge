@@ -251,6 +251,15 @@ bool LevelManager::loadLevelData()
         return false;
     }
     m_level.setLevelSize({std::stoi(*valWeight), std::stoi(*valHeight)});
+    std::optional<std::string> scrollingLock = m_ini.getValue("Level", "scrollingLock");
+    if(scrollingLock && *scrollingLock == "true")
+    {
+        m_level.setScrollingLock(true);
+    }
+    else
+    {
+        m_level.setScrollingLock(false);
+    }
     return true;
 }
 
