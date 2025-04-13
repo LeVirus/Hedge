@@ -52,7 +52,7 @@ struct MemPlayerConf
 
 struct MemCheckpointLevelState
 {
-    uint32_t m_levelNum, m_checkpointNum, m_secretsFound, m_ennemiesKilled;
+    uint32_t m_levelNum, m_checkpointNum, m_ennemiesKilled;
     Direction_e m_direction;
     PairUI_t m_playerPos;
 };
@@ -319,7 +319,7 @@ private:
     void memCheckpointEnemiesData(bool loadFromCheckpoint, uint32_t enemyEntity, uint32_t cmpt);
     void loadCheckpointsEntities(const LevelManager &levelManager);
     void initStdCollisionCase(uint32_t entityNum, const PairUI_t &mapPos, CollisionTag_e tag);
-    void loadSecretsEntities(const LevelManager &levelManager);
+    void loadBossZoneEntitie(const LevelManager &levelManager);
     void loadLogsEntities(const LevelManager &levelManager, const std::vector<SpriteData> &vectSprite);
     void loadRevealedMap();
     void confVisibleAmmo(uint32_t ammoEntity);
@@ -415,7 +415,7 @@ private:
     *m_memPreviewBazookaIcon = nullptr, *m_memBackgroundGenericMenu = nullptr, *m_memBackgroundTitleMenu = nullptr,
     *m_memBackgroundLeftMenu = nullptr, *m_memBackgroundRightLeftMenu = nullptr;
     MemPlayerConf m_memPlayerConfBeginLevel, m_memPlayerConfCheckpoint;
-    uint32_t m_currentLevelSecretsNumber, m_currentLevelEnemiesNumber, m_currentLevelEnemiesKilled;
+    uint32_t m_currentLevelEnemiesNumber, m_currentLevelEnemiesKilled;
     std::set<PairUI_t> m_memWall, m_memStaticEntitiesDeletedFromCheckpoint, m_currentEntitiesDelete;
     std::map<PairUI_t, uint32_t> m_memTriggerCreated, m_memWallPos;
     //first level num, second true :: customLevel

@@ -411,7 +411,7 @@ void CollisionSystem::initArrayTag()
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::STATIC_SET_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::LOG_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::CHECKPOINT_CT});
-    m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::SECRET_CT});
+    m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::BOSS_ZONE_CT});
 
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::WALL_CT});
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::TRAVERSABLE_WALL_CT});
@@ -804,19 +804,12 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
         m_vectEntitiesToDelete.push_back(args.entityNumB);
         return true;
     }
-    else if(args.tagCompB.m_tagA == CollisionTag_e::SECRET_CT)
+    else if(args.tagCompB.m_tagA == CollisionTag_e::BOSS_ZONE_CT)
     {
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
         assert(playerComp);
-        writePlayerInfo("Secret Found");
-        if(!playerComp->m_secretsFound)
-        {
-            playerComp->m_secretsFound = 1;
-        }
-        else
-        {
-            ++(*playerComp->m_secretsFound);
-        }
+        Level::setScrollingLock(true);
+        writePlayerInfo("Warning");
         m_vectEntitiesToDelete.push_back(args.entityNumB);
         return true;
     }

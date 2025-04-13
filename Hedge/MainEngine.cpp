@@ -298,8 +298,7 @@ void MainEngine::saveGameProgressCheckpoint(uint32_t levelNum, const PairUI_t &c
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerConf);
     uint32_t enemiesKilled = (playerConf->m_enemiesKilled) ? *playerConf->m_enemiesKilled : 0;
-    uint32_t secretsFound = (playerConf->m_secretsFound) ? *playerConf->m_secretsFound : 0;
-    m_memCheckpointLevelState = {levelNum, checkpointData.first, secretsFound, enemiesKilled, checkpointData.second,
+    m_memCheckpointLevelState = {levelNum, checkpointData.first, enemiesKilled, checkpointData.second,
                                  checkpointReached};
     //OOOK SAVE GEAR BEGIN LEVEL
     savePlayerGear(false);
@@ -311,7 +310,7 @@ void MainEngine::saveGameProgressCheckpoint(uint32_t levelNum, const PairUI_t &c
     {
         revealedMap.emplace_back(it->second);
     }
-    m_memCheckpointData = {checkpointData.first, secretsFound, enemiesKilled, checkpointReached,
+    m_memCheckpointData = {checkpointData.first, 0, enemiesKilled, checkpointReached,
                            checkpointData.second, m_memEnemiesStateFromCheckpoint,
                            m_memMoveableWallCheckpointData, m_memTriggerWallMoveableWallCheckpointData,
                            m_memStaticEntitiesDeletedFromCheckpoint, revealedMap, playerConf->m_card};
@@ -1182,7 +1181,7 @@ void MainEngine::loadLevel(const LevelManager &levelManager)
     exit |= loadEnemiesEntities(levelManager);
     assert(exit);
     loadCheckpointsEntities(levelManager);
-    loadSecretsEntities(levelManager);
+    loadBossZoneEntitie(levelManager);
     loadWallEntities(levelManager.getMoveableWallData(), levelManager.getPictureData().getSpriteData());
     loadLogsEntities(levelManager, levelManager.getPictureData().getSpriteData());
     loadRevealedMap();
@@ -1215,7 +1214,6 @@ void MainEngine::loadGameProgressCheckpoint()
     updatePlayerArrow(*moveComp, *pos);
     playerConf->m_currentCheckpoint = {m_memCheckpointLevelState->m_checkpointNum, m_memCheckpointLevelState->m_direction};
     playerConf->m_enemiesKilled = m_memCheckpointLevelState->m_ennemiesKilled;
-    playerConf->m_secretsFound = m_memCheckpointLevelState->m_secretsFound;
 }
 
 //===================================================================
@@ -1675,20 +1673,14 @@ void MainEngine::loadCheckpointsEntities(const LevelManager &levelManager)
 
 
 //===================================================================
-void MainEngine::loadSecretsEntities(const LevelManager &levelManager)
+void MainEngine::loadBossZoneEntitie(const LevelManager &levelManager)
 {
-    const std::vector<PairUI_t> &container = levelManager.getSecretsData();
-    m_currentLevelSecretsNumber = container.size();
-    uint32_t entityNum;
-    for(uint32_t i = 0; i < container.size(); ++i)
+    const std::optional<PairUI_t> &container = levelManager.getBossZoneData();
+    if(!container)
     {
-        if(m_currentEntitiesDelete.find(container[i]) != m_currentEntitiesDelete.end())
-        {
-            continue;
-        }
-        entityNum = createCheckpointEntity();
-        initStdCollisionCase(entityNum, container[i], CollisionTag_e::SECRET_CT);
+        return;
     }
+    initStdCollisionCase(createSecretEntity(), *container, CollisionTag_e::BOSS_ZONE_CT);
 }
 
 //===================================================================
@@ -1862,7 +1854,7 @@ void MainEngine::setMenuEntries(PlayerConfComponent &playerComp, std::optional<u
     WriteComponent *writeCompSelect = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_SELECTED_LINE)]);
     assert(writeCompSelect);
     m_graphicEngine.fillMenuWrite(*writeConf, playerComp.m_menuMode, playerComp.m_currentCursorPos,
-                                  {&playerComp, m_currentLevelSecretsNumber, m_currentLevelEnemiesNumber});
+                                  {&playerComp, 0, m_currentLevelEnemiesNumber});
     if(playerComp.m_menuMode == MenuMode_e::LEVEL_PROLOGUE ||
             playerComp.m_menuMode == MenuMode_e::LEVEL_EPILOGUE ||
             playerComp.m_menuMode == MenuMode_e::TRANSITION_LEVEL)
@@ -2065,7 +2057,6 @@ void MainEngine::reinitPlayerGear()
     playerConf->m_currentCheckpoint = {};
     playerConf->m_enemiesKilled = {};
     playerConf->m_life = 100;
-    playerConf->m_secretsFound = {};
     for(uint32_t i = 0; i < weaponConf->m_weaponsData.size(); ++i)
     {
         weaponConf->m_weaponsData[i].m_posses = m_vectMemWeaponsDefault[i].first;
@@ -2198,7 +2189,7 @@ bool MainEngine::loadCustomLevelGame(LevelState_e levelMode)
 //===================================================================
 void MainEngine::loadCheckpointSavedGame(const MemCheckpointElementsState &checkpointData, bool loadFromSameLevel)
 {
-    m_memCheckpointLevelState = {m_levelToLoad->first, checkpointData.m_checkpointNum, checkpointData.m_secretsNumber,
+    m_memCheckpointLevelState = {m_levelToLoad->first, checkpointData.m_checkpointNum,
                                  checkpointData.m_enemiesKilled, checkpointData.m_direction,
                                  checkpointData.m_checkpointPos};
     if(!loadFromSameLevel)

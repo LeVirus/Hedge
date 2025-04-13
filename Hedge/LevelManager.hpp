@@ -294,9 +294,9 @@ public:
     {
         return m_checkpointsPos;
     }
-    inline const std::vector<PairUI_t> &getSecretsData()const
+    inline const std::optional<PairUI_t> &getBossZoneData()const
     {
-        return m_secretsPos;
+        return m_bossZonePos;
     }
     inline const std::vector<LogLevelData> &getLogsData()const
     {
@@ -309,6 +309,10 @@ public:
     inline const std::vector<PairStrPairFloat_t> &getWeaponsPreviewData()const
     {
         return m_weaponsPreviewData;
+    }
+    inline const std::optional<std::string> &getBossMusic()const
+    {
+        return m_bossMusic;
     }
     bool checkSavedGameExists(uint32_t saveNum)const;
 private:
@@ -374,7 +378,7 @@ private:
     //return true if one enemy is end level
     bool loadPositionEnemyData();
     void loadPositionCheckpointsData();
-    void loadPositionSecretsData();
+    void loadPositionBossZoneData();
     void loadPositionLogsData();
     void loadPrologueAndEpilogue();
     void loadUtilsData();
@@ -413,7 +417,8 @@ private:
     PlayerData m_playerData;
     std::map<std::string, MemSpriteData> m_triggerDisplayData;
     std::vector<MemSpriteData> m_displayTeleportData;
-    std::vector<PairUI_t> m_secretsPos;
+    std::optional<PairUI_t> m_bossZonePos;
+    std::optional<std::string> m_bossMusic;
     std::vector<LogLevelData> m_logsLevelData;
     std::string m_prologue, m_epilogue, m_epilogueMusic;
     //first ID, second Std data

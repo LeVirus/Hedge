@@ -1545,14 +1545,18 @@ void LevelManager::loadPositionCheckpointsData()
 }
 
 //===================================================================
-void LevelManager::loadPositionSecretsData()
+void LevelManager::loadPositionBossZoneData()
 {
     std::vector<std::string> vectINISections;
-    m_secretsPos.clear();
-    vectINISections = m_ini.getSectionNamesContaining("Secrets");
+    m_bossZonePos = std::nullopt;
+    vectINISections = m_ini.getSectionNamesContaining("BossZone");
     if(!vectINISections.empty())
     {
-        fillStandartPositionVect(vectINISections[0], m_secretsPos);
+        std::optional<std::string> posX = m_ini.getValue(vectINISections[0], "GamePositionX"), posY = m_ini.getValue(vectINISections[0], "GamePositionY");
+        assert(posX);
+        assert(posY);
+        m_bossZonePos = {stoi(*posX), stoi(*posY)};
+        m_bossMusic = m_ini.getValue(vectINISections[0], "music");
     }
 }
 
@@ -2027,7 +2031,7 @@ LevelLoadState_e LevelManager::loadLevel(uint32_t levelNum, bool customLevel)
         return LevelLoadState_e::FAIL;
     }
     loadPositionCheckpointsData();
-    loadPositionSecretsData();
+    loadPositionBossZoneData();
     loadPositionLogsData();
     loadPrologueAndEpilogue();
     if(!loadBackgroundData())

@@ -361,7 +361,7 @@ enum class CollisionTag_e
     STATIC_SET_CT,
     IMPACT_CT,
     CHECKPOINT_CT,
-    SECRET_CT,
+    BOSS_ZONE_CT,
     TELEPORT_ANIM_CT,
     DEAD_CORPSE_CT,
     LOG_CT,
