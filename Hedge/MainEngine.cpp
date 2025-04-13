@@ -3496,15 +3496,18 @@ void MainEngine::linkSystemsToPhysicalEngine()
     IASystem *iaSystem = Ecsm_t::instance().getSystem<IASystem>(static_cast<uint32_t>(Systems_e::IA_SYSTEM));
     GravitySystem *gravSystem = Ecsm_t::instance().getSystem<GravitySystem>(static_cast<uint32_t>(Systems_e::GRAVITY_SYSTEM));
     PlatformSystem *platformSystem = Ecsm_t::instance().getSystem<PlatformSystem>(static_cast<uint32_t>(Systems_e::PLATFORM_SYSTEM));
+    VisionSystem *visionSystem = Ecsm_t::instance().getSystem<VisionSystem>(static_cast<uint32_t>(Systems_e::VISION_SYSTEM));
     assert(input);
     assert(coll);
     assert(iaSystem);
     assert(gravSystem);
     assert(platformSystem);
+    assert(visionSystem);
     input->linkMainEngine(this);
     input->init(m_graphicEngine.getGLWindow());
     iaSystem->linkMainEngine(this);
     coll->linkMainEngine(this);
+    visionSystem->linkMainEngine(this);
     m_physicalEngine.linkSystems(input, coll, iaSystem, gravSystem, platformSystem);
 }
 

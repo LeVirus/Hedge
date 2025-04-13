@@ -40,6 +40,10 @@ public:
     {
         return m_vectBarrelsEntitiesToDelete;
     }
+    inline void linkMainEngine(MainEngine *mainEngine)
+    {
+        m_refMainEngine = mainEngine;
+    }
 private:
     void setUsedComponents();
     void updateSprites();

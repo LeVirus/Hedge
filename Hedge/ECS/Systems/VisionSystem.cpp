@@ -169,6 +169,7 @@ void VisionSystem::updateEnemySprites(uint32_t enemyEntity,
             enemyConfComp.m_displayMode = EnemyDisplayMode_e::DEAD;
             if(enemyConfComp.m_endLevel)
             {
+                assert(m_refMainEngine);
                 m_refMainEngine->activeEndLevel();
             }
         }
