@@ -809,6 +809,7 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
         assert(playerComp);
         Level::setScrollingLock(true);
+        m_refMainEngine->playBossMusic();
         writePlayerInfo("Warning");
         m_vectEntitiesToDelete.push_back(args.entityNumB);
         return true;

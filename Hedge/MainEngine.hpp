@@ -115,6 +115,7 @@ public:
     void init(Game *refGame);
     LevelState displayTitleMenu(const LevelManager &levelManager);
     void loadLevel(const LevelManager &levelManager);
+    void playBossMusic();
     void loadGameProgressCheckpoint();
     //first quit, second gameover
     LevelState mainLoop(uint32_t levelNum, LevelState_e levelState, bool afterLoadFailure, bool customLevel);
@@ -433,6 +434,7 @@ private:
     std::optional<MemCheckpointLevelState> m_memCheckpointLevelState;
     std::optional<MemCheckpointElementsState> m_memCheckpointData;
     MemSoundElement m_memSoundElements;
+    std::string m_bossMusic;
 };
 
 float randFloat(float min, float max);

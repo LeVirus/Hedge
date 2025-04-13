@@ -1198,6 +1198,14 @@ void MainEngine::loadLevel(const LevelManager &levelManager)
 }
 
 //===================================================================
+void MainEngine::playBossMusic()
+{
+    m_audioEngine.stopMusic();
+    m_audioEngine.loadMusicFromFile(m_bossMusic);
+    m_audioEngine.playMusic();
+}
+
+//===================================================================
 void MainEngine::loadGameProgressCheckpoint()
 {
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
@@ -1675,6 +1683,15 @@ void MainEngine::loadCheckpointsEntities(const LevelManager &levelManager)
 //===================================================================
 void MainEngine::loadBossZoneEntitie(const LevelManager &levelManager)
 {
+    std::optional<std::string> music = levelManager.getBossMusic();
+    if(music)
+    {
+        m_bossMusic = *music;
+    }
+    else
+    {
+        m_bossMusic.clear();
+    }
     const std::optional<PairUI_t> &container = levelManager.getBossZoneData();
     if(!container)
     {

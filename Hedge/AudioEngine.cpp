@@ -140,6 +140,15 @@ void AudioEngine::playMusic()
 }
 
 //===================================================================
+void AudioEngine::stopMusic()
+{
+    if(m_musicElement)
+    {
+        m_soundSystem->stop(m_musicElement->first);
+    }
+}
+
+//===================================================================
 void AudioEngine::clearSourceAndBuffer()
 {
     m_soundSystem->cleanUp();

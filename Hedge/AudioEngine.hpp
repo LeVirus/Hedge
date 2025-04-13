@@ -20,6 +20,7 @@ public:
     void initOpenAL();
     void shutdownOpenAL();
     void playMusic();
+    void stopMusic();
     void clearSourceAndBuffer();
     void runIteration();
     void playEpilogueMusic();
