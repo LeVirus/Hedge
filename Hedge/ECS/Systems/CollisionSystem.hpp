@@ -79,7 +79,6 @@ private:
     bool treatCollisionFirstCircle(CollisionArgs &args);
     bool treatCollisionPlayer(CollisionArgs &args);
     void setDamageCircle(uint32_t shotEntity, bool active, uint32_t baseEntity = 0);
-    void treatActionPlayerCircle(CollisionArgs &args);
     void treatPlayerPickObject(CollisionArgs &args);
     void treatCollisionFirstSegment(CollisionArgs &args);
     void treatCrushing(uint32_t entityNum);

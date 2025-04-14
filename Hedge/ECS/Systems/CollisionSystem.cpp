@@ -412,6 +412,8 @@ void CollisionSystem::initArrayTag()
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::LOG_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::CHECKPOINT_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::BOSS_ZONE_CT});
+    m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::LOG_CT});
+    m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::EXIT_CT});
 
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::WALL_CT});
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::TRAVERSABLE_WALL_CT});
@@ -542,6 +544,22 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
             {
                 treatPlayerPickObject(args);
             }
+            else if(args.tagCompB.m_tagA == CollisionTag_e::EXIT_CT)
+            {
+                m_refMainEngine->activeEndLevel();
+            }
+            else if(args.tagCompB.m_tagA == CollisionTag_e::LOG_CT)
+            {
+                PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                LogComponent *logComp = Ecsm_t::instance().getComponent<LogComponent, Components_e::LOG_COMPONENT>(args.entityNumB);
+                assert(playerComp);
+                assert(logComp);
+                playerComp->m_infoWriteData = {true, logComp->m_message};
+                TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_memEntityAssociated);
+                assert(timerComp);
+                timerComp->m_cycleCountA = 0;
+                timerComp->m_timeIntervalOptional = 4.0 / FPS_VALUE;
+            }
         }
     }
         break;
@@ -652,11 +670,7 @@ bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args)
                                                args.mapCompB.m_absoluteMapPositionPX, circleCompB->m_ray);
         if(collision)
         {
-            if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_ACTION_CT)
-            {
-                treatActionPlayerCircle(args);
-            }
-            else if(args.tagCompA.m_tagA == CollisionTag_e::HIT_PLAYER_CT)
+            if(args.tagCompA.m_tagA == CollisionTag_e::HIT_PLAYER_CT)
             {
                 ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumA);
                 assert(shotConfComp);
@@ -846,27 +860,6 @@ void CollisionSystem::activeSound(uint32_t entityNum)
     AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(entityNum);
     assert(audioComp);
     audioComp->m_soundElements[0]->m_toPlay = true;
-}
-
-//===================================================================
-void CollisionSystem::treatActionPlayerCircle(CollisionArgs &args)
-{
-    if(args.tagCompB.m_tagA == CollisionTag_e::EXIT_CT)
-    {
-        m_refMainEngine->activeEndLevel();
-    }
-    else if(args.tagCompB.m_tagA == CollisionTag_e::LOG_CT)
-    {
-        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-        LogComponent *logComp = Ecsm_t::instance().getComponent<LogComponent, Components_e::LOG_COMPONENT>(args.entityNumB);
-        assert(playerComp);
-        assert(logComp);
-        playerComp->m_infoWriteData = {true, logComp->m_message};
-        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_memEntityAssociated);
-        assert(timerComp);
-        timerComp->m_cycleCountA = 0;
-        timerComp->m_timeIntervalOptional = 4.0 / FPS_VALUE;
-    }
 }
 
 //===================================================================

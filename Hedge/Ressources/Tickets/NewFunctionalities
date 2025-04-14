@@ -38,8 +38,9 @@ Add elements to avoid in levels
 
 ))
 Make bosses
-	-Change music when arena is reached 
-	-Freeze camera
+	-Set bosses in conf files
+	-Change music when arena is reached--------------OK
+	-Freeze camera-------OK
 		*********Modif LEVEL EDITOR--OK
 
 ))
