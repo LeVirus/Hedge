@@ -239,6 +239,7 @@ void StaticDisplaySystem::treatCurrentEndDialogPlayer(PlayerConfComponent &playe
         playerComp.m_infoWriteData.second = m_dialogMessage.substr(m_currentDialogCursor,(m_dialogMessage.size() - m_currentDialogCursor));
         m_currentDialogCursor = m_dialogMessage.size();
     }
+    m_lockPassDialog = true;
 }
 
 //===================================================================
@@ -246,7 +247,15 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
 {
     std::string infoToWrite = playerComp.m_infoWriteData.second;
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
-    if(!m_dialogPass && playerComp.m_dialogPass)
+    if(m_lockPassDialog && playerComp.m_dialogPass)
+    {
+        playerComp.m_dialogPass = false;
+    }
+    else
+    {
+        m_lockPassDialog = false;
+    }
+    if(!m_lockPassDialog && !m_dialogPass && playerComp.m_dialogPass)
     {
         if(m_currentDialogToDisplay != playerComp.m_infoWriteData.second.size()/* - 1*/)
         {
