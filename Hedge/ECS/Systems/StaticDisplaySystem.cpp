@@ -189,7 +189,6 @@ void StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
 {
     std::string infoToWrite = playerComp.m_infoWriteData.second;
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
-    // GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
     if(!m_dialogPass && playerComp.m_dialogPass)
     {
         if(m_currentDialogToDisplay != playerComp.m_infoWriteData.second.size() - 1)
@@ -222,11 +221,15 @@ void StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
     drawWriteVertex(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::NUM_INFO_WRITE)], VertexID_e::INFO, Font_e::STANDARD, infoToWrite);
     if(!m_dialogPass && playerComp.m_dialogPass)
     {
+        GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
+        assert(gravComp);
+        gravComp->m_jump = false;
         playerComp.m_infoWriteData.first = false;
         timerComp->m_timeIntervalOptional = {};
         Level::setDialogMode(false);
         m_currentDialogToDisplay = 0;
         m_dialogPass = false;
+        // playerComp.m_dialogPass = false;
     }
 }
 

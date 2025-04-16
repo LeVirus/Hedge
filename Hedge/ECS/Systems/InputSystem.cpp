@@ -143,12 +143,12 @@ void InputSystem::treatPlayerInput()
         {
             m_keyEspapePressed = false;
         }
-        if(Level::getDialogMode())
+        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+        if(Level::getDialogMode() || playerComp->m_dialogPass)
         {
             treatDialogInput();
             return;
         }
-        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
         if(playerComp->m_damageAnim)
@@ -205,7 +205,7 @@ void InputSystem::treatPlayerInput()
                 playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
             }
         }
-        if(checkPlayerKeyTriggered(ControlKey_e::JUMP))
+        if(!playerComp->m_dialogPass && checkPlayerKeyTriggered(ControlKey_e::JUMP))
         {
             if(!gravityComp->m_jump && gravityComp->m_onGround)
             {
@@ -315,11 +315,11 @@ void InputSystem::treatDialogInput()
 {
     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerComp);
-    if(!playerComp->m_dialogPass && (checkPlayerKeyTriggered(ControlKey_e::JUMP) /*|| checkPlayerKeyTriggered(ControlKey_e::SHOOT)*/))
+    if(!playerComp->m_dialogPass && (checkPlayerKeyTriggered(ControlKey_e::JUMP)))
     {
         playerComp->m_dialogPass = true;
     }
-    else if(playerComp->m_dialogPass && (checkPlayerKeyTriggered(ControlKey_e::JUMP, GLFW_RELEASE) /*|| checkPlayerKeyTriggered(ControlKey_e::SHOOT, GLFW_RELEASE)*/))
+    else if(playerComp->m_dialogPass && (checkPlayerKeyTriggered(ControlKey_e::JUMP, GLFW_RELEASE)))
     {
         playerComp->m_dialogPass = false;
     }
