@@ -100,7 +100,9 @@ private:
     void drawTeleportAnimation(PlayerConfComponent &playerComp);
     void loadMenuBackground(uint32_t backgroundEntity, SpriteTextureComponent &spriteBackgroundComp, VertexID_e type);
     void drawWriteInfoPlayer(PlayerConfComponent &playerComp);
-    void drawDialogPlayer(PlayerConfComponent &playerComp);
+    void confDialogPlayer(PlayerConfComponent &playerComp);
+    void treatCurrentEndDialogPlayer(PlayerConfComponent &playerComp);
+    bool drawDialogPlayer(PlayerConfComponent &playerComp);
     void drawBasicInfoPlayer(PlayerConfComponent &playerComp);
     void drawWeaponsPreviewPlayer(const PlayerConfComponent &playerComp,
                                   const WeaponComponent &weaponComp);
@@ -127,9 +129,10 @@ private:
     float m_middleWeaponMovementX = m_forkWeaponMovementX.first + (m_forkWeaponMovementX.second -
                                                                    m_forkWeaponMovementX.first) / 2.0f;
     //FORCE UPDATE AT LAUNCH
-    uint32_t m_resolutionDisplayMenuEntity,
+    uint32_t m_resolutionDisplayMenuEntity, m_currentDialogCursor,
     m_fullscreenMenuEntity, m_infoWriteStandardInterval = 1.5 / FPS_VALUE;
     ArrayControlKey_t m_inputMenuKeyboardWriteKeysEntities, m_inputMenuGamepadWriteKeysEntities;
+    std::string m_dialogMessage;
     const std::array<float, static_cast<uint32_t>(Font_e::TOTAL)> COHEF_WRITE_FONT =
     {
             4.0f,

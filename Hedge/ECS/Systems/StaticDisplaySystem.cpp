@@ -175,7 +175,11 @@ void StaticDisplaySystem::drawWriteInfoPlayer(PlayerConfComponent &playerComp)
     {
         if(Level::getDialogMode())
         {
-            drawDialogPlayer(playerComp);
+            confDialogPlayer(playerComp);
+            if(drawDialogPlayer(playerComp))
+            {
+                treatCurrentEndDialogPlayer(playerComp);
+            }
         }
         else
         {
@@ -185,15 +189,68 @@ void StaticDisplaySystem::drawWriteInfoPlayer(PlayerConfComponent &playerComp)
 }
 
 //===================================================================
-void StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
+void StaticDisplaySystem::confDialogPlayer(PlayerConfComponent &playerComp)
+{
+    //BEGIN
+    if(m_dialogMessage.empty())
+    {
+        m_dialogMessage = playerComp.m_infoWriteData.second;
+        std::string::size_type sz = m_dialogMessage.find_first_of("*");
+        if(sz != std::string::npos)
+        {
+            playerComp.m_infoWriteData.second = m_dialogMessage.substr(0, sz);
+            m_currentDialogCursor = playerComp.m_infoWriteData.second.size() + 1;
+        }
+        //ONLY ONE MESSAGE
+        else
+        {
+            m_currentDialogCursor = m_dialogMessage.size();
+        }
+    }
+}
+
+//===================================================================
+void StaticDisplaySystem::treatCurrentEndDialogPlayer(PlayerConfComponent &playerComp)
+{
+    //END
+    if(m_currentDialogCursor >= m_dialogMessage.size())
+    {
+        //FINAL
+        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+        assert(timerComp);
+        GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
+        assert(gravComp);
+        playerComp.m_infoWriteData.first = false;
+        gravComp->m_jump = false;
+        timerComp->m_timeIntervalOptional = {};
+        Level::setDialogMode(false);
+        return;
+    }
+    std::string::size_type sz = m_dialogMessage.find("*", ++m_currentDialogCursor);
+    //NEXT MESSAGE
+    if(sz != std::string::npos)
+    {
+        playerComp.m_infoWriteData.second = m_dialogMessage.substr(m_currentDialogCursor, sz - m_currentDialogCursor);
+        m_currentDialogCursor = sz;
+    }
+    //FINAL MESSAGE
+    else
+    {
+        playerComp.m_infoWriteData.second = m_dialogMessage.substr(m_currentDialogCursor,(m_dialogMessage.size() - m_currentDialogCursor));
+        m_currentDialogCursor = m_dialogMessage.size();
+    }
+}
+
+//===================================================================
+bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
 {
     std::string infoToWrite = playerComp.m_infoWriteData.second;
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
     if(!m_dialogPass && playerComp.m_dialogPass)
     {
-        if(m_currentDialogToDisplay != playerComp.m_infoWriteData.second.size() - 1)
+        if(m_currentDialogToDisplay != playerComp.m_infoWriteData.second.size()/* - 1*/)
         {
-            m_currentDialogToDisplay = playerComp.m_infoWriteData.second.size() - 1;
+            m_currentDialogToDisplay = playerComp.m_infoWriteData.second.size()/* - 1*/;
             m_dialogPass = true;
         }
     }
@@ -229,15 +286,12 @@ void StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
     //END MESSAGE
     if(!m_dialogPass && playerComp.m_dialogPass)
     {
-        GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
-        assert(gravComp);
-        gravComp->m_jump = false;
-        playerComp.m_infoWriteData.first = false;
-        timerComp->m_timeIntervalOptional = {};
-        Level::setDialogMode(false);
+        playerComp.m_infoWriteData.second.clear();
         m_currentDialogToDisplay = 0;
         m_dialogPass = false;
+        return true;
     }
+    return false;
 }
 
 //===================================================================
