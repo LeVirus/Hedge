@@ -193,7 +193,6 @@ void StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
     {
         if(m_currentDialogToDisplay != playerComp.m_infoWriteData.second.size() - 1)
         {
-            infoToWrite = playerComp.m_infoWriteData.second;
             m_currentDialogToDisplay = playerComp.m_infoWriteData.second.size() - 1;
             m_dialogPass = true;
         }
@@ -204,8 +203,16 @@ void StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
         if(m_currentDialogToDisplay == 0)
         {
             ++m_currentDialogToDisplay;
-            timerComp->m_timeIntervalOptional = 10;
-            // m_currentDialogToDisplay = playerComp.m_infoWriteData.second.find_first_of(":");
+            timerComp->m_timeIntervalOptional = 6;
+            std::string::size_type sz = playerComp.m_infoWriteData.second.find_first_of(":");
+            if(sz != std::string::npos)
+            {
+                m_currentDialogToDisplay = sz;
+                if(playerComp.m_infoWriteData.second.size() > sz)
+                {
+                    ++m_currentDialogToDisplay;
+                }
+            }
         }
         infoToWrite = infoToWrite.substr(0, m_currentDialogToDisplay);
         if(m_currentDialogToDisplay < (playerComp.m_infoWriteData.second.size() - 1) && ++timerComp->m_cycleCountA == timerComp->m_timeIntervalOptional)
@@ -219,6 +226,7 @@ void StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
         m_dialogPass = false;
     }
     drawWriteVertex(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::NUM_INFO_WRITE)], VertexID_e::INFO, Font_e::STANDARD, infoToWrite);
+    //END MESSAGE
     if(!m_dialogPass && playerComp.m_dialogPass)
     {
         GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
@@ -229,7 +237,6 @@ void StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
         Level::setDialogMode(false);
         m_currentDialogToDisplay = 0;
         m_dialogPass = false;
-        // playerComp.m_dialogPass = false;
     }
 }
 
