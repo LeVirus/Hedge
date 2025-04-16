@@ -173,16 +173,76 @@ void StaticDisplaySystem::drawWriteInfoPlayer(PlayerConfComponent &playerComp)
 {
     if(playerComp.m_infoWriteData.first)
     {
-        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
-        drawWriteVertex(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::NUM_INFO_WRITE)], VertexID_e::INFO, Font_e::STANDARD, playerComp.m_infoWriteData.second);
-        uint32_t maxTime = (!timerComp->m_timeIntervalOptional) ? m_infoWriteStandardInterval : *timerComp->m_timeIntervalOptional;
-        if(++timerComp->m_cycleCountA >= maxTime)
+        if(Level::getDialogMode())
         {
-            playerComp.m_infoWriteData.first = false;
-            timerComp->m_timeIntervalOptional = {};
-            timerComp->m_cycleCountA = 0;
-
+            drawDialogPlayer(playerComp);
         }
+        else
+        {
+            drawBasicInfoPlayer(playerComp);
+        }
+    }
+}
+
+//===================================================================
+void StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
+{
+    std::string infoToWrite = playerComp.m_infoWriteData.second;
+    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+    // GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
+    if(!m_dialogPass && playerComp.m_dialogPass)
+    {
+        if(m_currentDialogToDisplay != playerComp.m_infoWriteData.second.size() - 1)
+        {
+            infoToWrite = playerComp.m_infoWriteData.second;
+            m_currentDialogToDisplay = playerComp.m_infoWriteData.second.size() - 1;
+            m_dialogPass = true;
+        }
+    }
+    else
+    {
+        ///!!!OOOOOOK METTRE LES : Avant chaque portion du message!!!!
+        if(m_currentDialogToDisplay == 0)
+        {
+            ++m_currentDialogToDisplay;
+            timerComp->m_timeIntervalOptional = 10;
+            // m_currentDialogToDisplay = playerComp.m_infoWriteData.second.find_first_of(":");
+        }
+        infoToWrite = infoToWrite.substr(0, m_currentDialogToDisplay);
+        if(m_currentDialogToDisplay < (playerComp.m_infoWriteData.second.size() - 1) && ++timerComp->m_cycleCountA == timerComp->m_timeIntervalOptional)
+        {
+            timerComp->m_cycleCountA = 0;
+            ++m_currentDialogToDisplay;
+        }
+    }
+    if(m_dialogPass && !playerComp.m_dialogPass)
+    {
+        m_dialogPass = false;
+    }
+    drawWriteVertex(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::NUM_INFO_WRITE)], VertexID_e::INFO, Font_e::STANDARD, infoToWrite);
+    if(!m_dialogPass && playerComp.m_dialogPass)
+    {
+        playerComp.m_infoWriteData.first = false;
+        timerComp->m_timeIntervalOptional = {};
+        Level::setDialogMode(false);
+        m_currentDialogToDisplay = 0;
+        m_dialogPass = false;
+    }
+}
+
+//===================================================================
+void StaticDisplaySystem::drawBasicInfoPlayer(PlayerConfComponent &playerComp)
+{
+    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+    drawWriteVertex(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::NUM_INFO_WRITE)], VertexID_e::INFO, Font_e::STANDARD, playerComp.m_infoWriteData.second);
+    uint32_t maxTime = (!timerComp->m_timeIntervalOptional) ? m_infoWriteStandardInterval : *timerComp->m_timeIntervalOptional;
+    if(++timerComp->m_cycleCountA >= maxTime)
+    {
+        playerComp.m_infoWriteData.first = false;
+        timerComp->m_timeIntervalOptional = {};
+        timerComp->m_cycleCountA = 0;
+        Level::setDialogMode(false);
+        m_currentDialogToDisplay = 0;
     }
 }
 

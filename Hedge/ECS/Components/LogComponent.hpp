@@ -8,4 +8,5 @@ struct LogComponent : public ECS::Component
 {
     LogComponent() = default;
     std::string m_message;
+    bool m_activated = false;
 };

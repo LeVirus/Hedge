@@ -178,6 +178,14 @@ public:
     {
         return m_scrollingLock;
     }
+    inline static void setDialogMode(bool dialog)
+    {
+        m_dialog = dialog;
+    }
+    inline static bool getDialogMode()
+    {
+        return m_dialog;
+    }
     /**
      * @brief updateVisualOrientation Modify vertex position relative to orientation.
      */
@@ -190,7 +198,7 @@ private:
     static std::vector<ElementRaycast> m_levelCaseType;
     static float m_rangeViewPX;
     static std::string m_musicFile;
-    static bool m_scrollingLock;
+    static bool m_scrollingLock, m_dialog;
 };
 
 PairFloat_t getAbsolutePosition(const PairUI_t &coord);

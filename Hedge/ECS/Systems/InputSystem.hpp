@@ -139,9 +139,10 @@ private:
     void setUsedComponents();
     void getGamepadInputs();
     void treatPlayerInput();
+    void treatDialogInput();
     void treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp, MapCoordComponent &mapComp, MoveableComponent &moveComp, uint32_t playerEntity);
     std::optional<double> getXMouseMotion();
-    bool checkPlayerKeyTriggered(ControlKey_e key);
+    bool checkPlayerKeyTriggered(ControlKey_e key, int state = GLFW_PRESS);
     void treatMenu();
     void treatAxisRelease();
     void treatReleaseInputMenu();

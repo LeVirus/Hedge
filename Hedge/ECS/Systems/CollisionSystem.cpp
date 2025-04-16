@@ -550,15 +550,20 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
             }
             else if(args.tagCompB.m_tagA == CollisionTag_e::LOG_CT)
             {
-                PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
                 LogComponent *logComp = Ecsm_t::instance().getComponent<LogComponent, Components_e::LOG_COMPONENT>(args.entityNumB);
-                assert(playerComp);
                 assert(logComp);
-                playerComp->m_infoWriteData = {true, logComp->m_message};
-                TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_memEntityAssociated);
-                assert(timerComp);
-                timerComp->m_cycleCountA = 0;
-                timerComp->m_timeIntervalOptional = 4.0 / FPS_VALUE;
+                if(!logComp->m_activated)
+                {
+                    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                    assert(playerComp);
+                    logComp->m_activated = true;
+                    playerComp->m_infoWriteData = {true, logComp->m_message};
+                    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_memEntityAssociated);
+                    assert(timerComp);
+                    timerComp->m_cycleCountA = 0;
+                    timerComp->m_timeIntervalOptional = 4.0 / FPS_VALUE;
+                    Level::setDialogMode(true);
+                }
             }
         }
     }

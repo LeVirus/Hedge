@@ -143,6 +143,11 @@ void InputSystem::treatPlayerInput()
         {
             m_keyEspapePressed = false;
         }
+        if(Level::getDialogMode())
+        {
+            treatDialogInput();
+            return;
+        }
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
@@ -306,6 +311,21 @@ void InputSystem::treatPlayerInput()
 }
 
 //===================================================================
+void InputSystem::treatDialogInput()
+{
+    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerComp);
+    if(!playerComp->m_dialogPass && (checkPlayerKeyTriggered(ControlKey_e::JUMP) /*|| checkPlayerKeyTriggered(ControlKey_e::SHOOT)*/))
+    {
+        playerComp->m_dialogPass = true;
+    }
+    else if(playerComp->m_dialogPass && (checkPlayerKeyTriggered(ControlKey_e::JUMP, GLFW_RELEASE) /*|| checkPlayerKeyTriggered(ControlKey_e::SHOOT, GLFW_RELEASE)*/))
+    {
+        playerComp->m_dialogPass = false;
+    }
+}
+
+//===================================================================
 void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp, MapCoordComponent &mapComp, MoveableComponent &moveComp, uint32_t playerEntity)
 {
     playerComp.m_currentAim.fill(false);
@@ -430,27 +450,42 @@ std::optional<double> InputSystem::getXMouseMotion()
 }
 
 //===================================================================
-bool InputSystem::checkPlayerKeyTriggered(ControlKey_e key)
+bool InputSystem::checkPlayerKeyTriggered(ControlKey_e key, int state)
 {
     //KEYBOARD
-    if(glfwGetKey(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == GLFW_PRESS)
+    if(state == GLFW_PRESS)
     {
-        return true;
+        if(glfwGetKey(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == state)
+        {
+            return true;
+        }
+        if(glfwGetMouseButton(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == state)
+        {
+            return true;
+        }
     }
-    if(glfwGetMouseButton(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == GLFW_PRESS)
+    else
     {
-        return true;
+        if(glfwGetKey(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == state && glfwGetMouseButton(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == state)
+        {
+            return true;
+        }
     }
     //GAMEPAD
     if(!m_mapGamepadID.empty())
     {
         if(m_mapGamepadCurrentAssociatedKey[key].m_standardButton)
         {
-            if(m_gamepadButtonsKeyPressed[m_mapGamepadCurrentAssociatedKey[key].m_keyID])
+            bool res = m_gamepadButtonsKeyPressed[m_mapGamepadCurrentAssociatedKey[key].m_keyID];
+            if(state == GLFW_RELEASE && !res)
             {
                 return false;
             }
-            if(checkStandardButtonGamepadKeyStatus(m_mapGamepadCurrentAssociatedKey[key].m_keyID, GLFW_PRESS))
+            else if(state == GLFW_PRESS && res)
+            {
+                return false;
+            }
+            if(checkStandardButtonGamepadKeyStatus(m_mapGamepadCurrentAssociatedKey[key].m_keyID, state))
             {
                 return true;
             }
@@ -458,7 +493,12 @@ bool InputSystem::checkPlayerKeyTriggered(ControlKey_e key)
         else
         {
             assert(m_mapGamepadCurrentAssociatedKey[key].m_axisPos);
-            if(checkAxisGamepadKeyStatus(m_mapGamepadCurrentAssociatedKey[key].m_keyID, *m_mapGamepadCurrentAssociatedKey[key].m_axisPos))
+            bool res = checkAxisGamepadKeyStatus(m_mapGamepadCurrentAssociatedKey[key].m_keyID, *m_mapGamepadCurrentAssociatedKey[key].m_axisPos);
+            if(state == GLFW_RELEASE && !res)
+            {
+                return true;
+            }
+            else if(state == GLFW_PRESS && res)
             {
                 return true;
             }

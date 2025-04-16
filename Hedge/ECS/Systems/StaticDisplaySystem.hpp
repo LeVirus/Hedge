@@ -100,6 +100,8 @@ private:
     void drawTeleportAnimation(PlayerConfComponent &playerComp);
     void loadMenuBackground(uint32_t backgroundEntity, SpriteTextureComponent &spriteBackgroundComp, VertexID_e type);
     void drawWriteInfoPlayer(PlayerConfComponent &playerComp);
+    void drawDialogPlayer(PlayerConfComponent &playerComp);
+    void drawBasicInfoPlayer(PlayerConfComponent &playerComp);
     void drawWeaponsPreviewPlayer(const PlayerConfComponent &playerComp,
                                   const WeaponComponent &weaponComp);
     void confWriteVertex(WriteComponent &writeComp, PositionVertexComponent &posComp,
@@ -110,10 +112,10 @@ private:
     void confWeaponsVertexFromComponent(PlayerConfComponent &playerComp, SpriteTextureComponent &weaponSpriteComp);
     void treatWeaponShootAnimation(PlayerConfComponent &playerComp, TimerComponent &timerComp);
 private:
-    uint32_t m_playerEntity;
+    uint32_t m_playerEntity, m_currentDialogToDisplay = 0;
     MainEngine *m_mainEngine;
     FontData const *m_fontDataPtr;
-    bool m_menuBackgroundInit = false;
+    bool m_menuBackgroundInit = false, m_dialogPass = false;
     Shader *m_shader;
     std::array<VerticesData, static_cast<uint32_t>(VertexID_e::TOTAL)> m_vertices;
     std::vector<Texture> *m_ptrVectTexture = nullptr;

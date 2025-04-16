@@ -143,6 +143,7 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
     m_physicalEngine.updateMousePos();
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerConf);
+    bool currentDialog;
     do
     {
         elapsed_seconds = std::chrono::system_clock::now() - clock;
@@ -150,6 +151,7 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
         {
             continue;
         }
+        currentDialog = Level::getDialogMode();
         //display FPS
 //        fps = std::chrono::system_clock::now() - clockFrame;
 //        std::cout << 1.0f / fps.count() << "  " << fps.count() << " FPS\n";
@@ -157,7 +159,7 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
         //UpdateEntities TMP
         Ecsm_t::instance().updateEntitiesFromSystems();
         clock = std::chrono::system_clock::now();
-        m_physicalEngine.runIteration(m_gamePaused);
+        m_physicalEngine.runIteration(m_gamePaused || currentDialog);
         //LOAD if level to load break the loop
         if(m_levelToLoad)
         {
