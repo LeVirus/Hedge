@@ -281,7 +281,7 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
             }
         }
         infoToWrite = infoToWrite.substr(0, m_currentDialogToDisplay);
-        if(m_currentDialogToDisplay < (playerComp.m_infoWriteData.second.first.size() - 1) && ++timerComp->m_cycleCountA == timerComp->m_timeIntervalOptional)
+        if(m_currentDialogToDisplay < (playerComp.m_infoWriteData.second.first.size()) && ++timerComp->m_cycleCountA == timerComp->m_timeIntervalOptional)
         {
             timerComp->m_cycleCountA = 0;
             ++m_currentDialogToDisplay;
