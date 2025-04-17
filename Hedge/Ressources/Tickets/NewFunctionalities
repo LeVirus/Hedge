@@ -43,10 +43,6 @@ Make bosses
 	-Freeze camera-------OK
 		*********Modif LEVEL EDITOR--OK
 
-))
-Add dialog cutscene 
-	-Display head of charachter talking in the dialog box (like megaman X)
-		*********Modif LEVEL EDITOR--OK
 
 =========================================================================================A VOIR
 
@@ -57,6 +53,10 @@ Add several life for a level
 =============================================================================================================================
 =============================================================================================================================
 
+))
+Add dialog cutscene========================================================================OK 
+	-Display head of charachter talking in the dialog box (like megaman X)
+		*********Modif LEVEL EDITOR--OK
 ))
 Make enemies hitbox fit display==============================OK
 	-Modif display scale on map
