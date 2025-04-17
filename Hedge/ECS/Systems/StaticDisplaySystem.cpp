@@ -294,10 +294,6 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
                 }
             }
         }
-        if(m_memDialogSprite)
-        {
-            drawPictureDialog(*m_memDialogSprite, playerComp.m_infoWriteData.second.second);
-        }
         infoToWrite = infoToWrite.substr(0, m_currentDialogToDisplay);
         if(m_currentDialogToDisplay < (playerComp.m_infoWriteData.second.first.size()) && ++timerComp->m_cycleCountA == timerComp->m_timeIntervalOptional)
         {
@@ -313,6 +309,12 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
         m_dialogPass = false;
     }
     drawWriteVertex(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::NUM_INFO_WRITE)], VertexID_e::INFO, Font_e::STANDARD, infoToWrite);
+    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::NUM_INFO_WRITE)]);
+    assert(posComp);
+    if(m_memDialogSprite)
+    {
+        drawPictureDialog(*m_memDialogSprite, playerComp.m_infoWriteData.second.second, {posComp->m_vertex[0].first - 0.02f, posComp->m_vertex[0].second});
+    }
     //END MESSAGE
     if(!m_dialogPass && playerComp.m_dialogPass)
     {
@@ -325,7 +327,7 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
 }
 
 //===================================================================
-void StaticDisplaySystem::drawPictureDialog(uint32_t numSprite, uint32_t logEntity)
+void StaticDisplaySystem::drawPictureDialog(uint32_t numSprite, uint32_t logEntity, const PairFloat_t &rightUpPos)
 {
     MemSpriteDataComponent *memSprite = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(logEntity);
     assert(memSprite);
@@ -335,11 +337,11 @@ void StaticDisplaySystem::drawPictureDialog(uint32_t numSprite, uint32_t logEnti
     assert(posVertexComp);
     spriteComp->m_spriteData = memSprite->m_vectSpriteData[numSprite];
     posVertexComp->m_vertex.resize(4);
-    posVertexComp->m_vertex[0] = {-0.5f, -0.5f};
-    posVertexComp->m_vertex[1] = {-0.2f, -0.5f};
-    posVertexComp->m_vertex[2] = {-0.2f, -0.2f};
-    posVertexComp->m_vertex[3] = {-0.5f, -0.2f};
-
+    float leftPos = rightUpPos.first - 0.2f, downPos = rightUpPos.second - 0.2f;
+    posVertexComp->m_vertex[0] = {leftPos, rightUpPos.second};
+    posVertexComp->m_vertex[1] = {rightUpPos.first, rightUpPos.second};
+    posVertexComp->m_vertex[2] = {rightUpPos.first, downPos};
+    posVertexComp->m_vertex[3] = {leftPos, downPos};
     m_vertices[static_cast<uint32_t>(VertexID_e::DIALOG_PIC)].clear();
     m_vertices[static_cast<uint32_t>(VertexID_e::DIALOG_PIC)].loadVertexStandartTextureComponent(*posVertexComp, *spriteComp);
     drawVertex(spriteComp->m_spriteData->m_textureNum, VertexID_e::DIALOG_PIC);
@@ -633,9 +635,7 @@ void StaticDisplaySystem::updateNewInputKeyKeyboard(ControlKey_e currentSelected
 }
 
 //===================================================================
-void StaticDisplaySystem::confWriteVertex(WriteComponent &writeComp,
-                                          PositionVertexComponent &posComp,
-                                          VertexID_e type)
+void StaticDisplaySystem::confWriteVertex(WriteComponent &writeComp, PositionVertexComponent &posComp, VertexID_e type)
 {
     uint32_t index = static_cast<uint32_t>(type);
     m_vertices[index].clear();

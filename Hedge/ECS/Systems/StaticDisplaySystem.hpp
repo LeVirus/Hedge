@@ -104,7 +104,7 @@ private:
     void confDialogPlayer(PlayerConfComponent &playerComp);
     void treatCurrentEndDialogPlayer(PlayerConfComponent &playerComp);
     bool drawDialogPlayer(PlayerConfComponent &playerComp);
-    void drawPictureDialog(uint32_t numSprite, uint32_t logEntity);
+    void drawPictureDialog(uint32_t numSprite, uint32_t logEntity, const PairFloat_t &rightUpPos);
     void drawBasicInfoPlayer(PlayerConfComponent &playerComp);
     void drawWeaponsPreviewPlayer(const PlayerConfComponent &playerComp,
                                   const WeaponComponent &weaponComp);
@@ -116,7 +116,7 @@ private:
     void confWeaponsVertexFromComponent(PlayerConfComponent &playerComp, SpriteTextureComponent &weaponSpriteComp);
     void treatWeaponShootAnimation(PlayerConfComponent &playerComp, TimerComponent &timerComp);
 private:
-    uint32_t m_playerEntity, m_currentDialogToDisplay = 0;
+    uint32_t m_playerEntity, m_currentDialogToDisplay = 0, m_currentLeftPosLog;
     std::optional<uint32_t> m_memDialogSprite = {};
     MainEngine *m_mainEngine;
     FontData const *m_fontDataPtr;
