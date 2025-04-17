@@ -340,7 +340,7 @@ void StaticDisplaySystem::drawPictureDialog(uint32_t numSprite, uint32_t logEnti
     posVertexComp->m_vertex[2] = {-0.2f, -0.2f};
     posVertexComp->m_vertex[3] = {-0.5f, -0.2f};
 
-
+    m_vertices[static_cast<uint32_t>(VertexID_e::DIALOG_PIC)].clear();
     m_vertices[static_cast<uint32_t>(VertexID_e::DIALOG_PIC)].loadVertexStandartTextureComponent(*posVertexComp, *spriteComp);
     drawVertex(spriteComp->m_spriteData->m_textureNum, VertexID_e::DIALOG_PIC);
 }
