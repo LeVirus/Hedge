@@ -270,6 +270,7 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
         ///!!!OOOOOOK METTRE LES : Avant chaque portion du message!!!!
         if(m_currentDialogToDisplay == 0)
         {
+            m_memDialogSprite = std::nullopt;
             ++m_currentDialogToDisplay;
             timerComp->m_timeIntervalOptional = 6;
             std::string::size_type sz = playerComp.m_infoWriteData.second.first.find_first_of(":");
