@@ -33,11 +33,7 @@ SpriteHeightGame = 1.8
 Sprite = SpriteLog
 SpriteWeightGame = 0.4
 SpriteHeightGame = 1.2
-
-[MessageLogB]
-Sprite = SpriteBackStars
-SpriteWeightGame = 0.4
-SpriteHeightGame = 0.6
+Sound = Message.wav
 
 [WallStairUp]
 Sprite = SpriteDMBLA

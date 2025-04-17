@@ -99,6 +99,7 @@ struct LogStdData
 {
     uint16_t m_spriteNum;
     PairFloat_t m_fpsSize;
+    std::string m_soundFile;
 };
 
 struct LogLevelData

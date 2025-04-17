@@ -364,7 +364,9 @@ void LevelManager::loadLogData()
         assert(val);
         size.second = std::stof(*val);
         assert(spritenum);
-        m_logStdData.insert({vectINISections[i], {*spritenum, size}});
+        val = m_ini.getValue(vectINISections[i], "Sound");
+        assert(val);
+        m_logStdData.insert({vectINISections[i], {*spritenum, size, *val}});
     }
 }
 

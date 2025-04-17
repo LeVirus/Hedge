@@ -557,7 +557,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
                     assert(playerComp);
                     logComp->m_activated = true;
-                    playerComp->m_infoWriteData = {true, logComp->m_message};
+                    playerComp->m_infoWriteData = {true, {logComp->m_message, args.entityNumB}};
                     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_memEntityAssociated);
                     assert(timerComp);
                     timerComp->m_cycleCountA = 0;
@@ -615,7 +615,7 @@ void CollisionSystem::writePlayerInfo(const std::string &info)
     assert(playerComp);
     assert(timerComp);
     timerComp->m_cycleCountA = 0;
-    playerComp->m_infoWriteData = {true, info};
+    playerComp->m_infoWriteData = {true, {info, 0}};
 }
 
 //===================================================================
@@ -926,7 +926,7 @@ void CollisionSystem::treatPlayerPickObject(CollisionArgs &args)
         break;
     }
     removeEntityToZone(args.entityNumB);
-    playerComp->m_infoWriteData = {true, info};
+    playerComp->m_infoWriteData = {true, {info, 0}};
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_memEntityAssociated);
     assert(timerComp);
     timerComp->m_cycleCountA = 0;

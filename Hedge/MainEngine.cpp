@@ -204,7 +204,7 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
             clearCheckpointData();
             //end level
             playerConf->m_inMovement = false;
-            playerConf->m_infoWriteData = {false, ""};
+            playerConf->m_infoWriteData = {false, {"", 0}};
             savePlayerGear(true);
             m_graphicEngine.setTransition(m_gamePaused);
             displayTransitionMenu();
@@ -219,7 +219,7 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
         else if(!playerConf->m_life)
         {
             playerConf->m_playerShoot = false;
-            playerConf->m_infoWriteData = {false, ""};
+            playerConf->m_infoWriteData = {false, {"", 0}};
             AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(m_playerEntity);
             assert(audioComp);
             //play death sound
@@ -986,6 +986,7 @@ uint32_t MainEngine::createLogEntity()
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
     vect[Components_e::LOG_COMPONENT] = 1;
+    vect[Components_e::AUDIO_COMPONENT] = 1;
     return Ecsm_t::instance().addEntity(vect);
 }
 
@@ -1726,6 +1727,9 @@ void MainEngine::loadLogsEntities(const LevelManager &levelManager, const std::v
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
         assert(spriteComp);
         assert(mapComp);
+        AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(entityNum);
+        assert(audioComp);
+        audioComp->m_soundElements.push_back(loadSound(it->second.m_soundFile));
         Level::addElementCase(*spriteComp, mapComp->m_coord, LevelCaseType_e::EMPTY_LC, entityNum);
     }
 }
@@ -2088,7 +2092,7 @@ void MainEngine::setInfoDataWrite(std::string_view message)
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerConf);
-    playerConf->m_infoWriteData = {true, message.data()};
+    playerConf->m_infoWriteData = {true, {message.data(), 0}};
 }
 
 //===================================================================

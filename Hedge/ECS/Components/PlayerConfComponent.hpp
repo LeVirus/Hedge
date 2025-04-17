@@ -61,7 +61,7 @@ struct PlayerConfComponent : public ECS::Component
     }
     bool m_playerShoot = false, m_takeDamage = false, m_damageAnim = false, m_inMovement = false, m_inputModified, m_firstMenu = true,
     m_pickItem = false, m_crush = false, m_frozen = false, m_insideWall = false, m_keyboardInputMenuMode = true;
-    std::pair<bool, std::string> m_infoWriteData = {false, ""};
+    std::pair<bool, std::pair<std::string, uint32_t>> m_infoWriteData = {false, {"", 0}};
     std::set<uint32_t> m_card;
     uint32_t m_currentCursorPos = 0, m_currentSelectedSaveFile, m_life = 100, m_currentCustomLevelCusorMenu, m_levelToLoad, m_velocityInertie = 0, m_memEntityAssociated, m_currentSprite,
         m_standardSpriteInterval = 0.2 / FPS_VALUE;

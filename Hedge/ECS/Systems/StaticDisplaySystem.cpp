@@ -194,12 +194,12 @@ void StaticDisplaySystem::confDialogPlayer(PlayerConfComponent &playerComp)
     //BEGIN
     if(m_dialogMessage.empty())
     {
-        m_dialogMessage = playerComp.m_infoWriteData.second;
+        m_dialogMessage = playerComp.m_infoWriteData.second.first;
         std::string::size_type sz = m_dialogMessage.find_first_of("*");
         if(sz != std::string::npos)
         {
-            playerComp.m_infoWriteData.second = m_dialogMessage.substr(0, sz);
-            m_currentDialogCursor = playerComp.m_infoWriteData.second.size() + 1;
+            playerComp.m_infoWriteData.second.first = m_dialogMessage.substr(0, sz);
+            m_currentDialogCursor = playerComp.m_infoWriteData.second.first.size() + 1;
         }
         //ONLY ONE MESSAGE
         else
@@ -230,13 +230,13 @@ void StaticDisplaySystem::treatCurrentEndDialogPlayer(PlayerConfComponent &playe
     //NEXT MESSAGE
     if(sz != std::string::npos)
     {
-        playerComp.m_infoWriteData.second = m_dialogMessage.substr(m_currentDialogCursor, sz - m_currentDialogCursor);
+        playerComp.m_infoWriteData.second.first = m_dialogMessage.substr(m_currentDialogCursor, sz - m_currentDialogCursor);
         m_currentDialogCursor = sz;
     }
     //FINAL MESSAGE
     else
     {
-        playerComp.m_infoWriteData.second = m_dialogMessage.substr(m_currentDialogCursor,(m_dialogMessage.size() - m_currentDialogCursor));
+        playerComp.m_infoWriteData.second.first = m_dialogMessage.substr(m_currentDialogCursor,(m_dialogMessage.size() - m_currentDialogCursor));
         m_currentDialogCursor = m_dialogMessage.size();
     }
     m_lockPassDialog = true;
@@ -245,7 +245,7 @@ void StaticDisplaySystem::treatCurrentEndDialogPlayer(PlayerConfComponent &playe
 //===================================================================
 bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
 {
-    std::string infoToWrite = playerComp.m_infoWriteData.second;
+    std::string infoToWrite = playerComp.m_infoWriteData.second.first;
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
     if(m_lockPassDialog && playerComp.m_dialogPass)
     {
@@ -257,9 +257,9 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
     }
     if(!m_lockPassDialog && !m_dialogPass && playerComp.m_dialogPass)
     {
-        if(m_currentDialogToDisplay != playerComp.m_infoWriteData.second.size()/* - 1*/)
+        if(m_currentDialogToDisplay != playerComp.m_infoWriteData.second.first.size()/* - 1*/)
         {
-            m_currentDialogToDisplay = playerComp.m_infoWriteData.second.size()/* - 1*/;
+            m_currentDialogToDisplay = playerComp.m_infoWriteData.second.first.size()/* - 1*/;
             m_dialogPass = true;
         }
     }
@@ -270,21 +270,24 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
         {
             ++m_currentDialogToDisplay;
             timerComp->m_timeIntervalOptional = 6;
-            std::string::size_type sz = playerComp.m_infoWriteData.second.find_first_of(":");
+            std::string::size_type sz = playerComp.m_infoWriteData.second.first.find_first_of(":");
             if(sz != std::string::npos)
             {
                 m_currentDialogToDisplay = sz;
-                if(playerComp.m_infoWriteData.second.size() > sz)
+                if(playerComp.m_infoWriteData.second.first.size() > sz)
                 {
                     ++m_currentDialogToDisplay;
                 }
             }
         }
         infoToWrite = infoToWrite.substr(0, m_currentDialogToDisplay);
-        if(m_currentDialogToDisplay < (playerComp.m_infoWriteData.second.size() - 1) && ++timerComp->m_cycleCountA == timerComp->m_timeIntervalOptional)
+        if(m_currentDialogToDisplay < (playerComp.m_infoWriteData.second.first.size() - 1) && ++timerComp->m_cycleCountA == timerComp->m_timeIntervalOptional)
         {
             timerComp->m_cycleCountA = 0;
             ++m_currentDialogToDisplay;
+            AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(playerComp.m_infoWriteData.second.second);
+            assert(audioComp);
+            audioComp->m_soundElements[0]->m_toPlay = true;
         }
     }
     if(m_dialogPass && !playerComp.m_dialogPass)
@@ -295,7 +298,7 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
     //END MESSAGE
     if(!m_dialogPass && playerComp.m_dialogPass)
     {
-        playerComp.m_infoWriteData.second.clear();
+        playerComp.m_infoWriteData.second.first.clear();
         m_currentDialogToDisplay = 0;
         m_dialogPass = false;
         return true;
@@ -307,7 +310,7 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
 void StaticDisplaySystem::drawBasicInfoPlayer(PlayerConfComponent &playerComp)
 {
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
-    drawWriteVertex(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::NUM_INFO_WRITE)], VertexID_e::INFO, Font_e::STANDARD, playerComp.m_infoWriteData.second);
+    drawWriteVertex(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::NUM_INFO_WRITE)], VertexID_e::INFO, Font_e::STANDARD, playerComp.m_infoWriteData.second.first);
     uint32_t maxTime = (!timerComp->m_timeIntervalOptional) ? m_infoWriteStandardInterval : *timerComp->m_timeIntervalOptional;
     if(++timerComp->m_cycleCountA >= maxTime)
     {
