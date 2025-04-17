@@ -308,7 +308,7 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
     {
         m_dialogPass = false;
     }
-    drawWriteVertex(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::NUM_INFO_WRITE)], VertexID_e::INFO, Font_e::STANDARD, infoToWrite);
+    drawWriteVertex(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::NUM_INFO_WRITE)], VertexID_e::INFO, Font_e::STANDARD, infoToWrite, -0.5f);
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::NUM_INFO_WRITE)]);
     assert(posComp);
     if(m_memDialogSprite)
@@ -657,10 +657,14 @@ void StaticDisplaySystem::drawVertex(uint32_t numTexture, VertexID_e type)
 }
 
 //===================================================================
-void StaticDisplaySystem::drawWriteVertex(uint32_t numEntity, VertexID_e type, Font_e font, const std::string &value)
+void StaticDisplaySystem::drawWriteVertex(uint32_t numEntity, VertexID_e type, Font_e font, const std::string &value, std::optional<double> leftPosition)
 {
     WriteComponent *writeComp = Ecsm_t::instance().getComponent<WriteComponent, Components_e::WRITE_COMPONENT>(numEntity);
     assert(!writeComp->m_vectMessage.empty());
+    if(leftPosition)
+    {
+        writeComp->m_vectMessage[0].first = leftPosition;
+    }
     // if(writeComp->m_vectMessage[0].second.empty())
     // {
     //     return;

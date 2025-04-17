@@ -111,7 +111,7 @@ private:
     void confWriteVertex(WriteComponent &writeComp, PositionVertexComponent &posComp,
                          VertexID_e type);
     void drawVertex(uint32_t numTexture, VertexID_e type);
-    void drawWriteVertex(uint32_t numEntity, VertexID_e type, Font_e font = Font_e::STANDARD, const std::string &value = "");
+    void drawWriteVertex(uint32_t numEntity, VertexID_e type, Font_e font = Font_e::STANDARD, const std::string &value = "", std::optional<double> leftPosition = std::nullopt);
     void drawLineWriteVertex(PositionVertexComponent &posComp, WriteComponent &writeComp);
     void confWeaponsVertexFromComponent(PlayerConfComponent &playerComp, SpriteTextureComponent &weaponSpriteComp);
     void treatWeaponShootAnimation(PlayerConfComponent &playerComp, TimerComponent &timerComp);
