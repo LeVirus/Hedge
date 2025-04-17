@@ -364,9 +364,24 @@ void LevelManager::loadLogData()
         assert(val);
         size.second = std::stof(*val);
         assert(spritenum);
+        val = m_ini.getValue(vectINISections[i], "IdPicture");
+        assert(val);
+        std::vector<std::string> vectID = convertStrToVectStr(*val);
+        val = m_ini.getValue(vectINISections[i], "AssociateSprite");
+        assert(val);
+        std::vector<std::string> vectSprite = convertStrToVectStr(*val);
+        assert(vectSprite.size() == vectID.size());
+        VectPairStrUI_t vectPic;
+        vectPic.reserve(vectSprite.size());
+        for(uint32_t j = 0; j < vectSprite.size(); ++j)
+        {
+            std::optional<uint16_t> num = m_pictureData.getIdentifier(vectSprite[j]);
+            assert(num);
+            vectPic.emplace_back(PairStrUI_t{vectID[j], *num});
+        }
         val = m_ini.getValue(vectINISections[i], "Sound");
         assert(val);
-        m_logStdData.insert({vectINISections[i], {*spritenum, size, *val}});
+        m_logStdData.insert({vectINISections[i], {*spritenum, size, *val, vectPic}});
     }
 }
 

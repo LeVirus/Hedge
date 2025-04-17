@@ -27,6 +27,8 @@ using PairImpactData_t = std::pair<std::vector<MemSpriteData>, MemSpriteData>;
 using MapImpactData_t = std::map<std::string, PairImpactData_t>;
 using pairI_t = std::pair<int, int>;
 using PairStrPairFloat_t = std::pair<std::string, PairFloat_t>;
+using PairStrUI_t = std::pair<std::string, uint16_t>;
+using VectPairStrUI_t = std::vector<PairStrUI_t>;
 
 enum class LevelLoadState_e
 {
@@ -100,6 +102,8 @@ struct LogStdData
     uint16_t m_spriteNum;
     PairFloat_t m_fpsSize;
     std::string m_soundFile;
+    //first Picture ID, Second Sprite
+    VectPairStrUI_t m_vectSprites;
 };
 
 struct LogLevelData

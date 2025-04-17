@@ -257,9 +257,9 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
     }
     if(!m_lockPassDialog && !m_dialogPass && playerComp.m_dialogPass)
     {
-        if(m_currentDialogToDisplay != playerComp.m_infoWriteData.second.first.size()/* - 1*/)
+        if(m_currentDialogToDisplay != playerComp.m_infoWriteData.second.first.size())
         {
-            m_currentDialogToDisplay = playerComp.m_infoWriteData.second.first.size()/* - 1*/;
+            m_currentDialogToDisplay = playerComp.m_infoWriteData.second.first.size();
             m_dialogPass = true;
         }
     }
@@ -278,6 +278,8 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
                 {
                     ++m_currentDialogToDisplay;
                 }
+                // infoToWrite = infoToWrite.substr(0, m_currentDialogToDisplay);
+
             }
         }
         infoToWrite = infoToWrite.substr(0, m_currentDialogToDisplay);

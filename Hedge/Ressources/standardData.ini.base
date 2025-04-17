@@ -34,6 +34,8 @@ Sprite = SpriteLog
 SpriteWeightGame = 0.4
 SpriteHeightGame = 1.2
 Sound = Message.wav
+IdPicture = Hedge Manuwaza
+AssociateSprite = SpriteLog SpriteTreeA
 
 [WallStairUp]
 Sprite = SpriteDMBLA
