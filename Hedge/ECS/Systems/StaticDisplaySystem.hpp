@@ -47,6 +47,7 @@ enum class VertexID_e
     MENU_BACKGROUND_LEFT,
     MENU_BACKGROUND_RIGHT_LEFT,
     TELEPORT_ANIM,
+    DIALOG_PIC,
     TOTAL
 };
 
@@ -103,6 +104,7 @@ private:
     void confDialogPlayer(PlayerConfComponent &playerComp);
     void treatCurrentEndDialogPlayer(PlayerConfComponent &playerComp);
     bool drawDialogPlayer(PlayerConfComponent &playerComp);
+    void drawPictureDialog(uint32_t numSprite, uint32_t logEntity);
     void drawBasicInfoPlayer(PlayerConfComponent &playerComp);
     void drawWeaponsPreviewPlayer(const PlayerConfComponent &playerComp,
                                   const WeaponComponent &weaponComp);
@@ -115,6 +117,7 @@ private:
     void treatWeaponShootAnimation(PlayerConfComponent &playerComp, TimerComponent &timerComp);
 private:
     uint32_t m_playerEntity, m_currentDialogToDisplay = 0;
+    std::optional<uint32_t> m_memDialogSprite = {};
     MainEngine *m_mainEngine;
     FontData const *m_fontDataPtr;
     bool m_menuBackgroundInit = false, m_dialogPass = false, m_lockPassDialog = false;

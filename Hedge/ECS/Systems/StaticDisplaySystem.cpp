@@ -194,6 +194,7 @@ void StaticDisplaySystem::confDialogPlayer(PlayerConfComponent &playerComp)
     //BEGIN
     if(m_dialogMessage.empty())
     {
+        m_memDialogSprite = std::nullopt;
         m_dialogMessage = playerComp.m_infoWriteData.second.first;
         std::string::size_type sz = m_dialogMessage.find_first_of("*");
         if(sz != std::string::npos)
@@ -224,6 +225,7 @@ void StaticDisplaySystem::treatCurrentEndDialogPlayer(PlayerConfComponent &playe
         gravComp->m_jump = false;
         timerComp->m_timeIntervalOptional = {};
         Level::setDialogMode(false);
+        m_dialogMessage.clear();
         return;
     }
     std::string::size_type sz = m_dialogMessage.find("*", ++m_currentDialogCursor);
@@ -278,9 +280,23 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
                 {
                     ++m_currentDialogToDisplay;
                 }
-                // infoToWrite = infoToWrite.substr(0, m_currentDialogToDisplay);
-
+                LogComponent *logComp = Ecsm_t::instance().getComponent<LogComponent, Components_e::LOG_COMPONENT>(playerComp.m_infoWriteData.second.second);
+                assert(logComp);
+                infoToWrite = infoToWrite.substr(0, m_currentDialogToDisplay);
+                for(uint32_t i = 0; i < logComp->m_memCharacterPic.size(); ++i)
+                {
+                    sz = infoToWrite.find_first_of(logComp->m_memCharacterPic[i]);
+                    if(sz != std::string::npos)
+                    {
+                        m_memDialogSprite = i;
+                        break;
+                    }
+                }
             }
+        }
+        if(m_memDialogSprite)
+        {
+            drawPictureDialog(*m_memDialogSprite, playerComp.m_infoWriteData.second.second);
         }
         infoToWrite = infoToWrite.substr(0, m_currentDialogToDisplay);
         if(m_currentDialogToDisplay < (playerComp.m_infoWriteData.second.first.size()) && ++timerComp->m_cycleCountA == timerComp->m_timeIntervalOptional)
@@ -306,6 +322,27 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
         return true;
     }
     return false;
+}
+
+//===================================================================
+void StaticDisplaySystem::drawPictureDialog(uint32_t numSprite, uint32_t logEntity)
+{
+    MemSpriteDataComponent *memSprite = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(logEntity);
+    assert(memSprite);
+    SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(logEntity);
+    assert(spriteComp);
+    PositionVertexComponent *posVertexComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(logEntity);
+    assert(posVertexComp);
+    spriteComp->m_spriteData = memSprite->m_vectSpriteData[numSprite];
+    posVertexComp->m_vertex.resize(4);
+    posVertexComp->m_vertex[0] = {-0.5f, -0.5f};
+    posVertexComp->m_vertex[1] = {-0.2f, -0.5f};
+    posVertexComp->m_vertex[2] = {-0.2f, -0.2f};
+    posVertexComp->m_vertex[3] = {-0.5f, -0.2f};
+
+
+    m_vertices[static_cast<uint32_t>(VertexID_e::DIALOG_PIC)].loadVertexStandartTextureComponent(*posVertexComp, *spriteComp);
+    drawVertex(spriteComp->m_spriteData->m_textureNum, VertexID_e::DIALOG_PIC);
 }
 
 //===================================================================
