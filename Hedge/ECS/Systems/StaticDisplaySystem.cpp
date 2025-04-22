@@ -267,7 +267,6 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
     }
     else
     {
-        ///!!!OOOOOOK METTRE LES : Avant chaque portion du message!!!!
         if(m_currentDialogToDisplay == 0)
         {
             m_memDialogSprite = std::nullopt;

@@ -18,6 +18,7 @@
 #include <ECS/Components/EnemyConfComponent.hpp>
 #include <ECS/Components/TimerComponent.hpp>
 #include <ECS/Components/ShotConfComponent.hpp>
+#include <ECS/Components/WallMultiSpriteComponent.hpp>
 
 //===========================================================================
 VisionSystem::VisionSystem()
@@ -35,12 +36,6 @@ void VisionSystem::setUsedComponents()
 
 //===========================================================================
 void VisionSystem::execSystem()
-{
-    updateSprites();
-}
-
-//===========================================================================
-void VisionSystem::updateSprites()
 {
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
@@ -73,6 +68,74 @@ void VisionSystem::updateSprites()
         else if(genComp->m_tagA == CollisionTag_e::PLAYER_CT)
         {
             updatePlayerSprites(*it, *memSpriteComp, *spriteComp, *timerComp);
+        }
+    }
+    updateWallSprites();
+}
+
+//===========================================================================
+void VisionSystem::updateWallSprites()
+{
+    if(m_memMultiSpritesWallEntities.empty())
+    {
+        memMultiSpritesWallEntities();
+    }
+    float currentInterval;
+    for(uint32_t i = 0; i < m_memMultiSpritesWallEntities.size(); ++i)
+    {
+        SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(m_memMultiSpritesWallEntities[i]);
+        assert(spriteComp);
+        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_memMultiSpritesWallEntities[i]);
+        assert(timerComp);
+        MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(m_memMultiSpritesWallEntities[i]);
+        assert(memSpriteComp);
+        WallMultiSpriteComponent *multiSpriteConf = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF>(m_memMultiSpritesWallEntities[i]);
+        assert(multiSpriteConf);
+        if(!multiSpriteConf->m_cyclesTime.empty())
+        {
+            assert(memSpriteComp->m_current < multiSpriteConf->m_cyclesTime.size());
+            currentInterval = multiSpriteConf->m_cyclesTime[memSpriteComp->m_current];
+        }
+        else
+        {
+            currentInterval = m_defaultInterval;
+        }
+        if(++timerComp->m_cycleCountA >= currentInterval)
+        {
+            ++memSpriteComp->m_current;
+            if(memSpriteComp->m_current >= memSpriteComp->m_vectSpriteData.size())
+            {
+                memSpriteComp->m_current = 0;
+            }
+            spriteComp->m_spriteData = memSpriteComp->m_vectSpriteData[memSpriteComp->m_current];
+            timerComp->m_cycleCountA = 0;
+        }
+    }
+}
+
+//===========================================================================
+void VisionSystem::memMultiSpritesWallEntities()
+{
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> arrayComp;
+    std::set<uint32_t> set;
+    arrayComp.fill(0);
+    arrayComp[Components_e::MAP_COORD_COMPONENT] = 1;
+    arrayComp[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    arrayComp[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
+    arrayComp[Components_e::TIMER_COMPONENT] = 1;
+    set.insert(Components_e::MAP_COORD_COMPONENT);
+    set.insert(Components_e::SPRITE_TEXTURE_COMPONENT);
+    set.insert(Components_e::MEM_SPRITE_DATA_COMPONENT);
+    set.insert(Components_e::TIMER_COMPONENT);
+    std::optional<std::set<uint32_t>> vectEntities = Ecsm_t::instance().getEntitiesCustomComponents(set, arrayComp);
+    assert(vectEntities);
+    for(std::set<uint32_t>::const_iterator it = (*vectEntities).begin(); it != (*vectEntities).end(); ++it)
+    {
+        GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
+        assert(genComp);
+        if(genComp->m_tagA == CollisionTag_e::WALL_CT)
+        {
+            m_memMultiSpritesWallEntities.push_back(*it);
         }
     }
 }

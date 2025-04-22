@@ -1448,7 +1448,8 @@ std::vector<uint32_t> MainEngine::loadWallEntitiesWallLoop(const std::vector<Spr
         {
             moveableWallCorrectedPos.second = 0;
         }
-        confBaseWallData(numEntity, memSpriteData, moveableWallCorrectedPos, currentShape.second.m_triggerBehaviourType, moveable, collShape, currentShape.second.m_traversable);
+        confBaseWallData(numEntity, memSpriteData, moveableWallCorrectedPos, currentShape.second.m_triggerBehaviourType, moveable, collShape, currentShape.second.m_traversable,
+                         currentShape.second.m_sprites, currentShape.second.m_cyclesTime, vectSprite);
         if(!moveable)
         {
             continue;
@@ -1487,10 +1488,18 @@ std::vector<uint32_t> MainEngine::loadWallEntitiesWallLoop(const std::vector<Spr
 
 //===================================================================
 void MainEngine::confBaseWallData(uint32_t wallEntity, const SpriteData &memSpriteData,
-                                  const PairUI_t& coordLevel, TriggerBehaviourType_e triggerType, bool moveable, CollisionShape_e collShape, bool traversable)
+                                  const PairUI_t& coordLevel, TriggerBehaviourType_e triggerType, bool moveable, CollisionShape_e collShape, bool traversable,
+                                  const std::vector<uint16_t> &numWallSprites, const std::vector<uint32_t> &timeMultiSpriteCase, const std::vector<SpriteData> &vectSprite)
 {
     CollisionTag_e tag = traversable ? CollisionTag_e::TRAVERSABLE_WALL_CT : CollisionTag_e::WALL_CT;
     confBaseComponent(wallEntity, memSpriteData, coordLevel, collShape, tag);
+    if(!timeMultiSpriteCase.empty())
+    {
+
+        WallMultiSpriteComponent *moveWallConfComp = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF>(wallEntity);
+        assert(moveWallConfComp);
+        moveWallConfComp->m_cyclesTime = timeMultiSpriteCase;
+    }
     if(traversable)
     {
         GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(wallEntity);
@@ -1507,6 +1516,21 @@ void MainEngine::confBaseWallData(uint32_t wallEntity, const SpriteData &memSpri
         Level::memStaticMoveWallEntity(coordLevel, wallEntity);
     }
     Level::addElementCase(*spriteComp, coordLevel, type, wallEntity);
+    if(numWallSprites.size() == 1)
+    {
+        return;
+    }
+    MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(wallEntity);
+    assert(memSpriteComp);
+    uint32_t vectSize = numWallSprites.size();
+    memSpriteComp->m_vectSpriteData.reserve(static_cast<uint32_t>(WallSpriteType_e::TOTAL_SPRITE));
+    for(uint32_t j = 0; j < vectSize; ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[numWallSprites[j]]);
+    }
+    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(wallEntity);
+    assert(timerComp);
+    timerComp->m_cycleCountA = 0;
 }
 
 //===================================================================
@@ -2513,6 +2537,7 @@ uint32_t MainEngine::createWallEntity(bool multiSprite, CollisionShape_e collSha
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     if(multiSprite)
     {
+        vect[Components_e::WALL_MULTI_SPRITE_CONF] = 1;
         vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
         vect[Components_e::TIMER_COMPONENT] = 1;
     }

@@ -45,8 +45,9 @@ public:
         m_refMainEngine = mainEngine;
     }
 private:
+    void updateWallSprites();
+    void memMultiSpritesWallEntities();
     void setUsedComponents();
-    void updateSprites();
     void updateEnemySprites(uint32_t enemyEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp,
                             TimerComponent &timerComp, EnemyConfComponent &enemyConfComp);
     void updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp, uint32_t enemyEntity);
