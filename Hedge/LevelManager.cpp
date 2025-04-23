@@ -1193,6 +1193,16 @@ void LevelManager::loadWallData()
             {
                 m_wallData[vectINISections[i]].m_cyclesTime.emplace_back(time[j] / FPS_VALUE);
             }
+            datas = m_ini.getValue(vectINISections[i], "Elec");
+            if(datas)
+            {
+                std::vector<uint32_t> vectElec = convertStrToVectUI(*datas);
+                m_wallData[vectINISections[i]].m_elec.reserve(vectElec.size());
+                for(uint32_t j = 0; j < vectElec.size(); ++j)
+                {
+                    m_wallData[vectINISections[i]].m_elec.emplace_back((vectElec[j] == 0) ? false : true);
+                }
+            }
         }
         //Stair cases
         if(m_ini.getValue(vectINISections[i], "StairUp"))
@@ -1247,6 +1257,7 @@ void LevelManager::loadPositionWall()
         m_mainWallData.insert({vectINISections[i], MoveableWallData()});
         m_mainWallData[vectINISections[i]].m_sprites = it->second.m_sprites;
         m_mainWallData[vectINISections[i]].m_cyclesTime = it->second.m_cyclesTime;
+        m_mainWallData[vectINISections[i]].m_elec = it->second.m_elec;
         fillWallPositionVect(vectINISections[i], "GamePosition",
                              m_mainWallData[vectINISections[i]].m_TileGamePosition);
         fillWallPositionVect(vectINISections[i], "RemovePosition",

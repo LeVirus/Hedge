@@ -92,7 +92,7 @@ Sprite = SpriteSimetraLogo
 [WallElec]
 Sprite = SpriteSimetraLogo SpriteSimetraWrite
 Time = 0.5 1.5
-Elec = true
+Elec = 1 0
 
 [DoorVertical]
 Sprite = SpriteMetalDoor

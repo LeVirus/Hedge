@@ -13,6 +13,12 @@ Shot travers enemies some times
 ))
 When scrolling lock active shot stay stuck on screen limit left
 
+))
+Background move on limit level
+
+))
+Camera does not stop at limit level
+
 ============================================================================================================
 ============================================================================================================
 
