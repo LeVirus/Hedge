@@ -29,8 +29,8 @@ Add vehicule
 ))
 Add elements to avoid in levels 
 	-Acid falling from ceiling
-	-Electric ark
-	-Flames
+	-Electric ark-----OK
+	-Flames---OK
 	-Pick-----------OK
 	-Wall electrized by alternance-------OK
 		*********Modif Conf file

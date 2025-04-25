@@ -98,6 +98,17 @@ Elec = 1 0
 Sprite = SpriteGigerGroundA
 Elec = 1
 
+[WallElecArk]
+Sprite = SpriteTreeC SpriteInvisibleTeleport
+Time = 1.0 2.5
+Elec = 1 0
+Appear = 1 0
+
+[WallDisapear]
+Sprite = SpriteTreeB SpriteInvisible
+Time = 1.0 2.5
+Appear = 1 0
+
 [DoorVertical]
 Sprite = SpriteMetalDoor
 Vertical = true

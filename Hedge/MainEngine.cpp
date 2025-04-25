@@ -1497,6 +1497,7 @@ void MainEngine::confBaseWallData(uint32_t wallEntity, const SpriteData &memSpri
         assert(moveWallConfComp);
         moveWallConfComp->m_cyclesTime = wallData.m_cyclesTime;
         moveWallConfComp->m_elec = wallData.m_elec;
+        moveWallConfComp->m_appear = wallData.m_appear;
     }
     //pick case
     else
