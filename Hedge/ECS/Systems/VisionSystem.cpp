@@ -108,6 +108,12 @@ void VisionSystem::updateWallSprites()
                 memSpriteComp->m_current = 0;
             }
             spriteComp->m_spriteData = memSpriteComp->m_vectSpriteData[memSpriteComp->m_current];
+            if(!multiSpriteConf->m_elec.empty())
+            {
+                GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(m_memMultiSpritesWallEntities[i]);
+                assert(collComp);
+                collComp->m_tagA = multiSpriteConf->m_elec[memSpriteComp->m_current] ? CollisionTag_e::ELECTRIC_WALL_CT : CollisionTag_e::WALL_CT;
+            }
             timerComp->m_cycleCountA = 0;
         }
     }

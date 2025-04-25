@@ -89,6 +89,11 @@ Time = 0.5 1.5
 [WallLogo]
 Sprite = SpriteSimetraLogo
 
+[WallElecA]
+Sprite = SpriteWallB SpriteWallA
+Time = 1.0 2.5
+Elec = 1 0
+
 [WallElec]
 Sprite = SpriteSimetraLogo SpriteSimetraWrite
 Time = 0.5 1.5

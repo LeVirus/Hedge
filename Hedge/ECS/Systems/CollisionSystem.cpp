@@ -405,6 +405,7 @@ void CollisionSystem::rmEnemyCollisionMaskEntity(uint32_t numEntity)
 void CollisionSystem::initArrayTag()
 {
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::WALL_CT});
+    m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::ELECTRIC_WALL_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::TRAVERSABLE_WALL_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::ENEMY_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::OBJECT_CT});
@@ -416,6 +417,7 @@ void CollisionSystem::initArrayTag()
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::EXIT_CT});
 
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::WALL_CT});
+    m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::ELECTRIC_WALL_CT});
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::TRAVERSABLE_WALL_CT});
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::STATIC_SET_CT});
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::EXIT_CT});
@@ -430,26 +432,35 @@ void CollisionSystem::initArrayTag()
 
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::PLAYER_CT});
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::WALL_CT});
+    m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::ELECTRIC_WALL_CT});
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::TRAVERSABLE_WALL_CT});
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::STATIC_SET_CT});
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::LOG_CT});
 
     m_tagArray.insert({CollisionTag_e::WALL_CT, CollisionTag_e::PLAYER_CT});
     m_tagArray.insert({CollisionTag_e::WALL_CT, CollisionTag_e::ENEMY_CT});
+    m_tagArray.insert({CollisionTag_e::ELECTRIC_WALL_CT, CollisionTag_e::PLAYER_CT});
+    m_tagArray.insert({CollisionTag_e::ELECTRIC_WALL_CT, CollisionTag_e::ENEMY_CT});
 
     m_tagArray.insert({CollisionTag_e::TRAVERSABLE_WALL_CT, CollisionTag_e::PLAYER_CT});
     m_tagArray.insert({CollisionTag_e::TRAVERSABLE_WALL_CT, CollisionTag_e::ENEMY_CT});
 
     m_tagArray.insert({CollisionTag_e::BULLET_ENEMY_CT, CollisionTag_e::PLAYER_CT});
     m_tagArray.insert({CollisionTag_e::BULLET_ENEMY_CT, CollisionTag_e::WALL_CT});
+    m_tagArray.insert({CollisionTag_e::BULLET_ENEMY_CT, CollisionTag_e::ELECTRIC_WALL_CT});
 
     m_tagArray.insert({CollisionTag_e::BULLET_PLAYER_CT, CollisionTag_e::ENEMY_CT});
     m_tagArray.insert({CollisionTag_e::BULLET_PLAYER_CT, CollisionTag_e::WALL_CT});
+    m_tagArray.insert({CollisionTag_e::BULLET_PLAYER_CT, CollisionTag_e::ELECTRIC_WALL_CT});
+
 
     m_tagArray.insert({CollisionTag_e::IMPACT_CT, CollisionTag_e::WALL_CT});
     m_tagArray.insert({CollisionTag_e::IMPACT_CT, CollisionTag_e::ENEMY_CT});
+    m_tagArray.insert({CollisionTag_e::IMPACT_CT, CollisionTag_e::ELECTRIC_WALL_CT});
+
 
     m_tagArray.insert({CollisionTag_e::DEAD_CORPSE_CT, CollisionTag_e::WALL_CT});
+    m_tagArray.insert({CollisionTag_e::DEAD_CORPSE_CT, CollisionTag_e::ELECTRIC_WALL_CT});
 }
 
 //===================================================================
@@ -528,6 +539,14 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
             if(!(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT))
             {
                 collisionRectRectEject(args);
+            }
+            if(args.tagCompB.m_tagA == CollisionTag_e::ELECTRIC_WALL_CT && args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+            {
+                WallMultiSpriteComponent *wallMultiComp = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF>(args.entityNumB);
+                assert(wallMultiComp);
+                PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                assert(playerComp);
+                playerComp->takeDamage(wallMultiComp->m_damage);
             }
         }
     }
