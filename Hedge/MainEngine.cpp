@@ -1410,7 +1410,7 @@ std::vector<uint32_t> MainEngine::loadWallEntitiesWallLoop(const std::vector<Spr
         {
             collShape = CollisionShape_e::RECTANGLE_C;
         }
-        uint32_t numEntity = createWallEntity(currentShape.second.m_sprites.size() > 1, collShape, moveable);
+        uint32_t numEntity = createWallEntity(currentShape.second.m_sprites.size() > 1 || !currentShape.second.m_elec.empty(), collShape, moveable);
         std::map<PairUI_t, uint32_t>::iterator itt = m_memWallPos.find(*it);
         if(itt != m_memWallPos.end())
         {
@@ -1497,6 +1497,16 @@ void MainEngine::confBaseWallData(uint32_t wallEntity, const SpriteData &memSpri
         assert(moveWallConfComp);
         moveWallConfComp->m_cyclesTime = wallData.m_cyclesTime;
         moveWallConfComp->m_elec = wallData.m_elec;
+    }
+    //pick case
+    else
+    {
+        if(!wallData.m_elec.empty())
+        {
+            GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(wallEntity);
+            assert(collComp);
+            collComp->m_tagA = CollisionTag_e::ELECTRIC_WALL_CT;
+        }
     }
     if(wallData.m_traversable)
     {

@@ -1182,6 +1182,15 @@ void LevelManager::loadWallData()
             assert(res);
             m_wallData[vectINISections[i]].m_sprites.emplace_back(*res);
         }
+        //Pick case
+        if(results.size() == 1)
+        {
+            datas = m_ini.getValue(vectINISections[i], "Elec");
+            if(datas)
+            {
+                m_wallData[vectINISections[i]].m_elec.push_back(true);
+            }
+        }
         //Time data
         datas = m_ini.getValue(vectINISections[i], "Time");
         if(datas)
