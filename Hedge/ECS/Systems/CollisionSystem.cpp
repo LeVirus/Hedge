@@ -542,7 +542,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
             }
             if(args.tagCompB.m_tagA == CollisionTag_e::ELECTRIC_WALL_CT && args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
             {
-                WallMultiSpriteComponent *wallMultiComp = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF>(args.entityNumB);
+                WallMultiSpriteComponent *wallMultiComp = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT>(args.entityNumB);
                 assert(wallMultiComp);
                 PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
                 assert(playerComp);

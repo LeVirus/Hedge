@@ -89,7 +89,7 @@ void VisionSystem::updateWallSprites()
         assert(timerComp);
         MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(m_memMultiSpritesWallEntities[i]);
         assert(memSpriteComp);
-        WallMultiSpriteComponent *multiSpriteConf = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF>(m_memMultiSpritesWallEntities[i]);
+        WallMultiSpriteComponent *multiSpriteConf = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT>(m_memMultiSpritesWallEntities[i]);
         assert(multiSpriteConf);
         if(!multiSpriteConf->m_cyclesTime.empty())
         {

@@ -26,6 +26,7 @@
 #include "ECS/Components/MoveableWallComponent.hpp"
 #include "ECS/Components/TriangleStairCollisionComponent.hpp"
 #include "ECS/Components/WallMultiSpriteComponent.hpp"
+#include "ECS/Components/GeneratorComponent.hpp"
 #include <ECS_Headers/ComponentsManager.hpp>
 #include <stdint.h>
 #include <constants.hpp>
@@ -128,8 +129,11 @@ public:
             case Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT:
                 treatNewComponent<Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT, TriangleStairCollisionComponent>(vectEntity, vect);
                 break;
-            case Components_e::WALL_MULTI_SPRITE_CONF:
-                treatNewComponent<Components_e::WALL_MULTI_SPRITE_CONF, WallMultiSpriteComponent>(vectEntity, vect);
+            case Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT:
+                treatNewComponent<Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT, WallMultiSpriteComponent>(vectEntity, vect);
+                break;
+            case Components_e::GENERATOR_COMPONENT:
+                treatNewComponent<Components_e::GENERATOR_COMPONENT, GeneratorComponent>(vectEntity, vect);
                 break;
             case Components_e::TOTAL_COMPONENTS:
                 assert(false);
@@ -171,7 +175,8 @@ private:
         ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::CHECKPOINT_COMPONENT, CheckpointComponent>().reserve(size);
         ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::LOG_COMPONENT, LogComponent>().reserve(size);
         ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT, TriangleStairCollisionComponent>().reserve(size);
-        ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::WALL_MULTI_SPRITE_CONF, WallMultiSpriteComponent>().reserve(size);
+        ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT, WallMultiSpriteComponent>().reserve(size);
+        ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::GENERATOR_COMPONENT, GeneratorComponent>().reserve(size);
     }
 
     template <uint32_t numComponent, Component_C CC>

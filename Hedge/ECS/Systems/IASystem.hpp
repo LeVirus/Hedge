@@ -24,6 +24,7 @@ public:
         m_mainEngine = mainEngine;
     }
 private:
+    void treatGenerator();
     void treatEject();
     void confNewVisibleShot(const std::vector<uint32_t> &visibleShots);
     void treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent &enemyMapComp,

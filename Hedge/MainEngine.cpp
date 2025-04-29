@@ -1493,7 +1493,7 @@ void MainEngine::confBaseWallData(uint32_t wallEntity, const SpriteData &memSpri
     confBaseComponent(wallEntity, memSpriteData, coordLevel, collShape, tag);
     if(!wallData.m_cyclesTime.empty())
     {
-        WallMultiSpriteComponent *moveWallConfComp = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF>(wallEntity);
+        WallMultiSpriteComponent *moveWallConfComp = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT>(wallEntity);
         assert(moveWallConfComp);
         moveWallConfComp->m_cyclesTime = wallData.m_cyclesTime;
         moveWallConfComp->m_elec = wallData.m_elec;
@@ -2546,7 +2546,7 @@ uint32_t MainEngine::createWallEntity(bool multiSprite, CollisionShape_e collSha
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     if(multiSprite)
     {
-        vect[Components_e::WALL_MULTI_SPRITE_CONF] = 1;
+        vect[Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT] = 1;
         vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
         vect[Components_e::TIMER_COMPONENT] = 1;
     }
@@ -2589,6 +2589,22 @@ uint32_t MainEngine::createEnemyEntity()
     vect[Components_e::TIMER_COMPONENT] = 1;
     vect[Components_e::AUDIO_COMPONENT] = 1;
     vect[Components_e::GRAVITY_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
+}
+
+//===================================================================
+uint32_t MainEngine::createGeneratorEntity()
+{
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::GENERATOR_COMPONENT] = 1;
+    vect[Components_e::TIMER_COMPONENT] = 1;
+    vect[Components_e::AUDIO_COMPONENT] = 1;
     return Ecsm_t::instance().addEntity(vect);
 }
 

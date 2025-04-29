@@ -12,6 +12,7 @@
 #include <ECS/Components/MemSpriteDataComponent.hpp>
 #include <ECS/Components/MoveableComponent.hpp>
 #include <ECS/Components/SpriteTextureComponent.hpp>
+#include <ECS/Components/GeneratorComponent.hpp>
 #include <cassert>
 #include <alias.hpp>
 #include "IASystem.hpp"
@@ -96,6 +97,23 @@ void IASystem::execSystem()
             treatEnemyBehaviourAttack(*it, *enemyMapComp, *enemyConfComp, distancePlayer);
         }
     }
+    treatGenerator();
+}
+
+//===================================================================
+void IASystem::treatGenerator()
+{
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> arrayComp;
+    std::set<uint32_t> set;
+    arrayComp.fill(0);
+    arrayComp[Components_e::GENERATOR_COMPONENT] = 1;
+    arrayComp[Components_e::TIMER_COMPONENT] = 1;
+
+    set.insert(Components_e::GENERATOR_COMPONENT);
+    set.insert(Components_e::TIMER_COMPONENT);
+
+    std::optional<std::set<uint32_t>> vectEntities = Ecsm_t::instance().getEntitiesCustomComponents(set, arrayComp);
+
 }
 
 //===================================================================

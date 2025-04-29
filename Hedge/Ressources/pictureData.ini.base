@@ -166,7 +166,7 @@ textureWeight = 0.141
 textureHeight = 0.028
 
 [SpriteInvisible]
-texture = 21
+texture = 22
 texturePosX = 0.0
 texturePosY = 0.0
 textureWeight = 0.0001

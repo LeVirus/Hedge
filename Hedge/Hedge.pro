@@ -41,6 +41,7 @@ HEADERS += \
     ECS/Components/AudioComponent.hpp \
     ECS/Components/CheckpointComponent.hpp \
     ECS/Components/EnemyConfComponent.hpp \
+    ECS/Components/GeneratorComponent.hpp \
     ECS/Components/GravityComponent.hpp \
     ECS/Components/LogComponent.hpp \
     ECS/Components/MemSpriteDataComponent.hpp \
