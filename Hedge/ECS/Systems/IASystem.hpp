@@ -23,6 +23,7 @@ public:
     {
         m_mainEngine = mainEngine;
     }
+    void updateGeneratorEntities();
 private:
     void treatGenerator();
     void treatEject();
@@ -39,5 +40,6 @@ private:
     float m_distanceEnemyBehaviour = LEVEL_TILE_SIZE_PX * 9.0f;
     MainEngine *m_mainEngine;
     std::vector<SoundElement> m_memPlayerVisibleShot;
+    std::optional<std::set<uint32_t>> m_vectGeneratorEntities;
 };
 

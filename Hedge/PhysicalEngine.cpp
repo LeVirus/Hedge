@@ -99,6 +99,12 @@ void PhysicalEngine::setGamepadKey(const std::array<GamepadInputState, static_ca
 }
 
 //===================================================================
+void PhysicalEngine::updateGeneratorEntities()
+{
+    m_iaSystem->updateGeneratorEntities();
+}
+
+//===================================================================
 void PhysicalEngine::memPlayerCurrentWallOnGround(uint32_t entity)
 {
     m_platformSystem->memPlayerCurrentWallOnGround(entity);

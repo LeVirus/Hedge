@@ -10,6 +10,7 @@ struct GeneratorComponent : public ECS::Component
     bool m_genEnemies = false;
     //iteration between generation
     uint32_t m_cycles = 5, m_damage;
+    Direction_e m_dir;
     std::vector<uint32_t> m_vectElementGen;
     virtual ~GeneratorComponent() = default;
 };

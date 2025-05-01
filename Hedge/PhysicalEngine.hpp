@@ -71,6 +71,8 @@ public:
     {
         m_collisionSystem->addEntityToZone(entity, coord);
     }
+    void updateGeneratorEntities();
+
     inline void removeEntityToZone(uint32_t entity)
     {
         m_collisionSystem->removeEntityToZone(entity);

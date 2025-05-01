@@ -616,25 +616,30 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
         std::optional<bool> res = toBool(*val);
         assert(res);
         staticElement.m_traversable = *res;
-        if(elementType == LevelStaticElementType_e::GENERATOR)
+        if(elementType == LevelStaticElementType_e::GROUND)
         {
-            val = m_ini.getValue(sectionName, "ShootID");
+            val = m_ini.getValue(sectionName, "Direction");
+            //GENERATOR CASE
             if(val)
             {
-                staticElement.m_generatorShootID = *val;
+                //OOOOOK A COMPL2TER
+                if(*val == "south")
+                {
+                    staticElement.m_dir = Direction_e::SOUTH;
+                }
+                val = m_ini.getValue(sectionName, "ShootID");
+                if(val)
+                {
+                    staticElement.m_generatorShootID = *val;
+                }
+                val = m_ini.getValue(sectionName, "Cycles");
+                assert(val);
+                staticElement.m_cycles = std::stoi(*val);
+                val = m_ini.getValue(sectionName, "Damage");
+                assert(val);
+                staticElement.m_damage = std::stoi(*val);
+                staticElement.m_generator = true;
             }
-            val = m_ini.getValue(sectionName, "Direction");
-            assert(val);
-            if(*val == "south")
-            {
-                staticElement.m_dir = Direction_e::SOUTH;
-            }
-            val = m_ini.getValue(sectionName, "Cycles");
-            assert(val);
-            staticElement.m_cycles = std::stoi(*val);
-            val = m_ini.getValue(sectionName, "Damage");
-            assert(val);
-            staticElement.m_damage = std::stoi(*val);
         }
     }
 }

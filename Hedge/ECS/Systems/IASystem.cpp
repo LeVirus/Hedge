@@ -101,8 +101,9 @@ void IASystem::execSystem()
 }
 
 //===================================================================
-void IASystem::treatGenerator()
+void IASystem::updateGeneratorEntities()
 {
+    m_vectGeneratorEntities->clear();
     std::array<uint32_t, Components_e::TOTAL_COMPONENTS> arrayComp;
     std::set<uint32_t> set;
     arrayComp.fill(0);
@@ -112,8 +113,44 @@ void IASystem::treatGenerator()
     set.insert(Components_e::GENERATOR_COMPONENT);
     set.insert(Components_e::TIMER_COMPONENT);
 
-    std::optional<std::set<uint32_t>> vectEntities = Ecsm_t::instance().getEntitiesCustomComponents(set, arrayComp);
+    m_vectGeneratorEntities = Ecsm_t::instance().getEntitiesCustomComponents(set, arrayComp);
+}
 
+//===================================================================
+void IASystem::treatGenerator()
+{
+    for(std::set<uint32_t>::iterator it = m_vectGeneratorEntities->begin(); it != m_vectGeneratorEntities->end(); ++it)
+    {
+        GeneratorComponent *generatorComp = Ecsm_t::instance().getComponent<GeneratorComponent, Components_e::GENERATOR_COMPONENT>(*it);
+        assert(generatorComp);
+        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*it);
+        assert(timerComp);
+        if(++timerComp->m_cycleCountA > generatorComp->m_cycles)
+        {
+
+            MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
+            assert(mapComp);
+            timerComp->m_cycleCountA = 0;
+            float angle;
+            switch(generatorComp->m_dir)
+            {
+            case Direction_e::SOUTH:
+                angle = 270.0f;
+                break;
+            case Direction_e::NORTH:
+                angle = 90.0f;
+                break;
+            case Direction_e::WEST:
+                angle = 180.0f;
+                break;
+            case Direction_e::EAST:
+                angle = 0.0f;
+                break;
+            }
+            confVisibleShoot(generatorComp->m_vectElementGen, mapComp->m_absoluteMapPositionPX, angle, CollisionTag_e::BULLET_ENEMY_CT);
+        }
+        treatVisibleShots(generatorComp->m_vectElementGen);
+    }
 }
 
 //===================================================================

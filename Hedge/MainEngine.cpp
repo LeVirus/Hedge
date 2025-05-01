@@ -1199,6 +1199,7 @@ void MainEngine::loadLevel(const LevelManager &levelManager)
     m_audioEngine.memoriseEpilogueMusicFilename(levelManager.getLevelEpilogueMusic());
     m_audioEngine.loadMusicFromFile(levelManager.getLevel().getMusicFilename());
     m_audioEngine.playMusic();
+    m_physicalEngine.updateGeneratorEntities();
 }
 
 //===================================================================
@@ -2600,7 +2601,7 @@ uint32_t MainEngine::createGeneratorEntity()
     vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
     vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
     vect[Components_e::MAP_COORD_COMPONENT] = 1;
-    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     vect[Components_e::GENERATOR_COMPONENT] = 1;
     vect[Components_e::TIMER_COMPONENT] = 1;
@@ -3260,7 +3261,7 @@ bool MainEngine::loadStaticElementEntities(const LevelManager &levelManager)
     loadStaticElementGroup(vectSprite, levelManager.getCeilingData(), LevelStaticElementType_e::CEILING, levelManager);
     loadStaticElementGroup(vectSprite, levelManager.getObjectData(), LevelStaticElementType_e::OBJECT, levelManager);
     loadStaticElementGroup(vectSprite, levelManager.getTeleportData(), LevelStaticElementType_e::TELEPORT, levelManager);
-    loadStaticElementGroup(vectSprite, levelManager.getTeleportData(), LevelStaticElementType_e::GENERATOR, levelManager);
+    // loadStaticElementGroup(vectSprite, levelManager.getTeleportData(), LevelStaticElementType_e::GENERATOR, levelManager);
     return loadExitElement(levelManager, levelManager.getExitElementData());
 }
 
@@ -3411,8 +3412,9 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         {
             tag = CollisionTag_e::STATIC_SET_CT;
         }
-        if(elementType == LevelStaticElementType_e::GENERATOR)
+        if(elementType == LevelStaticElementType_e::GROUND && staticElementData.m_generator)
         {
+            elementType = LevelStaticElementType_e::GENERATOR;
             entityNum = createGeneratorEntity();
         }
         else
@@ -3428,6 +3430,7 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         generatorComp->m_genEnemies = false;
         generatorComp->m_cycles = staticElementData.m_cycles;
         generatorComp->m_damage = staticElementData.m_damage;
+        generatorComp->m_dir = staticElementData.m_dir;
 
         generatorComp->m_vectElementGen.resize(4);
         //6 ==> velocity

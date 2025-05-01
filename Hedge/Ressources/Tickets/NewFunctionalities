@@ -28,16 +28,6 @@ Add vehicule
 		*********Modif LEVEL EDITOR--OK
 
 ))
-Add elements to avoid in levels 
-	-Acid falling from ceiling
-	-Electric ark-----OK
-	-Flames---OK
-	-Pick-----------OK
-	-Wall electrized by alternance-------OK
-		*********Modif Conf file
-		*********Modif LEVEL EDITOR--OK
-
-))
 Make bosses
 	-Set bosses in conf files
 	-Change music when arena is reached--------------OK
@@ -53,6 +43,17 @@ Add several life for a level
 
 =============================================================================================================================
 =============================================================================================================================
+
+))
+Add elements to avoid in levels===============================OK
+	-Acid falling from ceiling-----OK
+	-Electric ark-----OK
+	-Flames---OK
+	-Pick-----------OK
+	-Wall electrized by alternance-------OK
+		*********Modif Conf file
+		*********Modif LEVEL EDITOR--OK
+
 
 ))
 Add dialog cutscene========================================================================OK 
