@@ -1813,7 +1813,7 @@ uint32_t MainEngine::createEnemyDropObject(const LevelManager &levelManager, con
     std::map<std::string, StaticLevelElementData>::const_iterator itt = levelManager.getObjectData().find(enemyData.m_dropedObjectID);
     assert(itt != levelManager.getObjectData().end());
     std::optional<uint32_t> objectEntity = createStaticElementEntity(LevelStaticElementType_e::OBJECT, itt->second,
-                                                      levelManager.getPictureSpriteData(), iterationNum, true);
+                                                      levelManager.getPictureSpriteData(), iterationNum, levelManager, true);
     assert(objectEntity);
     GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*objectEntity);
     assert(genComp);
@@ -3256,10 +3256,11 @@ void MainEngine::confWeaponsPreviewEntities()
 bool MainEngine::loadStaticElementEntities(const LevelManager &levelManager)
 {
     const std::vector<SpriteData> &vectSprite = levelManager.getPictureData().getSpriteData();
-    loadStaticElementGroup(vectSprite, levelManager.getGroundData(), LevelStaticElementType_e::GROUND);
-    loadStaticElementGroup(vectSprite, levelManager.getCeilingData(), LevelStaticElementType_e::CEILING);
-    loadStaticElementGroup(vectSprite, levelManager.getObjectData(), LevelStaticElementType_e::OBJECT);
-    loadStaticElementGroup(vectSprite, levelManager.getTeleportData(), LevelStaticElementType_e::TELEPORT);
+    loadStaticElementGroup(vectSprite, levelManager.getGroundData(), LevelStaticElementType_e::GROUND, levelManager);
+    loadStaticElementGroup(vectSprite, levelManager.getCeilingData(), LevelStaticElementType_e::CEILING, levelManager);
+    loadStaticElementGroup(vectSprite, levelManager.getObjectData(), LevelStaticElementType_e::OBJECT, levelManager);
+    loadStaticElementGroup(vectSprite, levelManager.getTeleportData(), LevelStaticElementType_e::TELEPORT, levelManager);
+    loadStaticElementGroup(vectSprite, levelManager.getTeleportData(), LevelStaticElementType_e::GENERATOR, levelManager);
     return loadExitElement(levelManager, levelManager.getExitElementData());
 }
 
@@ -3371,21 +3372,21 @@ bool MainEngine::loadExitElement(const LevelManager &levelManager,
 //===================================================================
 void MainEngine::loadStaticElementGroup(const std::vector<SpriteData> &vectSpriteData,
                                         const std::map<std::string, StaticLevelElementData> &staticData,
-                                        LevelStaticElementType_e elementType)
+                                        LevelStaticElementType_e elementType, const LevelManager &levelManager)
 {
     std::map<std::string, StaticLevelElementData>::const_iterator it = staticData.begin();
     for(; it != staticData.end(); ++it)
     {
         for(uint32_t j = 0; j < it->second.m_TileGamePosition.size(); ++j)
         {
-            createStaticElementEntity(elementType, it->second, vectSpriteData, j, false);
+            createStaticElementEntity(elementType, it->second, vectSpriteData, j, levelManager, false);
         }
     }
 }
 
 //===================================================================
 std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElementType_e elementType, const StaticLevelElementData &staticElementData,
-                                                              const std::vector<SpriteData> &vectSpriteData, uint32_t iterationNum, bool enemyDrop)
+                                                              const std::vector<SpriteData> &vectSpriteData, uint32_t iterationNum, const LevelManager &levelManager, bool enemyDrop)
 {
     CollisionTag_e tag;
     uint32_t entityNum;
@@ -3410,7 +3411,28 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         {
             tag = CollisionTag_e::STATIC_SET_CT;
         }
-        entityNum = createStaticEntity();
+        if(elementType == LevelStaticElementType_e::GENERATOR)
+        {
+            entityNum = createGeneratorEntity();
+        }
+        else
+        {
+            entityNum = createStaticEntity();
+        }
+    }
+    if(elementType == LevelStaticElementType_e::GENERATOR)
+    {
+        GeneratorComponent *generatorComp = Ecsm_t::instance().getComponent<GeneratorComponent, Components_e::GENERATOR_COMPONENT>(entityNum);
+        assert(generatorComp);
+        //OOOOOK TMP
+        generatorComp->m_genEnemies = false;
+        generatorComp->m_cycles = staticElementData.m_cycles;
+        generatorComp->m_damage = staticElementData.m_damage;
+
+        generatorComp->m_vectElementGen.resize(4);
+        //6 ==> velocity
+        confAmmoEntities(generatorComp->m_vectElementGen, CollisionTag_e::BULLET_ENEMY_CT, true, generatorComp->m_damage, 6);
+        loadVisibleShotData(levelManager.getPictureData().getSpriteData(), generatorComp->m_vectElementGen, staticElementData.m_generatorShootID, levelManager.getVisibleShootDisplayData());
     }
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
     assert(mapComp);

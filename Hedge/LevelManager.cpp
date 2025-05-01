@@ -308,6 +308,10 @@ void LevelManager::loadGeneralStaticElements(LevelStaticElementType_e elementTyp
         vectINISections = m_ini.getSectionNamesContaining("Teleport");
         memMap = &m_teleportElement;
         break;
+    case LevelStaticElementType_e::GENERATOR:
+        vectINISections = m_ini.getSectionNamesContaining("Generator");
+        memMap = &m_generatorElement;
+        break;
     case LevelStaticElementType_e::IMPACT:
         break;
     }
@@ -604,7 +608,7 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
             m_cardINIAssociated.insert({sectionName, *staticElement.m_cardID});
         }
     }
-    if(elementType != LevelStaticElementType_e::OBJECT)
+    else
     {
         val = m_ini.getValue(sectionName, "traversable");
         assert(val);
@@ -612,6 +616,26 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
         std::optional<bool> res = toBool(*val);
         assert(res);
         staticElement.m_traversable = *res;
+        if(elementType == LevelStaticElementType_e::GENERATOR)
+        {
+            val = m_ini.getValue(sectionName, "ShootID");
+            if(val)
+            {
+                staticElement.m_generatorShootID = *val;
+            }
+            val = m_ini.getValue(sectionName, "Direction");
+            assert(val);
+            if(*val == "south")
+            {
+                staticElement.m_dir = Direction_e::SOUTH;
+            }
+            val = m_ini.getValue(sectionName, "Cycles");
+            assert(val);
+            staticElement.m_cycles = std::stoi(*val);
+            val = m_ini.getValue(sectionName, "Damage");
+            assert(val);
+            staticElement.m_damage = std::stoi(*val);
+        }
     }
 }
 
@@ -1957,7 +1981,8 @@ void LevelManager::loadStandardData(const std::string &INIFileName)
     loadWeaponsData();
     loadGeneralSoundData();
     loadGeneralStaticElements(LevelStaticElementType_e::GROUND);
-    loadGeneralStaticElements(LevelStaticElementType_e::CEILING);
+    loadGeneralStaticElements(LevelStaticElementType_e::GENERATOR);
+    // loadGeneralStaticElements(LevelStaticElementType_e::CEILING);
     loadGeneralStaticElements(LevelStaticElementType_e::OBJECT);
     loadGeneralStaticElements(LevelStaticElementType_e::TELEPORT);
     loadVisualTeleportData();
@@ -2024,6 +2049,19 @@ void LevelManager::loadPositionStaticElements()
             ++it;
         }
     }
+
+    for(it = m_generatorElement.begin(); it != m_generatorElement.end();)
+    {
+        if(!fillStandartPositionVect(it->first, it->second.m_TileGamePosition))
+        {
+            it = removeStaticElement(it->first, LevelStaticElementType_e::GENERATOR);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+
     for(it = m_teleportElement.begin(); it != m_teleportElement.end(); ++it)
     {
         fillTeleportPositions(it->first);

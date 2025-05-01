@@ -637,6 +637,16 @@ SpriteHeightGame = 0.4665
 Type = 3
 CardID = 3
 
+[GeneratorAcidFall]
+Sprite = SpriteLittleStorage
+SpriteWeightGame = 0.4
+SpriteHeightGame = 0.8
+traversable = false
+ShootID = VisibleShootDemonC
+Direction = south
+Cycles = 5
+Damage = 5
+
 [GroundLittleStorage]
 Sprite = SpriteLittleStorage
 SpriteWeightGame = 0.4

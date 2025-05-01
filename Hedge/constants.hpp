@@ -319,7 +319,8 @@ enum class LevelStaticElementType_e
     CEILING,
     OBJECT,
     IMPACT,
-    TELEPORT
+    TELEPORT,
+    GENERATOR
 };
 
 enum class Shader_e

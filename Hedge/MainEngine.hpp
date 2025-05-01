@@ -328,7 +328,7 @@ private:
     SoundElement loadSound(const std::string &file);
     uint32_t loadDisplayTeleportEntity(const LevelManager &levelManager);
     void loadStaticElementGroup(const std::vector<SpriteData> &vectSpriteData, const std::map<std::string, StaticLevelElementData> &staticData,
-                                LevelStaticElementType_e elementType);
+                                LevelStaticElementType_e elementType, const LevelManager &levelManager);
     bool loadExitElement(const LevelManager &levelManager, const StaticLevelElementData &exit);
     void createPlayerAmmoEntities(PlayerConfComponent &playerConf, CollisionTag_e collTag);
     void confAmmoEntities(std::vector<uint32_t> &ammoEntities, CollisionTag_e collTag,
@@ -345,7 +345,7 @@ private:
     uint32_t createEnemyDropObject(const LevelManager &levelManager, const EnemyData &enemyData, uint32_t iterationNum, bool loadFromCheckpoint, uint32_t cmpt);
     std::optional<uint32_t> createStaticElementEntity(LevelStaticElementType_e elementType, const StaticLevelElementData &staticElementData,
                                                       const std::vector<SpriteData> &vectSpriteData, uint32_t iterationNum,
-                                                      bool enemyDrop = false);
+                                                      const LevelManager &levelManager, bool enemyDrop = false);
     uint32_t confObjectEntity(const StaticLevelElementData &objectData);
     uint32_t createMeleeAttackEntity(bool sound = false);
     uint32_t createDamageZoneEntity(uint32_t damage, CollisionTag_e tag, float ray = 10.0f, const std::string &soundFile = "");
