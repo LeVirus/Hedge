@@ -627,6 +627,18 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
                 {
                     staticElement.m_dir = Direction_e::SOUTH;
                 }
+                else if(*val == "north")
+                {
+                    staticElement.m_dir = Direction_e::NORTH;
+                }
+                else if(*val == "east")
+                {
+                    staticElement.m_dir = Direction_e::EAST;
+                }
+                else if(*val == "west")
+                {
+                    staticElement.m_dir = Direction_e::WEST;
+                }
                 val = m_ini.getValue(sectionName, "ShootID");
                 if(val)
                 {
@@ -634,7 +646,8 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
                 }
                 val = m_ini.getValue(sectionName, "Cycles");
                 assert(val);
-                staticElement.m_cycles = std::stoi(*val);
+                staticElement.m_cycles = std::stof(*val) / FPS_VALUE;
+
                 val = m_ini.getValue(sectionName, "Damage");
                 assert(val);
                 staticElement.m_damage = std::stoi(*val);

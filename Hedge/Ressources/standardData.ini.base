@@ -643,8 +643,8 @@ SpriteWeightGame = 0.4
 SpriteHeightGame = 0.8
 traversable = false
 ShootID = VisibleShootDemonC
-Direction = south
-Cycles = 25
+Direction = north
+Cycles = 2.5
 Damage = 5
 
 [GroundLittleStorage]
