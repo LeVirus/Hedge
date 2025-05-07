@@ -637,6 +637,16 @@ SpriteHeightGame = 0.4665
 Type = 3
 CardID = 3
 
+[GroundGeneratorEnemies]
+Sprite = SpriteGigerTeleport
+SpriteWeightGame = 0.4
+SpriteHeightGame = 0.8
+traversable = false
+EnemyID = EnemyDemon
+Direction = north
+Cycles = 1.0
+MaxPop = 4
+
 [GroundGeneratorAcidFall]
 Sprite = SpriteLittleStorage
 SpriteWeightGame = 0.4
@@ -646,6 +656,7 @@ ShootID = VisibleShootDemonC
 Direction = north
 Cycles = 2.5
 Damage = 5
+MaxPop = 4
 
 [GroundLittleStorage]
 Sprite = SpriteLittleStorage

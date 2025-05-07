@@ -258,6 +258,9 @@ void VisionSystem::updateEnemySprites(uint32_t enemyEntity,
                 assert(m_refMainEngine);
                 m_refMainEngine->activeEndLevel();
             }
+            GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(enemyEntity);
+            assert(collComp);
+            collComp->m_active = false;
         }
         else if(++timerComp.m_cycleCountB >= enemyConfComp.m_cycleNumberDyingInterval)
         {

@@ -44,9 +44,9 @@ struct StaticLevelElementData
     //TELEPORT
     std::optional<TeleportData> m_teleportData;
     //GENERATOR
-    std::string m_generatorShootID;
+    std::string m_generatorShootID, m_generatorEnemyID;
     Direction_e m_dir;
-    uint32_t m_cycles, m_damage;
+    uint32_t m_cycles, m_damage, m_maxPop;
 };
 
 struct DoorData

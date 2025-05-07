@@ -1340,7 +1340,7 @@ bool MainEngine::loadEnemiesEntities(const LevelManager &levelManager)
                 getSpriteData()[it->second.m_staticFrontSprites[0]];
         for(uint32_t j = 0; j < it->second.m_TileGamePosition.size(); ++j)
         {
-            exit |= createEnemy(levelManager, memSpriteData, it->second, loadFromCheckpoint, j, currentSoundElements, it->second.m_inGameSpriteSize);
+            exit |= createEnemy(levelManager, memSpriteData, it->second, loadFromCheckpoint, j, currentSoundElements, it->second.m_inGameSpriteSize).first;
         }
     }
     return exit;
@@ -1544,16 +1544,17 @@ void MainEngine::confBaseWallData(uint32_t wallEntity, const SpriteData &memSpri
 }
 
 //===================================================================
-bool MainEngine::createEnemy(const LevelManager &levelManager, const SpriteData &memSpriteData, const EnemyData &enemyData,
-                             bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements, const std::pair<float, float> &inGameSpriteSize)
+std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManager, const SpriteData &memSpriteData, const EnemyData &enemyData,
+                             bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements, const std::pair<float, float> &inGameSpriteSize, bool generatorMode)
 {
     bool exit = false;
     uint32_t numEntity = createEnemyEntity();
-    confBaseComponent(numEntity, memSpriteData, enemyData.m_TileGamePosition[index],
+    PairUI_t pairPos = generatorMode ? PairUI_t{0.0f, 0.0f} : enemyData.m_TileGamePosition[index];
+    confBaseComponent(numEntity, memSpriteData, pairPos,
                       CollisionShape_e::RECTANGLE_C, CollisionTag_e::ENEMY_CT, inGameSpriteSize);
     EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(numEntity);
     assert(enemyComp);
-    if(enemyData.m_endLevelPos && (*enemyData.m_endLevelPos) == enemyData.m_TileGamePosition[index])
+    if(!generatorMode && enemyData.m_endLevelPos && (*enemyData.m_endLevelPos) == enemyData.m_TileGamePosition[index])
     {
         enemyComp->m_endLevel = true;
         exit = true;
@@ -1571,7 +1572,7 @@ bool MainEngine::createEnemy(const LevelManager &levelManager, const SpriteData 
     {
         enemyComp->m_meleeAttackDamage = *enemyData.m_meleeDamage;
     }
-    if(!enemyData.m_dropedObjectID.empty())
+    if(!generatorMode && !enemyData.m_dropedObjectID.empty())
     {
         enemyComp->m_dropedObjectEntity = createEnemyDropObject(levelManager, enemyData, index, loadFromCheckpoint, m_currentLevelEnemiesNumber);
     }
@@ -1588,6 +1589,12 @@ bool MainEngine::createEnemy(const LevelManager &levelManager, const SpriteData 
     else
     {
         loadNonVisibleEnemyAmmoStuff(loadFromCheckpoint, m_currentLevelEnemiesNumber, enemyData, levelManager, *enemyComp);
+    }
+    if(generatorMode)
+    {
+        GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(numEntity);
+        assert(collComp);
+        collComp->m_active = false;
     }
     loadEnemySprites(levelManager.getPictureData().getSpriteData(),
                      enemyData, numEntity, *enemyComp, levelManager.getVisibleShootDisplayData());
@@ -1608,7 +1615,7 @@ bool MainEngine::createEnemy(const LevelManager &levelManager, const SpriteData 
     timerComponent->m_cycleCountA = 0;
     memCheckpointEnemiesData(loadFromCheckpoint, numEntity, m_currentLevelEnemiesNumber);
     ++m_currentLevelEnemiesNumber;
-    return exit;
+    return {exit, numEntity};
 }
 
 //===================================================================
@@ -3426,16 +3433,38 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
     {
         GeneratorComponent *generatorComp = Ecsm_t::instance().getComponent<GeneratorComponent, Components_e::GENERATOR_COMPONENT>(entityNum);
         assert(generatorComp);
-        //OOOOOK TMP
-        generatorComp->m_genEnemies = false;
         generatorComp->m_cycles = staticElementData.m_cycles;
-        generatorComp->m_damage = staticElementData.m_damage;
         generatorComp->m_dir = staticElementData.m_dir;
 
-        generatorComp->m_vectElementGen.resize(4);
-        //6 ==> velocity
-        confAmmoEntities(generatorComp->m_vectElementGen, CollisionTag_e::BULLET_ENEMY_CT, true, generatorComp->m_damage, 6);
-        loadVisibleShotData(levelManager.getPictureData().getSpriteData(), generatorComp->m_vectElementGen, staticElementData.m_generatorShootID, levelManager.getVisibleShootDisplayData());
+        generatorComp->m_vectElementGen.resize(staticElementData.m_maxPop);
+        //SHOOT CASE
+        if(staticElementData.m_generatorEnemyID.empty())
+        {
+            assert(!staticElementData.m_generatorShootID.empty());
+            generatorComp->m_damage = staticElementData.m_damage;
+            generatorComp->m_genEnemies = false;
+            //6 ==> velocity
+            confAmmoEntities(generatorComp->m_vectElementGen, CollisionTag_e::BULLET_ENEMY_CT, true, generatorComp->m_damage, 6);
+            loadVisibleShotData(levelManager.getPictureData().getSpriteData(), generatorComp->m_vectElementGen, staticElementData.m_generatorShootID, levelManager.getVisibleShootDisplayData());
+        }
+        //ENEMIES CASE
+        else
+        {
+            assert(!staticElementData.m_generatorEnemyID.empty());
+            generatorComp->m_genEnemies = true;
+            const std::map<std::string, EnemyData> &enemiesData = levelManager.getEnemiesData();
+            std::map<std::string, EnemyData>::const_iterator it = enemiesData.find(staticElementData.m_generatorEnemyID);
+            assert(it != enemiesData.end());
+            std::array<SoundElement, 3> currentSoundElements;
+            currentSoundElements[0] = loadSound(it->second.m_detectBehaviourSoundFile);
+            currentSoundElements[1] = loadSound(it->second.m_attackSoundFile);
+            currentSoundElements[2] = loadSound(it->second.m_deathSoundFile);
+            for(uint32_t j = 0; j < generatorComp->m_vectElementGen.size(); ++j)
+            {
+                generatorComp->m_vectElementGen[j] = createEnemy(levelManager, memSpriteData, it->second, false, 0, currentSoundElements, it->second.m_inGameSpriteSize, true).second;
+            }
+            generatorComp->m_memEnemyLife = it->second.m_life;
+        }
     }
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
     assert(mapComp);

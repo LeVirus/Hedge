@@ -312,8 +312,8 @@ private:
     void confActionEntity();
     void confMapDetectShapeEntity(const PairFloat_t &playerPos);
     bool loadEnemiesEntities(const LevelManager &levelManager);
-    bool createEnemy(const LevelManager &levelManager, const SpriteData &memSpriteData, const EnemyData &enemyData,
-                         bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements, const std::pair<float, float> &inGameSpriteSize);
+    std::pair<bool, uint32_t> createEnemy(const LevelManager &levelManager, const SpriteData &memSpriteData, const EnemyData &enemyData,
+                         bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements, const std::pair<float, float> &inGameSpriteSize, bool generatorMode = false);
     void loadNonVisibleEnemyAmmoStuff(bool loadFromCheckpoint, uint32_t currentEnemy,
                                       const EnemyData &enemyData, const LevelManager &levelManager,
                                       EnemyConfComponent &enemyComp);

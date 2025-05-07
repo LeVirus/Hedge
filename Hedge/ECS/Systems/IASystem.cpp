@@ -127,7 +127,6 @@ void IASystem::treatGenerator()
         assert(timerComp);
         if(++timerComp->m_cycleCountA > generatorComp->m_cycles)
         {
-
             MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
             assert(mapComp);
             timerComp->m_cycleCountA = 0;
@@ -147,9 +146,19 @@ void IASystem::treatGenerator()
                 angle = 0.0f;
                 break;
             }
-            confVisibleShoot(generatorComp->m_vectElementGen, mapComp->m_absoluteMapPositionPX, angle, CollisionTag_e::BULLET_ENEMY_CT);
+            if(generatorComp->m_genEnemies)
+            {
+                confEnemiesGenerator(*it, mapComp->m_absoluteMapPositionPX);
+            }
+            else
+            {
+                confVisibleShoot(generatorComp->m_vectElementGen, mapComp->m_absoluteMapPositionPX, angle, CollisionTag_e::BULLET_ENEMY_CT);
+            }
         }
-        treatVisibleShots(generatorComp->m_vectElementGen);
+        if(!generatorComp->m_genEnemies)
+        {
+            treatVisibleShots(generatorComp->m_vectElementGen);
+        }
     }
 }
 
@@ -375,6 +384,36 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     segmentComp->m_points.second = mapComp->m_absoluteMapPositionPX;
     ammoMoveComp->m_degreeOrientation = degreeAngle;
     ammoMoveComp->m_currentDegreeMoveDirection = degreeAngle;
+}
+
+//===================================================================
+void IASystem::confEnemiesGenerator(uint32_t generatorEntity, const PairFloat_t &point)
+{
+    GeneratorComponent *generatorComp = Ecsm_t::instance().getComponent<GeneratorComponent, Components_e::GENERATOR_COMPONENT>(generatorEntity);
+    assert(generatorComp);
+    for(uint32_t i = 0; i < generatorComp->m_vectElementGen.size(); ++i)
+    {
+        GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(generatorComp->m_vectElementGen[i]);
+        assert(collComp);
+        if(collComp->m_active)
+        {
+            continue;
+        }
+        collComp->m_active = true;
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(generatorComp->m_vectElementGen[i]);
+        assert(mapComp);
+        mapComp->m_absoluteMapPositionPX = point;
+        EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(generatorComp->m_vectElementGen[i]);
+        assert(enemyComp);
+        enemyComp->m_life = generatorComp->m_memEnemyLife;
+        enemyComp->m_displayMode = EnemyDisplayMode_e::NORMAL;
+        enemyComp->m_behaviourMode = EnemyBehaviourMode_e::PASSIVE;
+        enemyComp->m_currentSprite = enemyComp->m_mapSpriteAssociate.find(EnemySpriteType_e::STATIC_FRONT)->second.first;
+        GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(generatorComp->m_vectElementGen[i]);
+        assert(gravComp);
+        gravComp->m_freeze = false;
+        break;
+    }
 }
 
 //===================================================================

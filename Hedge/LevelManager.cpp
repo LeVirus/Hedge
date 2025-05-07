@@ -622,7 +622,6 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
             //GENERATOR CASE
             if(val)
             {
-                //OOOOOK A COMPL2TER
                 if(*val == "south")
                 {
                     staticElement.m_dir = Direction_e::SOUTH;
@@ -639,18 +638,29 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
                 {
                     staticElement.m_dir = Direction_e::WEST;
                 }
+                val = m_ini.getValue(sectionName, "Cycles");
+                assert(val);
+                staticElement.m_cycles = std::stof(*val) / FPS_VALUE;
+                val = m_ini.getValue(sectionName, "MaxPop");
+                assert(val);
+                staticElement.m_maxPop = std::stoi(*val);
+
+                //Shoot case
                 val = m_ini.getValue(sectionName, "ShootID");
                 if(val)
                 {
                     staticElement.m_generatorShootID = *val;
+                    val = m_ini.getValue(sectionName, "Damage");
+                    assert(val);
+                    staticElement.m_damage = std::stoi(*val);
                 }
-                val = m_ini.getValue(sectionName, "Cycles");
-                assert(val);
-                staticElement.m_cycles = std::stof(*val) / FPS_VALUE;
-
-                val = m_ini.getValue(sectionName, "Damage");
-                assert(val);
-                staticElement.m_damage = std::stoi(*val);
+                else
+                {
+                    //Enemy Case
+                    val = m_ini.getValue(sectionName, "EnemyID");
+                    assert(val);
+                    staticElement.m_generatorEnemyID = *val;
+                }
                 staticElement.m_generator = true;
             }
         }

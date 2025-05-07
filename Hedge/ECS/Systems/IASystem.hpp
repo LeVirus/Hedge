@@ -25,6 +25,7 @@ public:
     }
     void updateGeneratorEntities();
 private:
+    void confEnemiesGenerator(uint32_t generatorEntity, const PairFloat_t &point);
     void treatGenerator();
     void treatEject();
     void confNewVisibleShot(const std::vector<uint32_t> &visibleShots);
