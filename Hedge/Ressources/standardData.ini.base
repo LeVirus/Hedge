@@ -188,12 +188,6 @@ FrozenOnAttack = false
 
 
 [EnemyArachnotron]
-StaticSpriteFront = SpriteAFA SpriteAFB
-StaticSpriteFrontLeft = SpriteAFLA SpriteAFLB
-StaticSpriteFrontRight = SpriteAFRA SpriteAFRB 
-StaticSpriteBack = SpriteABA SpriteABB
-StaticSpriteBackLeft = SpriteABLA SpriteABLB
-StaticSpriteBackRight = SpriteABRA SpriteABRB
 StaticSpriteLeft = SpriteALA SpriteALB
 StaticSpriteRight = SpriteARA SpriteARB
 AttackSprite = SpriteAAA SpriteAAB 
@@ -214,12 +208,6 @@ DeathSound = DeathRobot.wav
 FrozenOnAttack = false
 
 [EnemyCyberDemon]
-StaticSpriteFront = SpriteCDFA SpriteCDFB
-StaticSpriteFrontLeft = SpriteCDFLA SpriteCDFLB
-StaticSpriteFrontRight = SpriteCDFRA SpriteCDFRB 
-StaticSpriteBack = SpriteCDBA SpriteCDBB
-StaticSpriteBackLeft = SpriteCDBLA SpriteCDBLB
-StaticSpriteBackRight = SpriteCDBRA SpriteCDBRB
 StaticSpriteLeft = SpriteCDLA SpriteCDLB
 StaticSpriteRight = SpriteCDRA SpriteCDRB
 AttackSprite = SpriteCDAA SpriteCDAB 
@@ -241,12 +229,6 @@ DeathSound = Death3.wav
 FrozenOnAttack = false
 
 [EnemyBaronHell]
-StaticSpriteFront = SpriteBHFA SpriteBHFB
-StaticSpriteFrontLeft = SpriteBHFLA SpriteBHFLB
-StaticSpriteFrontRight = SpriteBHFRA SpriteBHFRB 
-StaticSpriteBack = SpriteBHBA SpriteBHBB
-StaticSpriteBackLeft = SpriteBHBLA SpriteBHBLB
-StaticSpriteBackRight = SpriteBHBRA SpriteBHBRB
 StaticSpriteLeft = SpriteBHLA SpriteBHLB
 StaticSpriteRight = SpriteBHRA SpriteBHRB
 AttackSprite = SpriteBHAA SpriteBHAB SpriteBHAC
@@ -268,12 +250,6 @@ FrozenOnAttack = false
 
 
 [EnemyFlyingDemon]
-StaticSpriteFront = SpriteFDFA SpriteFDFB
-StaticSpriteFrontLeft = SpriteFDFLA SpriteFDFLB
-StaticSpriteFrontRight = SpriteFDFRA SpriteFDFRB 
-StaticSpriteBack = SpriteFDBA SpriteFDBB
-StaticSpriteBackLeft = SpriteFDBLA SpriteFDBLB
-StaticSpriteBackRight = SpriteFDBRA SpriteFDBRB
 StaticSpriteLeft = SpriteFDLA SpriteFDLB
 StaticSpriteRight = SpriteFDRA SpriteFDRB
 AttackSprite = SpriteFDAA SpriteFDAB SpriteFDAC
@@ -296,12 +272,6 @@ FrozenOnAttack = false
 
 
 [EnemyZombieShotgun]
-StaticSpriteFront = SpriteZSFA SpriteZSFB
-StaticSpriteFrontLeft = SpriteZSMFLA SpriteZSMFLB
-StaticSpriteFrontRight = SpriteZSMFRA SpriteZSMFRB 
-StaticSpriteBack = SpriteZSBA SpriteZSBB
-StaticSpriteBackLeft = SpriteZSMBLA SpriteZSMBLB
-StaticSpriteBackRight = SpriteZSMBRA SpriteZSMBRB
 StaticSpriteLeft = SpriteZSLA SpriteZSLB
 StaticSpriteRight = SpriteZSRA SpriteZSRB
 AttackSprite = SpriteZSAA SpriteZSAB 
@@ -324,12 +294,6 @@ FrozenOnAttack = true
 
 
 [EnemyDemonClaw]
-StaticSpriteFront = SpriteDCMFA SpriteDCMFB
-StaticSpriteFrontLeft = SpriteDCMMFLA SpriteDCMMFLB
-StaticSpriteFrontRight = SpriteDCMMFRA SpriteDCMMFRB 
-StaticSpriteBack = SpriteDCMBA SpriteDCMBB
-StaticSpriteBackLeft = SpriteDCMMBLA SpriteDCMMBLB
-StaticSpriteBackRight = SpriteDCMMBRA SpriteDCMMBRB
 StaticSpriteLeft = SpriteDCMLA SpriteDCMLB
 StaticSpriteRight = SpriteDCMRA SpriteDCMRB
 AttackSprite = SpriteDCAA SpriteDCAB
@@ -351,12 +315,6 @@ MeleeOnly = true
 FrozenOnAttack = false
 
 [EnemyDemon]
-StaticSpriteFront = SpriteDFA SpriteDFB
-StaticSpriteFrontLeft = SpriteDMFLA SpriteDMFLB
-StaticSpriteFrontRight = SpriteDMFRA SpriteDMFRB 
-StaticSpriteBack = SpriteDBA SpriteDBB
-StaticSpriteBackLeft = SpriteDMBLA SpriteDMBLB
-StaticSpriteBackRight = SpriteDMBRA SpriteDMBRB
 StaticSpriteLeft = SpriteDLA SpriteDLB
 StaticSpriteRight = SpriteDRA SpriteDRB
 AttackSprite = SpriteEAA SpriteEAB SpriteEAC
@@ -378,12 +336,6 @@ FrozenOnAttack = true
 
 
 [EnemyMarine]
-StaticSpriteFront = SpriteMFA SpriteMFB
-StaticSpriteFrontLeft = SpriteMFLA SpriteMFLB
-StaticSpriteFrontRight = SpriteMFRA SpriteMFRB 
-StaticSpriteBack = SpriteMBA SpriteMBB
-StaticSpriteBackLeft = SpriteMBLA SpriteMBLB
-StaticSpriteBackRight = SpriteMBRA SpriteMBRB
 StaticSpriteLeft = SpriteMLA SpriteMLB
 StaticSpriteRight = SpriteMRA SpriteMRB
 AttackSprite = SpriteMAA SpriteMAB 

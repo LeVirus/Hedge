@@ -1337,7 +1337,7 @@ bool MainEngine::loadEnemiesEntities(const LevelManager &levelManager)
         currentSoundElements[1] = loadSound(it->second.m_attackSoundFile);
         currentSoundElements[2] = loadSound(it->second.m_deathSoundFile);
         const SpriteData &memSpriteData = levelManager.getPictureData().
-                getSpriteData()[it->second.m_staticFrontSprites[0]];
+                getSpriteData()[it->second.m_staticLeftSprites[0]];
         for(uint32_t j = 0; j < it->second.m_TileGamePosition.size(); ++j)
         {
             exit |= createEnemy(levelManager, memSpriteData, it->second, loadFromCheckpoint, j, currentSoundElements, it->second.m_inGameSpriteSize).first;
@@ -2360,18 +2360,6 @@ void MainEngine::loadEnemySprites(const std::vector<SpriteData> &vectSprite, con
     MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(numEntity);
     assert(memSpriteComp);
     insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                              enemiesData.m_staticFrontSprites, EnemySpriteType_e::STATIC_FRONT);
-    insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                              enemiesData.m_staticFrontLeftSprites, EnemySpriteType_e::STATIC_FRONT_LEFT);
-    insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                              enemiesData.m_staticFrontRightSprites, EnemySpriteType_e::STATIC_FRONT_RIGHT);
-    insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                              enemiesData.m_staticBackSprites, EnemySpriteType_e::STATIC_BACK);
-    insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                              enemiesData.m_staticBackLeftSprites, EnemySpriteType_e::STATIC_BACK_LEFT);
-    insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                              enemiesData.m_staticBackRightSprites, EnemySpriteType_e::STATIC_BACK_RIGHT);
-    insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                               enemiesData.m_staticLeftSprites, EnemySpriteType_e::STATIC_LEFT);
     insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                               enemiesData.m_staticRightSprites, EnemySpriteType_e::STATIC_RIGHT);
@@ -2388,11 +2376,8 @@ void MainEngine::loadEnemySprites(const std::vector<SpriteData> &vectSprite, con
 }
 
 //===================================================================
-void insertEnemySpriteFromType(const std::vector<SpriteData> &vectSprite,
-                               mapEnemySprite_t &mapSpriteAssociate,
-                               std::vector<SpriteData const *> &vectSpriteData,
-                               const std::vector<uint16_t> &enemyMemArray,
-                               EnemySpriteType_e type)
+void insertEnemySpriteFromType(const std::vector<SpriteData> &vectSprite, mapEnemySprite_t &mapSpriteAssociate, std::vector<SpriteData const *> &vectSpriteData,
+                               const std::vector<uint16_t> &enemyMemArray, EnemySpriteType_e type)
 {
     //second pair {first pos last pos}
     mapSpriteAssociate.insert({type, {vectSpriteData.size(), vectSpriteData.size() +

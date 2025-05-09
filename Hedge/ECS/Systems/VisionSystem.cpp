@@ -272,8 +272,7 @@ void VisionSystem::updateEnemySprites(uint32_t enemyEntity,
 }
 
 //===========================================================================
-void VisionSystem::updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp,
-                                           uint32_t enemyEntity)
+void VisionSystem::updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp, uint32_t enemyEntity)
 {
     if(enemyConfComp.m_behaviourMode == EnemyBehaviourMode_e::DYING)
     {
@@ -284,28 +283,47 @@ void VisionSystem::updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, Ti
     }
     else
     {
-        //FPS STUFF TO MODIFY
+        // FPS STUFF TO MODIFY
         // MoveableComponent *enemyMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
-        // mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(currentOrientationSprite);
-        // //if sprite outside
-        // if(enemyConfComp.m_currentSprite < it->second.first ||
-        //         enemyConfComp.m_currentSprite > it->second.second)
-        // {
-        //     enemyConfComp.m_currentSprite = it->second.first;
-        //     timerComp.m_cycleCountA = 0;
-        // }
-        // else if(++timerComp.m_cycleCountA > enemyConfComp.m_standardSpriteInterval)
-        // {
-        //     if(enemyConfComp.m_currentSprite == it->second.second)
-        //     {
-        //         enemyConfComp.m_currentSprite = it->second.first;
-        //     }
-        //     else
-        //     {
-        //         ++enemyConfComp.m_currentSprite;
-        //     }
-        //     timerComp.m_cycleCountA = 0;
-        // }
+        mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(getEnemySpriteType(enemyConfComp.m_attackPhase));
+        //if sprite outside
+        if(enemyConfComp.m_currentSprite < it->second.first ||
+                enemyConfComp.m_currentSprite > it->second.second)
+        {
+            enemyConfComp.m_currentSprite = it->second.first;
+            timerComp.m_cycleCountA = 0;
+        }
+        else if(++timerComp.m_cycleCountA > enemyConfComp.m_standardSpriteInterval)
+        {
+            if(enemyConfComp.m_currentSprite == it->second.second)
+            {
+                enemyConfComp.m_currentSprite = it->second.first;
+            }
+            else
+            {
+                ++enemyConfComp.m_currentSprite;
+            }
+            timerComp.m_cycleCountA = 0;
+        }
+    }
+}
+
+//===========================================================================
+EnemySpriteType_e getEnemySpriteType(EnemyAttackPhase_e phase)
+{
+    switch(phase)
+    {
+    case EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT:
+        return EnemySpriteType_e::STATIC_LEFT;
+    case EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT:
+        return EnemySpriteType_e::STATIC_RIGHT;
+    case EnemyAttackPhase_e::SHOOT:
+        return EnemySpriteType_e::ATTACK;
+    case EnemyAttackPhase_e::SHOOTED:
+        return EnemySpriteType_e::TOUCHED;
+    case EnemyAttackPhase_e::TOTAL:
+        assert(false);
+        break;
     }
 }
 

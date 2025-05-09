@@ -1577,12 +1577,6 @@ void LevelManager::loadEnemyData()
         {
             m_enemyData[vectINISections[i]].m_meleeOnly = false;
         }
-        loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_FRONT, m_enemyData[vectINISections[i]]);
-        loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_FRONT_LEFT, m_enemyData[vectINISections[i]]);
-        loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_FRONT_RIGHT, m_enemyData[vectINISections[i]]);
-        loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_BACK, m_enemyData[vectINISections[i]]);
-        loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_BACK_LEFT, m_enemyData[vectINISections[i]]);
-        loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_BACK_RIGHT, m_enemyData[vectINISections[i]]);
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_LEFT, m_enemyData[vectINISections[i]]);
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_RIGHT, m_enemyData[vectINISections[i]]);
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::ATTACK, m_enemyData[vectINISections[i]]);
@@ -1811,30 +1805,6 @@ void LevelManager::loadEnemySprites(const std::string &sectionName,
     std::string spriteType;
     switch(spriteTypeEnum)
     {
-    case EnemySpriteElementType_e::STATIC_FRONT:
-        spriteType = "StaticSpriteFront";
-        vectPtr = &enemyData.m_staticFrontSprites;
-        break;
-    case EnemySpriteElementType_e::STATIC_FRONT_LEFT:
-        spriteType = "StaticSpriteFrontLeft";
-        vectPtr = &enemyData.m_staticFrontLeftSprites;
-        break;
-    case EnemySpriteElementType_e::STATIC_FRONT_RIGHT:
-        spriteType = "StaticSpriteFrontRight";
-        vectPtr = &enemyData.m_staticFrontRightSprites;
-        break;
-    case EnemySpriteElementType_e::STATIC_BACK:
-        spriteType = "StaticSpriteBack";
-        vectPtr = &enemyData.m_staticBackSprites;
-        break;
-    case EnemySpriteElementType_e::STATIC_BACK_LEFT:
-        spriteType = "StaticSpriteBackLeft";
-        vectPtr = &enemyData.m_staticBackLeftSprites;
-        break;
-    case EnemySpriteElementType_e::STATIC_BACK_RIGHT:
-        spriteType = "StaticSpriteBackRight";
-        vectPtr = &enemyData.m_staticBackRightSprites;
-        break;
     case EnemySpriteElementType_e::STATIC_LEFT:
         spriteType = "StaticSpriteLeft";
         vectPtr = &enemyData.m_staticLeftSprites;

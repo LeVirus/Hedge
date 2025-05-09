@@ -2,6 +2,7 @@
 
 #include <ECS_Headers/System.hpp>
 #include <constants.hpp>
+#include <ECS/Components/EnemyConfComponent.hpp>
 
 class ECSManager;
 struct VisionComponent;
@@ -61,6 +62,7 @@ private:
     MainEngine *m_refMainEngine;
 };
 
+EnemySpriteType_e getEnemySpriteType(EnemyAttackPhase_e phase);
 mapEnemySprite_t::const_reverse_iterator findMapLastElement(const mapEnemySprite_t &map,
                                                             EnemySpriteType_e key);
 void updateTriangleVisionFromPosition(VisionComponent &visionComp, MapCoordComponent &mapComp,

@@ -258,12 +258,6 @@ enum class PlayerAimDirection_e
 
 enum class EnemySpriteElementType_e
 {
-    STATIC_FRONT,
-    STATIC_FRONT_LEFT,
-    STATIC_FRONT_RIGHT,
-    STATIC_BACK,
-    STATIC_BACK_LEFT,
-    STATIC_BACK_RIGHT,
     STATIC_LEFT,
     STATIC_RIGHT,
     ATTACK,
@@ -274,12 +268,6 @@ enum class EnemySpriteElementType_e
 
 enum class EnemySpriteType_e
 {
-    STATIC_FRONT,
-    STATIC_FRONT_LEFT,
-    STATIC_FRONT_RIGHT,
-    STATIC_BACK,
-    STATIC_BACK_LEFT,
-    STATIC_BACK_RIGHT,
     STATIC_LEFT,
     STATIC_RIGHT,
     ATTACK,

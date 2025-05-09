@@ -207,15 +207,7 @@ void IASystem::updateEnemyDirection(EnemyConfComponent &enemyConfComp, MoveableC
 {
     MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
     moveComp.m_degreeOrientation = getTrigoAngle(enemyMapComp.m_absoluteMapPositionPX, playerMapComp->m_absoluteMapPositionPX);
-    if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::MOVE_TO_TARGET_DIAG_RIGHT)
-    {
-        moveComp.m_degreeOrientation -= 30.0f;
-    }
-    else if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::MOVE_TO_TARGET_DIAG_LEFT)
-    {
-        moveComp.m_degreeOrientation += 30.0f;
-    }
-    else if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT)
+    if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT)
     {
         moveComp.m_degreeOrientation += 90.0f;
     }
@@ -260,13 +252,13 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
             }
             else
             {
-                if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::MOVE_TO_TARGET_FRONT)
+                if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT)
                 {
-                    enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_DIAG_LEFT;
+                    enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
                 }
                 else
                 {
-                    enemyConfComp.m_attackPhase = static_cast<EnemyAttackPhase_e>(static_cast<uint32_t>(enemyConfComp.m_attackPhase) - 1);
+                    enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT;
                 }
             }
         }
@@ -291,17 +283,25 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
             // moveElementFromAngle(moveComp->m_velocity, getRadiantAngle(moveComp->m_degreeOrientation), enemyMapComp.m_absoluteMapPositionPX);
             MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
             MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
-            if(mapComp->m_absoluteMapPositionPX.first < playerMapComp->m_absoluteMapPositionPX.first)
-            {
-                mapComp->m_absoluteMapPositionPX.first += moveComp->m_velocity;
-            }
-            else
-            {
-                mapComp->m_absoluteMapPositionPX.first -= moveComp->m_velocity;
-            }
+            treatEnemyMove(playerMapComp, *mapComp, moveComp->m_velocity, enemyConfComp);
             mapComp->m_coord = *getLevelCoord(mapComp->m_absoluteMapPositionPX);
             m_mainEngine->addEntityToZone(enemyEntity, mapComp->m_coord);
         }
+    }
+}
+
+//===================================================================
+void treatEnemyMove(MapCoordComponent *playerMapComp, MapCoordComponent &mapComp, float velocity, EnemyConfComponent &enemyConfComp)
+{
+    if(mapComp.m_absoluteMapPositionPX.first < playerMapComp->m_absoluteMapPositionPX.first)
+    {
+        mapComp.m_absoluteMapPositionPX.first += velocity;
+        enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT;
+    }
+    else
+    {
+        mapComp.m_absoluteMapPositionPX.first -= velocity;
+        enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
     }
 }
 
@@ -408,7 +408,7 @@ void IASystem::confEnemiesGenerator(uint32_t generatorEntity, const PairFloat_t 
         enemyComp->m_life = generatorComp->m_memEnemyLife;
         enemyComp->m_displayMode = EnemyDisplayMode_e::NORMAL;
         enemyComp->m_behaviourMode = EnemyBehaviourMode_e::PASSIVE;
-        enemyComp->m_currentSprite = enemyComp->m_mapSpriteAssociate.find(EnemySpriteType_e::STATIC_FRONT)->second.first;
+        enemyComp->m_currentSprite = enemyComp->m_mapSpriteAssociate.find(EnemySpriteType_e::STATIC_LEFT)->second.first;
         GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(generatorComp->m_vectElementGen[i]);
         assert(gravComp);
         gravComp->m_freeze = false;

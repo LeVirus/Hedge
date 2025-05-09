@@ -1,6 +1,12 @@
 =============================================================================================================================
 
 ))
+Add enemies
+	-Flying
+	-Turrels
+	-Add enemies generator-----OK
+
+))
 Make all animation for shooting in 8 directions
 
 
@@ -9,11 +15,6 @@ Add "rage" jauge to make special attack
 	-Animation with game paused?
 	-Real Time?
 
-))
-Add enemies
-	-Flying
-	-Turrels
-	-Add enemies generator-----OK
 
 ))
 Add grenades

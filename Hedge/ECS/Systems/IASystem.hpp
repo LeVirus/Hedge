@@ -44,3 +44,4 @@ private:
     std::optional<std::set<uint32_t>> m_vectGeneratorEntities;
 };
 
+void treatEnemyMove(MapCoordComponent *playerMapComp, MapCoordComponent &mapComp, float velocity, EnemyConfComponent &enemyConfComp);
