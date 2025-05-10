@@ -1548,7 +1548,7 @@ std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManag
                              bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements, const std::pair<float, float> &inGameSpriteSize, bool generatorMode)
 {
     bool exit = false;
-    uint32_t numEntity = createEnemyEntity();
+    uint32_t numEntity = createEnemyEntity(enemyData.m_type);
     PairUI_t pairPos = generatorMode ? PairUI_t{0.0f, 0.0f} : enemyData.m_TileGamePosition[index];
     confBaseComponent(numEntity, memSpriteData, pairPos,
                       CollisionShape_e::RECTANGLE_C, CollisionTag_e::ENEMY_CT, inGameSpriteSize);
@@ -1598,11 +1598,14 @@ std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManag
     }
     loadEnemySprites(levelManager.getPictureData().getSpriteData(),
                      enemyData, numEntity, *enemyComp, levelManager.getVisibleShootDisplayData());
-    MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(numEntity);
-    assert(moveComp);
-    moveComp->m_velocity = enemyData.m_velocity;
-    moveComp->m_currentDegreeMoveDirection = 0.0f;
-    moveComp->m_degreeOrientation = 0.0f;
+    if(enemyData.m_type != TypeEnemy_e::STATIC)
+    {
+        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(numEntity);
+        assert(moveComp);
+        moveComp->m_velocity = enemyData.m_velocity;
+        moveComp->m_currentDegreeMoveDirection = 0.0f;
+        moveComp->m_degreeOrientation = 0.0f;
+    }
     AudioComponent *audiocomponent = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(numEntity);
     assert(audiocomponent);
     audiocomponent->m_soundElements.reserve(3);
@@ -1614,6 +1617,32 @@ std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManag
     assert(timerComponent);
     timerComponent->m_cycleCountA = 0;
     memCheckpointEnemiesData(loadFromCheckpoint, numEntity, m_currentLevelEnemiesNumber);
+    enemyComp->m_type = enemyData.m_type;
+    //OOOOK TO COMPLETE
+    if(enemyComp->m_type == TypeEnemy_e::STATIC)
+    {
+        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(numEntity);
+        assert(moveComp);
+        enemyComp->m_shootingStaticType = enemyData.m_shootingStaticType;
+        timerComponent->m_timeIntervalOptional = moveComp->m_velocity / FPS_VALUE;
+        switch(enemyComp->m_shootingStaticType)
+        {
+        case StaticEnemyShootBehaviour_e::NORTH:
+            moveComp->m_degreeOrientation = 90.0f;
+            break;
+        case StaticEnemyShootBehaviour_e::WEST:
+            moveComp->m_degreeOrientation = 180.0f;
+            break;
+        case StaticEnemyShootBehaviour_e::SOUTH:
+            moveComp->m_degreeOrientation = 270.0f;
+            break;
+        case StaticEnemyShootBehaviour_e::EAST:
+            moveComp->m_degreeOrientation = 0.0f;
+            break;
+        case StaticEnemyShootBehaviour_e::AIM_PLAYER:
+            break;
+        }
+    }
     ++m_currentLevelEnemiesNumber;
     return {exit, numEntity};
 }
@@ -2567,7 +2596,7 @@ uint32_t MainEngine::createDoorEntity()
 }
 
 //===================================================================
-uint32_t MainEngine::createEnemyEntity()
+uint32_t MainEngine::createEnemyEntity(TypeEnemy_e type)
 {
     std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
     vect.fill(0);
@@ -2576,12 +2605,15 @@ uint32_t MainEngine::createEnemyEntity()
     vect[Components_e::MAP_COORD_COMPONENT] = 1;
     vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
-    vect[Components_e::MOVEABLE_COMPONENT] = 1;
     vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
     vect[Components_e::ENEMY_CONF_COMPONENT] = 1;
     vect[Components_e::TIMER_COMPONENT] = 1;
     vect[Components_e::AUDIO_COMPONENT] = 1;
-    vect[Components_e::GRAVITY_COMPONENT] = 1;
+    vect[Components_e::MOVEABLE_COMPONENT] = 1;
+    if(type == TypeEnemy_e::GROUND)
+    {
+        vect[Components_e::GRAVITY_COMPONENT] = 1;
+    }
     return Ecsm_t::instance().addEntity(vect);
 }
 

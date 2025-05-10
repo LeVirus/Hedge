@@ -186,7 +186,6 @@ SpriteWeightGame = 0.9
 SpriteHeightGame = 1.4
 FrozenOnAttack = false
 
-
 [EnemyArachnotron]
 StaticSpriteLeft = SpriteALA SpriteALB
 StaticSpriteRight = SpriteARA SpriteARB
@@ -194,9 +193,9 @@ AttackSprite = SpriteAAA SpriteAAB
 DyingSprite = SpriteADA SpriteADB SpriteADC SpriteADD SpriteADE SpriteADF
 Touched = SpriteADA
 ShootSpritesID = VisibleShootDemonD
-ShotVelocity = 6
+ShotVelocity = 3
 Life = 200
-Velocity = 0.6
+Velocity = 0.5
 MeleeDamage = 33
 Damage = 25
 SpriteWeightGame = 2.1 ; value in %
@@ -206,6 +205,8 @@ DetectBehaviourSound = BigRoar.wav
 AttackSound = LazerShot2.wav
 DeathSound = DeathRobot.wav
 FrozenOnAttack = false
+Type = 2
+ShootingMode = 4
 
 [EnemyCyberDemon]
 StaticSpriteLeft = SpriteCDLA SpriteCDLB

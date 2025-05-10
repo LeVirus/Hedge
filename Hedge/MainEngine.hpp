@@ -354,7 +354,7 @@ private:
     uint32_t createWeaponEntity();
     uint32_t createWallEntity(bool multiSprite, CollisionShape_e collShape, bool moveable = false);
     uint32_t createDoorEntity();
-    uint32_t createEnemyEntity();
+    uint32_t createEnemyEntity(TypeEnemy_e type);
     uint32_t createGeneratorEntity();
     uint32_t createShotEntity();
     uint32_t createShotImpactEntity();

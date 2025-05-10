@@ -62,6 +62,8 @@ struct EnemyConfComponent : public ECS::Component
     uint32_t m_life, m_countPlayerInvisibility = 0, m_currentSprite, m_cycleNumberSpriteUpdate = 0.2 / FPS_VALUE,
     m_cycleNumberDyingInterval = 0.11 / FPS_VALUE, m_cycleNumberAttackInterval = 0.15f / FPS_VALUE, m_standardSpriteInterval = 0.5 / FPS_VALUE,
     m_countTillLastAttack = 0, m_simultaneousShot;
+    TypeEnemy_e m_type;
+    StaticEnemyShootBehaviour_e m_shootingStaticType;
     std::vector<uint32_t> m_stdAmmo, m_visibleAmmo;
     EnemyDisplayMode_e m_displayMode = EnemyDisplayMode_e::NORMAL;
     //give first and last emplacement of sprite from type

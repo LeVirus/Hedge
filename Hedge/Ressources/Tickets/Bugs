@@ -14,10 +14,10 @@ Shot travers enemies some times
 When scrolling lock active shot stay stuck on screen limit left
 
 ))
-Background move on limit level
+Background move on limit level REGRESSION
 
 ))
-Camera does not stop at limit level
+Enemies shot apear random position GENERATOR
 
 ============================================================================================================
 ============================================================================================================

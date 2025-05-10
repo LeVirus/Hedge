@@ -1539,7 +1539,7 @@ void LevelManager::loadEnemyData()
         val = m_ini.getValue(vectINISections[i], "SimultaneousShots");
         if(val)
         {
-            m_enemyData[vectINISections[i]].m_simultaneousShot = std::stof(*val);
+            m_enemyData[vectINISections[i]].m_simultaneousShot = std::stoi(*val);
         }
         val = m_ini.getValue(vectINISections[i], "DropedObjectID");
         if(val)
@@ -1576,6 +1576,22 @@ void LevelManager::loadEnemyData()
         else
         {
             m_enemyData[vectINISections[i]].m_meleeOnly = false;
+        }
+        //ground enemy by default
+        val = m_ini.getValue(vectINISections[i], "Type");
+        if(val)
+        {
+            m_enemyData[vectINISections[i]].m_type = static_cast<TypeEnemy_e>(std::stoi(*val));
+        }
+        else
+        {
+            m_enemyData[vectINISections[i]].m_type = TypeEnemy_e::GROUND;
+        }
+        if(m_enemyData[vectINISections[i]].m_type == TypeEnemy_e::STATIC)
+        {
+            val = m_ini.getValue(vectINISections[i], "ShootingMode");
+            assert(val);
+            m_enemyData[vectINISections[i]].m_shootingStaticType = static_cast<StaticEnemyShootBehaviour_e>(std::stoi(*val));
         }
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_LEFT, m_enemyData[vectINISections[i]]);
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_RIGHT, m_enemyData[vectINISections[i]]);

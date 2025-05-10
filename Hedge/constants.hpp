@@ -220,6 +220,22 @@ enum class Direction_e
     EAST
 };
 
+enum class TypeEnemy_e
+{
+    GROUND,
+    FLYING,
+    STATIC
+};
+
+enum class StaticEnemyShootBehaviour_e
+{
+    NORTH,
+    WEST,
+    SOUTH,
+    EAST,
+    AIM_PLAYER
+};
+
 enum class TriggerBehaviourType_e
 {
     ONCE,

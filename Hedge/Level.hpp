@@ -106,6 +106,8 @@ struct EnemyData
     std::string m_visibleShootID, m_impactID, m_dropedObjectID;
     std::string m_detectBehaviourSoundFile, m_attackSoundFile, m_deathSoundFile;
     uint32_t m_attackPower, m_life;
+    TypeEnemy_e m_type;
+    StaticEnemyShootBehaviour_e m_shootingStaticType;
     std::optional<uint32_t> m_meleeDamage, m_simultaneousShot;
     bool m_frozenOnAttack;
     std::optional<PairUI_t> m_endLevelPos;

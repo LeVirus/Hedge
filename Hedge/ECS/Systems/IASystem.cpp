@@ -221,8 +221,17 @@ void IASystem::updateEnemyDirection(EnemyConfComponent &enemyConfComp, MoveableC
 //===================================================================
 void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent &enemyMapComp, EnemyConfComponent &enemyConfComp, float distancePlayer)
 {
-    MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(enemyEntity);
+    MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
+    if(enemyConfComp.m_type == TypeEnemy_e::STATIC)
+    {
+        if(++timerComp->m_cycleCountB >= timerComp->m_timeIntervalOptional)
+        {
+            treatStaticEnemy(enemyConfComp, *moveComp, enemyEntity, distancePlayer);
+            timerComp->m_cycleCountB = 0;
+        }
+        return;
+    }
     if(!enemyConfComp.m_stuck)
     {
         enemyConfComp.m_previousMove = {EnemyAttackPhase_e::TOTAL, EnemyAttackPhase_e::TOTAL};
@@ -288,6 +297,20 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
             m_mainEngine->addEntityToZone(enemyEntity, mapComp->m_coord);
         }
     }
+}
+
+//===================================================================
+void IASystem::treatStaticEnemy(EnemyConfComponent &enemyConfComp, MoveableComponent &moveComp, uint32_t enemyEntity, float distancePlayer)
+{
+    MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
+    assert(mapComp);
+    if(enemyConfComp.m_shootingStaticType == StaticEnemyShootBehaviour_e::AIM_PLAYER)
+    {
+        MapCoordComponent *playerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
+        assert(mapComp);
+        moveComp.m_degreeOrientation = getTrigoAngle(mapComp->m_absoluteMapPositionPX, playerComp->m_absoluteMapPositionPX);
+    }
+    enemyShoot(enemyConfComp, moveComp, *mapComp, distancePlayer);
 }
 
 //===================================================================
