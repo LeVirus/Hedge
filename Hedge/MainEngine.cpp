@@ -1621,6 +1621,7 @@ std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManag
     //OOOOK TO COMPLETE
     if(enemyComp->m_type == TypeEnemy_e::STATIC)
     {
+        enemyComp->m_attackPhase = EnemyAttackPhase_e::SHOOT;
         MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(numEntity);
         assert(moveComp);
         enemyComp->m_shootingStaticType = enemyData.m_shootingStaticType;

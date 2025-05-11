@@ -189,7 +189,7 @@ FrozenOnAttack = false
 [EnemyArachnotron]
 StaticSpriteLeft = SpriteALA SpriteALB
 StaticSpriteRight = SpriteARA SpriteARB
-AttackSprite = SpriteAAA SpriteAAB 
+AttackSprite = SpriteAAA SpriteAAB SpriteADA SpriteADB
 DyingSprite = SpriteADA SpriteADB SpriteADC SpriteADD SpriteADE SpriteADF
 Touched = SpriteADA
 ShootSpritesID = VisibleShootDemonD

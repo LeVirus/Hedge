@@ -229,6 +229,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         {
             treatStaticEnemy(enemyConfComp, *moveComp, enemyEntity, distancePlayer);
             timerComp->m_cycleCountB = 0;
+            enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::ATTACK)->second.first;
         }
         return;
     }
