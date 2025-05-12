@@ -1593,6 +1593,9 @@ void LevelManager::loadEnemyData()
             assert(val);
             m_enemyData[vectINISections[i]].m_shootingStaticType = static_cast<StaticEnemyShootBehaviour_e>(std::stoi(*val));
         }
+        val = m_ini.getValue(vectINISections[i], "TimeBehaviourCycle");
+        assert(val);
+        m_enemyData[vectINISections[i]].m_cycleNumberBehaviour = std::stof(*val) / FPS_VALUE;
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_LEFT, m_enemyData[vectINISections[i]]);
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_RIGHT, m_enemyData[vectINISections[i]]);
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::ATTACK, m_enemyData[vectINISections[i]]);

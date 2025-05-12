@@ -207,6 +207,7 @@ DeathSound = DeathRobot.wav
 FrozenOnAttack = false
 Type = 2
 ShootingMode = 4
+TimeBehaviourCycle = 4
 
 [EnemyCyberDemon]
 StaticSpriteLeft = SpriteCDLA SpriteCDLB
@@ -228,6 +229,8 @@ DetectBehaviourSound = BigRoar2.wav
 AttackSound = LazerShot2.wav
 DeathSound = Death3.wav
 FrozenOnAttack = false
+Type = 1
+TimeBehaviourCycle = 0.5
 
 [EnemyBaronHell]
 StaticSpriteLeft = SpriteBHLA SpriteBHLB
@@ -248,6 +251,7 @@ DetectBehaviourSound = BigRoar3.wav
 AttackSound = AttackBaron.wav
 DeathSound = Death3.wav
 FrozenOnAttack = false
+TimeBehaviourCycle = 1
 
 
 [EnemyFlyingDemon]
@@ -270,6 +274,7 @@ DetectBehaviourSound = Roar5.wav
 AttackSound = FireFlyingDemon.wav
 DeathSound = Death4.wav
 FrozenOnAttack = false
+TimeBehaviourCycle = 1
 
 
 [EnemyZombieShotgun]
@@ -292,6 +297,7 @@ DetectBehaviourSound = Roar2.wav
 AttackSound = ShotgunShot.wav
 DeathSound = Death1.wav
 FrozenOnAttack = true
+TimeBehaviourCycle = 0.6
 
 
 [EnemyDemonClaw]
@@ -314,6 +320,7 @@ AttackSound = HitDemon.wav
 DeathSound = Death4.wav
 MeleeOnly = true
 FrozenOnAttack = false
+TimeBehaviourCycle = 0.6
 
 [EnemyDemon]
 StaticSpriteLeft = SpriteDLA SpriteDLB
@@ -334,6 +341,7 @@ DetectBehaviourSound = DemonDetect.wav
 AttackSound = FireBall.wav
 DeathSound = Death1.wav
 FrozenOnAttack = true
+TimeBehaviourCycle = 0.6
 
 
 [EnemyMarine]
@@ -355,6 +363,7 @@ DetectBehaviourSound = Roar3.wav
 AttackSound = GunShot.wav
 DeathSound = Death4.wav
 FrozenOnAttack = true
+TimeBehaviourCycle = 0.6
 
 [WeaponFist]
 WeaponName = Fist

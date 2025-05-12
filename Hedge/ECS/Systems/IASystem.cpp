@@ -14,6 +14,7 @@
 #include <ECS/Components/SpriteTextureComponent.hpp>
 #include <ECS/Components/GeneratorComponent.hpp>
 #include <cassert>
+#include <random>
 #include <alias.hpp>
 #include "IASystem.hpp"
 #include "PhysicalEngine.hpp"
@@ -207,6 +208,12 @@ void IASystem::updateEnemyDirection(EnemyConfComponent &enemyConfComp, MoveableC
 {
     MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
     moveComp.m_degreeOrientation = getTrigoAngle(enemyMapComp.m_absoluteMapPositionPX, playerMapComp->m_absoluteMapPositionPX);
+    if(enemyConfComp.m_type == TypeEnemy_e::FLYING)
+    {
+        moveComp.m_currentDegreeMoveDirection = std::abs(std::rand()) % 360;
+        // moveComp.m_degreeOrientation = moveComp.m_currentDegreeMoveDirection;
+        return;
+    }
     if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT)
     {
         moveComp.m_degreeOrientation += 90.0f;
@@ -237,8 +244,10 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
     {
         enemyConfComp.m_previousMove = {EnemyAttackPhase_e::TOTAL, EnemyAttackPhase_e::TOTAL};
     }
-    if(enemyConfComp.m_stuck || ++timerComp->m_cycleCountB >= m_intervalEnemyBehaviour)
+    //CHANGING PHASE
+    if(enemyConfComp.m_stuck || ++timerComp->m_cycleCountB >= timerComp->m_timeIntervalOptional)
     {
+        timerComp->m_cycleCountB = 0;
         if(enemyConfComp.m_countTillLastAttack > 3 && (!enemyConfComp.m_meleeOnly || distancePlayer < 32.0f))
         {
             enemyConfComp.m_attackPhase = EnemyAttackPhase_e::SHOOT;
@@ -246,9 +255,16 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         }
         else
         {
-            uint32_t modulo = (enemyConfComp.m_meleeOnly || enemyConfComp.m_countTillLastAttack < 2) ? static_cast<uint32_t>(EnemyAttackPhase_e::SHOOT) :
-                                                                           static_cast<uint32_t>(EnemyAttackPhase_e::SHOOT) + 1;
-            enemyConfComp.m_attackPhase = static_cast<EnemyAttackPhase_e>(std::rand() / ((RAND_MAX + 1u) / modulo));
+            if(enemyConfComp.m_type != TypeEnemy_e::FLYING)
+            {
+                uint32_t modulo = (enemyConfComp.m_meleeOnly || enemyConfComp.m_countTillLastAttack < 2) ? static_cast<uint32_t>(EnemyAttackPhase_e::SHOOT) :
+                                      static_cast<uint32_t>(EnemyAttackPhase_e::SHOOT) + 1;
+                enemyConfComp.m_attackPhase = static_cast<EnemyAttackPhase_e>(std::rand() / ((RAND_MAX + 1u) / modulo));
+            }
+            else
+            {
+                enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
+            }
         }
         enemyConfComp.m_countTillLastAttack =
                 (enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOT) ? 0 : ++enemyConfComp.m_countTillLastAttack;
@@ -286,6 +302,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
             activeSound(enemyEntity, static_cast<uint32_t>(EnemySoundEffect_e::ATTACK));
         }
     }
+    //CONTINUING PHASE
     else if(enemyConfComp.m_attackPhase != EnemyAttackPhase_e::SHOOT && distancePlayer > LEVEL_TILE_SIZE_PX)
     {
         if(enemyConfComp.m_attackPhase != EnemyAttackPhase_e::SHOOTED)
@@ -293,7 +310,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
             // moveElementFromAngle(moveComp->m_velocity, getRadiantAngle(moveComp->m_degreeOrientation), enemyMapComp.m_absoluteMapPositionPX);
             MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
             MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
-            treatEnemyMove(playerMapComp, *mapComp, moveComp->m_velocity, enemyConfComp);
+            treatEnemyMove(playerMapComp, *mapComp, moveComp->m_velocity, enemyConfComp, enemyEntity);
             mapComp->m_coord = *getLevelCoord(mapComp->m_absoluteMapPositionPX);
             m_mainEngine->addEntityToZone(enemyEntity, mapComp->m_coord);
         }
@@ -315,8 +332,16 @@ void IASystem::treatStaticEnemy(EnemyConfComponent &enemyConfComp, MoveableCompo
 }
 
 //===================================================================
-void treatEnemyMove(MapCoordComponent *playerMapComp, MapCoordComponent &mapComp, float velocity, EnemyConfComponent &enemyConfComp)
+void IASystem::treatEnemyMove(MapCoordComponent *playerMapComp, MapCoordComponent &mapComp, float velocity, EnemyConfComponent &enemyConfComp, uint32_t enemyEntity)
 {
+    if(enemyConfComp.m_type == TypeEnemy_e::FLYING)
+    {
+        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
+        assert(moveComp);
+        moveElementFromAngle(moveComp->m_velocity, getRadiantAngle(moveComp->m_currentDegreeMoveDirection), mapComp.m_absoluteMapPositionPX);
+        // moveComp.m_degreeOrientation = moveComp.m_currentDegreeMoveDirection;
+        return;
+    }
     if(mapComp.m_absoluteMapPositionPX.first < playerMapComp->m_absoluteMapPositionPX.first)
     {
         mapComp.m_absoluteMapPositionPX.first += velocity;

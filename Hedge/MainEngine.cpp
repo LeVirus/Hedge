@@ -1625,7 +1625,6 @@ std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManag
         MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(numEntity);
         assert(moveComp);
         enemyComp->m_shootingStaticType = enemyData.m_shootingStaticType;
-        timerComponent->m_timeIntervalOptional = moveComp->m_velocity / FPS_VALUE;
         switch(enemyComp->m_shootingStaticType)
         {
         case StaticEnemyShootBehaviour_e::NORTH:
@@ -1644,13 +1643,13 @@ std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManag
             break;
         }
     }
+    timerComponent->m_timeIntervalOptional = enemyData.m_cycleNumberBehaviour;
     ++m_currentLevelEnemiesNumber;
     return {exit, numEntity};
 }
 
 //===================================================================
-pairI_t getModifMoveableWallDataCheckpoint(const std::vector<std::pair<Direction_e, uint32_t>> &vectDir,
-                                           uint32_t timesActionned, TriggerBehaviourType_e triggerBehaviour)
+pairI_t getModifMoveableWallDataCheckpoint(const std::vector<std::pair<Direction_e, uint32_t>> &vectDir, uint32_t timesActionned, TriggerBehaviourType_e triggerBehaviour)
 {
     if(timesActionned == 0 || (triggerBehaviour == TriggerBehaviourType_e::REVERSABLE && timesActionned % 2 == 0))
     {

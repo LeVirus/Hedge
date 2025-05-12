@@ -1211,11 +1211,11 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     {
         crushMode = args.tagCompB.m_tagA == CollisionTag_e::WALL_CT;
     }
-    GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
-    assert(gravityComp);
     //if player touch ground
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
     {
+        GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
+        assert(gravityComp);
         GeneralCollisionComponent *CollCompB = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(args.entityNumB);
         assert(CollCompB);
         if(CollCompB->m_wallTraversable)
@@ -1283,23 +1283,25 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     else if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
         GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
-        assert(gravityComp);
-        if(diffY < 0)
+        if(gravityComp)
         {
-            gravityComp->m_onGround = true;
-            gravityComp->m_memOnGround = true;
-            gravityComp->m_jump = false;
-            if(gravityComp->m_fall)
+            if(diffY < 0)
             {
-                //cancel gravity
-                mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
-                gravityComp->m_fall = false;
-                diffY = std::numeric_limits<float>::epsilon();
+                gravityComp->m_onGround = true;
+                gravityComp->m_memOnGround = true;
+                gravityComp->m_jump = false;
+                if(gravityComp->m_fall)
+                {
+                    //cancel gravity
+                    mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
+                    gravityComp->m_fall = false;
+                    diffY = std::numeric_limits<float>::epsilon();
+                }
             }
-        }
-        else
-        {
-            gravityComp->m_memOnGround = false;
+            else
+            {
+                gravityComp->m_memOnGround = false;
+            }
         }
     }
     collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);

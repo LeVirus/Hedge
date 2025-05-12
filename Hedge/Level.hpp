@@ -105,7 +105,7 @@ struct EnemyData
     VectPairUI_t m_TileGamePosition;
     std::string m_visibleShootID, m_impactID, m_dropedObjectID;
     std::string m_detectBehaviourSoundFile, m_attackSoundFile, m_deathSoundFile;
-    uint32_t m_attackPower, m_life;
+    uint32_t m_attackPower, m_life, m_cycleNumberBehaviour;
     TypeEnemy_e m_type;
     StaticEnemyShootBehaviour_e m_shootingStaticType;
     std::optional<uint32_t> m_meleeDamage, m_simultaneousShot;
