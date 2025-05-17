@@ -269,6 +269,7 @@ PairFloat_t MapDisplaySystem::getUpLeftCorner(const MapCoordComponent &mapCoordC
     if(genCollComp->m_shape == CollisionShape_e::CIRCLE_C)
     {
         CircleCollisionComponent *circleCollComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
+        assert(circleCollComp);
         return getCircleUpLeftCorner(mapCoordComp.m_absoluteMapPositionPX, circleCollComp->m_ray);
     }
     else

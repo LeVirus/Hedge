@@ -233,18 +233,20 @@ void InputSystem::treatPlayerInput()
         }
         updateDetectRect(*playerComp, *mapComp);
         m_mainEngine->addEntityToZone(m_playerEntity, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
-        // if(checkPlayerKeyTriggered(ControlKey_e::ACTION))
-        // {
-        //     uint32_t actionEntity = playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::ACTION)];
-        //     MapCoordComponent *mapCompAction = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(actionEntity);
-        //     GeneralCollisionComponent *genCompAction = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(actionEntity);
-        //     std::optional<PairUI_t> coord = getLevelCoord(mapCompAction->m_absoluteMapPositionPX);
-        //     if(coord)
-        //     {
-        //         m_mainEngine->addEntityToZone(actionEntity, *coord);
-        //     }
-        //     confActionShape(*mapCompAction, *genCompAction, *mapComp, *moveComp);
-        // }
+        if(checkPlayerKeyTriggered(ControlKey_e::ACTION))
+        {
+            m_mainEngine->playerThrowGrenade();
+
+            // uint32_t actionEntity = playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::ACTION)];
+            // MapCoordComponent *mapCompAction = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(actionEntity);
+            // GeneralCollisionComponent *genCompAction = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(actionEntity);
+            // std::optional<PairUI_t> coord = getLevelCoord(mapCompAction->m_absoluteMapPositionPX);
+            // if(coord)
+            // {
+            //     m_mainEngine->addEntityToZone(actionEntity, *coord);
+            // }
+            // confActionShape(*mapCompAction, *genCompAction, *mapComp, *moveComp);
+        }
         if((!m_keyEspapePressed && glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) ||
                 checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_START, GLFW_PRESS))
         {

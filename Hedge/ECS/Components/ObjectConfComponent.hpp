@@ -9,6 +9,7 @@ enum class ObjectType_e
     AMMO_WEAPON,
     HEAL,
     CARD,
+    GRENADE,
     TOTAL
 };
 

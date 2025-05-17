@@ -583,7 +583,7 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
         assert(type < static_cast<uint32_t>(ObjectType_e::TOTAL));
         staticElement.m_type = static_cast<ObjectType_e>(type);
         if(staticElement.m_type == ObjectType_e::AMMO_WEAPON || staticElement.m_type == ObjectType_e::WEAPON ||
-                staticElement.m_type == ObjectType_e::HEAL)
+                staticElement.m_type == ObjectType_e::HEAL || staticElement.m_type == ObjectType_e::GRENADE)
         {
             val = m_ini.getValue(sectionName, "Containing");
             assert(val);
@@ -1036,6 +1036,36 @@ void LevelManager::loadWeaponsData()
         loadWeaponData(vectINISections[i], i);
         loadDisplayData(vectINISections[i], "ShotImpact");
     }
+    loadGrenadesData();
+}
+
+//===================================================================
+void LevelManager::loadGrenadesData()
+{
+    std::string resultWeight, resultHeight;
+    std::string sprites, str;
+    std::optional<std::string> val;
+    val = m_ini.getValue("Grenade", "BaseAmmo");
+    assert(val);
+    m_grenadesINIData.m_startingAmmoCount = std::stoi(*val);
+    val = m_ini.getValue("Grenade", "MaxAmmo");
+    assert(val);
+    m_grenadesINIData.m_maxAmmo = std::stoi(*val);
+    val = m_ini.getValue("Grenade", "Damage");
+    assert(val);
+    m_grenadesINIData.m_damage = std::stoi(*val);
+    val = m_ini.getValue("Grenade", "ShootSpritesID");
+    assert(val);
+    m_grenadesINIData.m_visibleShootID = *val;
+    val = m_ini.getValue("Grenade", "ShotVelocity");
+    assert(val);
+    m_grenadesINIData.m_shotVelocity = std::stof(*val);
+    val = m_ini.getValue("Grenade", "SoundEffect");
+    assert(val);
+    m_grenadesINIData.m_shotSound = *val;
+    val = m_ini.getValue("Grenade", "DamageZoneRay");
+    assert(val);
+    m_grenadesINIData.m_damageCircleRay = std::stof(*val);
 }
 
 //===================================================================

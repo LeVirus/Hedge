@@ -135,7 +135,9 @@ public:
     }
     void clearLevel();
     void confSystems();
-    uint32_t createAmmoEntity(CollisionTag_e collTag, bool visibleShot);
+    uint32_t createAmmoEntity(CollisionTag_e collTag, bool visibleShot, bool grenade = false);
+    uint32_t createGrenadeEntity();
+    void playerThrowGrenade();
     void setMenuEntries(PlayerConfComponent &playerComp, std::optional<uint32_t> cursorPos = {});
     void updateConfirmLoadingMenuInfo(PlayerConfComponent &playerComp);
     void updateWriteComp(WriteComponent &writeComp);
@@ -333,8 +335,7 @@ private:
     void createPlayerAmmoEntities(PlayerConfComponent &playerConf, CollisionTag_e collTag);
     void confAmmoEntities(std::vector<uint32_t> &ammoEntities, CollisionTag_e collTag,
                           bool visibleShot, uint32_t damage, float shotVelocity = 0,
-                          std::optional<float> damageRay = std::nullopt);
-    void createPlayerVisibleShotEntity(WeaponComponent &weaponConf);
+                          std::optional<float> damageRay = std::nullopt, bool grenade = false);
     uint32_t confShotImpactEntity(const std::vector<SpriteData> &vectSpriteData, const PairImpactData_t &shootDisplayData);
     uint32_t createTriggerEntity(bool visible);
     uint32_t createColorEntity();
@@ -350,6 +351,7 @@ private:
     uint32_t createMeleeAttackEntity(bool sound = false);
     uint32_t createDamageZoneEntity(uint32_t damage, CollisionTag_e tag, float ray = 10.0f, const std::string &soundFile = "");
     uint32_t loadWeaponsEntity(const LevelManager &levelManager);
+    void loadGrenadesData(const LevelManager &levelManager, WeaponComponent &weaponConf, AudioComponent &audioComp);
     uint32_t createBackgroundEntity(bool color);
     uint32_t createWeaponEntity();
     uint32_t createWallEntity(bool multiSprite, CollisionShape_e collShape, bool moveable = false);

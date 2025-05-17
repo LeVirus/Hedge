@@ -365,6 +365,15 @@ DeathSound = Death4.wav
 FrozenOnAttack = true
 TimeBehaviourCycle = 0.6
 
+[Grenade]
+BaseAmmo = 0
+MaxAmmo = 20
+Damage = 20
+ShootSpritesID = VisibleShootGun
+ShotVelocity = 2
+SoundEffect = GunShot.wav
+DamageZoneRay = 530.0
+
 [WeaponFist]
 WeaponName = Fist
 Possess = true
@@ -503,6 +512,13 @@ Sprites = SpriteBazookaShot SpriteBazookaShotDA  SpriteBazookaShotDB  SpriteBazo
 SpriteWeightGame = 0.1 0.6 0.7 0.8
 SpriteHeightGame = 0.15 0.7 1.0 1.1
 ImpactSound = BazookaExplosion.wav
+
+[ObjectGrenade]
+Sprite = SpriteLog
+SpriteWeightGame = 0.2 ; value in %
+SpriteHeightGame = 0.5
+Type = 4
+Containing = 1
 
 [ObjectGunAmmo]
 Sprite = SpriteItemGunAmmo

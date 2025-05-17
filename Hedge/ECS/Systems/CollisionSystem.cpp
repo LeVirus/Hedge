@@ -940,6 +940,15 @@ void CollisionSystem::treatPlayerPickObject(CollisionArgs &args)
         info = objectComp->m_cardName;
         break;
     }
+    case ObjectType_e::GRENADE:
+    {
+        info = "Grenade";
+        if(weaponComp->m_grenadeData.m_ammunationsCount < weaponComp->m_grenadeData.m_maxAmmunations)
+        {
+            ++weaponComp->m_grenadeData.m_ammunationsCount;
+        }
+        break;
+    }
     case ObjectType_e::TOTAL:
         assert(false);
         break;

@@ -253,6 +253,10 @@ public:
     {
         return m_vectWeaponsINIData;
     }
+    inline const WeaponINIData &getGrenadesData()const
+    {
+        return m_grenadesINIData;
+    }
     inline const MapImpactData_t &getImpactDisplayData()const
     {
         return m_impactINIData;
@@ -366,6 +370,7 @@ private:
     void loadVisibleShotDisplayData();
     void loadShotImpactDisplayData();
     void loadWeaponsData();
+    void loadGrenadesData();
     void loadGeneralSoundData();
     void loadBarrelsData();
     void loadLogData();
@@ -434,6 +439,7 @@ private:
     std::vector<PairStrPairFloat_t> m_weaponsPreviewData;
     //store the sprite number and the screen display size
     std::vector<WeaponINIData> m_vectWeaponsINIData;
+    WeaponINIData m_grenadesINIData;
     //first moving Shot sprite, all other destruct phase sprites
     MapVisibleShotData_t m_visibleShootINIData;
     MapImpactData_t m_impactINIData;

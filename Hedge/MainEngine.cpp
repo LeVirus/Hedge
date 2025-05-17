@@ -1244,7 +1244,8 @@ uint32_t MainEngine::loadWeaponsEntity(const LevelManager &levelManager)
     assert(weaponConf);
     assert(audioComp);
     weaponConf->m_weaponsData.resize(vectWeapons.size());
-    audioComp->m_soundElements.resize(vectWeapons.size());
+    //+1 for grenades
+    audioComp->m_soundElements.resize(vectWeapons.size() + 1);
     m_vectMemWeaponsDefault.resize(vectWeapons.size());
     std::fill(m_vectMemWeaponsDefault.begin(), m_vectMemWeaponsDefault.end(), std::pair<bool, uint32_t>{false, 0});
     for(uint32_t i = 0; i < weaponConf->m_weaponsData.size(); ++i)
@@ -1319,7 +1320,22 @@ uint32_t MainEngine::loadWeaponsEntity(const LevelManager &levelManager)
     }
     weaponConf->m_previewDisplayData = levelManager.getWeaponsPreviewData();
     assert(weaponConf->m_currentWeapon < vectWeapons.size());
+    loadGrenadesData(levelManager, *weaponConf, *audioComp);
     return weaponEntity;
+}
+
+//===================================================================
+void MainEngine::loadGrenadesData(const LevelManager &levelManager, WeaponComponent &weaponConf, AudioComponent &audioComp)
+{
+    const WeaponINIData &grenadesData = levelManager.getGrenadesData();
+    weaponConf.m_grenadeData.m_ammunationsCount = *grenadesData.m_startingAmmoCount;
+    weaponConf.m_grenadeData.m_maxAmmunations = grenadesData.m_maxAmmo;
+    weaponConf.m_grenadeData.m_weaponPower = grenadesData.m_damage;
+    weaponConf.m_grenadeData.m_visibleShotID = grenadesData.m_visibleShootID;
+    weaponConf.m_grenadeData.m_shotVelocity = grenadesData.m_shotVelocity;
+    weaponConf.m_grenadeData.m_damageRay = grenadesData.m_damageCircleRay;
+    audioComp.m_soundElements.back() = loadSound(grenadesData.m_shotSound);
+    m_audioEngine.memAudioMenuSound(audioComp.m_soundElements.back()->m_sourceALID);
 }
 
 //===================================================================
@@ -1885,11 +1901,11 @@ void MainEngine::createPlayerAmmoEntities(PlayerConfComponent &playerConf, Colli
 
 //===================================================================
 void MainEngine::confAmmoEntities(std::vector<uint32_t> &ammoEntities, CollisionTag_e collTag, bool visibleShot,
-                                  uint32_t damage, float shotVelocity, std::optional<float> damageRay)
+                                  uint32_t damage, float shotVelocity, std::optional<float> damageRay, bool grenade)
 {
     for(uint32_t j = 0; j < ammoEntities.size(); ++j)
     {
-        ammoEntities[j] = createAmmoEntity(collTag, visibleShot);
+        ammoEntities[j] = createAmmoEntity(collTag, visibleShot, grenade);
         ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(ammoEntities[j]);
         assert(shotConfComp);
         shotConfComp->m_damage = damage;
@@ -1907,7 +1923,7 @@ void MainEngine::confAmmoEntities(std::vector<uint32_t> &ammoEntities, Collision
 }
 
 //===================================================================
-uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool visibleShot)
+uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool visibleShot, bool grenade)
 {
     uint32_t ammoNum;
     if(!visibleShot)
@@ -1916,7 +1932,14 @@ uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool visibleShot)
     }
     else
     {
-        ammoNum = createVisibleShotEntity();
+        if(grenade)
+        {
+            ammoNum = createGrenadeEntity();
+        }
+        else
+        {
+            ammoNum = createVisibleShotEntity();
+        }
     }
     GeneralCollisionComponent *genColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(ammoNum);
     assert(genColl);
@@ -1928,6 +1951,64 @@ uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool visibleShot)
         confVisibleAmmo(ammoNum);
     }
     return ammoNum;
+}
+
+//===================================================================
+uint32_t MainEngine::createGrenadeEntity()
+{
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::AUDIO_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::MOVEABLE_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::TIMER_COMPONENT] = 1;
+    vect[Components_e::SHOT_CONF_COMPONENT] = 1;
+    vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
+    vect[Components_e::GRAVITY_COMPONENT] = 1;
+    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
+}
+
+//===================================================================
+void MainEngine::playerThrowGrenade()
+{
+    PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
+    WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+    assert(weaponComp);
+    if(weaponComp->m_grenadeData.m_ammunationsCount == 0)
+    {
+        return;
+    }
+    uint32_t grenadeEntity;
+    for(uint32_t i = 0; i < weaponComp->m_grenadeData.m_visibleShootEntities->size(); ++i)
+    {
+        grenadeEntity = (*weaponComp->m_grenadeData.m_visibleShootEntities)[i];
+        GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(grenadeEntity);
+        assert(collComp);
+        if(collComp->m_active)
+        {
+            continue;
+        }
+        collComp->m_active = true;
+        GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(grenadeEntity);
+        assert(gravityComp);
+        gravityComp->m_jump = true;
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(grenadeEntity);
+        assert(mapComp);
+        MapCoordComponent *mapPlayerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
+        assert(mapPlayerComp);
+        mapComp->m_absoluteMapPositionPX = mapPlayerComp->m_absoluteMapPositionPX;
+        std::optional<PairUI_t> coord = getLevelCoord(mapComp->m_absoluteMapPositionPX);
+        assert(coord);
+        mapComp->m_coord = *coord;
+        addEntityToZone(grenadeEntity, mapComp->m_coord);
+        --weaponComp->m_grenadeData.m_ammunationsCount;
+        break;
+    }
 }
 
 //===================================================================
@@ -2149,7 +2230,7 @@ void MainEngine::reinitPlayerGear()
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerConf);
-    WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_ENTRIES)]);
+    WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
     //if first launch return
     if(!weaponConf)
     {
@@ -2348,23 +2429,6 @@ bool MainEngine::isLoadFromLevelBegin(LevelState_e levelState)const
 }
 
 //===================================================================
-void MainEngine::createPlayerVisibleShotEntity(WeaponComponent &weaponConf)
-{
-    for(uint32_t i = 0; i < weaponConf.m_weaponsData.size(); ++i)
-    {
-        if(weaponConf.m_weaponsData[i].m_attackType == AttackType_e::VISIBLE_SHOTS)
-        {
-            weaponConf.m_weaponsData[i].m_visibleShootEntities = std::vector<uint32_t>();
-            (*weaponConf.m_weaponsData[i].m_visibleShootEntities).resize(1);
-            for(uint32_t j = 0; j < weaponConf.m_weaponsData[i].m_visibleShootEntities->size(); ++j)
-            {
-                (*weaponConf.m_weaponsData[i].m_visibleShootEntities)[j] = createAmmoEntity(CollisionTag_e::BULLET_PLAYER_CT, true);
-            }
-        }
-    }
-}
-
-//===================================================================
 uint32_t MainEngine::confShotImpactEntity(const std::vector<SpriteData> &vectSpriteData,
                                           const PairImpactData_t &shootDisplayData)
 {
@@ -2490,6 +2554,7 @@ void MainEngine::loadVisibleShotData(const std::vector<SpriteData> &vectSprite, 
         assert(memSpriteComp);
         assert(audioComp);
         assert(shotComp);
+        assert(!visibleShootID.empty());
         MapVisibleShotData_t::const_iterator it = visibleShot.find(visibleShootID);
         assert(it != visibleShot.end());
         if(!m_memSoundElements.m_visibleShots)
@@ -2856,7 +2921,6 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
     assert(weaponConf);
     createPlayerAmmoEntities(*playerConf, CollisionTag_e::BULLET_PLAYER_CT);
-    createPlayerVisibleShotEntity(*weaponConf);
     confPlayerVisibleShotsSprite(vectSpriteData, levelManager.getVisibleShootDisplayData(), *weaponConf);
     createPlayerImpactEntities(vectSpriteData, *weaponConf, levelManager.getImpactDisplayData());
     map->m_coord = level.getPlayerDeparture();
@@ -3001,14 +3065,14 @@ void MainEngine::loadShotImpactSprite(const std::vector<SpriteData> &vectSpriteD
 }
 
 //===================================================================
-void MainEngine::confPlayerVisibleShotsSprite(const std::vector<SpriteData> &vectSpriteData,
-                                              const MapVisibleShotData_t &shootDisplayData,
-                                              WeaponComponent &weaponComp)
+void MainEngine::confPlayerVisibleShotsSprite(const std::vector<SpriteData> &vectSpriteData, const MapVisibleShotData_t &shootDisplayData, WeaponComponent &weaponComp)
 {
     for(uint32_t i = 0; i < weaponComp.m_weaponsData.size(); ++i)
     {
-        if(weaponComp.m_weaponsData[i].m_visibleShootEntities)
+        if(weaponComp.m_weaponsData[i].m_attackType == AttackType_e::VISIBLE_SHOTS)
         {
+            weaponComp.m_weaponsData[i].m_visibleShootEntities = std::vector<uint32_t>();
+            (*weaponComp.m_weaponsData[i].m_visibleShootEntities).resize(1);
             confAmmoEntities(*weaponComp.m_weaponsData[i].m_visibleShootEntities, CollisionTag_e::BULLET_PLAYER_CT,
                              true, weaponComp.m_weaponsData[i].m_weaponPower, weaponComp.m_weaponsData[i].m_shotVelocity,
                              weaponComp.m_weaponsData[i].m_damageRay);
@@ -3016,6 +3080,29 @@ void MainEngine::confPlayerVisibleShotsSprite(const std::vector<SpriteData> &vec
                                 weaponComp.m_weaponsData[i].m_visibleShotID, shootDisplayData);
         }
     }
+    //GRENADES
+    //OOOOK PB
+
+    //GRENADES
+    weaponComp.m_grenadeData.m_visibleShootEntities = std::vector<uint32_t>();
+    weaponComp.m_grenadeData.m_visibleShootEntities->resize(MAX_SHOTS);
+    // for(uint32_t j = 0; j < weaponComp.m_grenadeData.m_visibleShootEntities->size(); ++j)
+    // {
+    //     (*weaponComp.m_grenadeData.m_visibleShootEntities)[j] = createAmmoEntity(CollisionTag_e::BULLET_PLAYER_CT, true, true);
+    //     GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>((*weaponComp.m_grenadeData.m_visibleShootEntities)[j]);
+    //     assert(gravityComp);
+    //     gravityComp->m_jump = true;
+    //     GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>((*weaponComp.m_grenadeData.m_visibleShootEntities)[j]);
+    //     assert(collComp);
+    //     collComp->m_shape = CollisionShape_e::CIRCLE_C;
+    // }
+
+    confAmmoEntities(*weaponComp.m_grenadeData.m_visibleShootEntities, CollisionTag_e::BULLET_PLAYER_CT,
+                     true, weaponComp.m_grenadeData.m_weaponPower, weaponComp.m_grenadeData.m_shotVelocity,
+                     weaponComp.m_grenadeData.m_damageRay, true);
+    loadVisibleShotData(vectSpriteData, *weaponComp.m_grenadeData.m_visibleShootEntities,
+                        weaponComp.m_grenadeData.m_visibleShotID, shootDisplayData);
+
 }
 
 //===================================================================
@@ -3512,7 +3599,7 @@ uint32_t MainEngine::confObjectEntity(const StaticLevelElementData &objectData)
     assert(objComp);
     objComp->m_type = objectData.m_type;
     if(objComp->m_type == ObjectType_e::AMMO_WEAPON || objComp->m_type == ObjectType_e::WEAPON ||
-            objComp->m_type == ObjectType_e::HEAL)
+            objComp->m_type == ObjectType_e::HEAL || objComp->m_type == ObjectType_e::GRENADE)
     {
         objComp->m_containing = objectData.m_containing;
         objComp->m_weaponID = objectData.m_weaponID;
