@@ -70,6 +70,7 @@ void IASystem::execSystem()
             treatVisibleShots(*weaponComp->m_weaponsData[i].m_visibleShootEntities);
         }
     }
+    treatVisibleShots(*weaponComp->m_grenadeData.m_visibleShootEntities, true);
     float distancePlayer;
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
@@ -164,7 +165,7 @@ void IASystem::treatGenerator()
 }
 
 //===================================================================
-void IASystem::treatVisibleShots(const std::vector<uint32_t> &stdAmmo)
+void IASystem::treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool grenade)
 {
     for(uint32_t i = 0; i < stdAmmo.size(); ++i)
     {
@@ -188,10 +189,20 @@ void IASystem::treatVisibleShots(const std::vector<uint32_t> &stdAmmo)
         MapCoordComponent *ammoMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(stdAmmo[i]);
         MoveableComponent *ammoMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(stdAmmo[i]);
 
-        SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(stdAmmo[i]);
-        segmentComp->m_points.first = ammoMapComp->m_absoluteMapPositionPX;
-        moveElementFromAngle(ammoMoveComp->m_velocity, getRadiantAngle(ammoMoveComp->m_degreeOrientation), ammoMapComp->m_absoluteMapPositionPX);
-        segmentComp->m_points.second = ammoMapComp->m_absoluteMapPositionPX;
+        if(grenade)
+        {
+            if(++timerComp->m_cycleCountB < *timerComp->m_timeIntervalOptional)
+            {
+                moveElementFromAngle(ammoMoveComp->m_velocity, getRadiantAngle(ammoMoveComp->m_degreeOrientation), ammoMapComp->m_absoluteMapPositionPX);
+            }
+        }
+        else
+        {
+            moveElementFromAngle(ammoMoveComp->m_velocity, getRadiantAngle(ammoMoveComp->m_degreeOrientation), ammoMapComp->m_absoluteMapPositionPX);
+            SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(stdAmmo[i]);
+            segmentComp->m_points.first = ammoMapComp->m_absoluteMapPositionPX;
+            segmentComp->m_points.second = ammoMapComp->m_absoluteMapPositionPX;
+        }
     }
 }
 

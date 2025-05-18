@@ -1,8 +1,5 @@
 =============================================================================================================================
 
-))
-Make all animation for shooting in 8 directions
-
 
 ))
 Add "rage" jauge to make special attack
@@ -13,7 +10,7 @@ Add "rage" jauge to make special attack
 ))
 Add grenades
 	-Add pickable object + make animation + timer and explosion (friendly fire enabled)
-		*********Modif Conf file
+		*********Modif Conf file--OK
 
 ))
 Add vehicule
@@ -28,6 +25,9 @@ Make bosses
 	-Change music when arena is reached--------------OK
 	-Freeze camera-------OK
 		*********Modif LEVEL EDITOR--OK
+
+))
+Make all animation for shooting in 8 directions
 
 
 =========================================================================================A VOIR

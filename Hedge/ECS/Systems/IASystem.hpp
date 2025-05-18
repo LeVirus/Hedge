@@ -33,7 +33,7 @@ private:
                                    EnemyConfComponent &enemyConfComp, float distancePlayer);
     void treatStaticEnemy(EnemyConfComponent &enemyConfComp, MoveableComponent &moveComp, uint32_t enemyEntity, float distancePlayer);
     void updateEnemyDirection(EnemyConfComponent &enemyConfComp, MoveableComponent &moveComp, MapCoordComponent &enemyMapComp);
-    void treatVisibleShots(const std::vector<uint32_t> &stdAmmo);
+    void treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool grenade = false);
     void activeSound(uint32_t entityNum, uint32_t soundNum);
     void enemyShoot(EnemyConfComponent &enemyConfComp, MoveableComponent &moveComp, MapCoordComponent &enemyMapComp, float distancePlayer);
     void treatEnemyMove(MapCoordComponent *playerMapComp, MapCoordComponent &mapComp, float velocity, EnemyConfComponent &enemyConfComp, uint32_t enemyEntity);

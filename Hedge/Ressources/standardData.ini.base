@@ -369,10 +369,11 @@ TimeBehaviourCycle = 0.6
 BaseAmmo = 0
 MaxAmmo = 20
 Damage = 20
-ShootSpritesID = VisibleShootGun
-ShotVelocity = 2
+ShootSpritesID = VisibleShootRocket
+ShotVelocity = 5
 SoundEffect = GunShot.wav
 DamageZoneRay = 530.0
+MoveTime = 0.5
 
 [WeaponFist]
 WeaponName = Fist

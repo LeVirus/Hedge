@@ -657,6 +657,19 @@ bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args)
                                              args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size);
         if(collision)
         {
+            //GRENADE
+            if(args.tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT)
+            {
+                ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumA);
+                assert(shotConfComp);
+                if(!shotConfComp->m_damageCircleRayData)
+                {
+                    if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
+                    {
+                        treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage);
+                    }
+                }
+            }
             if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
             {
                 bool checkStuck = (args.tagCompB.m_tagA == CollisionTag_e::CHECKPOINT_CT ||
@@ -779,21 +792,6 @@ void CollisionSystem::treatVisibleShot(CollisionArgs &args, bool collision)
     }
     if(collision)
     {
-        // if(args.tagCompB.m_shape == CollisionShape_e::RECTANGLE_C)
-        // {
-        //     if(shotExplosionEject)
-        //     {
-        //         RectangleCollisionComponent *rectCompB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
-        //         assert(rectCompB);
-        //         collisionCircleRectEject(args, circleCompA->m_ray, *rectCompB, shotExplosionEject);
-        //     }
-        //     else if(!shotConfComp->m_ejectMode)
-        //     {
-        //         shotConfComp->m_ejectMode = true;
-        //         std::swap(circleCompA->m_ray, shotConfComp->m_ejectExplosionRay);
-        //         return;
-        //     }
-        // }
         if(shotConfComp->m_destructPhase)
         {
             return;
@@ -805,20 +803,11 @@ void CollisionSystem::treatVisibleShot(CollisionArgs &args, bool collision)
         activeSound(args.entityNumA);
         shotConfComp->m_destructPhase = true;
         shotConfComp->m_spriteShotNum = 0;
-        if(shotConfComp->m_damageCircleRayData)
+        GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
+        if(gravComp)
         {
-            return;
+            gravComp->m_freeze = true;
         }
-        // if(args.tagCompA.m_tagA == CollisionTag_e::BULLET_PLAYER_CT && args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
-        // {
-        //     treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage);
-        // }
-        // else if(args.tagCompA.m_tagA == CollisionTag_e::BULLET_ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT)
-        // {
-        //     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-        //     assert(playerComp);
-        //     playerComp->takeDamage(shotConfComp->m_damage);
-        // }
     }
 }
 
@@ -882,8 +871,10 @@ void CollisionSystem::setDamageCircle(uint32_t damageEntity, bool active, uint32
 void CollisionSystem::activeSound(uint32_t entityNum)
 {
     AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(entityNum);
-    assert(audioComp);
-    audioComp->m_soundElements[0]->m_toPlay = true;
+    if(audioComp)
+    {
+        audioComp->m_soundElements[0]->m_toPlay = true;
+    }
 }
 
 //===================================================================
