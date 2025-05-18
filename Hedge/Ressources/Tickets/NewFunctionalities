@@ -6,12 +6,6 @@ Add "rage" jauge to make special attack
 	-Animation with game paused?
 	-Real Time?
 
-
-))
-Add grenades
-	-Add pickable object + make animation + timer and explosion (friendly fire enabled)
-		*********Modif Conf file--OK
-
 ))
 Add vehicule
 	-moto
@@ -28,13 +22,6 @@ Make bosses
 
 ))
 Make all animation for shooting in 8 directions
-
-
-=========================================================================================A VOIR
-
-))
-Add several life for a level
-	-Player repop if lifes is remaining or game over if not
 
 =============================================================================================================================
 =============================================================================================================================
@@ -99,3 +86,7 @@ Add CaC attack with animation============================OK
 Add lock scrolling===================================================OK
 		*********Modif LEVEL EDITOR--OK--OK
 
+))
+Add grenades===============================================OK
+	-Add pickable object + make animation + timer and explosion (friendly fire enabled)
+		*********Modif Conf file--OK

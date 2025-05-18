@@ -237,7 +237,7 @@ void InputSystem::treatPlayerInput()
         {
             m_mainEngine->playerThrowGrenade();
         }
-        if(checkPlayerKeyTriggered(ControlKey_e::ACTION, GLFW_RELEASE))
+        else if(checkPlayerKeyTriggered(ControlKey_e::ACTION, GLFW_RELEASE))
         {
             playerComp->m_grenadeThrow = false;
         }
@@ -254,7 +254,6 @@ void InputSystem::treatPlayerInput()
         {
             TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
             assert(timerComp);
-
             //Change weapon
             if(checkPlayerKeyTriggered(ControlKey_e::PREVIOUS_WEAPON) || m_scrollDown)
             {

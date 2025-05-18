@@ -191,7 +191,10 @@ void IASystem::treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool gren
 
         if(grenade)
         {
-            if(++timerComp->m_cycleCountB < *timerComp->m_timeIntervalOptional)
+            PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+            WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+            assert(weaponComp);
+            if(++timerComp->m_cycleCountB < weaponComp->m_grenadeData.m_cycleTime)
             {
                 moveElementFromAngle(ammoMoveComp->m_velocity, getRadiantAngle(ammoMoveComp->m_degreeOrientation), ammoMapComp->m_absoluteMapPositionPX);
             }

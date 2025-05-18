@@ -1334,6 +1334,7 @@ void MainEngine::loadGrenadesData(const LevelManager &levelManager, WeaponCompon
     weaponConf.m_grenadeData.m_visibleShotID = grenadesData.m_visibleShootID;
     weaponConf.m_grenadeData.m_shotVelocity = grenadesData.m_shotVelocity;
     weaponConf.m_grenadeData.m_damageRay = grenadesData.m_damageCircleRay;
+    weaponConf.m_grenadeData.m_cycleTime = grenadesData.m_moveTime / FPS_VALUE;
     audioComp.m_soundElements.back() = loadSound(grenadesData.m_shotSound);
     m_audioEngine.memAudioMenuSound(audioComp.m_soundElements.back()->m_sourceALID);
 }
@@ -1923,6 +1924,10 @@ void MainEngine::confAmmoEntities(std::vector<uint32_t> &ammoEntities, Collision
                 GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(ammoEntities[j]);
                 assert(collComp);
                 collComp->m_shape = CollisionShape_e::CIRCLE_C;
+                //OOOOK A voir modifier
+                GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(ammoEntities[j]);
+                assert(gravComp);
+                gravComp->m_jumpStepMax = 10;
             }
         }
     }
@@ -2025,7 +2030,6 @@ void MainEngine::playerThrowGrenade()
         TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(grenadeEntity);
         assert(timerComp);
         timerComp->m_cycleCountB = 0;
-        timerComp->m_timeIntervalOptional = 50;
         playerConf->m_grenadeThrow = true;
         --weaponComp->m_grenadeData.m_ammunationsCount;
         break;

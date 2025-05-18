@@ -1066,6 +1066,9 @@ void LevelManager::loadGrenadesData()
     val = m_ini.getValue("Grenade", "DamageZoneRay");
     assert(val);
     m_grenadesINIData.m_damageCircleRay = std::stof(*val);
+    val = m_ini.getValue("Grenade", "MoveTime");
+    assert(val);
+    m_grenadesINIData.m_moveTime = std::stof(*val);
 }
 
 //===================================================================
