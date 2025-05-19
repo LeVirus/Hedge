@@ -66,7 +66,7 @@ struct MemCheckpointEnemiesState
 
 struct MemCheckpointElementsState
 {
-    uint32_t m_checkpointNum, m_secretsNumber, m_enemiesKilled;
+    uint32_t m_checkpointNum, m_secretsNumber, m_enemiesKilled, m_grenades;
     PairUI_t m_checkpointPos;
     Direction_e m_direction;
     std::vector<MemCheckpointEnemiesState> m_enemiesData;

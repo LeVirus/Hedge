@@ -312,7 +312,9 @@ void MainEngine::saveGameProgressCheckpoint(uint32_t levelNum, const PairUI_t &c
     {
         revealedMap.emplace_back(it->second);
     }
-    m_memCheckpointData = {checkpointData.first, 0, enemiesKilled, checkpointReached,
+    WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+    assert(weaponComp);
+    m_memCheckpointData = {checkpointData.first, 0, enemiesKilled, weaponComp->m_grenadeData.m_ammunationsCount, checkpointReached,
                            checkpointData.second, m_memEnemiesStateFromCheckpoint,
                            m_memMoveableWallCheckpointData, m_memTriggerWallMoveableWallCheckpointData,
                            m_memStaticEntitiesDeletedFromCheckpoint, revealedMap, playerConf->m_card};
@@ -2410,13 +2412,16 @@ void MainEngine::loadCheckpointSavedGame(const MemCheckpointElementsState &check
     m_memTriggerWallMoveableWallCheckpointData = checkpointData.m_triggerWallMoveableWallData;
     m_revealedMapData = checkpointData.m_revealedMapData;
     m_memCheckpointData = {checkpointData.m_checkpointNum, checkpointData.m_secretsNumber,
-                           checkpointData.m_enemiesKilled, checkpointData.m_checkpointPos,
+                           checkpointData.m_enemiesKilled, checkpointData.m_grenades, checkpointData.m_checkpointPos,
                            checkpointData.m_direction, m_memEnemiesStateFromCheckpoint,
                            m_memMoveableWallCheckpointData, m_memTriggerWallMoveableWallCheckpointData,
                            m_memStaticEntitiesDeletedFromCheckpoint, checkpointData.m_revealedMapData, checkpointData.m_card};
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerConf);
     playerConf->m_card = m_memCheckpointData->m_card;
+    WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+    assert(weaponComp);
+    weaponComp->m_grenadeData.m_ammunationsCount = m_memCheckpointData->m_grenades;
 }
 
 //===================================================================

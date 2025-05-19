@@ -2514,6 +2514,7 @@ void LevelManager::saveElementsGameProgress(const MemCheckpointElementsState &ch
     m_ini.setValue("Checkpoint", "Direction", std::to_string(static_cast<uint32_t>(checkpointData.m_direction)));
     m_ini.setValue("Checkpoint", "SecretsFound", std::to_string(checkpointData.m_secretsNumber));
     m_ini.setValue("Checkpoint", "EnemiesKilled", std::to_string(checkpointData.m_enemiesKilled));
+    m_ini.setValue("Checkpoint", "Grenades", std::to_string(checkpointData.m_grenades));
     m_ini.setValue("Checkpoint", "PosX", std::to_string(checkpointData.m_checkpointPos.first));
     m_ini.setValue("Checkpoint", "PosY", std::to_string(checkpointData.m_checkpointPos.second));
     saveEnemiesDataGameProgress(checkpointData.m_enemiesData);
@@ -2732,7 +2733,7 @@ std::optional<MemPlayerConf> LevelManager::loadPlayerConf(bool beginLevel)
 //===================================================================
 std::unique_ptr<MemCheckpointElementsState> LevelManager::loadCheckpointDataSavedGame()
 {
-    uint32_t checkpointNum, secretsFound, enemiesKilled;
+    uint32_t checkpointNum, secretsFound, enemiesKilled, grenades;
     PairUI_t pos;
     Direction_e direction;
     std::optional<std::string> val;
@@ -2753,6 +2754,9 @@ std::unique_ptr<MemCheckpointElementsState> LevelManager::loadCheckpointDataSave
     val = m_ini.getValue("Checkpoint", "EnemiesKilled");
     assert(val);
     enemiesKilled = std::stoi(*val);
+    val = m_ini.getValue("Checkpoint", "Grenades");
+    assert(val);
+    grenades = std::stoi(*val);
     val = m_ini.getValue("Checkpoint", "PosX");
     assert(val);
     pos.first = std::stoi(*val);
@@ -2760,7 +2764,7 @@ std::unique_ptr<MemCheckpointElementsState> LevelManager::loadCheckpointDataSave
     assert(val);
     pos.second = std::stoi(*val);
     return std::make_unique<MemCheckpointElementsState>(MemCheckpointElementsState{
-                    checkpointNum, secretsFound, enemiesKilled, pos, direction,
+                    checkpointNum, secretsFound, enemiesKilled, grenades, pos, direction,
                     loadEnemiesDataGameProgress(), loadMoveableWallDataGameProgress(),
                     loadTriggerWallMoveableWallDataGameProgress(),
                     loadStaticElementsDataGameProgress(), loadRevealedMapDataGameProgress(), loadCardGameProgress()});
