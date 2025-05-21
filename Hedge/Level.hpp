@@ -46,7 +46,7 @@ struct StaticLevelElementData
     //GENERATOR
     std::string m_generatorShootID, m_generatorEnemyID;
     Direction_e m_dir;
-    uint32_t m_cycles, m_damage, m_maxPop;
+    uint32_t m_cycles, m_damage, m_maxPop, m_vehicleVelocity;
 };
 
 struct DoorData

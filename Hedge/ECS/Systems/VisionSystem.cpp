@@ -217,6 +217,14 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
         }
         timerComp.m_cycleCountD = 0;
     }
+    if(playerConfComp->m_associatedVehicle)
+    {
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*playerConfComp->m_associatedVehicle);
+        assert(mapComp);
+        MapCoordComponent *playerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerEntity);
+        assert(playerComp);
+        mapComp->m_absoluteMapPositionPX = playerComp->m_absoluteMapPositionPX;
+    }
     spriteComp.m_spriteData = memSpriteComp.m_vectSpriteData[static_cast<uint32_t>(playerConfComp->m_currentSprite)];
 }
 

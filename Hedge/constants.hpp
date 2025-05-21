@@ -320,7 +320,7 @@ enum class WallSpriteType_e
 enum class LevelStaticElementType_e
 {
     GROUND,
-    CEILING,
+    VEHICULE,
     OBJECT,
     IMPACT,
     TELEPORT,
@@ -373,7 +373,8 @@ enum class CollisionTag_e
     DEAD_CORPSE_CT,
     LOG_CT,
     DETECT_MAP_CT,
-    ELECTRIC_WALL_CT//20
+    ELECTRIC_WALL_CT,//20
+    VEHICULE_CT
 };
 
 enum class CollisionShape_e

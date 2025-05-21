@@ -296,9 +296,9 @@ void LevelManager::loadGeneralStaticElements(LevelStaticElementType_e elementTyp
         vectINISections = m_ini.getSectionNamesContaining("Ground");
         memMap = &m_groundElement;
         break;
-    case LevelStaticElementType_e::CEILING:
-        vectINISections = m_ini.getSectionNamesContaining("Ceiling");
-        memMap = &m_ceilingElement;
+    case LevelStaticElementType_e::VEHICULE:
+        vectINISections = m_ini.getSectionNamesContaining("Vehicule");
+        memMap = &m_vehiculeElement;
         break;
     case LevelStaticElementType_e::OBJECT:
         vectINISections = m_ini.getSectionNamesContaining("Object");
@@ -608,6 +608,19 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
             m_cardINIAssociated.insert({sectionName, *staticElement.m_cardID});
         }
     }
+    else if(elementType == LevelStaticElementType_e::VEHICULE)
+    {
+        val = m_ini.getValue(sectionName, "Velocity");
+        assert(val);
+        staticElement.m_vehicleVelocity = std::stoi(*val);
+
+        val = m_ini.getValue(sectionName, "SpriteWeightGame");
+        assert(val);
+        staticElement.m_inGameSpriteSize.first = std::stof(*val);
+        val = m_ini.getValue(sectionName, "SpriteHeightGame");
+        assert(val);
+        staticElement.m_inGameSpriteSize.second = std::stof(*val);
+    }
     else
     {
         val = m_ini.getValue(sectionName, "traversable");
@@ -746,8 +759,8 @@ std::map<std::string, StaticLevelElementData>::iterator LevelManager::removeStat
     case LevelStaticElementType_e::GROUND:
         container = &m_groundElement;
         break;
-    case LevelStaticElementType_e::CEILING:
-        container = &m_ceilingElement;
+    case LevelStaticElementType_e::VEHICULE:
+        container = &m_vehiculeElement;
         break;
     case LevelStaticElementType_e::OBJECT:
         container = &m_objectElement;
@@ -756,6 +769,7 @@ std::map<std::string, StaticLevelElementData>::iterator LevelManager::removeStat
         container = &m_teleportElement;
         break;
     case LevelStaticElementType_e::IMPACT:
+    case LevelStaticElementType_e::GENERATOR:
         assert(false);
         break;
     }
@@ -2032,7 +2046,7 @@ void LevelManager::loadStandardData(const std::string &INIFileName)
     loadGeneralSoundData();
     loadGeneralStaticElements(LevelStaticElementType_e::GROUND);
     loadGeneralStaticElements(LevelStaticElementType_e::GENERATOR);
-    // loadGeneralStaticElements(LevelStaticElementType_e::CEILING);
+    loadGeneralStaticElements(LevelStaticElementType_e::VEHICULE);
     loadGeneralStaticElements(LevelStaticElementType_e::OBJECT);
     loadGeneralStaticElements(LevelStaticElementType_e::TELEPORT);
     loadVisualTeleportData();
@@ -2077,11 +2091,11 @@ void LevelManager::loadPositionStaticElements()
             ++it;
         }
     }
-    for(it = m_ceilingElement.begin(); it != m_ceilingElement.end();)
+    for(it = m_vehiculeElement.begin(); it != m_vehiculeElement.end();)
     {
         if(!fillStandartPositionVect(it->first, it->second.m_TileGamePosition))
         {
-            it = removeStaticElement(it->first, LevelStaticElementType_e::CEILING);
+            it = removeStaticElement(it->first, LevelStaticElementType_e::VEHICULE);
         }
         else
         {
@@ -2193,7 +2207,7 @@ void LevelManager::clearExistingPositionsElement()
     {
         it->second.m_TileGamePosition.clear();
     }
-    for(std::map<std::string, StaticLevelElementData>::iterator it = m_ceilingElement.begin(); it != m_ceilingElement.end(); ++it)
+    for(std::map<std::string, StaticLevelElementData>::iterator it = m_vehiculeElement.begin(); it != m_vehiculeElement.end(); ++it)
     {
         it->second.m_TileGamePosition.clear();
     }

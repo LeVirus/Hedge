@@ -514,6 +514,12 @@ SpriteWeightGame = 0.1 0.6 0.7 0.8
 SpriteHeightGame = 0.15 0.7 1.0 1.1
 ImpactSound = BazookaExplosion.wav
 
+[VehiculeBike]
+Sprite = SpriteLog
+SpriteWeightGame = 0.2 
+SpriteHeightGame = 0.5
+Velocity = 2
+
 [ObjectGrenade]
 Sprite = SpriteLog
 SpriteWeightGame = 0.2 ; value in %

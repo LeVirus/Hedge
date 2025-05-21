@@ -217,9 +217,9 @@ public:
     {
         return m_groundElement;
     }
-    inline const std::map<std::string, StaticLevelElementData> &getCeilingData()const
+    inline const std::map<std::string, StaticLevelElementData> &getVehiculesData()const
     {
-        return m_ceilingElement;
+        return m_vehiculeElement;
     }
     inline const std::map<std::string, StaticLevelElementData> &getObjectData()const
     {
@@ -422,7 +422,7 @@ private:
     std::map<std::string, WallData> m_wallData;
     std::map<std::string, MoveableWallData> m_mainWallData;
     std::map<std::string, uint32_t> m_weaponINIAssociated, m_cardINIAssociated;
-    std::map<std::string, StaticLevelElementData> m_groundElement, m_ceilingElement, m_objectElement, m_teleportElement, m_generatorElement;
+    std::map<std::string, StaticLevelElementData> m_groundElement, m_vehiculeElement, m_objectElement, m_teleportElement, m_generatorElement;
     BarrelData m_barrelElement;
     std::map<std::string, DoorData> m_doorData;
     std::map<std::string, EnemyData> m_enemyData;

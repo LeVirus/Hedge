@@ -9,6 +9,12 @@ Add "rage" jauge to make special attack
 ))
 Add vehicule
 	-moto
+		**Add new item in std ini
+		--enter exit vehicle by using jump
+		--recreate vehicle if exit
+		--Change player appearence by vehicle
+		--increase speed
+		--update checkpoint data
 	-tank
 		*********Modif Conf file
 		*********Modif LEVEL EDITOR--OK

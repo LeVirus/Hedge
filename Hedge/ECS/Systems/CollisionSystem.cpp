@@ -415,6 +415,11 @@ void CollisionSystem::initArrayTag()
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::BOSS_ZONE_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::LOG_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::EXIT_CT});
+    m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::VEHICULE_CT});
+
+    m_tagArray.insert({CollisionTag_e::VEHICULE_CT, CollisionTag_e::WALL_CT});
+    m_tagArray.insert({CollisionTag_e::VEHICULE_CT, CollisionTag_e::TRAVERSABLE_WALL_CT});
+    m_tagArray.insert({CollisionTag_e::VEHICULE_CT, CollisionTag_e::ELECTRIC_WALL_CT});
 
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::WALL_CT});
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::ELECTRIC_WALL_CT});
@@ -534,7 +539,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         {
             return;
         }
-        if(collision && (args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT))
+        if(collision && (args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT))
         {
             if(!(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT))
             {
@@ -839,6 +844,18 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
         m_refMainEngine->playBossMusic();
         writePlayerInfo("Warning");
         m_vectEntitiesToDelete.push_back(args.entityNumB);
+        return true;
+    }
+    else if(args.tagCompB.m_tagA == CollisionTag_e::VEHICULE_CT)
+    {
+        GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
+        assert(gravComp);
+        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+        assert(playerComp);
+        if(gravComp->m_jump && !playerComp->m_associatedVehicle)
+        {
+            playerComp->m_associatedVehicle = args.entityNumB;
+        }
         return true;
     }
     return false;
