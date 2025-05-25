@@ -320,22 +320,41 @@ void InputSystem::treatDialogInput()
     }
 }
 
+
+//===================================================================
+float InputSystem::getCurrentVelocity(std::optional<uint32_t> vehicleEntity, MoveableComponent &movePlayerComp)
+{
+    if(vehicleEntity)
+    {
+        MoveableComponent *moveVComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*vehicleEntity);
+        assert(moveVComp);
+        return moveVComp->m_velocity;
+    }
+    else
+    {
+        return movePlayerComp.m_velocity;
+    }
+}
+
 //===================================================================
 void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp, MapCoordComponent &mapComp, MoveableComponent &moveComp, uint32_t playerEntity)
 {
+    float velocity;
     playerComp.m_currentAim.fill(false);
     if(checkPlayerKeyTriggered(ControlKey_e::TURN_RIGHT))
     {
+        velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
         playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_RIGHT;
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
-        mapComp.m_absoluteMapPositionPX.first += moveComp.m_velocity;
+        mapComp.m_absoluteMapPositionPX.first += velocity;
         playerComp.m_currentDirectionRight = true;
     }
     else if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT))
     {
+        velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
         playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_LEFT;
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
-        mapComp.m_absoluteMapPositionPX.first -= moveComp.m_velocity;
+        mapComp.m_absoluteMapPositionPX.first -= velocity;
         playerComp.m_currentDirectionRight = false;
     }
     else

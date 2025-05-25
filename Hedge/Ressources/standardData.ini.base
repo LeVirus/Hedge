@@ -518,7 +518,7 @@ ImpactSound = BazookaExplosion.wav
 Sprite = SpriteLog
 SpriteWeightGame = 0.2 
 SpriteHeightGame = 0.5
-Velocity = 2
+Velocity = 5
 
 [ObjectGrenade]
 Sprite = SpriteLog

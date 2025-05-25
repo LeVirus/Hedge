@@ -141,6 +141,7 @@ private:
     void treatPlayerInput();
     void treatDialogInput();
     void treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp, MapCoordComponent &mapComp, MoveableComponent &moveComp, uint32_t playerEntity);
+    float getCurrentVelocity(std::optional<uint32_t> vehicleEntity, MoveableComponent &movePlayerComp);
     std::optional<double> getXMouseMotion();
     bool checkPlayerKeyTriggered(ControlKey_e key, int state = GLFW_PRESS);
     void treatMenu();

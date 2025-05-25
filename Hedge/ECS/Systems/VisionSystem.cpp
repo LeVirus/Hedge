@@ -224,6 +224,9 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
         MapCoordComponent *playerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerEntity);
         assert(playerComp);
         mapComp->m_absoluteMapPositionPX = playerComp->m_absoluteMapPositionPX;
+        mapComp->m_coord = playerComp->m_coord;
+        m_refMainEngine->addEntityToZone(*playerConfComp->m_associatedVehicle,
+                                         *getLevelCoord(mapComp->m_absoluteMapPositionPX));
     }
     spriteComp.m_spriteData = memSpriteComp.m_vectSpriteData[static_cast<uint32_t>(playerConfComp->m_currentSprite)];
 }
