@@ -248,6 +248,7 @@ void MainEngine::initLevel(uint32_t levelNum, LevelState_e levelState)
         assert(playerConf);
         m_memCheckpointLevelState = std::nullopt;
         playerConf->m_currentCheckpoint->first = 0;
+        playerConf->m_vehicleEject = false;
         if(levelState == LevelState_e::NEW_GAME)
         {
             m_graphicEngine.updateSaveNum(levelNum, m_currentSave, 0, "", true);

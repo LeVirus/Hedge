@@ -850,11 +850,22 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
     {
         GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
         assert(gravComp);
-        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-        assert(playerComp);
-        if(gravComp->m_jump && !playerComp->m_associatedVehicle)
+        if(gravComp->m_jump)
         {
-            playerComp->m_associatedVehicle = args.entityNumB;
+            PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+            assert(playerComp);
+            if(!playerComp->m_vehicleEject)
+            {
+                if(!playerComp->m_associatedVehicle)
+                {
+                    playerComp->m_associatedVehicle = args.entityNumB;
+                }
+                else
+                {
+                    playerComp->m_associatedVehicle = std::nullopt;
+                }
+                playerComp->m_vehicleEject = true;
+            }
         }
         return true;
     }

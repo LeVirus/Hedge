@@ -368,6 +368,16 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
             playerComp.m_spriteType = PlayerSpriteElementType_e::STAY_LEFT;
         }
     }
+    if(playerComp.m_associatedVehicle)
+    {
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*playerComp.m_associatedVehicle);
+        assert(mapComp);
+        MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerEntity);
+        assert(playerMapComp);
+        mapComp->m_absoluteMapPositionPX = playerMapComp->m_absoluteMapPositionPX;
+        mapComp->m_coord = playerMapComp->m_coord;
+        m_mainEngine->addEntityToZone(*playerComp.m_associatedVehicle, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
+    }
     //TMP LOOK UP
     if(checkPlayerKeyTriggered(ControlKey_e::MOVE_FORWARD))
     {
