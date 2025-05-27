@@ -66,11 +66,9 @@ public:
     }
 private:
     void confFullMapPositionVertexEntities();
-    void confVertexPlayerOnFullMap();
     void setUsedComponents();
     void fillMiniMapVertexFromEntities();
     void drawMapVertex();
-    void drawPlayerOnMap();
     void confMiniMapPositionVertexEntities(const PairFloat_t &centerScreenPos, const PairUI_t &min, const PairUI_t &max);
     PairFloat_t getCenterScreen(const PairFloat_t &playerMap, const PairUI_t &min, const PairUI_t &max)const;
     void confMiniMapVertexElement(const PairFloat_t &glPosition, uint32_t entityNum);

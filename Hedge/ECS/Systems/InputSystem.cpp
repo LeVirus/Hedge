@@ -207,7 +207,7 @@ void InputSystem::treatPlayerInput()
         }
         if(!playerComp->m_dialogPass && checkPlayerKeyTriggered(ControlKey_e::JUMP))
         {
-            if(!gravityComp->m_jump && gravityComp->m_onGround)
+            if(playerComp->m_associatedVehicle || (!gravityComp->m_jump && gravityComp->m_onGround))
             {
                 if(checkPlayerKeyTriggered(ControlKey_e::MOVE_BACKWARD))
                 {

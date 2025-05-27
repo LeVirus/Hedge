@@ -127,41 +127,6 @@ void MapDisplaySystem::confFullMapPositionVertexEntities()
 }
 
 //===================================================================
-void MapDisplaySystem::confVertexPlayerOnFullMap()
-{
-    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(m_playerNum);
-    MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
-    MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(m_playerNum);
-    if(posComp->m_vertex.empty())
-    {
-        posComp->m_vertex.resize(3);
-    }
-    float angle = moveComp->m_degreeOrientation;
-    float radiantAngle = getRadiantAngle(angle);
-    PairFloat_t GLPos = {mapComp->m_absoluteMapPositionPX.first / m_sizeLevelPX.first * FULL_MAP_SIZE_GL,
-                        mapComp->m_absoluteMapPositionPX.second / m_sizeLevelPX.second * FULL_MAP_SIZE_GL};
-    // ((absolutePositionPX.first / m_sizeLevelPX.first) * FULL_MAP_SIZE_GL)
-    posComp->m_vertex[0].first = MAP_FULL_TOP_LEFT_X_GL + GLPos.first +
-            cos(radiantAngle) * m_fullMapTileSizeGL.first;
-    posComp->m_vertex[0].second = MAP_FULL_TOP_LEFT_Y_GL - GLPos.second +
-            sin(radiantAngle) * m_fullMapTileSizeGL.second;
-    angle += 150.0f;
-    radiantAngle = getRadiantAngle(angle);
-
-    posComp->m_vertex[1].first = MAP_FULL_TOP_LEFT_X_GL + GLPos.first +
-            cos(radiantAngle) * m_fullMapTileSizeGL.first;
-    posComp->m_vertex[1].second = MAP_FULL_TOP_LEFT_Y_GL - GLPos.second +
-            sin(radiantAngle) * m_fullMapTileSizeGL.second;
-    angle += 60.0f;
-    radiantAngle = getRadiantAngle(angle);
-
-    posComp->m_vertex[2].first = MAP_FULL_TOP_LEFT_X_GL + GLPos.first +
-            cos(radiantAngle) * m_fullMapTileSizeGL.first;
-    posComp->m_vertex[2].second = MAP_FULL_TOP_LEFT_Y_GL - GLPos.second +
-            sin(radiantAngle) * m_fullMapTileSizeGL.second;
-}
-
-//===================================================================
 void MapDisplaySystem::confMiniMapPositionVertexEntities(const PairFloat_t &centerScreenPos, const PairUI_t &min, const PairUI_t &max)
 {
     PairFloat_t corner, diffPosPX, relativePosMapGL;
@@ -169,8 +134,6 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities(const PairFloat_t &cent
     m_entitiesToDisplay.reserve(m_usedEntities.size());
     for(std::set<uint32_t>::const_iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
-        GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
-        assert(genComp);
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         if(!mapComp)
         {
@@ -571,14 +534,6 @@ void MapDisplaySystem::drawMapVertex()
         m_vectMapVerticesData[h].confVertexBuffer();
         m_vectMapVerticesData[h].drawElement();
     }
-}
-
-//===================================================================
-void MapDisplaySystem::drawPlayerOnMap()
-{
-    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(m_playerNum);
-    ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(m_playerNum);
-    Ecsm_t::instance().getSystem<ColorDisplaySystem>(static_cast<uint32_t>(Systems_e::COLOR_DISPLAY_SYSTEM))->drawEntity(*posComp, *colorComp);
 }
 
 //===================================================================

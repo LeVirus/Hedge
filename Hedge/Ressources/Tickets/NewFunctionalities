@@ -9,14 +9,14 @@ Add "rage" jauge to make special attack
 ))
 Add vehicule
 	-moto
-		**Add new item in std ini
-		--enter exit vehicle by using jump
-		--recreate vehicle if exit
-		--Change player appearence by vehicle
-		--increase speed
+		**Add new item in std ini-----OK
+		--enter exit vehicle by using jump------OK
+		--recreate vehicle if exit-----OK
+		--increase speed-----OK
+		--Change player appearence by vehicle---~~
 		--update checkpoint data
 		--Add sound effect
-		--Make enemies damage
+		--Make enemies damage on touch in movement
 	-tank
 		*********Modif LEVEL EDITOR--OK
 
