@@ -340,9 +340,11 @@ float InputSystem::getCurrentVelocity(std::optional<uint32_t> vehicleEntity, Mov
 void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp, MapCoordComponent &mapComp, MoveableComponent &moveComp, uint32_t playerEntity)
 {
     float velocity;
+    playerComp.m_inMovement = false;
     playerComp.m_currentAim.fill(false);
     if(checkPlayerKeyTriggered(ControlKey_e::TURN_RIGHT))
     {
+        playerComp.m_inMovement = true;
         velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
         playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_RIGHT;
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
@@ -351,6 +353,7 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
     }
     else if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT))
     {
+        playerComp.m_inMovement = true;
         velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
         playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_LEFT;
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
@@ -529,109 +532,6 @@ bool InputSystem::checkPlayerKeyTriggered(ControlKey_e key, int state)
         }
     }
     return false;
-}
-
-//===================================================================
-void InputSystem::treatPlayerMove(PlayerConfComponent &playerComp, MoveableComponent &moveComp,
-                                  MapCoordComponent &mapComp)
-{
-    playerComp.m_inMovement = false;
-    if(playerComp.m_life == 0)
-    {
-        return;
-    }
-    //init value
-    MoveOrientation_e currentMoveDirection = MoveOrientation_e::FORWARD;
-    //STRAFE
-    if(checkPlayerKeyTriggered(ControlKey_e::STRAFE_RIGHT))
-    {
-        currentMoveDirection = MoveOrientation_e::RIGHT;
-        playerComp.m_inMovement = true;
-    }
-    else if(checkPlayerKeyTriggered(ControlKey_e::STRAFE_LEFT))
-    {
-        currentMoveDirection = MoveOrientation_e::LEFT;
-        playerComp.m_inMovement = true;
-    }
-    if(checkPlayerKeyTriggered(ControlKey_e::MOVE_FORWARD))
-    {
-        if(currentMoveDirection == MoveOrientation_e::RIGHT)
-        {
-            currentMoveDirection = MoveOrientation_e::FORWARD_RIGHT;
-        }
-        else if(currentMoveDirection == MoveOrientation_e::LEFT)
-        {
-            currentMoveDirection = MoveOrientation_e::FORWARD_LEFT;
-        }
-        else
-        {
-            currentMoveDirection = MoveOrientation_e::FORWARD;
-        }
-        playerComp.m_inMovement = true;
-    }
-    else if(checkPlayerKeyTriggered(ControlKey_e::MOVE_BACKWARD))
-    {
-        if(currentMoveDirection == MoveOrientation_e::RIGHT)
-        {
-            currentMoveDirection = MoveOrientation_e::BACKWARD_RIGHT;
-        }
-        else if(currentMoveDirection == MoveOrientation_e::LEFT)
-        {
-            currentMoveDirection = MoveOrientation_e::BACKWARD_LEFT;
-        }
-        else
-        {
-            currentMoveDirection = MoveOrientation_e::BACKWARD;
-        }
-        playerComp.m_inMovement = true;
-    }
-    if(!playerComp.m_inMovement || checkOppositeDir(playerComp.m_previousMove, currentMoveDirection))
-    {
-        playerComp.m_velocityInertie = 10;
-    }
-    if(playerComp.m_inMovement && !playerComp.m_frozen)
-    {
-        moveComp.m_currentDegreeMoveDirection = moveComp.m_degreeOrientation;
-        switch(currentMoveDirection)
-        {
-        case MoveOrientation_e::FORWARD:
-            break;
-        case MoveOrientation_e::FORWARD_LEFT:
-            moveComp.m_currentDegreeMoveDirection += 45;
-            break;
-        case MoveOrientation_e::FORWARD_RIGHT:
-            moveComp.m_currentDegreeMoveDirection += 315;
-            break;
-        case MoveOrientation_e::BACKWARD:
-            moveComp.m_currentDegreeMoveDirection += 180;
-            break;
-        case MoveOrientation_e::BACKWARD_LEFT:
-            moveComp.m_currentDegreeMoveDirection += 135;
-            break;
-        case MoveOrientation_e::BACKWARD_RIGHT:
-            moveComp.m_currentDegreeMoveDirection += 225;
-            break;
-        case MoveOrientation_e::LEFT:
-            moveComp.m_currentDegreeMoveDirection += 90;
-            break;
-        case MoveOrientation_e::RIGHT:
-            moveComp.m_currentDegreeMoveDirection += 270;
-            break;
-        }
-        float currentVelocity = moveComp.m_velocity;
-        if(playerComp.m_velocityInertie > 1)
-        {
-            currentVelocity /= playerComp.m_velocityInertie;
-            --playerComp.m_velocityInertie;
-        }
-        moveElementFromAngle(currentVelocity,
-                             getRadiantAngle(moveComp.m_currentDegreeMoveDirection),
-                             mapComp.m_absoluteMapPositionPX);
-        m_mainEngine->addEntityToZone(m_playerEntity,
-                                      *getLevelCoord(mapComp.m_absoluteMapPositionPX));
-        updateDetectRect(playerComp, mapComp);
-    }
-    playerComp.m_previousMove = currentMoveDirection;
 }
 
 //===================================================================

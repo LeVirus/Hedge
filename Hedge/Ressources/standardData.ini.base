@@ -519,6 +519,10 @@ Sprite = SpriteLog
 SpriteWeightGame = 0.2 
 SpriteHeightGame = 0.5
 Velocity = 5
+Damage = 5
+DamageHealthMin = 10
+SoundMove = ExplosionBarrel.wav
+SoundStatic = MachineGunShoot.wav
 
 [ObjectGrenade]
 Sprite = SpriteLog

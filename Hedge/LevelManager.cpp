@@ -613,13 +613,24 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
         val = m_ini.getValue(sectionName, "Velocity");
         assert(val);
         staticElement.m_vehicleVelocity = std::stoi(*val);
-
         val = m_ini.getValue(sectionName, "SpriteWeightGame");
         assert(val);
         staticElement.m_inGameSpriteSize.first = std::stof(*val);
         val = m_ini.getValue(sectionName, "SpriteHeightGame");
         assert(val);
         staticElement.m_inGameSpriteSize.second = std::stof(*val);
+        val = m_ini.getValue(sectionName, "Damage");
+        assert(val);
+        staticElement.m_damageColl = std::stoi(*val);
+        val = m_ini.getValue(sectionName, "DamageHealthMin");
+        assert(val);
+        staticElement.m_damageMinHealth = std::stoi(*val);
+        val = m_ini.getValue(sectionName, "SoundMove");
+        assert(val);
+        staticElement.m_moveSoundFile = *val;
+        val = m_ini.getValue(sectionName, "SoundStatic");
+        assert(val);
+        staticElement.m_staticSoundFile = *val;
     }
     else
     {

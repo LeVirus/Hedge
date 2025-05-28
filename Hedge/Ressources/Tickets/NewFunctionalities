@@ -13,10 +13,10 @@ Add vehicule
 		--enter exit vehicle by using jump------OK
 		--recreate vehicle if exit-----OK
 		--increase speed-----OK
+		--Make enemies damage on touch in movement---OK
+		--Add sound effect----OK
 		--Change player appearence by vehicle---~~
 		--update checkpoint data
-		--Add sound effect
-		--Make enemies damage on touch in movement
 	-tank
 		*********Modif LEVEL EDITOR--OK
 

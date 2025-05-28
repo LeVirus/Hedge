@@ -197,6 +197,7 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
             saveGameProgressCheckpoint(levelNum, *playerConf->m_checkpointReached, *playerConf->m_currentCheckpoint);
             playerConf->m_checkpointReached = {};
         }
+        treatSoundVehiclePlayer(*playerConf);
         //level end
         if(m_levelEnd)
         {
@@ -236,6 +237,31 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
         }
     }while(!m_graphicEngine.windowShouldClose());
     return {LevelState_e::EXIT, {}, customLevel};
+}
+
+//===================================================================
+void MainEngine::treatSoundVehiclePlayer(PlayerConfComponent &playerComp)
+{
+    if(playerComp.m_associatedVehicle)
+    {
+        AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(*playerComp.m_associatedVehicle);
+        assert(audioComp);
+        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*playerComp.m_associatedVehicle);
+        assert(timerComp);
+        if(++timerComp->m_cycleCountA < 15)
+        {
+            return;
+        }
+        timerComp->m_cycleCountA = 0;
+        if(playerComp.m_inMovement)
+        {
+            audioComp->m_soundElements[0]->m_toPlay = true;
+        }
+        else
+        {
+            audioComp->m_soundElements[1]->m_toPlay = true;
+        }
+    }
 }
 
 //===================================================================
@@ -2836,6 +2862,9 @@ uint32_t MainEngine::createVehiculeEntity()
     vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
     vect[Components_e::GRAVITY_COMPONENT] = 1;
     vect[Components_e::MOVEABLE_COMPONENT] = 1;
+    vect[Components_e::AUDIO_COMPONENT] = 1;
+    vect[Components_e::TIMER_COMPONENT] = 1;
+    vect[Components_e::SHOT_CONF_COMPONENT] = 1; //For collision damage with enemies
     return Ecsm_t::instance().addEntity(vect);
 }
 
@@ -3609,20 +3638,26 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
             generatorComp->m_memEnemyLife = it->second.m_life;
         }
     }
-    else if(elementType == LevelStaticElementType_e::VEHICULE)
-    {
-        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(entityNum);
-        assert(moveComp);
-        moveComp->m_velocity = staticElementData.m_vehicleVelocity;
-    }
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
     assert(mapComp);
     //Enemy dropable object case (will be activated and positionned at enemy death)
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
     assert(spriteComp);
-
     if(elementType == LevelStaticElementType_e::VEHICULE)
     {
+        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(entityNum);
+        assert(moveComp);
+        moveComp->m_velocity = staticElementData.m_vehicleVelocity;
+        ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(entityNum);
+        assert(shotComp);
+        shotComp->m_damage = staticElementData.m_damageColl;
+        shotComp->m_vehiculeMinHealthDamage = staticElementData.m_damageMinHealth;
+        AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(entityNum);
+        assert(audioComp);
+        audioComp->m_soundElements.push_back(loadSound(staticElementData.m_moveSoundFile));
+        m_audioEngine.memAudioMenuSound(audioComp->m_soundElements[0]->m_sourceALID);
+        audioComp->m_soundElements.push_back(loadSound(staticElementData.m_staticSoundFile));
+        m_audioEngine.memAudioMenuSound(audioComp->m_soundElements[1]->m_sourceALID);
         confBaseComponent(entityNum, memSpriteData, staticElementData.m_TileGamePosition[iterationNum], CollisionShape_e::RECTANGLE_C, tag, staticElementData.m_inGameSpriteSize);
         Level::addElementCase(*spriteComp, mapComp->m_coord, LevelCaseType_e::EMPTY_LC, entityNum);
         m_physicalEngine.addEntityToZone(entityNum, mapComp->m_coord);

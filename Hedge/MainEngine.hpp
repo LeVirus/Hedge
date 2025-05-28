@@ -277,6 +277,7 @@ public:
     void savePlayerGear(bool beginLevel);
     void unsetFirstLaunch();
 private:
+    void treatSoundVehiclePlayer(PlayerConfComponent &playerComp);
     void treatBasicDirectionShoot(PlayerConfComponent &playerComp, WeaponData &currentWeapon, const PairFloat_t &point);
     void createPlayerImpactEntities(const std::vector<SpriteData> &vectSpriteData, WeaponComponent &weaponConf, const MapImpactData_t &mapImpactData);
     void instanciateSystems();

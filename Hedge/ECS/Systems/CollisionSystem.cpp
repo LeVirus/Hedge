@@ -296,13 +296,13 @@ void CollisionSystem::treatLimitLevel(uint32_t entityNum, CollisionTag_e tag)
 }
 
 //===================================================================
-void CollisionSystem::treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t damage, bool vehicleDamage)
+void CollisionSystem::treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t damage, std::optional<uint32_t> vehicleDamageMax)
 {
     EnemyConfComponent *enemyConfCompB = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntityNum);
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(enemyEntityNum);
     assert(enemyConfCompB);
     assert(timerComp);
-    if(vehicleDamage && enemyConfCompB->m_life > 10)
+    if(vehicleDamageMax && enemyConfCompB->m_life > *vehicleDamageMax)
     {
         return;
     }
@@ -564,14 +564,16 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                 }
                 else if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT && playerComp->m_associatedVehicle)
                 {
-                    //OOOOK TMP
-                    treatEnemyTakeDamage(args.entityNumB, 5, true);
+                    ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(*playerComp->m_associatedVehicle);
+                    assert(shotConfComp);
+                    treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage, shotConfComp->m_vehiculeMinHealthDamage);
                 }
             }
             else if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
             {
-                //OOOOOK TMP A CHANGER POUR LE CHAR
-                treatEnemyTakeDamage(args.entityNumB, 5, true);
+                ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumA);
+                assert(shotConfComp);
+                treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage, shotConfComp->m_vehiculeMinHealthDamage);
             }
         }
     }
