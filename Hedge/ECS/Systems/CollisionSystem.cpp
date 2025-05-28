@@ -296,12 +296,16 @@ void CollisionSystem::treatLimitLevel(uint32_t entityNum, CollisionTag_e tag)
 }
 
 //===================================================================
-void CollisionSystem::treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t damage)
+void CollisionSystem::treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t damage, bool vehicleDamage)
 {
     EnemyConfComponent *enemyConfCompB = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntityNum);
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(enemyEntityNum);
     assert(enemyConfCompB);
     assert(timerComp);
+    if(vehicleDamage && enemyConfCompB->m_life > 10)
+    {
+        return;
+    }
     if(enemyConfCompB->m_behaviourMode == EnemyBehaviourMode_e::DYING)
     {
         return;
@@ -328,8 +332,10 @@ void CollisionSystem::treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t dam
             ++(*playerComp->m_enemiesKilled);
         }
         GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(enemyEntityNum);
-        assert(gravComp);
-        gravComp->m_freeze = true;
+        if(gravComp)
+        {
+            gravComp->m_freeze = true;
+        }
         enemyConfCompB->m_behaviourMode = EnemyBehaviourMode_e::DYING;
         enemyConfCompB->m_touched = false;
         enemyConfCompB->m_playDeathSound = true;
@@ -420,6 +426,7 @@ void CollisionSystem::initArrayTag()
     m_tagArray.insert({CollisionTag_e::VEHICULE_CT, CollisionTag_e::WALL_CT});
     m_tagArray.insert({CollisionTag_e::VEHICULE_CT, CollisionTag_e::TRAVERSABLE_WALL_CT});
     m_tagArray.insert({CollisionTag_e::VEHICULE_CT, CollisionTag_e::ELECTRIC_WALL_CT});
+    m_tagArray.insert({CollisionTag_e::VEHICULE_CT, CollisionTag_e::ENEMY_CT});
 
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::WALL_CT});
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::ELECTRIC_WALL_CT});
@@ -545,13 +552,26 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
             {
                 collisionRectRectEject(args);
             }
-            if(args.tagCompB.m_tagA == CollisionTag_e::ELECTRIC_WALL_CT && args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+            if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
             {
-                WallMultiSpriteComponent *wallMultiComp = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT>(args.entityNumB);
-                assert(wallMultiComp);
                 PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
                 assert(playerComp);
-                playerComp->takeDamage(wallMultiComp->m_damage);
+                if(args.tagCompB.m_tagA == CollisionTag_e::ELECTRIC_WALL_CT)
+                {
+                    WallMultiSpriteComponent *wallMultiComp = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT>(args.entityNumB);
+                    assert(wallMultiComp);
+                    playerComp->takeDamage(wallMultiComp->m_damage);
+                }
+                else if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT && playerComp->m_associatedVehicle)
+                {
+                    //OOOOK TMP
+                    treatEnemyTakeDamage(args.entityNumB, 5, true);
+                }
+            }
+            else if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
+            {
+                //OOOOOK TMP A CHANGER POUR LE CHAR
+                treatEnemyTakeDamage(args.entityNumB, 5, true);
             }
         }
     }

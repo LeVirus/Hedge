@@ -358,7 +358,7 @@ enum class CollisionTag_e
     WALL_CT,
     TRAVERSABLE_WALL_CT,
     ENEMY_CT,
-    BULLET_PLAYER_CT,
+    BULLET_PLAYER_CT,//5
     EXPLOSION_CT,
     HIT_PLAYER_CT,
     BULLET_ENEMY_CT,

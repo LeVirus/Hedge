@@ -107,7 +107,7 @@ private:
     bool checkCollisionFirstSegment(CollisionArgs &args, uint32_t numEntityA, uint32_t numEntityB,
                                     GeneralCollisionComponent &tagCompB,
                                     MapCoordComponent &mapCompB);
-    void treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t damage = 1);
+    void treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t damage = 1, bool vehicleDamage = false);
     void confDropedObject(uint32_t objectEntity, uint32_t enemyEntity);
     void activeSound(uint32_t entityNum);
     bool checkEnemyRemoveCollisionMask(uint32_t entityNum);
