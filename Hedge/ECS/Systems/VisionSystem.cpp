@@ -51,8 +51,7 @@ void VisionSystem::execSystem()
         }
         SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(*it);
         TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*it);
-        if(genComp->m_tagA == CollisionTag_e::BULLET_ENEMY_CT ||
-            genComp->m_tagA == CollisionTag_e::BULLET_PLAYER_CT)
+        if(genComp->m_tagA == CollisionTag_e::BULLET_ENEMY_CT || genComp->m_tagA == CollisionTag_e::BULLET_PLAYER_CT || genComp->m_tagA == CollisionTag_e::VEHICULE_CT)
         {
             updateVisibleShotSprite(*it, *memSpriteComp, *spriteComp, *timerComp, *genComp);
         }

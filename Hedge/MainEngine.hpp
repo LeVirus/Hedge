@@ -135,7 +135,7 @@ public:
     }
     void clearLevel();
     void confSystems();
-    uint32_t createAmmoEntity(CollisionTag_e collTag, bool visibleShot, bool grenade = false);
+    uint32_t createAmmoEntity(CollisionTag_e collTag, bool grenade = false);
     uint32_t createGrenadeEntity();
     void playerThrowGrenade();
     void setMenuEntries(PlayerConfComponent &playerComp, std::optional<uint32_t> cursorPos = {});
@@ -354,8 +354,6 @@ private:
     uint32_t createDoorEntity();
     uint32_t createEnemyEntity(TypeEnemy_e type);
     uint32_t createGeneratorEntity();
-    uint32_t createShotEntity();
-    uint32_t createShotImpactEntity();
     uint32_t createWriteEntity();
     uint32_t createVisibleShotEntity();
     uint32_t createSimpleSpriteEntity();

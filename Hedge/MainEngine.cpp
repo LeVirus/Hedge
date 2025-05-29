@@ -1886,7 +1886,7 @@ void MainEngine::confAmmoEntities(std::vector<uint32_t> &ammoEntities, Collision
 {
     for(uint32_t j = 0; j < ammoEntities.size(); ++j)
     {
-        ammoEntities[j] = createAmmoEntity(collTag, visibleShot, grenade);
+        ammoEntities[j] = createAmmoEntity(collTag, grenade);
         ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(ammoEntities[j]);
         assert(shotConfComp);
         shotConfComp->m_damage = damage;
@@ -1914,33 +1914,23 @@ void MainEngine::confAmmoEntities(std::vector<uint32_t> &ammoEntities, Collision
 }
 
 //===================================================================
-uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool visibleShot, bool grenade)
+uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool grenade)
 {
     uint32_t ammoNum;
-    if(!visibleShot)
+    if(grenade)
     {
-        ammoNum = createShotEntity();
+        ammoNum = createGrenadeEntity();
     }
     else
     {
-        if(grenade)
-        {
-            ammoNum = createGrenadeEntity();
-        }
-        else
-        {
-            ammoNum = createVisibleShotEntity();
-        }
+        ammoNum = createVisibleShotEntity();
     }
     GeneralCollisionComponent *genColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(ammoNum);
     assert(genColl);
     genColl->m_active = false;
     genColl->m_tagA = collTag;
     genColl->m_shape = CollisionShape_e::SEGMENT_C;
-    if(visibleShot)
-    {
-        confVisibleAmmo(ammoNum);
-    }
+    confVisibleAmmo(ammoNum);
     return ammoNum;
 }
 
@@ -2689,17 +2679,6 @@ uint32_t MainEngine::createGeneratorEntity()
 }
 
 //===================================================================
-uint32_t MainEngine::createShotEntity()
-{
-    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
-    vect.fill(0);
-    vect[Components_e::SEGMENT_COLLISION_COMPONENT] = 1;
-    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
-    vect[Components_e::SHOT_CONF_COMPONENT] = 1;
-    return Ecsm_t::instance().addEntity(vect);
-}
-
-//===================================================================
 uint32_t MainEngine::createTriggerEntity(bool visible)
 {
     std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
@@ -2731,22 +2710,6 @@ uint32_t MainEngine::createVisibleShotEntity()
     vect[Components_e::TIMER_COMPONENT] = 1;
     vect[Components_e::SHOT_CONF_COMPONENT] = 1;
     vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
-    return Ecsm_t::instance().addEntity(vect);
-}
-
-//===================================================================
-uint32_t MainEngine::createShotImpactEntity()
-{
-    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
-    vect.fill(0);
-    vect[Components_e::MAP_COORD_COMPONENT] = 1;
-    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
-    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
-    vect[Components_e::TIMER_COMPONENT] = 1;
-    vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
-    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
-    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
-    vect[Components_e::MOVEABLE_COMPONENT] = 1;
     return Ecsm_t::instance().addEntity(vect);
 }
 
@@ -2798,6 +2761,7 @@ uint32_t MainEngine::createVehiculeEntity()
     vect[Components_e::AUDIO_COMPONENT] = 1;
     vect[Components_e::TIMER_COMPONENT] = 1;
     vect[Components_e::SHOT_CONF_COMPONENT] = 1; //For collision damage with enemies
+    vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
     return Ecsm_t::instance().addEntity(vect);
 }
 
