@@ -548,7 +548,8 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         }
         if(collision && (args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT))
         {
-            if(!(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT))
+            if(!(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT) &&
+                !(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT))
             {
                 collisionRectRectEject(args);
             }
@@ -573,7 +574,15 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
             {
                 ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumA);
                 assert(shotConfComp);
-                treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage, shotConfComp->m_vehiculeMinHealthDamage);
+                if(shotConfComp->m_vehicleMemPlayerAssociated)
+                {
+                    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                    assert(playerComp);
+                    if(playerComp->m_inMovement)
+                    {
+                        treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage, shotConfComp->m_vehiculeMinHealthDamage);
+                    }
+                }
             }
         }
     }
@@ -878,13 +887,17 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
             assert(playerComp);
             if(!playerComp->m_vehicleEject)
             {
+                ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumB);
+                assert(shotComp);
                 if(!playerComp->m_associatedVehicle)
                 {
                     playerComp->m_associatedVehicle = args.entityNumB;
+                    shotComp->m_vehicleMemPlayerAssociated = true;
                 }
                 else
                 {
                     playerComp->m_associatedVehicle = std::nullopt;
+                    shotComp->m_vehicleMemPlayerAssociated = false;
                 }
                 playerComp->m_vehicleEject = true;
             }
