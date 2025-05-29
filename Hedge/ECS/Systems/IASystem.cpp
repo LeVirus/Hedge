@@ -13,6 +13,7 @@
 #include <ECS/Components/MoveableComponent.hpp>
 #include <ECS/Components/SpriteTextureComponent.hpp>
 #include <ECS/Components/GeneratorComponent.hpp>
+#include <ECS/Systems/CollisionSystem.hpp>
 #include <cassert>
 #include <random>
 #include <alias.hpp>
@@ -373,9 +374,8 @@ void IASystem::enemyShoot(EnemyConfComponent &enemyConfComp, MoveableComponent &
                           MapCoordComponent &enemyMapComp, float distancePlayer)
 {
     if(enemyConfComp.m_meleeAttackDamage && distancePlayer < 32.0f)
-    {
-        PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-        playerConfComp->takeDamage(*enemyConfComp.m_meleeAttackDamage);
+    {                
+        Ecsm_t::instance().getSystem<CollisionSystem>(static_cast<uint32_t>(Systems_e::COLLISION_SYSTEM))->treatPlayerTakeDamage(*enemyConfComp.m_meleeAttackDamage);
     }
     else if(enemyConfComp.m_visibleShot)
     {
@@ -406,7 +406,7 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
         //if all shoot active create a new one
         else if(currentShot == (visibleShots.size() - 1))
         {
-            visibleShots.push_back(m_mainEngine->createAmmoEntity(tag, true));
+            visibleShots.push_back(m_mainEngine->createAmmoEntity(tag));
             confNewVisibleShot(visibleShots);
             ++currentShot;
             genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(visibleShots[currentShot]);
@@ -436,10 +436,8 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     std::optional<PairUI_t> coord = getLevelCoord(currentPoint);
     assert(coord);
     mapComp->m_coord = *coord;
-
     SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(visibleShots[currentShot]);
     assert(segmentComp);
-
     mapComp->m_absoluteMapPositionPX = currentPoint;
     segmentComp->m_points.first = currentPoint;
     m_mainEngine->addEntityToZone(visibleShots[currentShot], mapComp->m_coord);

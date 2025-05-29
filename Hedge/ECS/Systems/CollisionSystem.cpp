@@ -247,7 +247,7 @@ void CollisionSystem::treatGeneralCrushing(uint32_t entityNum)
     }
     if(playerComp->m_crush)
     {
-        playerComp->takeDamage(1);
+        treatPlayerTakeDamage(1);
     }
 }
 
@@ -347,6 +347,32 @@ void CollisionSystem::treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t dam
 }
 
 //===================================================================
+void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
+{
+    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerComp);
+    playerComp->takeDamage(damage);
+    if(playerComp->m_associatedVehicle)
+    {
+        ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(*playerComp->m_associatedVehicle);
+        assert(shotComp);
+        //Vehicle destroyed
+        if(damage >= shotComp->m_vehiculeHealth)
+        {
+            AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(*playerComp->m_associatedVehicle);
+            assert(audioComp);
+            audioComp->m_soundElements[3]->m_toPlay = true;
+            shotComp->m_destructPhase = true;
+            playerComp->m_associatedVehicle = std::nullopt;
+        }
+        else
+        {
+            shotComp->m_vehiculeHealth -= damage;
+        }
+    }
+}
+
+//===================================================================
 void CollisionSystem::confDropedObject(uint32_t objectEntity, uint32_t enemyEntity)
 {
 
@@ -391,9 +417,7 @@ void CollisionSystem::treatSegmentShots()
             assert(shotConfComp);
             if(tagCompTarget->m_tagA == CollisionTag_e::PLAYER_CT)
             {
-                PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-                assert(playerComp);
-                playerComp->takeDamage(shotConfComp->m_damage);
+                treatPlayerTakeDamage(shotConfComp->m_damage);
             }
         }
     }
@@ -561,7 +585,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                 {
                     WallMultiSpriteComponent *wallMultiComp = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT>(args.entityNumB);
                     assert(wallMultiComp);
-                    playerComp->takeDamage(wallMultiComp->m_damage);
+                    treatPlayerTakeDamage(wallMultiComp->m_damage);
                 }
                 else if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT && playerComp->m_associatedVehicle)
                 {
@@ -1140,9 +1164,7 @@ bool CollisionSystem::checkCollisionFirstSegment(CollisionArgs &args, uint32_t n
                 assert(shotComp);
                 if(args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT)
                 {
-                    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(numEntityB);
-                    assert(playerComp);
-                    playerComp->takeDamage(shotComp->m_damage);                
+                    treatPlayerTakeDamage(shotComp->m_damage);
                 }
                 else if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
                 {

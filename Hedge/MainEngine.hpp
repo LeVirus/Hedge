@@ -366,7 +366,7 @@ private:
     void loadEnemySprites(const std::vector<SpriteData> &vectSprite, const EnemyData &enemiesData,
                           uint32_t numEntity, EnemyConfComponent &enemyComp, const MapVisibleShotData_t &visibleShot);
     void loadVisibleShotData(const std::vector<SpriteData> &vectSprite, const std::vector<uint32_t> &visibleAmmo,
-                             const std::string &visibleShootID, const MapVisibleShotData_t &visibleShot);
+                             const std::string &visibleShootID, const MapVisibleShotData_t &visibleShot, bool vehicle = false);
     void memTimerPausedValue();
     void applyTimerPausedValue();
     void confPlayerVisibleShoot(std::vector<uint32_t> &playerVisibleShots,

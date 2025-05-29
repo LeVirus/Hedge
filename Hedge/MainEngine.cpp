@@ -2522,7 +2522,7 @@ void insertPlayerSpriteFromType(const std::vector<SpriteData> &vectSprite,
 
 //===================================================================
 void MainEngine::loadVisibleShotData(const std::vector<SpriteData> &vectSprite, const std::vector<uint32_t> &visibleAmmo,
-                                     const std::string &visibleShootID, const MapVisibleShotData_t &visibleShot)
+                                     const std::string &visibleShootID, const MapVisibleShotData_t &visibleShot, bool vehicle)
 {
     for(uint32_t k = 0; k < visibleAmmo.size(); ++k)
     {
@@ -2550,6 +2550,10 @@ void MainEngine::loadVisibleShotData(const std::vector<SpriteData> &vectSprite, 
         for(uint32_t l = 0; l < it->second.second.size(); ++l)
         {
             memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[it->second.second[l].m_numSprite]);
+        }
+        if(vehicle)
+        {
+            return;
         }
         spriteComp->m_spriteData = memSpriteComp->m_vectSpriteData[0];
         //OOOK
@@ -3548,6 +3552,7 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         assert(shotComp);
         shotComp->m_damage = staticElementData.m_damageColl;
         shotComp->m_vehiculeMinHealthDamage = staticElementData.m_damageMinHealth;
+        shotComp->m_vehiculeHealth = staticElementData.m_HP;
         AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(entityNum);
         assert(audioComp);
         audioComp->m_soundElements.push_back(loadSound(staticElementData.m_moveSoundFile));
@@ -3555,6 +3560,8 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         audioComp->m_soundElements.push_back(loadSound(staticElementData.m_staticSoundFile));
         m_audioEngine.memAudioMenuSound(audioComp->m_soundElements[1]->m_sourceALID);
         confBaseComponent(entityNum, memSpriteData, staticElementData.m_TileGamePosition[iterationNum], CollisionShape_e::RECTANGLE_C, tag, staticElementData.m_inGameSpriteSize);
+        //CONF EXPLOSION DATA
+        loadVisibleShotData(vectSpriteData, {entityNum}, staticElementData.m_shotID, levelManager.getVisibleShootDisplayData(), true);
         Level::addElementCase(*spriteComp, mapComp->m_coord, LevelCaseType_e::EMPTY_LC, entityNum);
         m_physicalEngine.addEntityToZone(entityNum, mapComp->m_coord);
         return entityNum;

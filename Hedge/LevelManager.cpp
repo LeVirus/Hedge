@@ -631,6 +631,12 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
         val = m_ini.getValue(sectionName, "SoundStatic");
         assert(val);
         staticElement.m_staticSoundFile = *val;
+        val = m_ini.getValue(sectionName, "ExplosionID");
+        assert(val);
+        staticElement.m_shotID = *val;
+        val = m_ini.getValue(sectionName, "HealthPoints");
+        assert(val);
+        staticElement.m_HP = std::stoi(*val);
     }
     else
     {

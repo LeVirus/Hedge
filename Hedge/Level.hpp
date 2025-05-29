@@ -48,8 +48,8 @@ struct StaticLevelElementData
     Direction_e m_dir;
     uint32_t m_cycles, m_damage, m_maxPop;
     //Vehicle
-    uint32_t m_vehicleVelocity, m_damageColl, m_damageMinHealth;
-    std::string m_moveSoundFile, m_staticSoundFile;
+    uint32_t m_vehicleVelocity, m_damageColl, m_damageMinHealth, m_HP;
+    std::string m_moveSoundFile, m_staticSoundFile, m_shotID;//explosion stuff
 };
 
 struct DoorData
