@@ -363,6 +363,7 @@ void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
             assert(audioComp);
             audioComp->m_soundElements[3]->m_toPlay = true;
             shotComp->m_destructPhase = true;
+            shotComp->m_vehicleMemPlayerAssociated = false;
             playerComp->m_associatedVehicle = std::nullopt;
         }
         else
@@ -910,17 +911,21 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
             assert(playerComp);
             if(!playerComp->m_vehicleEject)
             {
+                GravityComponent *vehicleGravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumB);
+                assert(vehicleGravComp);
                 ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumB);
                 assert(shotComp);
                 if(!playerComp->m_associatedVehicle)
                 {
                     playerComp->m_associatedVehicle = args.entityNumB;
                     shotComp->m_vehicleMemPlayerAssociated = true;
+                    vehicleGravComp->m_freeze = true;
                 }
                 else
                 {
                     playerComp->m_associatedVehicle = std::nullopt;
                     shotComp->m_vehicleMemPlayerAssociated = false;
+                    vehicleGravComp->m_freeze = false;
                 }
                 playerComp->m_vehicleEject = true;
             }
