@@ -279,7 +279,6 @@ public:
 private:
     void treatSoundVehiclePlayer(PlayerConfComponent &playerComp);
     void treatBasicDirectionShoot(PlayerConfComponent &playerComp, WeaponData &currentWeapon, const PairFloat_t &point);
-    void createPlayerImpactEntities(const std::vector<SpriteData> &vectSpriteData, WeaponComponent &weaponConf, const MapImpactData_t &mapImpactData);
     void instanciateSystems();
     void clearMemSoundElements();
     void initLevel(uint32_t levelNum, LevelState_e levelState);
@@ -317,9 +316,6 @@ private:
     bool loadEnemiesEntities(const LevelManager &levelManager);
     std::pair<bool, uint32_t> createEnemy(const LevelManager &levelManager, const SpriteData &memSpriteData, const EnemyData &enemyData,
                          bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements, const std::pair<float, float> &inGameSpriteSize, bool generatorMode = false);
-    void loadNonVisibleEnemyAmmoStuff(bool loadFromCheckpoint, uint32_t currentEnemy,
-                                      const EnemyData &enemyData, const LevelManager &levelManager,
-                                      EnemyConfComponent &enemyComp);
     void memCheckpointEnemiesData(bool loadFromCheckpoint, uint32_t enemyEntity, uint32_t cmpt);
     void loadCheckpointsEntities(const LevelManager &levelManager);
     void initStdCollisionCase(uint32_t entityNum, const PairUI_t &mapPos, CollisionTag_e tag);
@@ -337,7 +333,6 @@ private:
     void confAmmoEntities(std::vector<uint32_t> &ammoEntities, CollisionTag_e collTag,
                           bool visibleShot, uint32_t damage, float shotVelocity = 0,
                           std::optional<float> damageRay = std::nullopt, bool grenade = false);
-    uint32_t confShotImpactEntity(const std::vector<SpriteData> &vectSpriteData, const PairImpactData_t &shootDisplayData);
     uint32_t createTriggerEntity(bool visible);
     uint32_t createColorEntity();
     uint32_t createCheckpointEntity();

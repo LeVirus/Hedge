@@ -655,28 +655,6 @@ void MainEngine::confPlayerBullet(PlayerConfComponent *playerComp,
 }
 
 //===================================================================
-void MainEngine::createPlayerImpactEntities(const std::vector<SpriteData> &vectSpriteData, WeaponComponent &weaponConf,
-                                            const MapImpactData_t &mapImpactData)
-{
-    for(uint32_t i = 0; i < weaponConf.m_weaponsData.size(); ++i)
-    {
-        if(weaponConf.m_weaponsData[i].m_attackType == AttackType_e::BULLETS)
-        {
-            MapImpactData_t::const_iterator it =
-                mapImpactData.find(weaponConf.m_weaponsData[i].m_impactID);
-            assert(it != mapImpactData.end());
-            assert(weaponConf.m_weaponsData[i].m_segmentShootEntities);
-            for(uint32_t j = 0; j < weaponConf.m_weaponsData[i].m_segmentShootEntities->size(); ++j)
-            {
-                ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(
-                    (*weaponConf.m_weaponsData[i].m_segmentShootEntities)[j]);
-                shotComp->m_impactEntity = confShotImpactEntity(vectSpriteData, it->second);
-            }
-        }
-    }
-}
-
-//===================================================================
 float getDegreeAngleFromAim(const std::array<bool, static_cast<uint32_t>(PlayerAimDirection_e::TOTAL)> &array, bool onGround, bool baseDirectionRight)
 {
     if(array[static_cast<uint32_t>(PlayerAimDirection_e::UP)])
@@ -1632,10 +1610,6 @@ std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManag
                              enemyData.m_shotVelocity, enemyData.m_damageZone);
         }
     }
-    else
-    {
-        loadNonVisibleEnemyAmmoStuff(loadFromCheckpoint, m_currentLevelEnemiesNumber, enemyData, levelManager, *enemyComp);
-    }
     if(generatorMode)
     {
         GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(numEntity);
@@ -1728,29 +1702,6 @@ pairI_t getModifMoveableWallDataCheckpoint(const std::vector<std::pair<Direction
             posModif.second *= timesActionned;
         }
         return posModif;
-    }
-}
-
-//===================================================================
-void MainEngine::loadNonVisibleEnemyAmmoStuff(bool loadFromCheckpoint, uint32_t currentEnemy,
-                                              const EnemyData &enemyData, const LevelManager &levelManager,
-                                              EnemyConfComponent &enemyComp)
-{
-    if(loadFromCheckpoint && m_memEnemiesStateFromCheckpoint[currentEnemy].m_dead)
-    {
-        return;
-    }
-    enemyComp.m_stdAmmo.resize(MAX_SHOTS);
-    confAmmoEntities(enemyComp.m_stdAmmo, CollisionTag_e::BULLET_ENEMY_CT, enemyComp.m_visibleShot,
-                     enemyData.m_attackPower);
-    const MapImpactData_t &map = levelManager.getImpactDisplayData();
-    MapImpactData_t::const_iterator itt = map.find(enemyData.m_impactID);
-    assert(itt != map.end());
-    for(uint32_t j = 0; j < enemyComp.m_stdAmmo.size(); ++j)
-    {
-        ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(enemyComp.m_stdAmmo[j]);
-        assert(shotComp);
-        shotComp->m_impactEntity = confShotImpactEntity(levelManager.getPictureSpriteData(), itt->second);
     }
 }
 
@@ -2486,24 +2437,6 @@ bool MainEngine::isLoadFromLevelBegin(LevelState_e levelState)const
 }
 
 //===================================================================
-uint32_t MainEngine::confShotImpactEntity(const std::vector<SpriteData> &vectSpriteData,
-                                          const PairImpactData_t &shootDisplayData)
-{
-    uint32_t impactEntity = createShotImpactEntity();
-    GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(impactEntity);
-    CircleCollisionComponent *circleComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(impactEntity);
-    assert(genComp);
-    assert(circleComp);
-    circleComp->m_ray = 2.0f;
-    genComp->m_active = false;
-    genComp->m_tagA = CollisionTag_e::IMPACT_CT;
-    genComp->m_tagB = CollisionTag_e::IMPACT_CT;
-    genComp->m_shape = CollisionShape_e::CIRCLE_C;
-    loadShotImpactSprite(vectSpriteData, shootDisplayData, impactEntity);
-    return impactEntity;
-}
-
-//===================================================================
 void MainEngine::loadEnemySprites(const std::vector<SpriteData> &vectSprite, const EnemyData &enemiesData, uint32_t numEntity,
                                   EnemyConfComponent &enemyComp, const MapVisibleShotData_t &visibleShot)
 {
@@ -2998,7 +2931,6 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     assert(weaponConf);
     createPlayerAmmoEntities(*playerConf, CollisionTag_e::BULLET_PLAYER_CT);
     confPlayerVisibleShotsSprite(vectSpriteData, levelManager.getVisibleShootDisplayData(), *weaponConf);
-    createPlayerImpactEntities(vectSpriteData, *weaponConf, levelManager.getImpactDisplayData());
     map->m_coord = level.getPlayerDeparture();
     Direction_e playerDir = level.getPlayerDepartureDirection();
     move->m_degreeOrientation = getDegreeAngleFromDirection(playerDir);

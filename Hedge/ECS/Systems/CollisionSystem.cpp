@@ -808,7 +808,6 @@ void CollisionSystem::treatVisibleShot(CollisionArgs &args, bool collision)
     bool limitX = (args.mapCompA.m_absoluteMapPositionPX.first < LEVEL_THIRD_TILE_SIZE_PX),
         limitY = (args.mapCompA.m_absoluteMapPositionPX.second < LEVEL_THIRD_TILE_SIZE_PX);
     //limit level case
-
     if(!shotConfComp->m_destructPhase && (limitX || limitY))
     {
         if(limitX)
