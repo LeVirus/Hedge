@@ -905,30 +905,35 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
     {
         GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
         assert(gravComp);
-        if(gravComp->m_jump)
+        if(gravComp->m_exitVehicle)
         {
             PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
             assert(playerComp);
-            if(!playerComp->m_vehicleEject)
+            GravityComponent *vehicleGravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumB);
+            assert(vehicleGravComp);
+            ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumB);
+            assert(shotComp);
+            playerComp->m_associatedVehicle = std::nullopt;
+            shotComp->m_vehicleMemPlayerAssociated = false;
+            vehicleGravComp->m_freeze = false;
+            gravComp->m_exitVehicle = false;
+            playerComp->m_vehicleEject = true;
+        }
+        else if(gravComp->m_jump)
+        {
+            PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+            assert(playerComp);
+            if(!playerComp->m_vehicleEject && !playerComp->m_associatedVehicle)
             {
                 GravityComponent *vehicleGravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumB);
                 assert(vehicleGravComp);
                 ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumB);
                 assert(shotComp);
-                if(!playerComp->m_associatedVehicle)
-                {
-                    playerComp->m_associatedVehicle = args.entityNumB;
-                    shotComp->m_vehicleMemPlayerAssociated = true;
-                    vehicleGravComp->m_freeze = true;
-                    //Stop jumping if enter vehicle
-                    gravComp->m_jump = false;
-                }
-                else
-                {
-                    playerComp->m_associatedVehicle = std::nullopt;
-                    shotComp->m_vehicleMemPlayerAssociated = false;
-                    vehicleGravComp->m_freeze = false;
-                }
+                playerComp->m_associatedVehicle = args.entityNumB;
+                shotComp->m_vehicleMemPlayerAssociated = true;
+                vehicleGravComp->m_freeze = true;
+                //Stop jumping if enter vehicle
+                gravComp->m_jump = false;
                 playerComp->m_vehicleEject = true;
             }
         }
