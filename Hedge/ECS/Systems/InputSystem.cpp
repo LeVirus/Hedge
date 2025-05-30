@@ -215,7 +215,10 @@ void InputSystem::treatPlayerInput()
                 }
                 else
                 {
-                    gravityComp->m_jump = true;
+                    if(!playerComp->m_vehicleEject)
+                    {
+                        gravityComp->m_jump = true;
+                    }
                     gravityComp->m_onGround = false;
                     gravityComp->m_memOnGround = false;
                     if(playerComp->m_currentDirectionRight)
@@ -230,6 +233,10 @@ void InputSystem::treatPlayerInput()
                     playerComp->m_currentSprite = 0;
                 }
             }
+        }
+        if(playerComp->m_vehicleEject && !checkPlayerKeyTriggered(ControlKey_e::JUMP) && gravityComp->m_onGround)
+        {
+            playerComp->m_vehicleEject = false;
         }
         updateDetectRect(*playerComp, *mapComp);
         m_mainEngine->addEntityToZone(m_playerEntity, *getLevelCoord(mapComp->m_absoluteMapPositionPX));

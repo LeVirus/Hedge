@@ -32,12 +32,6 @@ void GravitySystem::execSystem()
             else
             {
                 mapComp->m_absoluteMapPositionPX.second += gravComp->m_jumpStep - half;
-                PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(*it);
-                if(playerComp)
-                {
-                    playerComp->m_vehicleEject = false;
-                }
-
             }
             if(++gravComp->m_jumpStep >= gravComp->m_jumpStepMax)
             {

@@ -920,6 +920,8 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
                     playerComp->m_associatedVehicle = args.entityNumB;
                     shotComp->m_vehicleMemPlayerAssociated = true;
                     vehicleGravComp->m_freeze = true;
+                    //Stop jumping if enter vehicle
+                    gravComp->m_jump = false;
                 }
                 else
                 {
