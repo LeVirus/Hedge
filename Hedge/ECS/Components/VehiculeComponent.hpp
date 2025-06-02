@@ -7,6 +7,7 @@ struct VehicleComponent : public ECS::Component
 {
     VehicleComponent() = default;
     //damage coll damage on vehicle collision
-    uint32_t m_velocity, m_damageColl, m_minHealthDamage, m_HP;
+    uint32_t m_damageColl, m_minHealthDamage, m_HP;
+    bool m_vehicleMemPlayerAssociated = false;
     virtual ~VehicleComponent() = default;
 };

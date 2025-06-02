@@ -15,6 +15,7 @@
 #include <ECS/Components/AudioComponent.hpp>
 #include <ECS/Components/WeaponComponent.hpp>
 #include <ECS/Components/CheckpointComponent.hpp>
+#include <ECS/Components/VehiculeComponent.hpp>
 #include <ECS/Systems/ColorDisplaySystem.hpp>
 #include <CollisionUtils.hpp>
 #include <PhysicalEngine.hpp>
@@ -356,19 +357,21 @@ void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
     {
         ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(*playerComp->m_associatedVehicle);
         assert(shotComp);
+        VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp->m_associatedVehicle);
+        assert(vehicleComp);
         //Vehicle destroyed
-        if(damage >= shotComp->m_vehiculeHealth)
+        if(damage >= vehicleComp->m_HP)
         {
             AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(*playerComp->m_associatedVehicle);
             assert(audioComp);
             audioComp->m_soundElements[3]->m_toPlay = true;
             shotComp->m_destructPhase = true;
-            shotComp->m_vehicleMemPlayerAssociated = false;
+            vehicleComp->m_vehicleMemPlayerAssociated = false;
             playerComp->m_associatedVehicle = std::nullopt;
         }
         else
         {
-            shotComp->m_vehiculeHealth -= damage;
+            vehicleComp->m_HP -= damage;
         }
     }
 }
@@ -590,22 +593,26 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                 }
                 else if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT && playerComp->m_associatedVehicle)
                 {
+                    VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp->m_associatedVehicle);
+                    assert(vehicleComp);
                     ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(*playerComp->m_associatedVehicle);
                     assert(shotConfComp);
-                    treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage, shotConfComp->m_vehiculeMinHealthDamage);
+                    treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage, vehicleComp->m_minHealthDamage);
                 }
             }
             else if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
             {
                 ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumA);
                 assert(shotConfComp);
-                if(shotConfComp->m_vehicleMemPlayerAssociated)
+                VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
+                assert(vehicleComp);
+                if(vehicleComp->m_vehicleMemPlayerAssociated)
                 {
                     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
                     assert(playerComp);
                     if(playerComp->m_inMovement)
                     {
-                        treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage, shotConfComp->m_vehiculeMinHealthDamage);
+                        treatEnemyTakeDamage(args.entityNumB, vehicleComp->m_damageColl, vehicleComp->m_minHealthDamage);
                     }
                 }
             }
@@ -911,10 +918,10 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
             assert(playerComp);
             GravityComponent *vehicleGravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumB);
             assert(vehicleGravComp);
-            ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumB);
-            assert(shotComp);
+            VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumB);
+            assert(vehicleComp);
             playerComp->m_associatedVehicle = std::nullopt;
-            shotComp->m_vehicleMemPlayerAssociated = false;
+            vehicleComp->m_vehicleMemPlayerAssociated = false;
             vehicleGravComp->m_freeze = false;
             gravComp->m_exitVehicle = false;
             playerComp->m_vehicleEject = true;
@@ -925,12 +932,14 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
             assert(playerComp);
             if(!playerComp->m_vehicleEject && !playerComp->m_associatedVehicle)
             {
+                VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumB);
+                assert(vehicleComp);
                 GravityComponent *vehicleGravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumB);
                 assert(vehicleGravComp);
                 ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumB);
                 assert(shotComp);
                 playerComp->m_associatedVehicle = args.entityNumB;
-                shotComp->m_vehicleMemPlayerAssociated = true;
+                vehicleComp->m_vehicleMemPlayerAssociated = true;
                 vehicleGravComp->m_freeze = true;
                 //Stop jumping if enter vehicle
                 gravComp->m_jump = false;

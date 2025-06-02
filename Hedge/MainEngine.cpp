@@ -22,6 +22,7 @@
 #include <ECS/Components/WeaponComponent.hpp>
 #include <ECS/Components/LogComponent.hpp>
 #include <ECS/Components/TriangleStairCollisionComponent.hpp>
+#include <ECS/Components/VehiculeComponent.hpp>
 #include <ECS/Systems/ColorDisplaySystem.hpp>
 #include <ECS/Systems/MapDisplaySystem.hpp>
 #include <ECS/Systems/CollisionSystem.hpp>
@@ -2766,6 +2767,7 @@ uint32_t MainEngine::createVehiculeEntity()
     vect[Components_e::TIMER_COMPONENT] = 1;
     vect[Components_e::SHOT_CONF_COMPONENT] = 1; //For collision damage with enemies
     vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
+    vect[Components_e::VEHICLE_COMPONENT] = 1;
     return Ecsm_t::instance().addEntity(vect);
 }
 
@@ -3547,12 +3549,12 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
     {
         MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(entityNum);
         assert(moveComp);
+        VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(entityNum);
+        assert(vehicleComp);
         moveComp->m_velocity = staticElementData.m_vehicleVelocity;
-        ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(entityNum);
-        assert(shotComp);
-        shotComp->m_damage = staticElementData.m_damageColl;
-        shotComp->m_vehiculeMinHealthDamage = staticElementData.m_damageMinHealth;
-        shotComp->m_vehiculeHealth = staticElementData.m_HP;
+        vehicleComp->m_HP = staticElementData.m_HP;
+        vehicleComp->m_minHealthDamage = staticElementData.m_damageMinHealth;
+        vehicleComp->m_damageColl = staticElementData.m_damageColl;
         AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(entityNum);
         assert(audioComp);
         audioComp->m_soundElements.push_back(loadSound(staticElementData.m_moveSoundFile));
