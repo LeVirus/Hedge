@@ -516,6 +516,12 @@ ImpactSound = BazookaExplosion.wav
 
 [VehiculeBike]
 Sprite = SpriteLog
+SpritesRight = SpriteBikePlayerRightA SpriteBikePlayerRightB
+SpritesLeft = SpriteBikePlayerLeftA SpriteBikePlayerLeftB
+SpritesStairRU = SpriteBikeStairPlayerRU
+SpritesStairRD = SpriteBikeStairPlayerRD
+SpritesStairLU = SpriteBikeStairPlayerLU
+SpritesStairLD = SpriteBikeStairPlayerLD
 SpriteWeightGame = 0.2 
 SpriteHeightGame = 0.5
 Velocity = 5

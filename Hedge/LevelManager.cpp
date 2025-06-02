@@ -613,6 +613,27 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
         val = m_ini.getValue(sectionName, "Velocity");
         assert(val);
         staticElement.m_vehicleVelocity = std::stoi(*val);
+
+        val = m_ini.getValue(sectionName, "SpritesRight");
+        assert(val);
+        staticElement.m_vectSpritesRight = convertStrToVectStr(*val);
+        val = m_ini.getValue(sectionName, "SpritesLeft");
+        assert(val);
+        staticElement.m_vectSpritesLeft = convertStrToVectStr(*val);
+
+        val = m_ini.getValue(sectionName, "SpritesStairRU");
+        assert(val);
+        staticElement.m_spriteStairRU = *val;
+        val = m_ini.getValue(sectionName, "SpritesStairRD");
+        assert(val);
+        staticElement.m_spriteStairRD = *val;
+        val = m_ini.getValue(sectionName, "SpritesStairLU");
+        assert(val);
+        staticElement.m_spriteStairLU = *val;
+        val = m_ini.getValue(sectionName, "SpritesStairLD");
+        assert(val);
+        staticElement.m_spriteStairLD = *val;
+
         val = m_ini.getValue(sectionName, "SpriteWeightGame");
         assert(val);
         staticElement.m_inGameSpriteSize.first = std::stof(*val);
