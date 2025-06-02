@@ -50,6 +50,7 @@ HEADERS += \
     ECS/Components/ShotConfComponent.hpp \
     ECS/Components/TimerComponent.hpp \
     ECS/Components/TriangleStairCollisionComponent.hpp \
+    ECS/Components/VehiculeComponent.hpp \
     ECS/Components/WallMultiSpriteComponent.hpp \
     ECS/Components/WeaponComponent.hpp \
     ECS/Components/WriteComponent.hpp \

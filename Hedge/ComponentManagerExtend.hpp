@@ -27,6 +27,7 @@
 #include "ECS/Components/TriangleStairCollisionComponent.hpp"
 #include "ECS/Components/WallMultiSpriteComponent.hpp"
 #include "ECS/Components/GeneratorComponent.hpp"
+#include "ECS/Components/VehiculeComponent.hpp"
 #include <ECS_Headers/ComponentsManager.hpp>
 #include <stdint.h>
 #include <constants.hpp>
@@ -135,6 +136,9 @@ public:
             case Components_e::GENERATOR_COMPONENT:
                 treatNewComponent<Components_e::GENERATOR_COMPONENT, GeneratorComponent>(vectEntity, vect);
                 break;
+            case Components_e::VEHICLE_COMPONENT:
+                treatNewComponent<Components_e::VEHICLE_COMPONENT, VehicleComponent>(vectEntity, vect);
+                break;
             case Components_e::TOTAL_COMPONENTS:
                 assert(false);
                 break;
@@ -177,6 +181,7 @@ private:
         ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT, TriangleStairCollisionComponent>().reserve(size);
         ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT, WallMultiSpriteComponent>().reserve(size);
         ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::GENERATOR_COMPONENT, GeneratorComponent>().reserve(size);
+        ECS::ComponentsManager<N, C...>::template getVectTuple<Components_e::VEHICLE_COMPONENT, VehicleComponent>().reserve(size);
     }
 
     template <uint32_t numComponent, Component_C CC>
