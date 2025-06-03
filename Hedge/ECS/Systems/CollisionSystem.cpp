@@ -52,6 +52,16 @@ void CollisionSystem::execSystem()
         tagCompA->m_memOnGround = false;
     }
     m_memGround = tagCompA->m_memOnGround;
+
+    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerComp);
+    if(playerComp->m_associatedVehicle)
+    {
+        VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp->m_associatedVehicle);
+        assert(vehicleComp);
+        vehicleComp->m_onStair = false;
+    }
+
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it, ++i)
     {
         SegmentCollisionComponent *segmentCompA = nullptr;
@@ -1416,6 +1426,10 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
 //===================================================================
 void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
 {
+    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+    {
+        updateVehicleSpriteType(args.entityNumA, down);
+    }
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(args.entityNumA);
     RectangleCollisionComponent *rectCollA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA);
     TriangleStairCollisionComponent *triangleCollB = Ecsm_t::instance().getComponent<TriangleStairCollisionComponent, Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT>(args.entityNumB);
@@ -1534,6 +1548,41 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
     }
     collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
     addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
+}
+
+//===================================================================
+void CollisionSystem::updateVehicleSpriteType(uint32_t numEntity, bool stairDown)
+{
+    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(numEntity);
+    assert(playerComp);
+    if(playerComp->m_associatedVehicle)
+    {
+        VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp->m_associatedVehicle);
+        assert(vehicleComp);
+        vehicleComp->m_onStair = true;
+        if(stairDown)
+        {
+            if(playerComp->m_currentDirectionRight)
+            {
+                vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_RIGHT;
+            }
+            else
+            {
+                vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_UP_LEFT;
+            }
+        }
+        else
+        {
+            if(playerComp->m_currentDirectionRight)
+            {
+                vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_UP_RIGHT;
+            }
+            else
+            {
+                vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_LEFT;
+            }
+        }
+    }
 }
 
 //===================================================================

@@ -311,6 +311,16 @@ enum class PlayerSpriteElementType_e
     SHOOT_RUN_LEFT
 };
 
+enum class VehicleSpriteType_e
+{
+    MOVE_RIGHT,
+    MOVE_LEFT,
+    STAIR_UP_RIGHT,
+    STAIR_DOWN_RIGHT,
+    STAIR_UP_LEFT,
+    STAIR_DOWN_LEFT
+};
+
 enum class WallSpriteType_e
 {
     STATIC_A,

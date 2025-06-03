@@ -379,6 +379,7 @@ private:
     void confBaseWallData(uint32_t wallEntity, const SpriteData &memSpriteData, const PairUI_t &coordLevel, bool moveable,
                           CollisionShape_e collShape, const std::vector<SpriteData> &vectSprite, const MoveableWallData &wallData);
     void loadPlayerSprites(const std::vector<SpriteData> &vectSprite, const PlayerData &playerData, uint32_t numEntity, PlayerConfComponent &playerComp);
+    void loadVehicleSprites(const std::vector<SpriteData> &vectSprite, const StaticLevelElementData &datas, uint32_t numEntity);
     inline void memColorSystemEntity(uint32_t entity)
     {
         m_graphicEngine.memColorSystemEntity(entity);

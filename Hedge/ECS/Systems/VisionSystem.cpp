@@ -217,6 +217,49 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
         timerComp.m_cycleCountD = 0;
     }
     spriteComp.m_spriteData = memSpriteComp.m_vectSpriteData[static_cast<uint32_t>(playerConfComp->m_currentSprite)];
+
+    if(playerConfComp->m_associatedVehicle)
+    {
+        VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerConfComp->m_associatedVehicle);
+        assert(vehicleComp);
+        if(!vehicleComp->m_onStair)
+        {
+            vehicleComp->m_currentSpritesType = playerConfComp->m_currentDirectionRight ? VehicleSpriteType_e::MOVE_RIGHT : VehicleSpriteType_e::MOVE_LEFT;
+        }
+        updateVehicleSprites(*playerConfComp->m_associatedVehicle, *vehicleComp);
+    }
+}
+
+//===========================================================================
+void VisionSystem::updateVehicleSprites(uint32_t vehicleEntity, VehicleComponent &vehicleComp)
+{
+    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(vehicleEntity);
+    assert(timerComp);
+    SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(vehicleEntity);
+    assert(spriteComp);
+    MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(vehicleEntity);
+    assert(memSpriteComp);
+    MapVehicleSprite_t::const_iterator it = vehicleComp.m_mapSpriteAssociate.find(vehicleComp.m_currentSpritesType);
+    //if sprite outside
+    if(vehicleComp.m_currentSprite < it->second.first ||
+        vehicleComp.m_currentSprite > it->second.second)
+    {
+        vehicleComp.m_currentSprite = it->second.first;
+        timerComp->m_cycleCountD = 0;
+    }
+    else if(++timerComp->m_cycleCountD > vehicleComp.m_spriteInterval)
+    {
+        if(vehicleComp.m_currentSprite == it->second.second)
+        {
+            vehicleComp.m_currentSprite = it->second.first;
+        }
+        else
+        {
+            ++vehicleComp.m_currentSprite;
+        }
+        timerComp->m_cycleCountD = 0;
+    }
+    spriteComp->m_spriteData = memSpriteComp->m_vectSpriteData[vehicleComp.m_currentSprite];
 }
 
 //===========================================================================

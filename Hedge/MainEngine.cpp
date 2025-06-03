@@ -2506,11 +2506,47 @@ void MainEngine::loadPlayerSprites(const std::vector<SpriteData> &vectSprite, co
 }
 
 //===================================================================
-void insertPlayerSpriteFromType(const std::vector<SpriteData> &vectSprite,
-                               MapPlayerSprite_t &mapSpriteAssociate,
-                               std::vector<SpriteData const *> &vectSpriteData,
-                               const std::vector<uint16_t> &playerMemArray,
-                               PlayerSpriteElementType_e type)
+void MainEngine::loadVehicleSprites(const std::vector<SpriteData> &vectSprite, const StaticLevelElementData &datas, uint32_t numEntity)
+{
+    VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(numEntity);
+    assert(vehicleComp);
+    MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(numEntity);
+    assert(memSpriteComp);
+    vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::MOVE_RIGHT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesRight.size() - 1}});
+    for(uint32_t j = 0; j < datas.m_spritesRight.size(); ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesRight[j]]);
+    }
+    vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::MOVE_LEFT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesLeft.size() - 1}});
+    for(uint32_t j = 0; j < datas.m_spritesLeft.size(); ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesLeft[j]]);
+    }
+    vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::STAIR_DOWN_LEFT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesStairLD.size() - 1}});
+    for(uint32_t j = 0; j < datas.m_spritesStairLD.size(); ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesStairLD[j]]);
+    }
+    vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::STAIR_DOWN_RIGHT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesStairRD.size() - 1}});
+    for(uint32_t j = 0; j < datas.m_spritesStairRD.size(); ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesStairRD[j]]);
+    }
+    vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::STAIR_UP_LEFT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesStairLU.size() - 1}});
+    for(uint32_t j = 0; j < datas.m_spritesStairLU.size(); ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesStairLU[j]]);
+    }
+    vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::STAIR_UP_RIGHT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesStairRU.size() - 1}});
+    for(uint32_t j = 0; j < datas.m_spritesStairRU.size(); ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesStairRU[j]]);
+    }
+}
+
+//===================================================================
+void insertPlayerSpriteFromType(const std::vector<SpriteData> &vectSprite, MapPlayerSprite_t &mapSpriteAssociate, std::vector<SpriteData const *> &vectSpriteData,
+                               const std::vector<uint16_t> &playerMemArray, PlayerSpriteElementType_e type)
 {
     //second pair {first pos last pos}
     mapSpriteAssociate.insert({type, {vectSpriteData.size(), vectSpriteData.size() +
@@ -3560,10 +3596,11 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         audioComp->m_soundElements.push_back(loadSound(staticElementData.m_moveSoundFile));
         m_audioEngine.memAudioMenuSound(audioComp->m_soundElements[0]->m_sourceALID);
         audioComp->m_soundElements.push_back(loadSound(staticElementData.m_staticSoundFile));
-        m_audioEngine.memAudioMenuSound(audioComp->m_soundElements[1]->m_sourceALID);
+        m_audioEngine.memAudioMenuSound(audioComp->m_soundElements[1]->m_sourceALID);        
         confBaseComponent(entityNum, memSpriteData, staticElementData.m_TileGamePosition[iterationNum], CollisionShape_e::RECTANGLE_C, tag, staticElementData.m_inGameSpriteSize);
         //CONF EXPLOSION DATA
         loadVisibleShotData(vectSpriteData, {entityNum}, staticElementData.m_shotID, levelManager.getVisibleShootDisplayData(), true);
+        loadVehicleSprites(vectSpriteData, staticElementData, entityNum);
         Level::addElementCase(*spriteComp, mapComp->m_coord, LevelCaseType_e::EMPTY_LC, entityNum);
         m_physicalEngine.addEntityToZone(entityNum, mapComp->m_coord);
         return entityNum;

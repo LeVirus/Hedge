@@ -613,27 +613,79 @@ void LevelManager::readStandardStaticElement(StaticLevelElementData &staticEleme
         val = m_ini.getValue(sectionName, "Velocity");
         assert(val);
         staticElement.m_vehicleVelocity = std::stoi(*val);
-
         val = m_ini.getValue(sectionName, "SpritesRight");
         assert(val);
-        staticElement.m_vectSpritesRight = convertStrToVectStr(*val);
+        std::string sprites = *val;
+        assert((!sprites.empty()) && "Player sprites cannot be loaded.");
+        vectStr_t vectStr = convertStrToVectStr(*val);
+        staticElement.m_spritesRight.reserve(vectStr.size());
+        std::optional<uint16_t> optIdentifier;
+        for(uint32_t i = 0; i < vectStr.size(); ++i)
+        {
+            optIdentifier = m_pictureData.getIdentifier(vectStr[i]);
+            assert(optIdentifier);
+            staticElement.m_spritesRight.emplace_back(*optIdentifier);
+        }
         val = m_ini.getValue(sectionName, "SpritesLeft");
         assert(val);
-        staticElement.m_vectSpritesLeft = convertStrToVectStr(*val);
-
+        sprites = *val;
+        assert((!sprites.empty()) && "Player sprites cannot be loaded.");
+        vectStr = convertStrToVectStr(*val);
+        staticElement.m_spritesLeft.reserve(vectStr.size());
+        for(uint32_t i = 0; i < vectStr.size(); ++i)
+        {
+            optIdentifier = m_pictureData.getIdentifier(vectStr[i]);
+            assert(optIdentifier);
+            staticElement.m_spritesLeft.emplace_back(*optIdentifier);
+        }
         val = m_ini.getValue(sectionName, "SpritesStairRU");
         assert(val);
-        staticElement.m_spriteStairRU = *val;
+        sprites = *val;
+        assert((!sprites.empty()) && "Player sprites cannot be loaded.");
+        vectStr = convertStrToVectStr(*val);
+        staticElement.m_spritesStairRU.reserve(vectStr.size());
+        for(uint32_t i = 0; i < vectStr.size(); ++i)
+        {
+            optIdentifier = m_pictureData.getIdentifier(vectStr[i]);
+            assert(optIdentifier);
+            staticElement.m_spritesStairRU.emplace_back(*optIdentifier);
+        }
         val = m_ini.getValue(sectionName, "SpritesStairRD");
         assert(val);
-        staticElement.m_spriteStairRD = *val;
+        sprites = *val;
+        assert((!sprites.empty()) && "Player sprites cannot be loaded.");
+        vectStr = convertStrToVectStr(*val);
+        staticElement.m_spritesStairRD.reserve(vectStr.size());
+        for(uint32_t i = 0; i < vectStr.size(); ++i)
+        {
+            optIdentifier = m_pictureData.getIdentifier(vectStr[i]);
+            assert(optIdentifier);
+            staticElement.m_spritesStairRD.emplace_back(*optIdentifier);
+        }
         val = m_ini.getValue(sectionName, "SpritesStairLU");
         assert(val);
-        staticElement.m_spriteStairLU = *val;
+        sprites = *val;
+        assert((!sprites.empty()) && "Player sprites cannot be loaded.");
+        vectStr = convertStrToVectStr(*val);
+        staticElement.m_spritesStairLU.reserve(vectStr.size());
+        for(uint32_t i = 0; i < vectStr.size(); ++i)
+        {
+            optIdentifier = m_pictureData.getIdentifier(vectStr[i]);
+            assert(optIdentifier);
+            staticElement.m_spritesStairLU.emplace_back(*optIdentifier);
+        }
         val = m_ini.getValue(sectionName, "SpritesStairLD");
         assert(val);
-        staticElement.m_spriteStairLD = *val;
-
+        sprites = *val;
+        assert((!sprites.empty()) && "Player sprites cannot be loaded.");
+        vectStr = convertStrToVectStr(*val);
+        staticElement.m_spritesStairLD.reserve(vectStr.size());
+        for(uint32_t i = 0; i < vectStr.size(); ++i)
+        {
+            optIdentifier = m_pictureData.getIdentifier(vectStr[i]);
+            assert(optIdentifier);
+            staticElement.m_spritesStairLD.emplace_back(*optIdentifier);
+        }
         val = m_ini.getValue(sectionName, "SpriteWeightGame");
         assert(val);
         staticElement.m_inGameSpriteSize.first = std::stof(*val);

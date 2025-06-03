@@ -515,7 +515,7 @@ SpriteHeightGame = 0.15 0.7 1.0 1.1
 ImpactSound = BazookaExplosion.wav
 
 [VehiculeBike]
-Sprite = SpriteLog
+Sprite = SpriteBikePlayerRightA
 SpritesRight = SpriteBikePlayerRightA SpriteBikePlayerRightB
 SpritesLeft = SpriteBikePlayerLeftA SpriteBikePlayerLeftB
 SpritesStairRU = SpriteBikeStairPlayerRU
