@@ -3581,6 +3581,7 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
     //Enemy dropable object case (will be activated and positionned at enemy death)
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
     assert(spriteComp);
+    spriteComp->m_displaySize = staticElementData.m_inGameSpriteSize;
     if(elementType == LevelStaticElementType_e::VEHICULE)
     {
         MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(entityNum);

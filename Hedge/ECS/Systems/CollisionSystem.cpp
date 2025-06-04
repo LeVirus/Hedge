@@ -1308,8 +1308,8 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     assert(mapComp);
     float elementAPosX = args.mapCompA.m_absoluteMapPositionPX.first;
     float elementAPosY = args.mapCompA.m_absoluteMapPositionPX.second;
-    float elementASecondPosX = elementAPosX+ rectCollA->m_size.first;
-    float elementASecondPosY = elementAPosY+ rectCollA->m_size.second;
+    float elementASecondPosX = elementAPosX + rectCollA->m_size.first;
+    float elementASecondPosY = elementAPosY + rectCollA->m_size.second;
     float elementBPosX = args.mapCompB.m_absoluteMapPositionPX.first;
     float elementBPosY = args.mapCompB.m_absoluteMapPositionPX.second;
     float elementBSecondPosX = elementBPosX + rectCollB->m_size.first;
