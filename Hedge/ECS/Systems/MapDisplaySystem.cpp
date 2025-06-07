@@ -142,13 +142,19 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities(const PairFloat_t &cent
         }
         if(m_playerNum == *it)
         {
+            PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerNum);
+            assert(playerComp);
             std::optional<PairUI_t> coord = getLevelCoord(mapComp->m_absoluteMapPositionPX);
             assert(coord);
             mapComp->m_coord = *coord;
+            if(playerComp->m_associatedVehicle)
+            {
+                continue;
+            }
         }
-        EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(*it);
         if(checkBoundEntityMap(mapComp->m_coord, min, max))
         {
+            EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(*it);
             //get absolute position corner
             m_entitiesToDisplay.emplace_back(*it);
             corner = getUpLeftCorner(*mapComp, *it);
@@ -164,6 +170,7 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities(const PairFloat_t &cent
         }
         else
         {
+            EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(*it);
             if(enemyComp && enemyComp->m_life > 0)
             {
                 enemyComp->m_behaviourMode = EnemyBehaviourMode_e::PASSIVE;
