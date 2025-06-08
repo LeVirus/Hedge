@@ -14,6 +14,7 @@
 #include <ECS/Components/LogComponent.hpp>
 #include <ECS/Components/AudioComponent.hpp>
 #include <ECS/Components/WeaponComponent.hpp>
+#include <ECS/Components/GravityComponent.hpp>
 #include <ECS/Components/CheckpointComponent.hpp>
 #include <ECS/Components/VehiculeComponent.hpp>
 #include <ECS/Systems/ColorDisplaySystem.hpp>
@@ -378,6 +379,11 @@ void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
             shotComp->m_destructPhase = true;
             vehicleComp->m_vehicleMemPlayerAssociated = false;
             playerComp->m_associatedVehicle = std::nullopt;
+            GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(*playerComp->m_associatedVehicle);
+            assert(gravComp);
+            gravComp->m_freeze = false;
+            gravComp->m_exitVehicle = true;
+            gravComp->m_jump = true;
         }
         else
         {
@@ -457,7 +463,6 @@ void CollisionSystem::initArrayTag()
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::LOG_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::CHECKPOINT_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::BOSS_ZONE_CT});
-    m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::LOG_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::EXIT_CT});
     m_tagArray.insert({CollisionTag_e::PLAYER_CT, CollisionTag_e::VEHICULE_CT});
 
@@ -465,6 +470,7 @@ void CollisionSystem::initArrayTag()
     m_tagArray.insert({CollisionTag_e::VEHICULE_CT, CollisionTag_e::TRAVERSABLE_WALL_CT});
     m_tagArray.insert({CollisionTag_e::VEHICULE_CT, CollisionTag_e::ELECTRIC_WALL_CT});
     m_tagArray.insert({CollisionTag_e::VEHICULE_CT, CollisionTag_e::ENEMY_CT});
+    m_tagArray.insert({CollisionTag_e::VEHICULE_CT, CollisionTag_e::STATIC_SET_CT});
 
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::WALL_CT});
     m_tagArray.insert({CollisionTag_e::DETECT_MAP_CT, CollisionTag_e::ELECTRIC_WALL_CT});
@@ -675,7 +681,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                                            args.mapCompB.m_absoluteMapPositionPX, triangleCompB->m_size);
         if(collision)
         {
-            if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+            if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
             {
                 collisionRectTriangleEject(args, true);
             }
@@ -690,7 +696,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                                            args.mapCompB.m_absoluteMapPositionPX, triangleCompB->m_size);
         if(collision)
         {
-            if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+            if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
             {
                 collisionRectTriangleEject(args, false);
             }
@@ -950,7 +956,6 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
                 assert(shotComp);
                 playerComp->m_associatedVehicle = args.entityNumB;
                 vehicleComp->m_vehicleMemPlayerAssociated = true;
-                vehicleGravComp->m_freeze = true;
                 //Stop jumping if enter vehicle
                 gravComp->m_jump = false;
                 playerComp->m_vehicleEject = true;
@@ -1300,6 +1305,14 @@ void CollisionSystem::collisionCircleRectEject(CollisionArgs &args, float circle
 //===================================================================
 void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
 {
+    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+    {
+        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(args.entityNumA);
+        if(playerComp->m_associatedVehicle)
+        {
+            return;
+        }
+    }
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(args.entityNumA);
     RectangleCollisionComponent *rectCollA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA);
     RectangleCollisionComponent *rectCollB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
@@ -1327,7 +1340,7 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
         crushMode = args.tagCompB.m_tagA == CollisionTag_e::WALL_CT;
     }
     //if player touch ground
-    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
     {
         GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
         assert(gravityComp);
@@ -1372,15 +1385,6 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
                 m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
             }
         }
-        // else if(diffY >= 0)
-        // {
-        //     GeneralCollisionComponent *CollCompB = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(args.entityNumB);
-        //     assert(CollCompB);
-        //     if(CollCompB->m_tagA == CollisionTag_e::WALL_CT && CollCompB->m_wallTraversable)
-        //     {
-        //         return;
-        //     }
-        // }
         else
         {
             if(gravityComp->m_memOnGround)
@@ -1455,7 +1459,7 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
     GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
     assert(gravityComp);
     //if player touch ground
-    if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || (args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && !gravityComp->m_jump))
+    if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT || (args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && !gravityComp->m_jump))
     {
         //if y change is lower than Y
         bool YChange = (std::abs(diffY) < std::abs(diffX));

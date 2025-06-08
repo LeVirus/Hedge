@@ -352,6 +352,12 @@ float InputSystem::getCurrentVelocity(std::optional<uint32_t> vehicleEntity, Mov
 //===================================================================
 void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp, MapCoordComponent &mapComp, MoveableComponent &moveComp, uint32_t playerEntity)
 {
+    MapCoordComponent *mapVehicleComp = nullptr;
+    if(playerComp.m_associatedVehicle)
+    {
+        mapVehicleComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*playerComp.m_associatedVehicle);
+        assert(mapVehicleComp);
+    }
     float velocity;
     playerComp.m_inMovement = false;
     playerComp.m_currentAim.fill(false);
@@ -361,7 +367,14 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
         playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_RIGHT;
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
-        mapComp.m_absoluteMapPositionPX.first += velocity;
+        if(!playerComp.m_associatedVehicle)
+        {
+            mapComp.m_absoluteMapPositionPX.first += velocity;
+        }
+        else
+        {
+            mapVehicleComp->m_absoluteMapPositionPX.first += velocity;
+        }
         playerComp.m_currentDirectionRight = true;
     }
     else if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT))
@@ -370,7 +383,14 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
         playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_LEFT;
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
-        mapComp.m_absoluteMapPositionPX.first -= velocity;
+        if(!playerComp.m_associatedVehicle)
+        {
+            mapComp.m_absoluteMapPositionPX.first -= velocity;
+        }
+        else
+        {
+            mapVehicleComp->m_absoluteMapPositionPX.first -= velocity;
+        }
         playerComp.m_currentDirectionRight = false;
     }
     else
@@ -386,13 +406,11 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
     }
     if(playerComp.m_associatedVehicle)
     {
-        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*playerComp.m_associatedVehicle);
-        assert(mapComp);
         MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerEntity);
         assert(playerMapComp);
-        mapComp->m_absoluteMapPositionPX = playerMapComp->m_absoluteMapPositionPX;
-        mapComp->m_coord = playerMapComp->m_coord;
-        m_mainEngine->addEntityToZone(*playerComp.m_associatedVehicle, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
+        playerMapComp->m_absoluteMapPositionPX = mapVehicleComp->m_absoluteMapPositionPX;
+        mapVehicleComp->m_coord = playerMapComp->m_coord;
+        m_mainEngine->addEntityToZone(*playerComp.m_associatedVehicle, *getLevelCoord(mapVehicleComp->m_absoluteMapPositionPX));
     }
     //TMP LOOK UP
     if(checkPlayerKeyTriggered(ControlKey_e::MOVE_FORWARD))
