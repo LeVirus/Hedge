@@ -218,8 +218,14 @@ void InputSystem::treatPlayerInput()
                     gravityComp->m_exitVehicle = true;
                     gravityComp->m_jump = true;
                 }
+                //JUMP CLASSIC
                 else
                 {
+                    if(playerComp->m_associatedVehicle)
+                    {
+                        gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(*playerComp->m_associatedVehicle);
+                        assert(gravityComp);
+                    }
                     if(!playerComp->m_vehicleEject)
                     {
                         gravityComp->m_jump = true;

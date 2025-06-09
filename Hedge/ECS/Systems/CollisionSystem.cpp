@@ -487,6 +487,7 @@ void CollisionSystem::initArrayTag()
     m_tagArray.insert({CollisionTag_e::EXPLOSION_CT, CollisionTag_e::ENEMY_CT});
 
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::PLAYER_CT});
+    // m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::VEHICULE_CT});
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::WALL_CT});
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::ELECTRIC_WALL_CT});
     m_tagArray.insert({CollisionTag_e::ENEMY_CT, CollisionTag_e::TRAVERSABLE_WALL_CT});
@@ -592,8 +593,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         }
         if(collision && (args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT))
         {
-            if(!(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT) &&
-                !(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT))
+            if(!(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT))
             {
                 collisionRectRectEject(args);
             }
