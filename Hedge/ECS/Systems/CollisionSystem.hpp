@@ -88,7 +88,7 @@ private:
                                   float circleRay, const RectangleCollisionComponent &rectCollB, bool visibleShotFirstEject = false);
     void collisionRectRectEject(CollisionArgs &args);
     void collisionRectTriangleEject(CollisionArgs &args, bool down);
-    void updateVehicleSpriteType(uint32_t numEntity, bool stairDown);
+    void updateVehicleSpriteType(bool stairDown);
     float getVerticalCircleRectEject(const EjectCircleYArgs &args, bool &limitEject, bool visibleShot);
     float getHorizontalCircleRectEject(const EjectCircleXArgs &args, bool &limitEject, bool visibleShot);
 
