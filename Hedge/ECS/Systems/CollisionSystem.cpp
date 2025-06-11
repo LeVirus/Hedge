@@ -60,8 +60,8 @@ void CollisionSystem::execSystem()
         VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp->m_associatedVehicle);
         assert(vehicleComp);
         vehicleComp->m_onStair = false;
-        if((vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_DOWN_RIGHT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_DOWN_LEFT) &&
-            ++vehicleComp->m_stairDownCount < 3)
+        if((vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_LEFT && vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_RIGHT) &&
+            ++vehicleComp->m_stairCount < 3)
         {
             MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*playerComp->m_associatedVehicle);
             assert(mapComp);
@@ -1575,12 +1575,12 @@ void CollisionSystem::updateVehicleSpriteType(bool stairDown)
         VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp->m_associatedVehicle);
         assert(vehicleComp);
         vehicleComp->m_onStair = true;
+        vehicleComp->m_stairCount = 0;
         if(stairDown)
         {
             if(playerComp->m_currentDirectionRight)
             {
                 vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_RIGHT;
-                vehicleComp->m_stairDownCount = 0;
             }
             else
             {
@@ -1596,7 +1596,6 @@ void CollisionSystem::updateVehicleSpriteType(bool stairDown)
             else
             {
                 vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_LEFT;
-                vehicleComp->m_stairDownCount = 0;
             }
         }
     }
