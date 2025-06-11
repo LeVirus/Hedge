@@ -1474,6 +1474,10 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 }
             }
             //if player go down
+            if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
+            {
+                updateVehicleSpriteType(down);
+            }
             if(down && elementAPosX > elementBPosX)
             {
                 mapComp->m_absoluteMapPositionPX.second = (elementBPosY - rectCollA->m_size.second) + std::fmod(elementAPosX, LEVEL_TILE_SIZE_PX);
@@ -1491,7 +1495,6 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
             }
         }
-        //EJECT X
         else if(!YChange && ((down && diffX > 0.0f) || (!down && diffX < 0.0f)))
         {
             if(gravityComp->m_memOnGround)
@@ -1504,6 +1507,10 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 gravityComp->m_memOnGround = false;
                 gravityComp->m_onGround = false;
                 gravityComp->m_fall = true;
+            }
+            if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
+            {
+                updateVehicleSpriteType(down);
             }
             if(down && diffX > 0.0f && elementAPosX > elementBPosX)
             {
@@ -1546,10 +1553,7 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
             gravityComp->m_memOnGround = false;
         }
     }
-    if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT /*&& gravityComp->m_onGround*/)
-    {
-        updateVehicleSpriteType(down);
-    }
+
     collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
     addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
 }
