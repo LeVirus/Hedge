@@ -224,7 +224,18 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
         assert(vehicleComp);
         if(!vehicleComp->m_onStair)
         {
-            vehicleComp->m_currentSpritesType = playerConfComp->m_currentDirectionRight ? VehicleSpriteType_e::MOVE_RIGHT : VehicleSpriteType_e::MOVE_LEFT;
+            //if vehicle go down stair
+            if(vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_DOWN_RIGHT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_DOWN_LEFT)
+            {
+                if(++vehicleComp->m_stairDownCount > 2)
+                {
+                    vehicleComp->m_currentSpritesType = playerConfComp->m_currentDirectionRight ? VehicleSpriteType_e::MOVE_RIGHT : VehicleSpriteType_e::MOVE_LEFT;
+                }
+            }
+            else
+            {
+                vehicleComp->m_currentSpritesType = playerConfComp->m_currentDirectionRight ? VehicleSpriteType_e::MOVE_RIGHT : VehicleSpriteType_e::MOVE_LEFT;
+            }
         }
         updateVehicleSprites(*playerConfComp->m_associatedVehicle, *vehicleComp);
     }

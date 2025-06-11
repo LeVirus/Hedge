@@ -53,7 +53,6 @@ void CollisionSystem::execSystem()
         tagCompA->m_memOnGround = false;
     }
     m_memGround = tagCompA->m_memOnGround;
-
     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerComp);
     if(playerComp->m_associatedVehicle)
@@ -61,8 +60,16 @@ void CollisionSystem::execSystem()
         VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp->m_associatedVehicle);
         assert(vehicleComp);
         vehicleComp->m_onStair = false;
+        if((vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_DOWN_RIGHT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_DOWN_LEFT) &&
+            ++vehicleComp->m_stairDownCount < 3)
+        {
+            MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*playerComp->m_associatedVehicle);
+            assert(mapComp);
+            MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*playerComp->m_associatedVehicle);
+            assert(moveComp);
+            mapComp->m_absoluteMapPositionPX.second += moveComp->m_velocity;
+        }
     }
-
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it, ++i)
     {
         SegmentCollisionComponent *segmentCompA = nullptr;
@@ -1573,6 +1580,7 @@ void CollisionSystem::updateVehicleSpriteType(bool stairDown)
             if(playerComp->m_currentDirectionRight)
             {
                 vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_RIGHT;
+                vehicleComp->m_stairDownCount = 0;
             }
             else
             {
@@ -1588,6 +1596,7 @@ void CollisionSystem::updateVehicleSpriteType(bool stairDown)
             else
             {
                 vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_LEFT;
+                vehicleComp->m_stairDownCount = 0;
             }
         }
     }
