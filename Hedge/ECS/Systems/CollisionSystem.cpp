@@ -1481,8 +1481,9 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 }
             }
             //if player go down
-            if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
+            if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && std::abs(diffX) < 31.0f)
             {
+                if((triangleCollB->m_upStair && diffX < 0.0f) || (!triangleCollB->m_upStair && diffX > 0.0f))
                 updateVehicleSpriteType(down);
             }
             if(down && elementAPosX > elementBPosX)
@@ -1515,7 +1516,7 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 gravityComp->m_onGround = false;
                 gravityComp->m_fall = true;
             }
-            if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
+            if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && std::abs(diffX) < 31.0f)
             {
                 updateVehicleSpriteType(down);
             }

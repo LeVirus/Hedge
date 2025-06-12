@@ -217,7 +217,6 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
         timerComp.m_cycleCountD = 0;
     }
     spriteComp.m_spriteData = memSpriteComp.m_vectSpriteData[static_cast<uint32_t>(playerConfComp->m_currentSprite)];
-
     if(playerConfComp->m_associatedVehicle)
     {
         VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerConfComp->m_associatedVehicle);
