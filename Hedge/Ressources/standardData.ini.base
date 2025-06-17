@@ -514,6 +514,25 @@ SpriteWeightGame = 0.1 0.6 0.7 0.8
 SpriteHeightGame = 0.15 0.7 1.0 1.1
 ImpactSound = BazookaExplosion.wav
 
+[VehiculeTank]
+Sprite = SpriteTankMoveRightA
+SpritesRight = SpriteTankMoveRightA SpriteTankMoveRightB SpriteTankMoveRightC
+SpritesLeft = SpriteTankMoveLeftA SpriteTankMoveLeftB SpriteTankMoveLeftC
+SpritesStairRU = SpriteTankMoveUpRightA SpriteTankMoveUpRightB SpriteTankMoveUpRightC
+SpritesStairRD = SpriteTankMoveDownRightA SpriteTankMoveDownRightB SpriteTankMoveDownRightC
+SpritesStairLU = SpriteTankMoveUpLeftA SpriteTankMoveUpLeftB SpriteTankMoveUpLeftC
+SpritesStairLD = SpriteTankMoveDownLeftA SpriteTankMoveDownLeftB SpriteTankMoveDownLeftC
+SpriteWeightGame = 2.6 
+SpriteHeightGame = 2.1
+Velocity = 2
+Damage = 15
+DamageHealthMin = 20
+HealthPoints = 40
+SoundMove = ExplosionBarrel.wav
+SoundStatic = MachineGunShoot.wav
+ExplosionID = VisibleShootRocket
+
+
 [VehiculeBike]
 Sprite = SpriteBikePlayerRightA
 SpritesRight = SpriteBikePlayerRightA SpriteBikePlayerRightB
