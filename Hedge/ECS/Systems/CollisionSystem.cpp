@@ -1483,8 +1483,16 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
             //if player go down
             if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && std::abs(diffX) < 31.0f)
             {
+                PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                assert(playerComp);
+                if(args.entityNumA != *playerComp->m_associatedVehicle)
+                {
+                    return;
+                }
                 if((triangleCollB->m_upStair && diffX < 0.0f) || (!triangleCollB->m_upStair && diffX > 0.0f))
-                updateVehicleSpriteType(down);
+                {
+                    updateVehicleSpriteType(down);
+                }
             }
             if(down && elementAPosX > elementBPosX)
             {
@@ -1518,6 +1526,12 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
             }
             if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && std::abs(diffX) < 31.0f)
             {
+                PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                assert(playerComp);
+                if(args.entityNumA != *playerComp->m_associatedVehicle)
+                {
+                    return;
+                }
                 updateVehicleSpriteType(down);
             }
             if(down && diffX > 0.0f && elementAPosX > elementBPosX)
@@ -1582,6 +1596,7 @@ void CollisionSystem::updateVehicleSpriteType(bool stairDown)
             if(playerComp->m_currentDirectionRight)
             {
                 vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_RIGHT;
+
             }
             else
             {
