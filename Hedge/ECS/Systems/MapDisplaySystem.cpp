@@ -154,14 +154,31 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities(const PairFloat_t &cent
         }
         if(checkBoundEntityMap(mapComp->m_coord, min, max))
         {
-            EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(*it);
             //get absolute position corner
             m_entitiesToDisplay.emplace_back(*it);
             corner = getUpLeftCorner(*mapComp, *it);
             diffPosPX = corner - centerScreenPos;
+            GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
+            assert(genComp);
+            if(genComp->m_tagA == CollisionTag_e::VEHICULE_CT)
+            {
+                RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(*it);
+                assert(rectComp);
+                if(rectComp->m_size.first > 50)
+                {
+                    VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*it);
+                    assert(vehicleComp);
+                    if(vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_RIGHT && vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_LEFT)
+                    {
+                        diffPosPX.second -= rectComp->m_size.second / 2;
+                    }
+                }
+            }
             //convert absolute position to relative
             relativePosMapGL = {diffPosPX.first * MAP_LOCAL_SIZE_GL / m_localLevelSizePX,
                                 diffPosPX.second * MAP_LOCAL_SIZE_GL / m_localLevelSizePX};
+
+            EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(*it);
             if(enemyComp && enemyComp->m_life > 0)
             {
                 enemyComp->m_behaviourMode = EnemyBehaviourMode_e::ATTACK;

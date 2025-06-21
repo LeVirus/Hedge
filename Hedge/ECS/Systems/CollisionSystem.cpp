@@ -1575,7 +1575,6 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
             gravityComp->m_memOnGround = false;
         }
     }
-
     collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
     addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
 }

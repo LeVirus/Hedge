@@ -414,7 +414,17 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
     {
         MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerEntity);
         assert(playerMapComp);
-        playerMapComp->m_absoluteMapPositionPX = mapVehicleComp->m_absoluteMapPositionPX;
+        RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(*playerComp.m_associatedVehicle);
+        assert(rectComp);
+        if(rectComp->m_size.first > 50)
+        {
+            playerMapComp->m_absoluteMapPositionPX = {mapVehicleComp->m_absoluteMapPositionPX.first + (rectComp->m_size.first / 2),
+                                                      mapVehicleComp->m_absoluteMapPositionPX.second + (rectComp->m_size.second / 2)};
+        }
+        else
+        {
+            playerMapComp->m_absoluteMapPositionPX = mapVehicleComp->m_absoluteMapPositionPX;
+        }
         mapVehicleComp->m_coord = playerMapComp->m_coord;
         m_mainEngine->addEntityToZone(*playerComp.m_associatedVehicle, *getLevelCoord(mapVehicleComp->m_absoluteMapPositionPX));
     }
