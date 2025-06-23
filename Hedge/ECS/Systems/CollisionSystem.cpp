@@ -592,8 +592,24 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
     {
         RectangleCollisionComponent *rectCompB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
         assert(rectCompB);
-        collision = checkRectRectCollision(args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size,
-                               args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size);
+        PairFloat_t mapPosA = args.mapCompA.m_absoluteMapPositionPX;
+        if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
+        {
+            VehicleComponent *vehicleCompA = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
+            assert(vehicleCompA);
+            if(vehicleCompA->m_currentSpritesType != VehicleSpriteType_e::MOVE_LEFT && vehicleCompA->m_currentSpritesType != VehicleSpriteType_e::MOVE_RIGHT)
+            {
+                if(args.tagCompB.m_tagA == CollisionTag_e::WALL_CT || args.tagCompB.m_tagA == CollisionTag_e::TRAVERSABLE_WALL_CT || args.tagCompB.m_tagA == CollisionTag_e::ELECTRIC_WALL_CT)
+                {
+                    return;
+                }
+                MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(args.entityNumA, 1);
+                assert(mapComp);
+                mapPosA = mapComp->m_absoluteMapPositionPX;
+            }
+        }
+        collision = checkRectRectCollision(mapPosA, rectCompA->m_size,
+                                           args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size);
         if(collision && args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && treatCollisionPlayer(args))
         {
             return;

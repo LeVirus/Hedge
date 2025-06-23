@@ -374,12 +374,12 @@ enum class CollisionTag_e
     HIT_PLAYER_CT,
     BULLET_ENEMY_CT,
     GHOST_CT,
-    OBJECT_CT,
+    OBJECT_CT,//10
     EXIT_CT,
-    STATIC_SET_CT,//10
+    STATIC_SET_CT,
     IMPACT_CT,
     CHECKPOINT_CT,
-    BOSS_ZONE_CT,
+    BOSS_ZONE_CT,//15
     TELEPORT_ANIM_CT,
     DEAD_CORPSE_CT,
     LOG_CT,

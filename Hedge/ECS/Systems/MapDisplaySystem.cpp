@@ -154,10 +154,6 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities(const PairFloat_t &cent
         }
         if(checkBoundEntityMap(mapComp->m_coord, min, max))
         {
-            //get absolute position corner
-            m_entitiesToDisplay.emplace_back(*it);
-            corner = getUpLeftCorner(*mapComp, *it);
-            diffPosPX = corner - centerScreenPos;
             GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
             assert(genComp);
             if(genComp->m_tagA == CollisionTag_e::VEHICULE_CT)
@@ -168,12 +164,26 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities(const PairFloat_t &cent
                 {
                     VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*it);
                     assert(vehicleComp);
+                    //If on stair
                     if(vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_RIGHT && vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_LEFT)
                     {
-                        diffPosPX.second -= rectComp->m_size.second / 2;
+                        MapCoordComponent *mapCompB = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it, 1);
+                        assert(mapCompB);
+                        mapCompB->m_absoluteMapPositionPX = {mapComp->m_absoluteMapPositionPX.first, mapComp->m_absoluteMapPositionPX.second + rectComp->m_size.second / 2};
+                        mapComp = mapCompB;
+                        vehicleComp->m_collDownActive = true;
+                        // diffPosPX.second -= rectComp->m_size.second / 2;
+                    }
+                    else
+                    {
+                        vehicleComp->m_collDownActive = false;
                     }
                 }
             }
+            //get absolute position corner
+            m_entitiesToDisplay.emplace_back(*it);
+            corner = getUpLeftCorner(*mapComp, *it);
+            diffPosPX = corner - centerScreenPos;
             //convert absolute position to relative
             relativePosMapGL = {diffPosPX.first * MAP_LOCAL_SIZE_GL / m_localLevelSizePX,
                                 diffPosPX.second * MAP_LOCAL_SIZE_GL / m_localLevelSizePX};

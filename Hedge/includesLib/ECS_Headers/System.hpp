@@ -50,7 +50,7 @@ public:
             ok = true;
             for(uint32_t j : m_cacheUsedComponent)
             {
-                if(m_arrEntities[j] != vectEntities[i][j])
+                if(vectEntities[i][j] == 0)
                 {
                     ok = false;
                     break;

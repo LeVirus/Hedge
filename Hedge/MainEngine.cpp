@@ -2794,7 +2794,7 @@ uint32_t MainEngine::createVehiculeEntity()
     vect.fill(0);
     vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
     vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
-    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 2;
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
     vect[Components_e::GRAVITY_COMPONENT] = 1;
