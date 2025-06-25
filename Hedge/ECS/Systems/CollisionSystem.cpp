@@ -1520,10 +1520,7 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 }
                 VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
                 assert(vehicleComp);
-                if(!vehicleComp->m_onLateralGround && (!(triangleCollB->m_upStair && diffX < 0.0f) || (!triangleCollB->m_upStair && diffX > 0.0f)))
-                {
-                    updateVehicleSpriteType(down);
-                }
+                updateVehicleSpriteType(down);
             }
             if(down && elementAPosX > elementBPosX)
             {
@@ -1565,10 +1562,7 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 {
                     return;
                 }
-                if(!vehicleComp->m_onLateralGround)
-                {
-                    updateVehicleSpriteType(down);
-                }
+                updateVehicleSpriteType(down);
             }
             if(down && diffX > 0.0f && elementAPosX > elementBPosX)
             {
