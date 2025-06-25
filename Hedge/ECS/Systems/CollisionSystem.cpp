@@ -59,6 +59,8 @@ void CollisionSystem::execSystem()
     {
         VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp->m_associatedVehicle);
         assert(vehicleComp);
+        vehicleComp->m_onLateralGround = false;
+        vehicleComp->m_touchGround = false;
         vehicleComp->m_onStair = false;
         if((vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_LEFT && vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_RIGHT) &&
             ++vehicleComp->m_stairCount < 3)
@@ -595,26 +597,38 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         PairFloat_t mapPosA = args.mapCompA.m_absoluteMapPositionPX;
         if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
         {
-            VehicleComponent *vehicleCompA = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
-            assert(vehicleCompA);
-            if(vehicleCompA->m_currentSpritesType != VehicleSpriteType_e::MOVE_LEFT && vehicleCompA->m_currentSpritesType != VehicleSpriteType_e::MOVE_RIGHT)
+            if(args.tagCompB.m_tagA == CollisionTag_e::WALL_CT || args.tagCompB.m_tagA == CollisionTag_e::TRAVERSABLE_WALL_CT || args.tagCompB.m_tagA == CollisionTag_e::ELECTRIC_WALL_CT)
             {
-                if(args.tagCompB.m_tagA == CollisionTag_e::WALL_CT || args.tagCompB.m_tagA == CollisionTag_e::TRAVERSABLE_WALL_CT || args.tagCompB.m_tagA == CollisionTag_e::ELECTRIC_WALL_CT)
-                {
-                    return;
-                }
+                VehicleComponent *vehicleCompA = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
+                assert(vehicleCompA);
                 MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(args.entityNumA, 1);
                 assert(mapComp);
-                mapPosA = mapComp->m_absoluteMapPositionPX;
+                mapComp->m_absoluteMapPositionPX = {args.mapCompA.m_absoluteMapPositionPX.first, args.mapCompA.m_absoluteMapPositionPX.second + rectCompA->m_size.second / 3};
+                //check if second shape touch a wall
+                if(checkRectRectCollision(mapComp->m_absoluteMapPositionPX, rectCompA->m_size, args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size))
+                {
+                    vehicleCompA->m_touchGround = true;
+                    if(vehicleCompA->m_onStair)
+                    {
+                        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                        assert(playerComp);
+                        vehicleCompA->m_onLateralGround = true;
+                        vehicleCompA->m_currentSpritesType = playerComp->m_currentDirectionRight ? VehicleSpriteType_e::MOVE_RIGHT : VehicleSpriteType_e::MOVE_LEFT;
+                        return;
+                    }
+                }
             }
         }
-        collision = checkRectRectCollision(mapPosA, rectCompA->m_size,
-                                           args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size);
-        if(collision && args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && treatCollisionPlayer(args))
+        if(!checkRectRectCollision(mapPosA, rectCompA->m_size, args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size))
         {
             return;
         }
-        if(collision && (args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT))
+        if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && treatCollisionPlayer(args))
+        {
+            return;
+        }
+        collision = true;
+        if((args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT))
         {
             if(!(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT))
             {
@@ -662,34 +676,35 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
     {
         CircleCollisionComponent *circleCompB = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(args.entityNumB);
         assert(circleCompB);
-        collision = checkCircleRectCollision(args.mapCompB.m_absoluteMapPositionPX, circleCompB->m_ray,
-                                 args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size);
-        if(collision)
+        if(!checkCircleRectCollision(args.mapCompB.m_absoluteMapPositionPX, circleCompB->m_ray,
+                                     args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size))
         {
-            if(args.tagCompB.m_tagA == CollisionTag_e::OBJECT_CT)
+            return;
+        }
+        collision = true;
+        if(args.tagCompB.m_tagA == CollisionTag_e::OBJECT_CT)
+        {
+            treatPlayerPickObject(args);
+        }
+        else if(args.tagCompB.m_tagA == CollisionTag_e::EXIT_CT)
+        {
+            m_refMainEngine->activeEndLevel();
+        }
+        else if(args.tagCompB.m_tagA == CollisionTag_e::LOG_CT)
+        {
+            LogComponent *logComp = Ecsm_t::instance().getComponent<LogComponent, Components_e::LOG_COMPONENT>(args.entityNumB);
+            assert(logComp);
+            if(!logComp->m_activated)
             {
-                treatPlayerPickObject(args);
-            }
-            else if(args.tagCompB.m_tagA == CollisionTag_e::EXIT_CT)
-            {
-                m_refMainEngine->activeEndLevel();
-            }
-            else if(args.tagCompB.m_tagA == CollisionTag_e::LOG_CT)
-            {
-                LogComponent *logComp = Ecsm_t::instance().getComponent<LogComponent, Components_e::LOG_COMPONENT>(args.entityNumB);
-                assert(logComp);
-                if(!logComp->m_activated)
-                {
-                    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-                    assert(playerComp);
-                    logComp->m_activated = true;
-                    playerComp->m_infoWriteData = {true, {logComp->m_message, args.entityNumB}};
-                    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_memEntityAssociated);
-                    assert(timerComp);
-                    timerComp->m_cycleCountA = 0;
-                    timerComp->m_timeIntervalOptional = 4.0 / FPS_VALUE;
-                    Level::setDialogMode(true);
-                }
+                PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                assert(playerComp);
+                logComp->m_activated = true;
+                playerComp->m_infoWriteData = {true, {logComp->m_message, args.entityNumB}};
+                TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_memEntityAssociated);
+                assert(timerComp);
+                timerComp->m_cycleCountA = 0;
+                timerComp->m_timeIntervalOptional = 4.0 / FPS_VALUE;
+                Level::setDialogMode(true);
             }
         }
     }
@@ -700,10 +715,9 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
     {
         TriangleStairCollisionComponent *triangleCompB = Ecsm_t::instance().getComponent<TriangleStairCollisionComponent, Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT>(args.entityNumB);
         assert(triangleCompB);
-        collision = checkRectRectCollision(args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size,
-                                           args.mapCompB.m_absoluteMapPositionPX, triangleCompB->m_size);
-        if(collision)
+        if(checkRectRectCollision(args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size, args.mapCompB.m_absoluteMapPositionPX, triangleCompB->m_size))
         {
+            collision = true;
             if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
             {
                 collisionRectTriangleEject(args, true);
@@ -715,10 +729,9 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
     {
         TriangleStairCollisionComponent *triangleCompB = Ecsm_t::instance().getComponent<TriangleStairCollisionComponent, Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT>(args.entityNumB);
         assert(triangleCompB);
-        collision = checkRectRectCollision(args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size,
-                                           args.mapCompB.m_absoluteMapPositionPX, triangleCompB->m_size);
-        if(collision)
+        if(checkRectRectCollision(args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size, args.mapCompB.m_absoluteMapPositionPX, triangleCompB->m_size))
         {
+            collision = true;
             if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
             {
                 collisionRectTriangleEject(args, false);
@@ -1505,7 +1518,9 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 {
                     return;
                 }
-                if((triangleCollB->m_upStair && diffX < 0.0f) || (!triangleCollB->m_upStair && diffX > 0.0f))
+                VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
+                assert(vehicleComp);
+                if(!vehicleComp->m_onLateralGround && (!(triangleCollB->m_upStair && diffX < 0.0f) || (!triangleCollB->m_upStair && diffX > 0.0f)))
                 {
                     updateVehicleSpriteType(down);
                 }
@@ -1542,13 +1557,18 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
             }
             if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && std::abs(diffX) < 31.0f)
             {
+                VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
+                assert(vehicleComp);
                 PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
                 assert(playerComp);
                 if(args.entityNumA != *playerComp->m_associatedVehicle)
                 {
                     return;
                 }
-                updateVehicleSpriteType(down);
+                if(!vehicleComp->m_onLateralGround)
+                {
+                    updateVehicleSpriteType(down);
+                }
             }
             if(down && diffX > 0.0f && elementAPosX > elementBPosX)
             {
@@ -1604,6 +1624,10 @@ void CollisionSystem::updateVehicleSpriteType(bool stairDown)
     {
         VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp->m_associatedVehicle);
         assert(vehicleComp);
+        if(vehicleComp->m_touchGround)
+        {
+            return;
+        }
         vehicleComp->m_onStair = true;
         vehicleComp->m_stairCount = 0;
         if(stairDown)
