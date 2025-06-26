@@ -358,6 +358,7 @@ private:
     void readStandardStaticElement(StaticLevelElementData &staticElement,
                                    const std::string &sectionName,
                                    LevelStaticElementType_e elementType);
+    std::vector<uint16_t> loadSpriteData(std::string_view sectionName, std::string_view propertyName);
     bool fillStandartPositionVect(const std::string &sectionName,
                                   VectPairUI_t &vectPos);
     bool fillTeleportPositions(const std::string &sectionName);

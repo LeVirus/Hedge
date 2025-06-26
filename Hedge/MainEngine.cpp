@@ -592,6 +592,13 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
     assert(weaponConf->m_currentWeapon < weaponConf->m_weaponsData.size());
     WeaponData &currentWeapon = weaponConf->m_weaponsData[weaponConf->m_currentWeapon];
     AttackType_e attackType = currentWeapon.m_attackType;
+    if(playerComp.m_associatedVehicle)
+    {
+        VehicleComponent *vehicleComp= Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp.m_associatedVehicle);
+        assert(vehicleComp);
+        float degreeAim = getDegreeAngleFromAim(playerComp.m_currentAim, gravComp->m_onGround, playerComp.m_currentDirectionRight);
+        confPlayerVisibleShoot(vehicleComp->m_vectAmmo, point, degreeAim);
+    }
     if(attackType == AttackType_e::MELEE)
     {
         GeneralCollisionComponent *actionGenColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(
@@ -2542,6 +2549,37 @@ void MainEngine::loadVehicleSprites(const std::vector<SpriteData> &vectSprite, c
     {
         memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesStairRU[j]]);
     }
+
+    vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::SHOOT_MOVE_RIGHT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesShootRight.size() - 1}});
+    for(uint32_t j = 0; j < datas.m_spritesRight.size(); ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesShootRight[j]]);
+    }
+    vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::SHOOT_MOVE_LEFT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesShootLeft.size() - 1}});
+    for(uint32_t j = 0; j < datas.m_spritesLeft.size(); ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesShootLeft[j]]);
+    }
+    vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::SHOOT_STAIR_DOWN_LEFT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesShootStairLD.size() - 1}});
+    for(uint32_t j = 0; j < datas.m_spritesShootStairLD.size(); ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesStairLD[j]]);
+    }
+    vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::SHOOT_STAIR_DOWN_RIGHT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesShootStairRD.size() - 1}});
+    for(uint32_t j = 0; j < datas.m_spritesShootStairRD.size(); ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesStairRD[j]]);
+    }
+    vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::SHOOT_STAIR_UP_LEFT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesShootStairLU.size() - 1}});
+    for(uint32_t j = 0; j < datas.m_spritesShootStairLU.size(); ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesStairLU[j]]);
+    }
+    vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::SHOOT_STAIR_UP_RIGHT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesShootStairRU.size() - 1}});
+    for(uint32_t j = 0; j < datas.m_spritesShootStairRU.size(); ++j)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesShootStairRU[j]]);
+    }
 }
 
 //===================================================================
@@ -3590,6 +3628,13 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         assert(vehicleComp);
         moveComp->m_velocity = staticElementData.m_vehicleVelocity;
         vehicleComp->m_HP = staticElementData.m_HP;
+        vehicleComp->m_vehicleShoot = staticElementData.m_shootID.empty() ? false: true;
+        if(vehicleComp->m_vehicleShoot)
+        {
+            vehicleComp->m_vectAmmo.resize(4);
+            confAmmoEntities(vehicleComp->m_vectAmmo, CollisionTag_e::BULLET_PLAYER_CT, true, staticElementData.m_shootDamage, staticElementData.m_shootVelocity, staticElementData.m_rayDamage);
+            loadVisibleShotData(vectSpriteData, vehicleComp->m_vectAmmo, staticElementData.m_shootID, levelManager.getVisibleShootDisplayData());
+        }
         vehicleComp->m_minHealthDamage = staticElementData.m_damageMinHealth;
         vehicleComp->m_damageColl = staticElementData.m_damageColl;
         AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(entityNum);
@@ -3600,7 +3645,7 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         m_audioEngine.memAudioMenuSound(audioComp->m_soundElements[1]->m_sourceALID);        
         confBaseComponent(entityNum, memSpriteData, staticElementData.m_TileGamePosition[iterationNum], CollisionShape_e::RECTANGLE_C, tag, staticElementData.m_inGameSpriteSize);
         //CONF EXPLOSION DATA
-        loadVisibleShotData(vectSpriteData, {entityNum}, staticElementData.m_shotID, levelManager.getVisibleShootDisplayData(), true);
+        loadVisibleShotData(vectSpriteData, {entityNum}, staticElementData.m_explosionID, levelManager.getVisibleShootDisplayData(), true);
         loadVehicleSprites(vectSpriteData, staticElementData, entityNum);
         Level::addElementCase(*spriteComp, mapComp->m_coord, LevelCaseType_e::EMPTY_LC, entityNum);
         m_physicalEngine.addEntityToZone(entityNum, mapComp->m_coord);

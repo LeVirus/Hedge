@@ -522,15 +522,25 @@ SpritesStairRU = SpriteTankMoveUpRightA SpriteTankMoveUpRightB SpriteTankMoveUpR
 SpritesStairRD = SpriteTankMoveDownRightA SpriteTankMoveDownRightB SpriteTankMoveDownRightC
 SpritesStairLU = SpriteTankMoveUpLeftA SpriteTankMoveUpLeftB SpriteTankMoveUpLeftC
 SpritesStairLD = SpriteTankMoveDownLeftA SpriteTankMoveDownLeftB SpriteTankMoveDownLeftC
+SpritesShootRight = SpriteTankShootRightA SpriteTankShootRightB SpriteTankShootRightC SpriteTankShootRightD SpriteTankShootRightE
+SpritesShootLeft = SpriteTankShootLeftA SpriteTankShootLeftB SpriteTankShootLeftC SpriteTankShootLeftD SpriteTankShootLeftE
+SpritesShootStairRU = SpriteTankShootUpRightA SpriteTankShootUpRightB SpriteTankShootUpRightC SpriteTankShootUpRightD SpriteTankShootUpRightE
+SpritesShootStairRD = SpriteTankShootDownRightA SpriteTankShootDownRightB SpriteTankShootDownRightC SpriteTankShootDownRightD SpriteTankShootDownRightE
+SpritesShootStairLU = SpriteTankShootUpLeftA SpriteTankShootUpLeftB SpriteTankShootUpLeftC SpriteTankShootUpLeftD SpriteTankShootUpLeftE
+SpritesShootStairLD = SpriteTankShootDownLeftA SpriteTankShootDownLeftB SpriteTankShootDownLeftC SpriteTankShootDownLeftD SpriteTankShootDownLeftE
 SpriteWeightGame = 3.8 
 SpriteHeightGame = 3.3
 Velocity = 2
 Damage = 15
+DamageShoot = 20
+ShootVelocity = 5
+DamageRay = 300
 DamageHealthMin = 20
 HealthPoints = 40
 SoundMove = ExplosionBarrel.wav
 SoundStatic = MachineGunShoot.wav
 ExplosionID = VisibleShootRocket
+ShootID = VisibleShootRocket
 
 
 [VehiculeBike]
