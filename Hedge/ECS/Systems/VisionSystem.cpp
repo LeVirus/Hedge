@@ -228,15 +228,43 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
             {
                 if(++vehicleComp->m_stairCount > 2)
                 {
-                    vehicleComp->m_currentSpritesType = playerConfComp->m_currentDirectionRight ? VehicleSpriteType_e::MOVE_RIGHT : VehicleSpriteType_e::MOVE_LEFT;
+                    updateVehicleGroundSprites(*playerConfComp, *vehicleComp);
                 }
             }
             else
             {
-                vehicleComp->m_currentSpritesType = playerConfComp->m_currentDirectionRight ? VehicleSpriteType_e::MOVE_RIGHT : VehicleSpriteType_e::MOVE_LEFT;
+                updateVehicleGroundSprites(*playerConfComp, *vehicleComp);
             }
         }
         updateVehicleSprites(*playerConfComp->m_associatedVehicle, *vehicleComp);
+    }
+}
+
+//===========================================================================
+void VisionSystem::updateVehicleGroundSprites(PlayerConfComponent &playerComp, VehicleComponent &vehicleComp)
+{
+    vehicleComp.m_onLateralGround = true;
+    if(playerComp.m_currentDirectionRight)
+    {
+        if(playerComp.m_playerShoot)
+        {
+            vehicleComp.m_currentSpritesType = VehicleSpriteType_e::SHOOT_MOVE_RIGHT;
+        }
+        else
+        {
+            vehicleComp.m_currentSpritesType = VehicleSpriteType_e::MOVE_RIGHT;
+        }
+    }
+    else
+    {
+        if(playerComp.m_playerShoot)
+        {
+            vehicleComp.m_currentSpritesType = VehicleSpriteType_e::SHOOT_MOVE_LEFT;
+        }
+        else
+        {
+            vehicleComp.m_currentSpritesType = VehicleSpriteType_e::MOVE_LEFT;
+        }
     }
 }
 

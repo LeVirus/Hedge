@@ -10,6 +10,7 @@ struct VehicleComponent;
 struct MapCoordComponent;
 struct MoveableComponent;
 struct EnemyConfComponent;
+struct PlayerConfComponent;
 struct MemSpriteDataComponent;
 struct SpriteTextureComponent;
 struct TimerComponent;
@@ -54,6 +55,7 @@ private:
                             TimerComponent &timerComp, EnemyConfComponent &enemyConfComp);
     void updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp, uint32_t enemyEntity);
     void updatePlayerSprites(uint32_t playerEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp, TimerComponent &timerComp);
+    void updateVehicleGroundSprites(PlayerConfComponent &playerComp, VehicleComponent &vehicleComp);
     void updateVehicleSprites(uint32_t vehicleEntity, VehicleComponent &vehicleComp);
     void updateVisibleShotSprite(uint32_t shotEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp, TimerComponent &timerComp, GeneralCollisionComponent &genComp);
 private:

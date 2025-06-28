@@ -287,9 +287,6 @@ void InputSystem::treatPlayerInput()
             {
                 if(!weaponComp->m_timerShootActive)
                 {
-                    playerComp->m_playerShoot = true;
-                    AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-                    audioComp->m_soundElements[weaponComp->m_currentWeapon]->m_toPlay = true;
                     m_mainEngine->playerAttack(*it, *playerComp, mapComp->m_absoluteMapPositionPX);
                 }
             }

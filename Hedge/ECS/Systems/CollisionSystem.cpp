@@ -610,10 +610,6 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                     vehicleCompA->m_touchGround = true;
                     if(vehicleCompA->m_onStair)
                     {
-                        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-                        assert(playerComp);
-                        vehicleCompA->m_onLateralGround = true;
-                        vehicleCompA->m_currentSpritesType = playerComp->m_currentDirectionRight ? VehicleSpriteType_e::MOVE_RIGHT : VehicleSpriteType_e::MOVE_LEFT;
                         return;
                     }
                 }
@@ -1628,23 +1624,51 @@ void CollisionSystem::updateVehicleSpriteType(bool stairDown)
         {
             if(playerComp->m_currentDirectionRight)
             {
-                vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_RIGHT;
+                if(playerComp->m_playerShoot)
+                {
+                    vehicleComp->m_currentSpritesType = VehicleSpriteType_e::SHOOT_STAIR_DOWN_RIGHT;
+                }
+                else
+                {
+                    vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_RIGHT;
+                }
 
             }
             else
             {
-                vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_UP_LEFT;
+                if(playerComp->m_playerShoot)
+                {
+                    vehicleComp->m_currentSpritesType = VehicleSpriteType_e::SHOOT_STAIR_UP_LEFT;
+                }
+                else
+                {
+                    vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_UP_LEFT;
+                }
             }
         }
         else
         {
             if(playerComp->m_currentDirectionRight)
             {
-                vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_UP_RIGHT;
+                if(playerComp->m_playerShoot)
+                {
+                    vehicleComp->m_currentSpritesType = VehicleSpriteType_e::SHOOT_STAIR_UP_RIGHT;
+                }
+                else
+                {
+                    vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_UP_RIGHT;
+                }
             }
             else
             {
-                vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_LEFT;
+                if(playerComp->m_playerShoot)
+                {
+                    vehicleComp->m_currentSpritesType = VehicleSpriteType_e::SHOOT_STAIR_DOWN_LEFT;
+                }
+                else
+                {
+                    vehicleComp->m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_LEFT;
+                }
             }
         }
     }

@@ -585,20 +585,27 @@ void MainEngine::confPlayerVisibleShoot(std::vector<uint32_t> &playerVisibleShot
 //===================================================================
 void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &playerComp, const PairFloat_t &point)
 {
-    WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-    assert(weaponConf);
     GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(playerEntity);
     assert(gravComp);
+    playerComp.m_playerShoot = true;
+    if(playerComp.m_associatedVehicle)
+    {
+        VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp.m_associatedVehicle);
+        assert(vehicleComp);
+        if(vehicleComp->m_vehicleShoot)
+        {
+            float degreeAim = getDegreeAngleFromAim(playerComp.m_currentAim, gravComp->m_onGround, playerComp.m_currentDirectionRight);
+            confPlayerVisibleShoot(vehicleComp->m_vectAmmo, point, degreeAim);
+            return;
+        }
+    }
+    WeaponComponent *weaponConf = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+    assert(weaponConf);
     assert(weaponConf->m_currentWeapon < weaponConf->m_weaponsData.size());
     WeaponData &currentWeapon = weaponConf->m_weaponsData[weaponConf->m_currentWeapon];
     AttackType_e attackType = currentWeapon.m_attackType;
-    if(playerComp.m_associatedVehicle)
-    {
-        VehicleComponent *vehicleComp= Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp.m_associatedVehicle);
-        assert(vehicleComp);
-        float degreeAim = getDegreeAngleFromAim(playerComp.m_currentAim, gravComp->m_onGround, playerComp.m_currentDirectionRight);
-        confPlayerVisibleShoot(vehicleComp->m_vectAmmo, point, degreeAim);
-    }
+    AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+    audioComp->m_soundElements[weaponConf->m_currentWeapon]->m_toPlay = true;
     if(attackType == AttackType_e::MELEE)
     {
         GeneralCollisionComponent *actionGenColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(
@@ -2549,31 +2556,31 @@ void MainEngine::loadVehicleSprites(const std::vector<SpriteData> &vectSprite, c
     {
         memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesStairRU[j]]);
     }
-
     vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::SHOOT_MOVE_RIGHT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesShootRight.size() - 1}});
-    for(uint32_t j = 0; j < datas.m_spritesRight.size(); ++j)
+    for(uint32_t j = 0; j < datas.m_spritesShootRight.size(); ++j)
     {
         memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesShootRight[j]]);
     }
     vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::SHOOT_MOVE_LEFT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesShootLeft.size() - 1}});
-    for(uint32_t j = 0; j < datas.m_spritesLeft.size(); ++j)
+    for(uint32_t j = 0; j < datas.m_spritesShootLeft.size(); ++j)
     {
         memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesShootLeft[j]]);
     }
     vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::SHOOT_STAIR_DOWN_LEFT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesShootStairLD.size() - 1}});
     for(uint32_t j = 0; j < datas.m_spritesShootStairLD.size(); ++j)
     {
-        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesStairLD[j]]);
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesShootStairLD[j]]);
     }
     vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::SHOOT_STAIR_DOWN_RIGHT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesShootStairRD.size() - 1}});
     for(uint32_t j = 0; j < datas.m_spritesShootStairRD.size(); ++j)
     {
-        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesStairRD[j]]);
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesShootStairRD[j]]);
     }
     vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::SHOOT_STAIR_UP_LEFT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesShootStairLU.size() - 1}});
     for(uint32_t j = 0; j < datas.m_spritesShootStairLU.size(); ++j)
     {
-        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesStairLU[j]]);
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[datas.m_spritesShootStairLU[j]]);
+
     }
     vehicleComp->m_mapSpriteAssociate.insert({VehicleSpriteType_e::SHOOT_STAIR_UP_RIGHT, {memSpriteComp->m_vectSpriteData.size(), memSpriteComp->m_vectSpriteData.size() + datas.m_spritesShootStairRU.size() - 1}});
     for(uint32_t j = 0; j < datas.m_spritesShootStairRU.size(); ++j)
