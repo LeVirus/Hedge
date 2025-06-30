@@ -480,6 +480,12 @@ void GraphicEngine::updatePrologueAndEpilogue(const std::string &prologue, const
 }
 
 //===================================================================
+void GraphicEngine::updateExitVehicleSprites(uint32_t vehicleEntity, VehicleComponent &vehicleComp)
+{
+    m_visionSystem->updateExitVehicleSprites(vehicleEntity, vehicleComp);
+}
+
+//===================================================================
 void GraphicEngine::memPlayerDatas(uint32_t playerEntity)
 {
     m_staticDisplaySystem->memPlayerEntity(playerEntity);

@@ -16,6 +16,7 @@ using vectStr_t = std::vector<std::string>;
 
 struct GLFWwindow;
 struct WriteComponent;
+struct VehicleComponent;
 struct PlayerConfComponent;
 class PictureData;
 class MapDisplaySystem;
@@ -134,6 +135,7 @@ public:
     void toogleFullScreen();
     void validDisplayMenu();
     void updateGraphicCheckpointData(const MemCheckpointElementsState *checkpointData, uint32_t numSaveFile);
+    void updateExitVehicleSprites(uint32_t vehicleEntity, VehicleComponent &vehicleComp);
 private:
     void preDisplay();
     void postDisplay();

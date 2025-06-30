@@ -147,6 +147,10 @@ public:
     void reinitPlayerGear();
     void setInfoDataWrite(std::string_view message);
     void playTriggerSound();
+    inline void updateExitVehicleSprites(uint32_t vehicleEntity, VehicleComponent &vehicleComp)
+    {
+        m_graphicEngine.updateExitVehicleSprites(vehicleEntity, vehicleComp);
+    }
     inline bool currentSessionCustomLevel()const
     {
         return m_memCustomLevelLoadedData != nullptr;

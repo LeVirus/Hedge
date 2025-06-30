@@ -47,7 +47,9 @@ public:
     {
         m_refMainEngine = mainEngine;
     }
+    void updateExitVehicleSprites(uint32_t vehicleEntity, VehicleComponent &vehicleComp);
 private:
+    void updateVehicleSprites(uint32_t vehicleEntity, VehicleComponent &vehicleComp);
     void updateWallSprites();
     void memMultiSpritesWallEntities();
     void setUsedComponents();
@@ -56,7 +58,6 @@ private:
     void updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp, uint32_t enemyEntity);
     void updatePlayerSprites(uint32_t playerEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp, TimerComponent &timerComp);
     void updateVehicleGroundSprites(PlayerConfComponent &playerComp, VehicleComponent &vehicleComp);
-    void updateVehicleSprites(uint32_t vehicleEntity, VehicleComponent &vehicleComp);
     void updateVisibleShotSprite(uint32_t shotEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp, TimerComponent &timerComp, GeneralCollisionComponent &genComp);
 private:
     std::vector<uint32_t> m_memMultiSpritesWallEntities, m_vectBarrelsEntitiesToDelete;

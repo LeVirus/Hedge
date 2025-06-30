@@ -968,6 +968,10 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
             assert(vehicleGravComp);
             VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumB);
             assert(vehicleComp);
+            if(vehicleComp->m_currentShootAnimation)
+            {
+                m_refMainEngine->updateExitVehicleSprites(args.entityNumB, *vehicleComp);
+            }
             playerComp->m_associatedVehicle = std::nullopt;
             vehicleComp->m_vehicleMemPlayerAssociated = false;
             vehicleGravComp->m_freeze = false;

@@ -73,6 +73,37 @@ void VisionSystem::execSystem()
 }
 
 //===========================================================================
+void VisionSystem::updateExitVehicleSprites(uint32_t vehicleEntity, VehicleComponent &vehicleComp)
+{
+    vehicleComp.m_currentShootAnimation = false;
+    if(vehicleComp.m_currentSpritesType == VehicleSpriteType_e::SHOOT_MOVE_LEFT)
+    {
+        vehicleComp.m_currentSpritesType = VehicleSpriteType_e::MOVE_LEFT;
+    }
+    else if(vehicleComp.m_currentSpritesType == VehicleSpriteType_e::SHOOT_MOVE_RIGHT)
+    {
+        vehicleComp.m_currentSpritesType = VehicleSpriteType_e::MOVE_RIGHT;
+    }
+    else if(vehicleComp.m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_DOWN_RIGHT)
+    {
+        vehicleComp.m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_RIGHT;
+    }
+    else if(vehicleComp.m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_UP_RIGHT)
+    {
+        vehicleComp.m_currentSpritesType = VehicleSpriteType_e::STAIR_UP_RIGHT;
+    }
+    else if(vehicleComp.m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_DOWN_LEFT)
+    {
+        vehicleComp.m_currentSpritesType = VehicleSpriteType_e::STAIR_DOWN_LEFT;
+    }
+    else if(vehicleComp.m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_UP_LEFT)
+    {
+        vehicleComp.m_currentSpritesType = VehicleSpriteType_e::STAIR_UP_LEFT;
+    }
+    updateVehicleSprites(vehicleEntity, vehicleComp);
+}
+
+//===========================================================================
 void VisionSystem::updateWallSprites()
 {
     if(m_memMultiSpritesWallEntities.empty())
