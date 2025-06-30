@@ -3146,230 +3146,6 @@ texturePosY = 0.207031
 textureWeight = 0.149508
 textureHeight = 0.0963542
 
-[SpriteTankMoveDownLeftA]
-texture = 24
-texturePosX = 0
-texturePosY = 0.325521
-textureWeight = 0.13966
-textureHeight = 0.0970052
-
-[SpriteTankMoveDownLeftB]
-texture = 24
-texturePosX = 0.140555
-texturePosY = 0.325521
-textureWeight = 0.13966
-textureHeight = 0.0970052
-
-[SpriteTankMoveDownLeftC]
-texture = 24
-texturePosX = 0.28111
-texturePosY = 0.325521
-textureWeight = 0.13966
-textureHeight = 0.0970052
-
-[SpriteTankMoveUpRightA]
-texture = 24
-texturePosX = 0.421665
-texturePosY = 0.325521
-textureWeight = 0.13966
-textureHeight = 0.0970052
-
-[SpriteTankMoveUpRightB]
-texture = 24
-texturePosX = 0.56222
-texturePosY = 0.325521
-textureWeight = 0.13966
-textureHeight = 0.0970052
-
-[SpriteTankMoveUpRightC]
-texture = 24
-texturePosX = 0.702775
-texturePosY = 0.325521
-textureWeight = 0.13966
-textureHeight = 0.0970052
-
-[SpriteTankMoveUpLeftA]
-texture = 24
-texturePosX = 0
-texturePosY = 0.442057
-textureWeight = 0.115488
-textureHeight = 0.0976562
-
-[SpriteTankMoveUpLeftB]
-texture = 24
-texturePosX = 0.140555
-texturePosY = 0.442057
-textureWeight = 0.115488
-textureHeight = 0.0976562
-
-[SpriteTankMoveUpLeftC]
-texture = 24
-texturePosX = 0.28111
-texturePosY = 0.442057
-textureWeight = 0.115488
-textureHeight = 0.0976562
-
-[SpriteTankMoveDownRightA]
-texture = 24
-texturePosX = 0.421665
-texturePosY = 0.442057
-textureWeight = 0.115488
-textureHeight = 0.0976562
-
-[SpriteTankMoveDownRightB]
-texture = 24
-texturePosX = 0.56222
-texturePosY = 0.442057
-textureWeight = 0.115488
-textureHeight = 0.0976562
-
-[SpriteTankMoveDownRightC]
-texture = 24
-texturePosX = 0.702775
-texturePosY = 0.442057
-textureWeight = 0.115488
-textureHeight = 0.0976562
-
-[SpriteTankShootDownLeftA]
-texture = 24
-texturePosX = 0
-texturePosY = 0.554036
-textureWeight = 0.115488
-textureHeight = 0.0970052
-
-[SpriteTankShootDownLeftB]
-texture = 24
-texturePosX = 0.140555
-texturePosY = 0.554036
-textureWeight = 0.115488
-textureHeight = 0.0970052
-
-[SpriteTankShootDownLeftC]
-texture = 24
-texturePosX = 0.28111
-texturePosY = 0.554036
-textureWeight = 0.115488
-textureHeight = 0.0970052
-
-[SpriteTankShootDownLeftD]
-texture = 24
-texturePosX = 0.421665
-texturePosY = 0.554036
-textureWeight = 0.115488
-textureHeight = 0.0970052
-
-[SpriteTankShootDownLeftE]
-texture = 24
-texturePosX = 0.56222
-texturePosY = 0.554036
-textureWeight = 0.115488
-textureHeight = 0.0970052
-
-[SpriteTankShootDownRightA]
-texture = 24
-texturePosX = 0
-texturePosY = 0.663411
-textureWeight = 0.115488
-textureHeight = 0.0970052
-
-[SpriteTankShootDownRightB]
-texture = 24
-texturePosX = 0.140555
-texturePosY = 0.663411
-textureWeight = 0.115488
-textureHeight = 0.0970052
-
-[SpriteTankShootDownRightC]
-texture = 24
-texturePosX = 0.28111
-texturePosY = 0.663411
-textureWeight = 0.115488
-textureHeight = 0.0970052
-
-[SpriteTankShootDownRightD]
-texture = 24
-texturePosX = 0.421665
-texturePosY = 0.663411
-textureWeight = 0.115488
-textureHeight = 0.0970052
-
-[SpriteTankShootDownRightE]
-texture = 24
-texturePosX = 0.56222
-texturePosY = 0.663411
-textureWeight = 0.115488
-textureHeight = 0.0970052
-
-[SpriteTankShootUpLeftA]
-texture = 24
-texturePosX = 0
-texturePosY = 0.764974
-textureWeight = 0.115488
-textureHeight = 0.0963542
-
-[SpriteTankShootUpLeftB]
-texture = 24
-texturePosX = 0.140555
-texturePosY = 0.764974
-textureWeight = 0.115488
-textureHeight = 0.0963542
-
-[SpriteTankShootUpLeftC]
-texture = 24
-texturePosX = 0.28111
-texturePosY = 0.764974
-textureWeight = 0.115488
-textureHeight = 0.0963542
-
-[SpriteTankShootUpLeftD]
-texture = 24
-texturePosX = 0.421665
-texturePosY = 0.764974
-textureWeight = 0.115488
-textureHeight = 0.0963542
-
-[SpriteTankShootUpLeftE]
-texture = 24
-texturePosX = 0.56222
-texturePosY = 0.764974
-textureWeight = 0.115488
-textureHeight = 0.0963542
-
-[SpriteTankShootUpRightA]
-texture = 24
-texturePosX = 0
-texturePosY = 0.876302
-textureWeight = 0.115488
-textureHeight = 0.102214
-
-[SpriteTankShootUpRightB]
-texture = 24
-texturePosX = 0.140555
-texturePosY = 0.876302
-textureWeight = 0.115488
-textureHeight = 0.102214
-
-[SpriteTankShootUpRightC]
-texture = 24
-texturePosX = 0.28111
-texturePosY = 0.876302
-textureWeight = 0.115488
-textureHeight = 0.102214
-
-[SpriteTankShootUpRightD]
-texture = 24
-texturePosX = 0.421665
-texturePosY = 0.876302
-textureWeight = 0.115488
-textureHeight = 0.102214
-
-[SpriteTankShootUpRightE]
-texture = 24
-texturePosX = 0.56222
-texturePosY = 0.876302
-textureWeight = 0.115488
-textureHeight = 0.102214
-
 [SpriteTankMoveLeftA]
 texture = 24
 texturePosX = 0.00895255
@@ -3446,3 +3222,227 @@ texturePosX = 0.635633
 texturePosY = 0.105469
 textureWeight = 0.152193
 textureHeight = 0.0970052
+
+[SpriteTankShootDownLeftA]
+texture = 24
+texturePosX = 0
+texturePosY = 0.554036
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankShootDownLeftB]
+texture = 24
+texturePosX = 0.140555
+texturePosY = 0.554036
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankShootDownLeftC]
+texture = 24
+texturePosX = 0.28111
+texturePosY = 0.554036
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankShootDownLeftD]
+texture = 24
+texturePosX = 0.421665
+texturePosY = 0.554036
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankShootDownLeftE]
+texture = 24
+texturePosX = 0.56222
+texturePosY = 0.554036
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankShootDownRightA]
+texture = 24
+texturePosX = 0
+texturePosY = 0.663411
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankShootDownRightB]
+texture = 24
+texturePosX = 0.140555
+texturePosY = 0.663411
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankShootDownRightC]
+texture = 24
+texturePosX = 0.28111
+texturePosY = 0.663411
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankShootDownRightD]
+texture = 24
+texturePosX = 0.421665
+texturePosY = 0.663411
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankShootDownRightE]
+texture = 24
+texturePosX = 0.56222
+texturePosY = 0.663411
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankShootUpLeftA]
+texture = 24
+texturePosX = 0
+texturePosY = 0.764974
+textureWeight = 0.140555
+textureHeight = 0.0963542
+
+[SpriteTankShootUpLeftB]
+texture = 24
+texturePosX = 0.140555
+texturePosY = 0.764974
+textureWeight = 0.140555
+textureHeight = 0.0963542
+
+[SpriteTankShootUpLeftC]
+texture = 24
+texturePosX = 0.28111
+texturePosY = 0.764974
+textureWeight = 0.140555
+textureHeight = 0.0963542
+
+[SpriteTankShootUpLeftD]
+texture = 24
+texturePosX = 0.421665
+texturePosY = 0.764974
+textureWeight = 0.140555
+textureHeight = 0.0963542
+
+[SpriteTankShootUpLeftE]
+texture = 24
+texturePosX = 0.56222
+texturePosY = 0.764974
+textureWeight = 0.140555
+textureHeight = 0.0963542
+
+[SpriteTankMoveDownLeftA]
+texture = 24
+texturePosX = 0
+texturePosY = 0.325521
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankMoveDownLeftB]
+texture = 24
+texturePosX = 0.140555
+texturePosY = 0.325521
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankMoveDownLeftC]
+texture = 24
+texturePosX = 0.28111
+texturePosY = 0.325521
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankMoveUpRightA]
+texture = 24
+texturePosX = 0.421665
+texturePosY = 0.325521
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankMoveUpRightB]
+texture = 24
+texturePosX = 0.56222
+texturePosY = 0.325521
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankMoveUpRightC]
+texture = 24
+texturePosX = 0.702775
+texturePosY = 0.325521
+textureWeight = 0.140555
+textureHeight = 0.0970052
+
+[SpriteTankMoveUpLeftA]
+texture = 24
+texturePosX = 0
+texturePosY = 0.442057
+textureWeight = 0.140555
+textureHeight = 0.0976562
+
+[SpriteTankMoveUpLeftB]
+texture = 24
+texturePosX = 0.140555
+texturePosY = 0.442057
+textureWeight = 0.140555
+textureHeight = 0.0976562
+
+[SpriteTankMoveUpLeftC]
+texture = 24
+texturePosX = 0.28111
+texturePosY = 0.442057
+textureWeight = 0.140555
+textureHeight = 0.0976562
+
+[SpriteTankMoveDownRightA]
+texture = 24
+texturePosX = 0.421665
+texturePosY = 0.442057
+textureWeight = 0.140555
+textureHeight = 0.0976562
+
+[SpriteTankMoveDownRightB]
+texture = 24
+texturePosX = 0.56222
+texturePosY = 0.442057
+textureWeight = 0.140555
+textureHeight = 0.0976562
+
+[SpriteTankMoveDownRightC]
+texture = 24
+texturePosX = 0.702775
+texturePosY = 0.442057
+textureWeight = 0.140555
+textureHeight = 0.0976562
+
+[SpriteTankShootUpRightA]
+texture = 24
+texturePosX = 0
+texturePosY = 0.876302
+textureWeight = 0.140555
+textureHeight = 0.100911
+
+[SpriteTankShootUpRightB]
+texture = 24
+texturePosX = 0.140555
+texturePosY = 0.876302
+textureWeight = 0.140555
+textureHeight = 0.100911
+
+[SpriteTankShootUpRightC]
+texture = 24
+texturePosX = 0.28111
+texturePosY = 0.876302
+textureWeight = 0.140555
+textureHeight = 0.100911
+
+[SpriteTankShootUpRightD]
+texture = 24
+texturePosX = 0.421665
+texturePosY = 0.876302
+textureWeight = 0.140555
+textureHeight = 0.100911
+
+[SpriteTankShootUpRightE]
+texture = 24
+texturePosX = 0.56222
+texturePosY = 0.876302
+textureWeight = 0.140555
+textureHeight = 0.100911
