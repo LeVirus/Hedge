@@ -165,7 +165,8 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities(const PairFloat_t &cent
                     VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*it);
                     assert(vehicleComp);
                     //If on stair
-                    if(vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_RIGHT && vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_LEFT)
+                    if(vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_RIGHT && vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_LEFT &&
+                        vehicleComp->m_currentSpritesType != VehicleSpriteType_e::SHOOT_MOVE_RIGHT && vehicleComp->m_currentSpritesType != VehicleSpriteType_e::SHOOT_MOVE_LEFT)
                     {
                         MapCoordComponent *mapCompB = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it, 1);
                         assert(mapCompB);
