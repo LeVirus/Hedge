@@ -279,8 +279,7 @@ void VisionSystem::updateVehicleSprites(uint32_t vehicleEntity, VehicleComponent
     assert(memSpriteComp);
     MapVehicleSprite_t::const_iterator it = vehicleComp.m_mapSpriteAssociate.find(vehicleComp.m_currentSpritesType);
     //if sprite outside
-    if(vehicleComp.m_currentSprite < it->second.first ||
-        vehicleComp.m_currentSprite > it->second.second)
+    if(vehicleComp.m_currentSprite < it->second.first || vehicleComp.m_currentSprite > it->second.second)
     {
         vehicleComp.m_currentSprite = it->second.first;
         timerComp->m_cycleCountD = 0;

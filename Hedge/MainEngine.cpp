@@ -3636,6 +3636,7 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         moveComp->m_velocity = staticElementData.m_vehicleVelocity;
         vehicleComp->m_HP = staticElementData.m_HP;
         vehicleComp->m_vehicleShoot = staticElementData.m_shootID.empty() ? false: true;
+        vehicleComp->m_spriteInterval = 0.1 / FPS_VALUE;
         if(vehicleComp->m_vehicleShoot)
         {
             vehicleComp->m_vectAmmo.resize(4);

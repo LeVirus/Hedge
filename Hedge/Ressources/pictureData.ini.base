@@ -3188,14 +3188,14 @@ texturePosY = 0.105469
 textureWeight = 0.152193
 textureHeight = 0.0970052
 
-[SpriteTankShootDownLeftA]
+[SpriteTankShootDownLeftE]
 texture = 24
 texturePosX = 0
 texturePosY = 0.554036
 textureWeight = 0.140555
 textureHeight = 0.0970052
 
-[SpriteTankShootDownLeftB]
+[SpriteTankShootDownLeftD]
 texture = 24
 texturePosX = 0.140555
 texturePosY = 0.554036
@@ -3209,14 +3209,14 @@ texturePosY = 0.554036
 textureWeight = 0.140555
 textureHeight = 0.0970052
 
-[SpriteTankShootDownLeftD]
+[SpriteTankShootDownLeftB]
 texture = 24
 texturePosX = 0.421665
 texturePosY = 0.554036
 textureWeight = 0.140555
 textureHeight = 0.0970052
 
-[SpriteTankShootDownLeftE]
+[SpriteTankShootDownLeftA]
 texture = 24
 texturePosX = 0.56222
 texturePosY = 0.554036
@@ -3258,14 +3258,14 @@ texturePosY = 0.663411
 textureWeight = 0.140555
 textureHeight = 0.0970052
 
-[SpriteTankShootUpLeftA]
+[SpriteTankShootUpLeftE]
 texture = 24
 texturePosX = 0
 texturePosY = 0.764974
 textureWeight = 0.140555
 textureHeight = 0.0963542
 
-[SpriteTankShootUpLeftB]
+[SpriteTankShootUpLeftD]
 texture = 24
 texturePosX = 0.140555
 texturePosY = 0.764974
@@ -3279,14 +3279,14 @@ texturePosY = 0.764974
 textureWeight = 0.140555
 textureHeight = 0.0963542
 
-[SpriteTankShootUpLeftD]
+[SpriteTankShootUpLeftB]
 texture = 24
 texturePosX = 0.421665
 texturePosY = 0.764974
 textureWeight = 0.140555
 textureHeight = 0.0963542
 
-[SpriteTankShootUpLeftE]
+[SpriteTankShootUpLeftA]
 texture = 24
 texturePosX = 0.56222
 texturePosY = 0.764974
@@ -3412,14 +3412,14 @@ texturePosY = 0.876302
 textureWeight = 0.140555
 textureHeight = 0.100911
 
-[SpriteTankShootLeftA]
+[SpriteTankShootLeftE]
 texture = 24
 texturePosX = 0
 texturePosY = 0.207031
 textureWeight = 0.149508
 textureHeight = 0.0963542
 
-[SpriteTankShootLeftB]
+[SpriteTankShootLeftD]
 texture = 24
 texturePosX = 0.15667
 texturePosY = 0.207031
@@ -3433,14 +3433,14 @@ texturePosY = 0.207031
 textureWeight = 0.149508
 textureHeight = 0.0963542
 
-[SpriteTankShootLeftD]
+[SpriteTankShootLeftB]
 texture = 24
 texturePosX = 0.47001
 texturePosY = 0.207031
 textureWeight = 0.149508
 textureHeight = 0.0963542
 
-[SpriteTankShootLeftE]
+[SpriteTankShootLeftA]
 texture = 24
 texturePosX = 0.62668
 texturePosY = 0.207031
