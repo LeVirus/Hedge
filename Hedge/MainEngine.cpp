@@ -594,6 +594,7 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
         assert(vehicleComp);
         if(vehicleComp->m_vehicleShoot)
         {
+            vehicleComp->m_currentShootAnimation = true;
             float degreeAim = getDegreeAngleFromAim(playerComp.m_currentAim, gravComp->m_onGround, playerComp.m_currentDirectionRight);
             confPlayerVisibleShoot(vehicleComp->m_vectAmmo, point, degreeAim);
             return;

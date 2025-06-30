@@ -244,27 +244,14 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
 void VisionSystem::updateVehicleGroundSprites(PlayerConfComponent &playerComp, VehicleComponent &vehicleComp)
 {
     vehicleComp.m_onLateralGround = true;
+    bool currentShoot = vehicleComp.m_currentShootAnimation ? true: false;
     if(playerComp.m_currentDirectionRight)
     {
-        if(playerComp.m_playerShoot)
-        {
-            vehicleComp.m_currentSpritesType = VehicleSpriteType_e::SHOOT_MOVE_RIGHT;
-        }
-        else
-        {
-            vehicleComp.m_currentSpritesType = VehicleSpriteType_e::MOVE_RIGHT;
-        }
+        vehicleComp.m_currentSpritesType = currentShoot ? VehicleSpriteType_e::SHOOT_MOVE_RIGHT : VehicleSpriteType_e::MOVE_RIGHT;
     }
     else
     {
-        if(playerComp.m_playerShoot)
-        {
-            vehicleComp.m_currentSpritesType = VehicleSpriteType_e::SHOOT_MOVE_LEFT;
-        }
-        else
-        {
-            vehicleComp.m_currentSpritesType = VehicleSpriteType_e::MOVE_LEFT;
-        }
+        vehicleComp.m_currentSpritesType = currentShoot ? VehicleSpriteType_e::SHOOT_MOVE_LEFT : VehicleSpriteType_e::MOVE_LEFT;
     }
 }
 
@@ -292,6 +279,10 @@ void VisionSystem::updateVehicleSprites(uint32_t vehicleEntity, VehicleComponent
         }
         else
         {
+            if(vehicleComp.m_currentSprite == it->second.second - 1)
+            {
+                vehicleComp.m_currentShootAnimation = false;
+            }
             ++vehicleComp.m_currentSprite;
         }
         timerComp->m_cycleCountD = 0;
