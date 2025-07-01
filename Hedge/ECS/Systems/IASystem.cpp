@@ -63,14 +63,9 @@ void IASystem::execSystem()
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConfComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
     treatEject();
-    if(playerConfComp->m_associatedVehicle)
+    for(uint32_t i = 0; i < m_refVehicleAmmo.size(); ++i)
     {
-        VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerConfComp->m_associatedVehicle);
-        assert(vehicleComp);
-        if(vehicleComp->m_vehicleShoot)
-        {
-            treatVisibleShots(vehicleComp->m_vectAmmo);
-        }
+        treatVisibleShots(m_refVehicleAmmo[i].get());
     }
     for(uint32_t i = 0; i < weaponComp->m_weaponsData.size(); ++i)
     {

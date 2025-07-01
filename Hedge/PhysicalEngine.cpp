@@ -67,6 +67,7 @@ void PhysicalEngine::setModeTransitionMenu(bool transition)
 //===================================================================
 void PhysicalEngine::clearSystems()
 {
+    m_iaSystem->clear();
 }
 
 //===================================================================
@@ -96,6 +97,12 @@ void PhysicalEngine::setGamepadKey(const std::array<GamepadInputState, static_ca
         }
         m_inputSystem->updateNewInputKeyGamepad(static_cast<ControlKey_e>(i), gamepadArray[i].m_keyID, inputType, axisSense);
     }
+}
+
+//===================================================================
+void PhysicalEngine::memVehicleAmmoVet(std::vector<uint32_t> &vect)
+{
+    m_iaSystem->memVehicleAmmoVet(vect);
 }
 
 //===================================================================

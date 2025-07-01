@@ -4,6 +4,7 @@
 #include <ECS/Components/EnemyConfComponent.hpp>
 #include <ECS/Components/AudioComponent.hpp>
 #include <ECS_Headers/System.hpp>
+#include <functional>
 
 struct MapCoordComponent;
 struct EnemyConfComponent;
@@ -22,6 +23,14 @@ public:
     inline void linkMainEngine(MainEngine *mainEngine)
     {
         m_mainEngine = mainEngine;
+    }
+    inline void clear()
+    {
+        m_refVehicleAmmo.clear();
+    }
+    inline void memVehicleAmmoVet(std::vector<uint32_t> &vect)
+    {
+        m_refVehicleAmmo.push_back(vect);
     }
     void updateGeneratorEntities();
 private:
@@ -43,6 +52,7 @@ private:
     float m_distanceEnemyBehaviour = LEVEL_TILE_SIZE_PX * 9.0f;
     MainEngine *m_mainEngine;
     std::vector<SoundElement> m_memPlayerVisibleShot;
+    std::vector<std::reference_wrapper<VectUI_t>> m_refVehicleAmmo;
     std::optional<std::set<uint32_t>> m_vectGeneratorEntities;
 };
 

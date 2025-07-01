@@ -27,6 +27,7 @@ public:
     void clearSystems();
     void setKeyboardKey(const std::array<MouseKeyboardInputState, static_cast<uint32_t>(ControlKey_e::TOTAL)> &keyboardArray);
     void setGamepadKey(const std::array<GamepadInputState, static_cast<uint32_t>(ControlKey_e::TOTAL)> &gamepadArray);
+    void memVehicleAmmoVet(std::vector<uint32_t> &vect);
     inline void updateZonesColl()
     {
         m_collisionSystem->updateZonesColl();

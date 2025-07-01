@@ -3643,6 +3643,7 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
             vehicleComp->m_vectAmmo.resize(4);
             confAmmoEntities(vehicleComp->m_vectAmmo, CollisionTag_e::BULLET_PLAYER_CT, true, staticElementData.m_shootDamage, staticElementData.m_shootVelocity, staticElementData.m_rayDamage);
             loadVisibleShotData(vectSpriteData, vehicleComp->m_vectAmmo, staticElementData.m_shootID, levelManager.getVisibleShootDisplayData());
+            m_physicalEngine.memVehicleAmmoVet(vehicleComp->m_vectAmmo);
         }
         vehicleComp->m_minHealthDamage = staticElementData.m_damageMinHealth;
         vehicleComp->m_damageColl = staticElementData.m_damageColl;
