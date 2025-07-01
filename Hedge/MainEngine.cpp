@@ -595,7 +595,8 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
         if(vehicleComp->m_vehicleShoot)
         {
             vehicleComp->m_currentShootAnimation = true;
-            float degreeAim = getDegreeAngleFromAim(playerComp.m_currentAim, gravComp->m_onGround, playerComp.m_currentDirectionRight);
+            // getDegreeAngleFromAim();
+            float degreeAim = getShootVehicleAim(*vehicleComp);
             confPlayerVisibleShoot(vehicleComp->m_vectAmmo, point, degreeAim);
             return;
         }
@@ -634,6 +635,36 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
     }
     assert(weaponConf->m_weaponsData[weaponConf->m_currentWeapon].m_ammunationsCount > 0);
     --weaponConf->m_weaponsData[weaponConf->m_currentWeapon].m_ammunationsCount;
+}
+
+//===================================================================
+float getShootVehicleAim(const VehicleComponent &vehicle)
+{
+    if(vehicle.m_currentSpritesType == VehicleSpriteType_e::MOVE_LEFT || vehicle.m_currentSpritesType == VehicleSpriteType_e::SHOOT_MOVE_LEFT)
+    {
+        return 180.0f;
+    }
+    if(vehicle.m_currentSpritesType == VehicleSpriteType_e::MOVE_RIGHT || vehicle.m_currentSpritesType == VehicleSpriteType_e::SHOOT_MOVE_RIGHT)
+    {
+        return 0.0f;
+    }
+    if(vehicle.m_currentSpritesType == VehicleSpriteType_e::STAIR_DOWN_LEFT || vehicle.m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_DOWN_LEFT)
+    {
+        return 225.0f;
+    }
+    if(vehicle.m_currentSpritesType == VehicleSpriteType_e::STAIR_UP_LEFT || vehicle.m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_UP_LEFT)
+    {
+        return 135.0f;
+    }
+    if(vehicle.m_currentSpritesType == VehicleSpriteType_e::STAIR_DOWN_RIGHT || vehicle.m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_DOWN_RIGHT)
+    {
+        return 315.0f;
+    }
+    if(vehicle.m_currentSpritesType == VehicleSpriteType_e::STAIR_UP_RIGHT || vehicle.m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_UP_RIGHT)
+    {
+        return 45.0f;
+    }
+    assert(false);
 }
 
 //===================================================================

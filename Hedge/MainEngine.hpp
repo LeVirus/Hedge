@@ -441,6 +441,7 @@ private:
     std::string m_bossMusic;
 };
 
+float getShootVehicleAim(const VehicleComponent &vehicle);
 float randFloat(float min, float max);
 float getTopEpilogueVerticalPosition(const WriteComponent &writeComp);
 float getDegreeAngleFromDirection(Direction_e direction);
