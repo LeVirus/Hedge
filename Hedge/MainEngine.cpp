@@ -594,10 +594,37 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
         assert(vehicleComp);
         if(vehicleComp->m_vehicleShoot)
         {
+            MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*playerComp.m_associatedVehicle);
+            assert(mapComp);
+            RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(*playerComp.m_associatedVehicle);
+            assert(rectComp);
+            float divY;
+            //LATERA GROUND
+            if(vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_MOVE_RIGHT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::MOVE_RIGHT
+                               || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_MOVE_LEFT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::MOVE_LEFT)
+            {
+                divY = 2.0f;
+            }
+            //STAIR UP
+            else if(vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_UP_RIGHT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_UP_RIGHT
+                                 || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_DOWN_LEFT|| vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_DOWN_LEFT)
+            {
+                divY = 1.7f;
+            }
+            //STAIR DOWN
+            else if(vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_UP_LEFT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_UP_LEFT)
+            {
+                divY = 1.4f;
+            }
+            else
+            {
+                divY = 1.3f;
+            }
+            uint32_t divX = playerComp.m_currentDirectionRight ? 2 : 4;
+            PairFloat_t pointVehicle = {mapComp->m_absoluteMapPositionPX.first + rectComp->m_size.first / divX, mapComp->m_absoluteMapPositionPX.second + rectComp->m_size.second / divY};
             vehicleComp->m_currentShootAnimation = true;
-            // getDegreeAngleFromAim();
             float degreeAim = getShootVehicleAim(*vehicleComp);
-            confPlayerVisibleShoot(vehicleComp->m_vectAmmo, point, degreeAim);
+            confPlayerVisibleShoot(vehicleComp->m_vectAmmo, pointVehicle, degreeAim);
             return;
         }
     }
