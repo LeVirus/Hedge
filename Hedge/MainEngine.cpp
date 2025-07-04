@@ -594,6 +594,7 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
         assert(vehicleComp);
         if(vehicleComp->m_vehicleShoot)
         {
+            vehicleComp->m_shootCount = 0;
             MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*playerComp.m_associatedVehicle);
             assert(mapComp);
             RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(*playerComp.m_associatedVehicle);

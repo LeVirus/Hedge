@@ -62,15 +62,6 @@ void CollisionSystem::execSystem()
         vehicleComp->m_onLateralGround = false;
         vehicleComp->m_touchGround = false;
         vehicleComp->m_onStair = false;
-        if((vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_LEFT && vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_RIGHT) &&
-            ++vehicleComp->m_stairCount < 3)
-        {
-            MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*playerComp->m_associatedVehicle);
-            assert(mapComp);
-            MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*playerComp->m_associatedVehicle);
-            assert(moveComp);
-            mapComp->m_absoluteMapPositionPX.second += moveComp->m_velocity;
-        }
     }
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it, ++i)
     {
@@ -1625,27 +1616,38 @@ void CollisionSystem::updateVehicleSpriteType(bool stairDown)
         vehicleComp->m_onStair = true;
         vehicleComp->m_stairCount = 0;
         bool currentShoot = vehicleComp->m_currentShootAnimation ? true: false;
+        VehicleSpriteType_e previous;
         if(stairDown)
         {
             if(playerComp->m_currentDirectionRight)
             {
-                vehicleComp->m_currentSpritesType = currentShoot ? VehicleSpriteType_e::SHOOT_STAIR_DOWN_RIGHT : VehicleSpriteType_e::STAIR_DOWN_RIGHT;
+                previous = currentShoot ? VehicleSpriteType_e::SHOOT_STAIR_DOWN_RIGHT : VehicleSpriteType_e::STAIR_DOWN_RIGHT;
             }
             else
             {
-                vehicleComp->m_currentSpritesType = currentShoot ? VehicleSpriteType_e::SHOOT_STAIR_UP_LEFT : VehicleSpriteType_e::STAIR_UP_LEFT;
+                previous = currentShoot ? VehicleSpriteType_e::SHOOT_STAIR_UP_LEFT : VehicleSpriteType_e::STAIR_UP_LEFT;
             }
         }
         else
         {
             if(playerComp->m_currentDirectionRight)
             {
-                vehicleComp->m_currentSpritesType = currentShoot ? VehicleSpriteType_e::SHOOT_STAIR_UP_RIGHT : VehicleSpriteType_e::STAIR_UP_RIGHT;
+                previous = currentShoot ? VehicleSpriteType_e::SHOOT_STAIR_UP_RIGHT : VehicleSpriteType_e::STAIR_UP_RIGHT;
             }
             else
             {
-                vehicleComp->m_currentSpritesType = currentShoot ? VehicleSpriteType_e::SHOOT_STAIR_DOWN_LEFT : VehicleSpriteType_e::STAIR_DOWN_LEFT;
+                previous = currentShoot ? VehicleSpriteType_e::SHOOT_STAIR_DOWN_LEFT : VehicleSpriteType_e::STAIR_DOWN_LEFT;
             }
+        }
+        if(previous == vehicleComp->m_currentSpritesType)
+        {
+            return;
+        }
+        vehicleComp->m_currentSpritesType = previous;
+        if(currentShoot)
+        {
+            MapVehicleSprite_t::const_iterator it = vehicleComp->m_mapSpriteAssociate.find(vehicleComp->m_currentSpritesType);
+            vehicleComp->m_currentSprite = it->second.first + vehicleComp->m_shootCount;
         }
     }
 }
