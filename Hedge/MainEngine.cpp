@@ -1711,7 +1711,10 @@ std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManag
     TimerComponent *timerComponent = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(numEntity);
     assert(timerComponent);
     timerComponent->m_cycleCountA = 0;
-    memCheckpointEnemiesData(loadFromCheckpoint, numEntity, m_currentLevelEnemiesNumber);
+    if(!generatorMode)
+    {
+        memCheckpointEnemiesData(loadFromCheckpoint, numEntity, m_currentLevelEnemiesNumber);
+    }
     enemyComp->m_type = enemyData.m_type;
     //OOOOK TO COMPLETE
     if(enemyComp->m_type == TypeEnemy_e::STATIC)
