@@ -1332,12 +1332,17 @@ void CollisionSystem::collisionCircleRectEject(CollisionArgs &args, float circle
 //===================================================================
 void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
 {
+    bool lockY = false;
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
     {
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(args.entityNumA);
         if(playerComp->m_associatedVehicle)
         {
             return;
+        }
+        if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
+        {
+            lockY = true;
         }
     }
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(args.entityNumA);
@@ -1355,10 +1360,13 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     float elementBSecondPosX = elementBPosX + rectCollB->m_size.first;
     float elementBSecondPosY = elementBPosY + rectCollB->m_size.second;
     bool limitEjectY = false, limitEjectX = false, crushMode = false;
-    float diffY, diffX = EPSILON_FLOAT;
-    //eject Y
-    diffY = getRectRectEject({elementAPosX, elementAPosY, elementASecondPosY,
-                              elementBPosX, elementBPosY, elementBSecondPosY}, limitEjectY);
+    float diffY = 10000, diffX = EPSILON_FLOAT;
+    if(!lockY)
+    {
+        //eject Y
+        diffY = getRectRectEject({elementAPosX, elementAPosY, elementASecondPosY,
+                                  elementBPosX, elementBPosY, elementBSecondPosY}, limitEjectY);
+    }
     //eject X
     diffX = getRectRectEject({elementAPosY, elementAPosX, elementASecondPosX,
                               elementBPosY, elementBPosX, elementBSecondPosX}, limitEjectY);
