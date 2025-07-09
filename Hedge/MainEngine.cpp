@@ -2692,6 +2692,7 @@ void MainEngine::loadVisibleShotData(const std::vector<SpriteData> &vectSprite, 
         }
         audioComp->m_soundElements.push_back(m_memSoundElements.m_visibleShots->at(it->second.first));
         memSpriteComp->m_vectSpriteData.reserve(it->second.second.size());
+        shotComp->m_spriteTotal = it->second.second.size();
         for(uint32_t l = 0; l < it->second.second.size(); ++l)
         {
             memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[it->second.second[l].m_numSprite]);

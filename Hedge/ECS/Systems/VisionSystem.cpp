@@ -201,7 +201,7 @@ void VisionSystem::updateVisibleShotSprite(uint32_t shotEntity, MemSpriteDataCom
     if(++timerComp.m_cycleCountA >= shotComp->m_cycleDestructNumber)
     {
         timerComp.m_cycleCountA = 0;
-        if(shotComp->m_spriteShotNum != memSpriteComp.m_vectSpriteData.size() - 1)
+        if(shotComp->m_spriteShotNum < shotComp->m_spriteTotal - 1 /*memSpriteComp.m_vectSpriteData.size()*/ /*- 1*/)
         {
             ++shotComp->m_spriteShotNum;
         }

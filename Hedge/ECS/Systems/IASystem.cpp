@@ -504,6 +504,7 @@ void IASystem::confNewVisibleShot(const std::vector<uint32_t> &visibleShots)
     targetSpriteComp->m_spriteData = targetMemSpriteComp->m_vectSpriteData[0];
     targetMoveComp->m_velocity = baseMoveComp->m_velocity;
     targetShotConfComp->m_damage = baseShotConfComp->m_damage;
+    targetShotConfComp->m_spriteTotal = baseShotConfComp->m_spriteTotal;
     float maxWidth = EPSILON_FLOAT;
     targetShotConfComp->m_ejectExplosionRay = maxWidth * LEVEL_HALF_TILE_SIZE_PX;
 }
