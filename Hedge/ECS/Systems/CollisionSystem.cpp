@@ -598,6 +598,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                 //check if second shape touch a wall
                 if(checkRectRectCollision(mapComp->m_absoluteMapPositionPX, rectCompA->m_size, args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size))
                 {
+                    vehicleCompA->m_onLateralGround = true;
                     vehicleCompA->m_touchGround = true;
                     if(vehicleCompA->m_onStair)
                     {
@@ -1519,7 +1520,10 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 }
                 VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
                 assert(vehicleComp);
-                updateVehicleSpriteType(down);
+                if(!vehicleComp->m_onLateralGround)
+                {
+                    updateVehicleSpriteType(down);
+                }
             }
             if(down && elementAPosX > elementBPosX)
             {

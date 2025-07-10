@@ -252,20 +252,9 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
     {
         VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerConfComp->m_associatedVehicle);
         assert(vehicleComp);
-        if(!vehicleComp->m_onStair)
+        if(vehicleComp->m_onLateralGround)
         {
-            if(vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_RIGHT && vehicleComp->m_currentSpritesType != VehicleSpriteType_e::MOVE_LEFT
-                && vehicleComp->m_currentSpritesType != VehicleSpriteType_e::SHOOT_MOVE_LEFT && vehicleComp->m_currentSpritesType != VehicleSpriteType_e::SHOOT_MOVE_RIGHT)
-            {
-                if(++vehicleComp->m_stairCount > 2)
-                {
-                    updateVehicleGroundSprites(*playerConfComp, *vehicleComp);
-                }
-            }
-            else
-            {
-                updateVehicleGroundSprites(*playerConfComp, *vehicleComp);
-            }
+            updateVehicleGroundSprites(*playerConfComp, *vehicleComp);
         }
         updateVehicleSprites(*playerConfComp->m_associatedVehicle, *vehicleComp);
     }
@@ -274,7 +263,6 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
 //===========================================================================
 void VisionSystem::updateVehicleGroundSprites(PlayerConfComponent &playerComp, VehicleComponent &vehicleComp)
 {
-    vehicleComp.m_onLateralGround = true;
     bool currentShoot = vehicleComp.m_currentShootAnimation ? true: false;
     VehicleSpriteType_e previous;
     if(playerComp.m_currentDirectionRight)
