@@ -68,7 +68,7 @@ void MapDisplaySystem::execSystem()
 {
     MapCoordComponent *mapCompPlayer = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
     PairFloat_t playerPos = mapCompPlayer->m_absoluteMapPositionPX;
-    PairUI_t max, min;
+    PairUI_t max = Level::getSize(), min = {0, 0};
     if(Level::getScrollingLock())
     {
         // min.first
