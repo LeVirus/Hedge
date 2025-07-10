@@ -208,9 +208,10 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities(const PairFloat_t &cent
 }
 
 //===================================================================
-PairFloat_t MapDisplaySystem::getCenterScreen(const PairFloat_t &playerMap, const PairUI_t &min, const PairUI_t &max)const
+PairFloat_t MapDisplaySystem::getCenterScreen(const PairFloat_t &playerMap, const PairUI_t &min, const PairUI_t &max)
 {
     PairFloat_t finalPos = playerMap;
+    m_freezeBackGround = false;
     if(Level::getScrollingLock())
     {
         finalPos.first = m_levelMin + m_localLevelSizePX;
@@ -218,9 +219,11 @@ PairFloat_t MapDisplaySystem::getCenterScreen(const PairFloat_t &playerMap, cons
     else if(min.first == 0 && finalPos.first - m_localLevelSizePX < 0.0f)
     {
         finalPos.first = m_localLevelSizePX;
+        m_freezeBackGround = true;
     }
     else if(max.first >= Level::getSize().first && finalPos.first + m_localLevelSizePX > m_sizeLevelPX.first)
     {
+        m_freezeBackGround = true;
         finalPos.first = m_sizeLevelPX.first - m_localLevelSizePX;
     }
     //if Scrolling lock active

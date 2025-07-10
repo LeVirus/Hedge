@@ -70,7 +70,7 @@ private:
     void fillMiniMapVertexFromEntities();
     void drawMapVertex();
     void confMiniMapPositionVertexEntities(const PairFloat_t &centerScreenPos, const PairUI_t &min, const PairUI_t &max);
-    PairFloat_t getCenterScreen(const PairFloat_t &playerMap, const PairUI_t &min, const PairUI_t &max)const;
+    PairFloat_t getCenterScreen(const PairFloat_t &playerMap, const PairUI_t &min, const PairUI_t &max);
     void confMiniMapVertexElement(const PairFloat_t &glPosition, uint32_t entityNum);
     void confFullMapVertexElement(const PairFloat_t &absolutePositionPX, uint32_t entityNum);
     void setVertexStaticElementPosition(uint32_t entityNum);
