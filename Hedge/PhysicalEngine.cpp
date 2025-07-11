@@ -127,28 +127,10 @@ void PhysicalEngine::unsetCurrentWallOnGround()
 void moveElementFromAngle(float distanceMove, float radiantAngle, PairFloat_t &point, bool backgroundRaycastMode)
 {
     PairUI_t size = Level::getSize();
-    float maxLimitX = size.first * LEVEL_TILE_SIZE_PX - distanceMove,
-            maxLimitY = size.second * LEVEL_TILE_SIZE_PX - distanceMove;
     point.first += std::cos(radiantAngle) * distanceMove;
     //limit case
-    if(!backgroundRaycastMode && point.first < distanceMove)
-    {
-        point.first = distanceMove;
-    }
-    else if(!backgroundRaycastMode && point.first > maxLimitX)
-    {
-        point.first = maxLimitX;
-    }
     point.second -= std::sin(radiantAngle) * distanceMove;
     //limit case
-    if(!backgroundRaycastMode && point.second < distanceMove)
-    {
-        point.second = distanceMove;
-    }
-    else if(!backgroundRaycastMode && point.second > maxLimitY)
-    {
-        point.second = maxLimitY;
-    }
 }
 
 //===================================================================

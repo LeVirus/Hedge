@@ -1,7 +1,4 @@
 ))
-Shots stay stuck in limit level
-
-))
 When jump on traversable wall, eject lateral some time
 
 ))
@@ -27,6 +24,9 @@ Enemy shot desapear zone issue?
 
 ============================================================================================================
 ============================================================================================================
+
+))
+Shots stay stuck in limit level=========================OK
 
 ))
 Vehicle sound still play in menu================OK

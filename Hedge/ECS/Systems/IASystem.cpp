@@ -29,33 +29,7 @@ IASystem::IASystem()
     addComponentsToSystem(Components_e::ENEMY_CONF_COMPONENT, 1);
 }
 
-//===================================================================
-void IASystem::treatEject()
-{
-    std::set<uint32_t> setCacheComp;
-    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> arrEntities;
-    arrEntities[Components_e::MOVEABLE_COMPONENT] = 1;
-    setCacheComp.insert(Components_e::MOVEABLE_COMPONENT);
-    std::optional<std::set<uint32_t>> vectMoveableEntities = Ecsm_t::instance().getEntitiesCustomComponents(setCacheComp, arrEntities);
-    assert(vectMoveableEntities);
 
-    for(std::set<uint32_t>::iterator it = vectMoveableEntities->begin(); it != vectMoveableEntities->end(); ++it)
-    {
-        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
-        if(moveComp->m_ejectData)
-        {
-            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*it);
-            if(++timerComp->m_cycleCountD >= moveComp->m_ejectData->second)
-            {
-                moveComp->m_ejectData = std::nullopt;
-                return;
-            }
-            MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
-            moveElementFromAngle(moveComp->m_ejectData->first, getRadiantAngle(moveComp->m_currentDegreeMoveDirection),
-                                 mapComp->m_absoluteMapPositionPX);
-        }
-    }
-}
 
 //===================================================================
 void IASystem::execSystem()
@@ -105,6 +79,34 @@ void IASystem::execSystem()
         }
     }
     treatGenerator();
+}
+
+//===================================================================
+void IASystem::treatEject()
+{
+    std::set<uint32_t> setCacheComp;
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> arrEntities;
+    arrEntities[Components_e::MOVEABLE_COMPONENT] = 1;
+    setCacheComp.insert(Components_e::MOVEABLE_COMPONENT);
+    std::optional<std::set<uint32_t>> vectMoveableEntities = Ecsm_t::instance().getEntitiesCustomComponents(setCacheComp, arrEntities);
+    assert(vectMoveableEntities);
+
+    for(std::set<uint32_t>::iterator it = vectMoveableEntities->begin(); it != vectMoveableEntities->end(); ++it)
+    {
+        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
+        if(moveComp->m_ejectData)
+        {
+            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(*it);
+            if(++timerComp->m_cycleCountD >= moveComp->m_ejectData->second)
+            {
+                moveComp->m_ejectData = std::nullopt;
+                return;
+            }
+            MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
+            moveElementFromAngle(moveComp->m_ejectData->first, getRadiantAngle(moveComp->m_currentDegreeMoveDirection),
+                                 mapComp->m_absoluteMapPositionPX);
+        }
+    }
 }
 
 //===================================================================

@@ -877,32 +877,52 @@ void CollisionSystem::treatVisibleShot(CollisionArgs &args, bool collision)
 {
     ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumA);
     assert(shotConfComp);
-    bool limitX = (args.mapCompA.m_absoluteMapPositionPX.first < LEVEL_THIRD_TILE_SIZE_PX),
-        limitY = (args.mapCompA.m_absoluteMapPositionPX.second < LEVEL_THIRD_TILE_SIZE_PX);
-    //limit level case
-    if(!shotConfComp->m_destructPhase && (limitX || limitY))
+    if(shotConfComp->m_destructPhase)
     {
-        if(limitX)
-        {
-            args.mapCompA.m_absoluteMapPositionPX.first = LEVEL_THIRD_TILE_SIZE_PX;
-        }
-        if(limitY)
-        {
-            args.mapCompA.m_absoluteMapPositionPX.second = LEVEL_THIRD_TILE_SIZE_PX;
-        }
-        shotConfComp->m_destructPhase = true;
-        if(shotConfComp->m_damageCircleRayData)
-        {
-            setDamageCircle(*shotConfComp->m_damageCircleRayData, true, args.entityNumA);
-        }
         return;
+    }
+    bool limitX = (args.mapCompA.m_absoluteMapPositionPX.first <= 0.0f),
+        limitY = (args.mapCompA.m_absoluteMapPositionPX.second <= 0.0f);
+    bool limit = false;
+    PairUI_t levelSize = Level::getSize();
+    float maxLimitX = levelSize.first * LEVEL_TILE_SIZE_PX - LEVEL_TWO_THIRD_TILE_SIZE_PX,
+            maxLimitY = levelSize.second * LEVEL_TILE_SIZE_PX - LEVEL_TWO_THIRD_TILE_SIZE_PX;
+
+
+    //limit level case
+    if(args.mapCompA.m_absoluteMapPositionPX.first >= maxLimitX)
+    {
+        args.mapCompA.m_absoluteMapPositionPX.first = maxLimitX;
+        limit = true;
+    }
+    else if(limitX)
+    {
+        args.mapCompA.m_absoluteMapPositionPX.first = 0.0f;
+        limit = true;
+    }
+    //limit case
+    if(args.mapCompA.m_absoluteMapPositionPX.second >= maxLimitY)
+    {
+        args.mapCompA.m_absoluteMapPositionPX.second = maxLimitY;
+        limit = true;
+    }
+    else if(limitY)
+    {
+        args.mapCompA.m_absoluteMapPositionPX.second = 0.0f;
+        limit = true;
+    }
+    if(limit)
+    {
+        shotConfComp->m_destructPhase = true;
+        return;
+    }
+
+    if(shotConfComp->m_damageCircleRayData)
+    {
+        setDamageCircle(*shotConfComp->m_damageCircleRayData, true, args.entityNumA);
     }
     if(collision)
     {
-        if(shotConfComp->m_destructPhase)
-        {
-            return;
-        }
         if(shotConfComp->m_damageCircleRayData)
         {
             setDamageCircle(*shotConfComp->m_damageCircleRayData, true, args.entityNumA);
