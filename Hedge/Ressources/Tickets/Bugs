@@ -14,9 +14,6 @@ Shot travers enemies some times
 When scrolling lock active shot stay stuck on screen limit left
 
 ))
-Background move on limit level REGRESSION
-
-))
 Enemies shot apear random position GENERATOR
 
 ))
@@ -28,18 +25,17 @@ Vehicle go down when player is touched
 ))
 Enemy shot desapear zone issue?
 
-))
-Vehicle disapear if touched
-
-))
-Vehicle sound still play in menu
-
-))
-After destroy some vehicle sprite display 
-
 ============================================================================================================
 ============================================================================================================
 
+))
+Vehicle sound still play in menu================OK
+
+))
+Vehicle disapear if touched=========================NO
+
+))
+After destroy some vehicle sprite display================OK 
 
 ))
 Player display jump animation after jump on stair.========================OK
@@ -89,3 +85,7 @@ Fix machine gun speed attack compared to gun=========================OK
 
 ))
 If weapon fist selected can't change weapons=========================OK
+
+))
+Background move on limit level REGRESSION===========================OK
+

@@ -198,7 +198,10 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
             saveGameProgressCheckpoint(levelNum, *playerConf->m_checkpointReached, *playerConf->m_currentCheckpoint);
             playerConf->m_checkpointReached = {};
         }
-        treatSoundVehiclePlayer(*playerConf);
+        if(!m_gamePaused)
+        {
+            treatSoundVehiclePlayer(*playerConf);
+        }
         //level end
         if(m_levelEnd)
         {
