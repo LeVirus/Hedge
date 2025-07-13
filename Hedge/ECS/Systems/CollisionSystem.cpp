@@ -363,7 +363,6 @@ void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
 {
     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerComp);
-    playerComp->takeDamage(damage);
     if(playerComp->m_associatedVehicle)
     {
         ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(*playerComp->m_associatedVehicle);
@@ -389,6 +388,10 @@ void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
         {
             vehicleComp->m_HP -= damage;
         }
+    }
+    else
+    {
+        playerComp->takeDamage(damage);
     }
 }
 
@@ -437,6 +440,15 @@ void CollisionSystem::treatSegmentShots()
             if(tagCompTarget->m_tagA == CollisionTag_e::PLAYER_CT)
             {
                 treatPlayerTakeDamage(shotConfComp->m_damage);
+            }
+            else if(tagCompTarget->m_tagA == CollisionTag_e::VEHICULE_CT)
+            {
+                PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                assert(playerComp);
+                if(playerComp->m_associatedVehicle && playerComp->m_memEntityAssociated == m_vectMemShots[i].second)
+                {
+                    treatPlayerTakeDamage(shotConfComp->m_damage);
+                }
             }
         }
     }

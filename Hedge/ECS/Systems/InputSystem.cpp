@@ -161,7 +161,7 @@ void InputSystem::treatPlayerInput()
             }
             return;
         }
-        if(playerComp->m_takeDamage)
+        if(playerComp->m_takeDamage && !playerComp->m_associatedVehicle)
         {
             TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
             assert(timerComp);
