@@ -380,9 +380,11 @@ void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
             playerComp->m_associatedVehicle = std::nullopt;
             GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(*playerComp->m_associatedVehicle);
             assert(gravComp);
+            GravityComponent *gravPlayerComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
+            assert(gravPlayerComp);
             gravComp->m_freeze = false;
             gravComp->m_exitVehicle = true;
-            gravComp->m_jump = true;
+            gravPlayerComp->m_jump = true;
         }
         else
         {
