@@ -395,7 +395,6 @@ void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
 //===================================================================
 void CollisionSystem::confDropedObject(uint32_t objectEntity, uint32_t enemyEntity)
 {
-
     GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(objectEntity);
     MapCoordComponent *objectMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(objectEntity);
     MapCoordComponent *enemyMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);

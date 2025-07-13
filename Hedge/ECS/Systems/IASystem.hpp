@@ -47,7 +47,7 @@ private:
     void enemyShoot(EnemyConfComponent &enemyConfComp, MoveableComponent &moveComp, MapCoordComponent &enemyMapComp, float distancePlayer);
     void treatEnemyMove(MapCoordComponent *playerMapComp, MapCoordComponent &mapComp, float velocity, EnemyConfComponent &enemyConfComp, uint32_t enemyEntity);
 private:
-    uint32_t m_playerEntity, m_intervalEnemyBehaviour = 0.4 / FPS_VALUE, m_intervalVisibleShotLifeTime = 5.0 / FPS_VALUE,
+    uint32_t m_playerEntity, m_intervalEnemyBehaviour = 0.4 / FPS_VALUE, m_intervalVisibleShotLifeTime = 8.0 / FPS_VALUE,
     m_intervalEnemyPlayPassiveSound = 5.0 / FPS_VALUE;
     float m_distanceEnemyBehaviour = LEVEL_TILE_SIZE_PX * 9.0f;
     MainEngine *m_mainEngine;

@@ -2,13 +2,13 @@
 When jump on traversable wall, eject lateral some time
 
 ))
+After get grenade some shot appear little
+
+))
 Bad display coherence while shoot and run. If shoot and for a while AND shoot run cycle is reseted
 
 ))
 Shot travers enemies some times
-
-))
-When scrolling lock active shot stay stuck on screen limit left
 
 ))
 Enemies shot apear random position GENERATOR
@@ -19,11 +19,14 @@ In input menu incoherence in entries
 ))
 Vehicle go down when player is touched
 
-))
-Enemy shot desapear zone issue?
+============================================================================================================
+============================================================================================================
 
-============================================================================================================
-============================================================================================================
+))
+Enemy shot desapear zone issue?======================OK
+
+))
+When scrolling lock active shot stay stuck on screen limit left======================NO
 
 ))
 Shots stay stuck in limit level=========================OK

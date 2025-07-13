@@ -152,10 +152,14 @@ void MapDisplaySystem::confMiniMapPositionVertexEntities(const PairFloat_t &cent
                 continue;
             }
         }
-        if(checkBoundEntityMap(mapComp->m_coord, min, max))
+        GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
+        assert(genComp);
+        if(!genComp->m_active)
         {
-            GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
-            assert(genComp);
+            continue;
+        }
+        if(checkBoundEntityMap(*getLevelCoord(mapComp->m_absoluteMapPositionPX), min, max))
+        {
             if(genComp->m_tagA == CollisionTag_e::VEHICULE_CT)
             {
                 RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(*it);
