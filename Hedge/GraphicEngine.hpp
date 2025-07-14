@@ -173,6 +173,7 @@ private:
         {InputMenuCursorPos_e::MOVE_FORWARD, "MOVE FORWARD"},
         {InputMenuCursorPos_e::NEXT_WEAPON, "NEXT WEAPON"},
         {InputMenuCursorPos_e::PREVIOUS_WEAPON, "PREVIOUS WEAPON"},
+        {InputMenuCursorPos_e::JUMP, "JUMP"},
         {InputMenuCursorPos_e::SHOOT, "SHOOT"},
         {InputMenuCursorPos_e::STRAFE_LEFT, "STRAFE LEFT"},
         {InputMenuCursorPos_e::STRAFE_RIGHT, "STRAFE RIGHT"},

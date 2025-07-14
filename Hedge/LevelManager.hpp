@@ -447,7 +447,7 @@ private:
     SettingsData m_settingsData;
     std::string m_pickObjectSound, m_doorOpeningSound, m_hitSound, m_teleportSound, m_playerDeathSound, m_triggerSound;
     const std::array<std::string, static_cast<uint32_t>(ControlKey_e::TOTAL)> m_inputIDString = {
-        "moveForward", "moveBackward", "strafeLeft", "strafeRight", "turnLeft", "turnRight", "action", "shoot", "previousWeapon", "nextWeapon"
+        "moveForward", "moveBackward", "strafeLeft", "strafeRight", "turnLeft", "turnRight", "jump", "action", "shoot", "previousWeapon", "nextWeapon"
     };
     const std::map<std::string, uint32_t> m_inputMouseKeyString = {
         {"Mouse Left", GLFW_MOUSE_BUTTON_LEFT},

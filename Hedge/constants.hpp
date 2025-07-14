@@ -168,6 +168,7 @@ enum class InputMenuCursorPos_e
     STRAFE_RIGHT,
     TURN_LEFT,
     TURN_RIGHT,
+    JUMP,
     ACTION,
     SHOOT,
     PREVIOUS_WEAPON,
@@ -515,7 +516,7 @@ inline const std::map<MenuMode_e, PairPairFloatStr_t> MAP_MENU_DATA =
      PairPairFloatStr_t{{-0.7f, 0.5f}, "Set Resolution\\Fullscreen\\Return\\Valid"}},
     {MenuMode_e::INPUT,
      PairPairFloatStr_t{{-0.7f, 0.7f}, "Move Forward\\Move Backward\\Strafe Left\\"
-         "Strafe Right\\Turn Left\\Turn Right\\Action\\Shoot\\Previous Weapon\\Next Weapon\\Turn Sensitivity\\Default\\Return\\Valid"}
+         "Strafe Right\\Turn Left\\Turn Right\\Jump\\Action\\Shoot\\Previous Weapon\\Next Weapon\\Turn Sensitivity\\Default\\Return\\Valid"}
     },
     {MenuMode_e::NEW_GAME,
      PairPairFloatStr_t{{-0.6f, 0.5f}, "Empty\\Empty\\Empty\\Return"}
