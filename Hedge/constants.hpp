@@ -24,12 +24,12 @@ enum class AnimationMode_e
 
 enum class ControlKey_e
 {
-    MOVE_FORWARD,
-    MOVE_BACKWARD,
-    STRAFE_LEFT,
-    STRAFE_RIGHT,
-    TURN_LEFT,
-    TURN_RIGHT,
+    LOOK_UP,
+    LOOK_DOWN,
+    AIM_DIAG_UP,
+    AIM_DIAG_DOWN,
+    MOVE_LEFT,
+    MOVE_RIGHT,
     JUMP,
     ACTION,
     SHOOT,
@@ -162,12 +162,12 @@ enum class DisplayMenuCursorPos_e
 
 enum class InputMenuCursorPos_e
 {
-    MOVE_FORWARD,
-    MOVE_BACKWARD,
-    STRAFE_LEFT,
-    STRAFE_RIGHT,
-    TURN_LEFT,
-    TURN_RIGHT,
+    LOOK_UP,
+    LOOK_DOWN,
+    AIM_DIAG_UP,
+    AIM_DIAG_DOWN,
+    MOVE_LEFT,
+    MOVE_RIGHT,
     JUMP,
     ACTION,
     SHOOT,
@@ -515,8 +515,8 @@ inline const std::map<MenuMode_e, PairPairFloatStr_t> MAP_MENU_DATA =
     {MenuMode_e::DISPLAY,
      PairPairFloatStr_t{{-0.7f, 0.5f}, "Set Resolution\\Fullscreen\\Return\\Valid"}},
     {MenuMode_e::INPUT,
-     PairPairFloatStr_t{{-0.7f, 0.7f}, "Move Forward\\Move Backward\\Strafe Left\\"
-         "Strafe Right\\Turn Left\\Turn Right\\Jump\\Action\\Shoot\\Previous Weapon\\Next Weapon\\Turn Sensitivity\\Default\\Return\\Valid"}
+     PairPairFloatStr_t{{-0.7f, 0.7f}, "Look Up\\Look Down\\Aim Diagonal Up\\"
+         "Aim Diagonal Down\\Move Left\\Move Right\\Jump\\Action\\Shoot\\Previous Weapon\\Next Weapon\\Turn Sensitivity\\Default\\Return\\Valid"}
     },
     {MenuMode_e::NEW_GAME,
      PairPairFloatStr_t{{-0.6f, 0.5f}, "Empty\\Empty\\Empty\\Return"}

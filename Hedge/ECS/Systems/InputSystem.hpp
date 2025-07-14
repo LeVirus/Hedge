@@ -33,12 +33,12 @@ struct GamepadInputState
 };
 
 inline const std::map<ControlKey_e, MouseKeyboardInputState> MAP_KEYBOARD_DEFAULT_KEY = {
-    {ControlKey_e::MOVE_FORWARD, {true, GLFW_KEY_UP}},
-    {ControlKey_e::MOVE_BACKWARD, {true, GLFW_KEY_DOWN}},
-    {ControlKey_e::STRAFE_LEFT, {true, GLFW_KEY_Q}},
-    {ControlKey_e::STRAFE_RIGHT, {true, GLFW_KEY_W}},
-    {ControlKey_e::TURN_LEFT, {true, GLFW_KEY_LEFT}},
-    {ControlKey_e::TURN_RIGHT, {true, GLFW_KEY_RIGHT}},
+    {ControlKey_e::LOOK_UP, {true, GLFW_KEY_UP}},
+    {ControlKey_e::LOOK_DOWN, {true, GLFW_KEY_DOWN}},
+    {ControlKey_e::AIM_DIAG_UP, {true, GLFW_KEY_Q}},
+    {ControlKey_e::AIM_DIAG_DOWN, {true, GLFW_KEY_W}},
+    {ControlKey_e::MOVE_LEFT, {true, GLFW_KEY_LEFT}},
+    {ControlKey_e::MOVE_RIGHT, {true, GLFW_KEY_RIGHT}},
     {ControlKey_e::JUMP, {true, GLFW_KEY_SPACE}},
     {ControlKey_e::ACTION, {true, GLFW_KEY_SPACE}},
     {ControlKey_e::SHOOT, {true, GLFW_KEY_LEFT_SHIFT}},
@@ -47,11 +47,11 @@ inline const std::map<ControlKey_e, MouseKeyboardInputState> MAP_KEYBOARD_DEFAUL
 };
 
 //inline const std::map<ControlKey_e, GamepadInputState> MAP_GAMEPAD_DEFAULT_KEY = {
-//    {ControlKey_e::MOVE_FORWARD, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, false}},
-//    {ControlKey_e::MOVE_BACKWARD, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, true}},
-//    {ControlKey_e::STRAFE_LEFT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_X, false}},
-//    {ControlKey_e::STRAFE_RIGHT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_X, true}},
-//    {ControlKey_e::TURN_LEFT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_RIGHT_Y, false}},
+//    {ControlKey_e::LOOK_UP, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, false}},
+//    {ControlKey_e::LOOK_DOWN, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, true}},
+//    {ControlKey_e::AIM_DIAG_UP, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_X, false}},
+//    {ControlKey_e::AIM_DIAG_DOWN, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_X, true}},
+//    {ControlKey_e::MOVE_LEFT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_RIGHT_Y, false}},
 //    {ControlKey_e::TURN_RIGHT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_RIGHT_Y, true}},
 //    {ControlKey_e::ACTION, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_A, {}}},
 //    {ControlKey_e::SHOOT, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER, {}}},
@@ -60,12 +60,12 @@ inline const std::map<ControlKey_e, MouseKeyboardInputState> MAP_KEYBOARD_DEFAUL
 //};
 
 inline const std::map<ControlKey_e, GamepadInputState> MAP_GAMEPAD_DEFAULT_KEY= {
-    {ControlKey_e::MOVE_FORWARD, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, true}},
-    {ControlKey_e::MOVE_BACKWARD, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, false}},
-    {ControlKey_e::STRAFE_LEFT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_X, false}},
-    {ControlKey_e::STRAFE_RIGHT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_X, true}},
-    {ControlKey_e::TURN_LEFT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_RIGHT_X, false}},
-    {ControlKey_e::TURN_RIGHT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_RIGHT_X, true}},
+    {ControlKey_e::LOOK_UP, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, true}},
+    {ControlKey_e::LOOK_DOWN, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, false}},
+    {ControlKey_e::AIM_DIAG_UP, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_X, false}},
+    {ControlKey_e::AIM_DIAG_DOWN, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_X, true}},
+    {ControlKey_e::MOVE_LEFT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_RIGHT_X, false}},
+    {ControlKey_e::MOVE_RIGHT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_RIGHT_X, true}},
     {ControlKey_e::JUMP, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_X, {}}},
     {ControlKey_e::ACTION, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_A, {}}},
     {ControlKey_e::SHOOT, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER, {}}},
@@ -208,16 +208,16 @@ private:
         m_mapGamepadTmpAssociatedKey = m_mapGamepadCurrentAssociatedKey;
     const std::map<InputMenuCursorPos_e, ControlKey_e> m_mapInputControl = {
         {InputMenuCursorPos_e::ACTION, ControlKey_e::ACTION},
-        {InputMenuCursorPos_e::MOVE_BACKWARD, ControlKey_e::MOVE_BACKWARD},
-        {InputMenuCursorPos_e::MOVE_FORWARD, ControlKey_e::MOVE_FORWARD},
+        {InputMenuCursorPos_e::LOOK_DOWN, ControlKey_e::LOOK_DOWN},
+        {InputMenuCursorPos_e::LOOK_UP, ControlKey_e::LOOK_UP},
         {InputMenuCursorPos_e::NEXT_WEAPON, ControlKey_e::NEXT_WEAPON},
         {InputMenuCursorPos_e::PREVIOUS_WEAPON, ControlKey_e::PREVIOUS_WEAPON},
         {InputMenuCursorPos_e::SHOOT, ControlKey_e::SHOOT},
         {InputMenuCursorPos_e::JUMP, ControlKey_e::JUMP},
-        {InputMenuCursorPos_e::STRAFE_LEFT, ControlKey_e::STRAFE_LEFT},
-        {InputMenuCursorPos_e::STRAFE_RIGHT, ControlKey_e::STRAFE_RIGHT},
-        {InputMenuCursorPos_e::TURN_LEFT, ControlKey_e::TURN_LEFT},
-        {InputMenuCursorPos_e::TURN_RIGHT, ControlKey_e::TURN_RIGHT}
+        {InputMenuCursorPos_e::AIM_DIAG_UP, ControlKey_e::AIM_DIAG_UP},
+        {InputMenuCursorPos_e::AIM_DIAG_DOWN, ControlKey_e::AIM_DIAG_DOWN},
+        {InputMenuCursorPos_e::MOVE_LEFT, ControlKey_e::MOVE_LEFT},
+        {InputMenuCursorPos_e::MOVE_RIGHT, ControlKey_e::MOVE_RIGHT}
     };
     ControlKey_e m_currentSelectedKey;
     bool m_modeTransition = false, m_toggleSignal = false;

@@ -169,16 +169,16 @@ private:
     bool m_fullscreenMode = false, m_displayMenuFullscreenMode = m_fullscreenMode, m_restartLevelMode = false;
     const std::map<InputMenuCursorPos_e, std::string> m_mapInputActionStringAssociated = {
         {InputMenuCursorPos_e::ACTION, "ACTION"},
-        {InputMenuCursorPos_e::MOVE_BACKWARD, "MOVE BACKWARD"},
-        {InputMenuCursorPos_e::MOVE_FORWARD, "MOVE FORWARD"},
+        {InputMenuCursorPos_e::LOOK_DOWN, "LOOK DOWN"},
+        {InputMenuCursorPos_e::LOOK_UP, "LOOK UP"},
         {InputMenuCursorPos_e::NEXT_WEAPON, "NEXT WEAPON"},
         {InputMenuCursorPos_e::PREVIOUS_WEAPON, "PREVIOUS WEAPON"},
         {InputMenuCursorPos_e::JUMP, "JUMP"},
         {InputMenuCursorPos_e::SHOOT, "SHOOT"},
-        {InputMenuCursorPos_e::STRAFE_LEFT, "STRAFE LEFT"},
-        {InputMenuCursorPos_e::STRAFE_RIGHT, "STRAFE RIGHT"},
-        {InputMenuCursorPos_e::TURN_LEFT, "TURN LEFT"},
-        {InputMenuCursorPos_e::TURN_RIGHT, "TURN RIGHT"}
+        {InputMenuCursorPos_e::AIM_DIAG_UP, "AIM DIAG UP"},
+        {InputMenuCursorPos_e::AIM_DIAG_DOWN, "AIM DIAG DOWN"},
+        {InputMenuCursorPos_e::MOVE_LEFT, "MOVE LEFT"},
+        {InputMenuCursorPos_e::MOVE_RIGHT, "MOVE RIGHT"}
     };
 };
 

@@ -209,11 +209,11 @@ void InputSystem::treatPlayerInput()
         {
             if(playerComp->m_associatedVehicle || (!gravityComp->m_jump && gravityComp->m_onGround))
             {
-                if(checkPlayerKeyTriggered(ControlKey_e::MOVE_BACKWARD))
+                if(checkPlayerKeyTriggered(ControlKey_e::LOOK_DOWN))
                 {
                     playerComp->m_jumpDown = true;
                 }
-                else if(playerComp->m_associatedVehicle && checkPlayerKeyTriggered(ControlKey_e::MOVE_FORWARD))
+                else if(playerComp->m_associatedVehicle && checkPlayerKeyTriggered(ControlKey_e::LOOK_UP))
                 {
                     gravityComp->m_exitVehicle = true;
                     gravityComp->m_jump = true;
@@ -364,7 +364,7 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
     float velocity;
     playerComp.m_inMovement = false;
     playerComp.m_currentAim.fill(false);
-    if(checkPlayerKeyTriggered(ControlKey_e::TURN_RIGHT))
+    if(checkPlayerKeyTriggered(ControlKey_e::MOVE_RIGHT))
     {
         playerComp.m_inMovement = true;
         velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
@@ -380,7 +380,7 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         }
         playerComp.m_currentDirectionRight = true;
     }
-    else if(checkPlayerKeyTriggered(ControlKey_e::TURN_LEFT))
+    else if(checkPlayerKeyTriggered(ControlKey_e::MOVE_LEFT))
     {
         playerComp.m_inMovement = true;
         velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
@@ -426,12 +426,12 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         m_mainEngine->addEntityToZone(*playerComp.m_associatedVehicle, *getLevelCoord(mapVehicleComp->m_absoluteMapPositionPX));
     }
     //TMP LOOK UP
-    if(checkPlayerKeyTriggered(ControlKey_e::MOVE_FORWARD))
+    if(checkPlayerKeyTriggered(ControlKey_e::LOOK_UP))
     {
         treatDiagUpAim(playerComp);
     }
     //TMP LOOK DOWN
-    else if(checkPlayerKeyTriggered(ControlKey_e::MOVE_BACKWARD))
+    else if(checkPlayerKeyTriggered(ControlKey_e::LOOK_DOWN))
     {
         GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(playerEntity);
         assert(gravityComp);
@@ -441,7 +441,7 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         }
     }
     //TMP LOOK MID UP
-    else if(checkPlayerKeyTriggered(ControlKey_e::STRAFE_LEFT))
+    else if(checkPlayerKeyTriggered(ControlKey_e::AIM_DIAG_UP))
     {
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::UP)] = true;
         if(playerComp.m_currentDirectionRight)
@@ -458,7 +458,7 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         }
     }
     //TMP LOOK MID DOWN
-    else if(checkPlayerKeyTriggered(ControlKey_e::STRAFE_RIGHT))
+    else if(checkPlayerKeyTriggered(ControlKey_e::AIM_DIAG_DOWN))
     {
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::DOWN)] = true;
         if(playerComp.m_currentDirectionRight)
