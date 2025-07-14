@@ -439,7 +439,6 @@ void StaticDisplaySystem::displayMenu()
         else if(playerComp->m_menuMode == MenuMode_e::INPUT)
         {
             drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MENU_INFO_WRITE)], VertexID_e::INPUT);
-            Ecsm_t::instance().getSystem<ColorDisplaySystem>(static_cast<uint32_t>(Systems_e::COLOR_DISPLAY_SYSTEM))->drawInputMenuBar();
             //reset shader
             m_shader->use();
             if(playerComp->m_keyboardInputMenuMode)

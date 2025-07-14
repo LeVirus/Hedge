@@ -930,19 +930,18 @@ void MainEngine::loadColorEntities()
             scratchEntity = createColorEntity(),
             transitionEntity = createColorEntity(),
             musicVolume = createColorEntity(),
-            turnSensitivity = createColorEntity(),
             effectVolume = createColorEntity();
     confUnifiedColorEntity(transitionEntity, {0.0f, 0.0f, 0.0f}, true);
     confUnifiedColorEntity(damageEntity, {0.7f, 0.2f, 0.1f}, true);
     confUnifiedColorEntity(getObjectEntity, {0.1f, 0.7f, 0.5f}, true);
     confUnifiedColorEntity(scratchEntity, {0.0f, 0.0f, 0.0f}, false);
-    confMenuBarMenuEntity(musicVolume, effectVolume, turnSensitivity);
+    confMenuBarMenuEntity(musicVolume, effectVolume);
      Ecsm_t::instance().getSystem<ColorDisplaySystem>(static_cast<uint32_t>(Systems_e::COLOR_DISPLAY_SYSTEM))->
-            loadColorEntities(damageEntity, getObjectEntity, transitionEntity, scratchEntity, musicVolume, effectVolume, turnSensitivity);
+            loadColorEntities(damageEntity, getObjectEntity, transitionEntity, scratchEntity, musicVolume, effectVolume);
 }
 
 //===================================================================
-void MainEngine::confMenuBarMenuEntity(uint32_t musicEntity, uint32_t effectEntity, uint32_t turnSensitivity)
+void MainEngine::confMenuBarMenuEntity(uint32_t musicEntity, uint32_t effectEntity)
 {
     //MUSIC VOLUME
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(musicEntity);
@@ -988,25 +987,6 @@ void MainEngine::confMenuBarMenuEntity(uint32_t musicEntity, uint32_t effectEnti
     colorCompA->m_vertex.emplace_back(TupleTetraFloat_t{0.5f, 0.0f, 0.0f, 1.0f});
     colorCompA->m_vertex.emplace_back(TupleTetraFloat_t{0.5f, 0.0f, 0.0f, 1.0f});
     colorCompA->m_vertex.emplace_back(TupleTetraFloat_t{0.5f, 0.0f, 0.0f, 1.0f});
-    //TURN SENSITIVITY
-    PositionVertexComponent *posCompB = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(turnSensitivity);
-    ColorVertexComponent *colorCompB = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(turnSensitivity);
-    assert(posCompB);
-    assert(colorCompB);
-    upPos = (MAP_MENU_DATA.at(MenuMode_e::INPUT).first.second - 0.01f) -
-            MENU_FONT_SIZE * static_cast<uint32_t>(InputMenuCursorPos_e::TURN_SENSITIVITY),
-    downPos = upPos - MENU_FONT_SIZE;
-    rightPos = 0.1f + ((getTurnSensitivity() - MIN_TURN_SENSITIVITY) * MAX_BAR_MENU_SIZE) / DIFF_TOTAL_SENSITIVITY;
-    posCompB->m_vertex.reserve(4);
-    posCompB->m_vertex.emplace_back(PairFloat_t{leftPos, upPos});
-    posCompB->m_vertex.emplace_back(PairFloat_t{rightPos, upPos});
-    posCompB->m_vertex.emplace_back(PairFloat_t{rightPos, downPos});
-    posCompB->m_vertex.emplace_back(PairFloat_t{leftPos, downPos});
-    colorCompB->m_vertex.reserve(4);
-    colorCompB->m_vertex.emplace_back(TupleTetraFloat_t{0.5f, 0.0f, 0.0f, 1.0f});
-    colorCompB->m_vertex.emplace_back(TupleTetraFloat_t{0.5f, 0.0f, 0.0f, 1.0f});
-    colorCompB->m_vertex.emplace_back(TupleTetraFloat_t{0.5f, 0.0f, 0.0f, 1.0f});
-    colorCompB->m_vertex.emplace_back(TupleTetraFloat_t{0.5f, 0.0f, 0.0f, 1.0f});
 }
 
 
@@ -2286,10 +2266,6 @@ void MainEngine::confGlobalSettings(const SettingsData &settingsData)
     if(settingsData.m_arrayGamepad)
     {
         m_physicalEngine.setGamepadKey(*settingsData.m_arrayGamepad);
-    }
-    if(settingsData.m_turnSensitivity)
-    {
-        updateTurnSensitivity(*settingsData.m_turnSensitivity);
     }
 }
 

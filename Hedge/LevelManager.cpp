@@ -2403,11 +2403,6 @@ bool LevelManager::loadSettingsData()
             m_settingsData.m_arrayGamepad->at(i) = MAP_GAMEPAD_DEFAULT_KEY.at(currentKey);
         }
     }
-    val = m_ini.getValue("Input", "TurnSensitivity");
-    if(val)
-    {
-        m_settingsData.m_turnSensitivity = std::stoi(*val);
-    }
     return true;
 }
 

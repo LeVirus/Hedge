@@ -68,7 +68,7 @@ void ColorDisplaySystem::addFogColorEntity(uint32_t entity)
 
 //===================================================================
 void ColorDisplaySystem::loadColorEntities(uint32_t damage, uint32_t getObject, uint32_t transition, uint32_t scratchEntity,
-                                           uint32_t musicVolume, uint32_t effectVolume, uint32_t turnSensitivity)
+                                           uint32_t musicVolume, uint32_t effectVolume)
 {
     m_damageNum = damage;
     m_getObjectNum = getObject;
@@ -76,7 +76,6 @@ void ColorDisplaySystem::loadColorEntities(uint32_t damage, uint32_t getObject, 
     m_insideWallScratchMemNum = scratchEntity;
     m_menuMusicVolumeNum = musicVolume;
     m_menuEffectsVolumeNum = effectVolume;
-    m_menuTurnSensitivityNum = turnSensitivity;
 }
 
 //===================================================================
@@ -112,14 +111,6 @@ void ColorDisplaySystem::drawSoundMenuBars()
     PositionVertexComponent *posCompA = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_menuEffectsVolumeNum);
     ColorVertexComponent *colorCompA = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(*m_menuEffectsVolumeNum);
     drawEntity(*posCompA, *colorCompA);
-}
-
-//===================================================================
-void ColorDisplaySystem::drawInputMenuBar()
-{
-    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_menuTurnSensitivityNum);
-    ColorVertexComponent *colorComp = Ecsm_t::instance().getComponent<ColorVertexComponent, Components_e::COLOR_VERTEX_COMPONENT>(*m_menuTurnSensitivityNum);
-    drawEntity(*posComp, *colorComp);
 }
 
 //===================================================================
@@ -198,15 +189,6 @@ void ColorDisplaySystem::updateEffectsVolumeBar(uint32_t volume)
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_menuEffectsVolumeNum);
     float newVal = LEFT_POS_STD_MENU_BAR + 0.01f + (volume * MAX_BAR_MENU_SIZE) / 100.0f;
-    posComp->m_vertex[1].first = newVal;
-    posComp->m_vertex[2].first = newVal;
-}
-
-//===================================================================
-void ColorDisplaySystem::updateTurnSensitivityBar(uint32_t turnSensitivity)
-{
-    PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_menuTurnSensitivityNum);
-    float newVal = LEFT_POS_STD_MENU_BAR + 0.01f + ((turnSensitivity - MIN_TURN_SENSITIVITY) * MAX_BAR_MENU_SIZE) / DIFF_TOTAL_SENSITIVITY;
     posComp->m_vertex[1].first = newVal;
     posComp->m_vertex[2].first = newVal;
 }

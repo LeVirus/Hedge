@@ -173,7 +173,6 @@ enum class InputMenuCursorPos_e
     SHOOT,
     PREVIOUS_WEAPON,
     NEXT_WEAPON,
-    TURN_SENSITIVITY,
     DEFAULT,
     RETURN,
     VALID,
@@ -434,8 +433,6 @@ enum class MenuMode_e
     LEVEL_EPILOGUE
 };
 
-const uint32_t MIN_TURN_SENSITIVITY = 20, MAX_TURN_SENSITIVITY = 100,
-DIFF_TOTAL_SENSITIVITY = MAX_TURN_SENSITIVITY - MIN_TURN_SENSITIVITY;
 inline const uint32_t ENCRYPT_KEY_STANDARD_LEVEL = 17;
 inline const uint32_t ENCRYPT_KEY_CUSTOM_LEVEL = 52;
 inline const uint32_t ENCRYPT_KEY_CONF_FILE = 42;
@@ -516,7 +513,7 @@ inline const std::map<MenuMode_e, PairPairFloatStr_t> MAP_MENU_DATA =
      PairPairFloatStr_t{{-0.7f, 0.5f}, "Set Resolution\\Fullscreen\\Return\\Valid"}},
     {MenuMode_e::INPUT,
      PairPairFloatStr_t{{-0.7f, 0.7f}, "Look Up\\Look Down\\Aim Diagonal Up\\"
-         "Aim Diagonal Down\\Move Left\\Move Right\\Jump\\Action\\Shoot\\Previous Weapon\\Next Weapon\\Turn Sensitivity\\Default\\Return\\Valid"}
+         "Aim Diagonal Down\\Move Left\\Move Right\\Jump\\Action\\Shoot\\Previous Weapon\\Next Weapon\\Default\\Return\\Valid"}
     },
     {MenuMode_e::NEW_GAME,
      PairPairFloatStr_t{{-0.6f, 0.5f}, "Empty\\Empty\\Empty\\Return"}

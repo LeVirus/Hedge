@@ -90,7 +90,6 @@ struct SettingsData
     //INPUT
     std::optional<std::array<MouseKeyboardInputState, static_cast<uint32_t>(ControlKey_e::TOTAL)>> m_arrayKeyboard;
     std::optional<std::array<GamepadInputState, static_cast<uint32_t>(ControlKey_e::TOTAL)>> m_arrayGamepad;
-    std::optional<uint32_t> m_turnSensitivity;
 };
 
 struct DataLevelWriteMenu

@@ -1176,19 +1176,7 @@ void InputSystem::treatEnterPressedConfirmLoadGameMenu(PlayerConfComponent &play
 //===================================================================
 void InputSystem::treatLeftPressedMenu(PlayerConfComponent &playerComp)
 {
-    if(playerComp.m_menuMode == MenuMode_e::INPUT)
-    {
-        InputMenuCursorPos_e inputCursorPos = static_cast<InputMenuCursorPos_e>(playerComp.m_currentCursorPos);
-        if(inputCursorPos == InputMenuCursorPos_e::TURN_SENSITIVITY)
-        {
-            uint32_t turnSensitivity = m_mainEngine->getTurnSensitivity();
-            if(turnSensitivity > MIN_TURN_SENSITIVITY)
-            {
-                m_mainEngine->updateTurnSensitivity(--turnSensitivity);
-            }
-        }
-    }
-    else if(playerComp.m_menuMode == MenuMode_e::SOUND)
+    if(playerComp.m_menuMode == MenuMode_e::SOUND)
     {
         SoundMenuCursorPos_e soundCursorPos = static_cast<SoundMenuCursorPos_e>(playerComp.m_currentCursorPos);
         if(soundCursorPos == SoundMenuCursorPos_e::MUSIC_VOLUME)
@@ -1238,19 +1226,7 @@ void InputSystem::treatLeftPressedMenu(PlayerConfComponent &playerComp)
 //===================================================================
 void InputSystem::treatRightPressedMenu(PlayerConfComponent &playerComp)
 {
-    if(playerComp.m_menuMode == MenuMode_e::INPUT)
-    {
-        InputMenuCursorPos_e inputCursorPos = static_cast<InputMenuCursorPos_e>(playerComp.m_currentCursorPos);
-        if(inputCursorPos == InputMenuCursorPos_e::TURN_SENSITIVITY)
-        {
-            uint32_t turnSensitivity = m_mainEngine->getTurnSensitivity();
-            if(turnSensitivity < MAX_TURN_SENSITIVITY)
-            {
-                m_mainEngine->updateTurnSensitivity(++turnSensitivity);
-            }
-        }
-    }
-    else if(playerComp.m_menuMode == MenuMode_e::SOUND)
+    if(playerComp.m_menuMode == MenuMode_e::SOUND)
     {
         SoundMenuCursorPos_e soundCursorPos = static_cast<SoundMenuCursorPos_e>(playerComp.m_currentCursorPos);
         if(soundCursorPos == SoundMenuCursorPos_e::MUSIC_VOLUME)
@@ -1478,14 +1454,13 @@ void InputSystem::treatEnterPressedInputMenu(PlayerConfComponent &playerComp)
             m_mapGamepadCurrentAssociatedKey = m_mapGamepadTmpAssociatedKey;
             m_mapGamepadTmpAssociatedKey = MAP_GAMEPAD_DEFAULT_KEY;
         }
-        m_mainEngine->updateTurnSensitivity(40);
     }
     else if(menuPos == InputMenuCursorPos_e::VALID)
     {
         validInputMenu(playerComp);
     }
     //INPUT CHANGE
-    else if(menuPos != InputMenuCursorPos_e::TURN_SENSITIVITY)
+    else
     {
         m_memInputMenuCursor = playerComp.m_currentCursorPos;
         m_gamepadAxisKeyPressed.fill({true, true});
