@@ -2,9 +2,6 @@
 When jump on traversable wall, eject lateral some time
 
 ))
-After get grenade some shot appear little
-
-))
 Bad display coherence while shoot and run. If shoot and for a while AND shoot run cycle is reseted
 
 ))
@@ -12,6 +9,9 @@ Shot travers enemies some times
 
 ============================================================================================================
 ============================================================================================================
+
+))
+After get grenade some shot appear little=====================OK
 
 ))
 In input menu incoherence in entries=================OK

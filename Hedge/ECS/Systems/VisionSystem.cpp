@@ -11,7 +11,6 @@
 #include <ECS/Components/GeneralCollisionComponent.hpp>
 #include <ECS/Components/CircleCollisionComponent.hpp>
 #include <ECS/Components/RectangleCollisionComponent.hpp>
-#include <ECS/Components/PositionVertexComponent.hpp>
 #include <ECS/Components/MoveableComponent.hpp>
 #include <ECS/Components/MemSpriteDataComponent.hpp>
 #include <ECS/Components/SpriteTextureComponent.hpp>

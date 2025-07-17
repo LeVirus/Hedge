@@ -1985,6 +1985,9 @@ uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool grenade)
     else
     {
         ammoNum = createVisibleShotEntity();
+        //Fix reuse of determined size sprite data
+        SpriteTextureComponent *targetSpriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(ammoNum);
+        targetSpriteComp->m_displaySize = std::nullopt;
     }
     GeneralCollisionComponent *genColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(ammoNum);
     assert(genColl);
@@ -1992,7 +1995,6 @@ uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool grenade)
     genColl->m_tagA = collTag;
     genColl->m_shape = CollisionShape_e::SEGMENT_C;
     confVisibleAmmo(ammoNum);
-    return ammoNum;
 }
 
 //===================================================================
@@ -3191,7 +3193,6 @@ void MainEngine::confPlayerVisibleShotsSprite(const std::vector<SpriteData> &vec
                      weaponComp.m_grenadeData.m_damageRay, true);
     loadVisibleShotData(vectSpriteData, *weaponComp.m_grenadeData.m_visibleShootEntities,
                         weaponComp.m_grenadeData.m_visibleShotID, shootDisplayData);
-
 }
 
 //===================================================================

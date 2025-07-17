@@ -1120,8 +1120,6 @@ void LevelManager::loadWeaponsData()
 //===================================================================
 void LevelManager::loadGrenadesData()
 {
-    std::string resultWeight, resultHeight;
-    std::string sprites, str;
     std::optional<std::string> val;
     val = m_ini.getValue("Grenade", "BaseAmmo");
     assert(val);

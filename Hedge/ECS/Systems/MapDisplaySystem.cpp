@@ -517,6 +517,8 @@ void MapDisplaySystem::confMiniMapVertexElement(const PairFloat_t &glPosition, u
     }
     else
     {
+        GeneralCollisionComponent *Comp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(entityNum);
+        assert(Comp);
         float sizeX = spriteComp->m_displaySize->first * (LEVEL_TILE_SIZE_PX * MAP_LOCAL_SIZE_GL) / m_localLevelSizePX,
             sizeY = spriteComp->m_displaySize->second * (LEVEL_TILE_SIZE_PX * MAP_LOCAL_SIZE_GL) / m_localLevelSizePX;
         posComp->m_vertex[0] = {glPosition.first, glPosition.second};
