@@ -1995,6 +1995,7 @@ uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool grenade)
     genColl->m_tagA = collTag;
     genColl->m_shape = CollisionShape_e::SEGMENT_C;
     confVisibleAmmo(ammoNum);
+    return ammoNum;
 }
 
 //===================================================================

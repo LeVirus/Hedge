@@ -298,12 +298,20 @@ void InputSystem::treatPlayerInput()
         if(checkPlayerKeyTriggered(ControlKey_e::SHOOT) && (playerComp->m_spriteType != PlayerSpriteElementType_e::DAMAGE_LEFT && playerComp->m_spriteType != PlayerSpriteElementType_e::DAMAGE_RIGHT))
         {
             //If run
-            if(playerComp->m_spriteType == PlayerSpriteElementType_e::RUN_RIGHT)
+            if(checkPlayerKeyTriggered(ControlKey_e::MOVE_RIGHT))
             {
+                if(playerComp->m_spriteType != PlayerSpriteElementType_e::SHOOT_RUN_RIGHT)
+                {
+                    playerComp->m_memPreviousSprite = playerComp->m_countAnimationCycle;
+                }
                 playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RUN_RIGHT;
             }
-            else if(playerComp->m_spriteType == PlayerSpriteElementType_e::RUN_LEFT)
+            else if(checkPlayerKeyTriggered(ControlKey_e::MOVE_LEFT))
             {
+                if(playerComp->m_spriteType != PlayerSpriteElementType_e::SHOOT_RUN_LEFT)
+                {
+                    playerComp->m_memPreviousSprite = playerComp->m_countAnimationCycle;
+                }
                 playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RUN_LEFT;
             }
             //else if not run
@@ -361,6 +369,11 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         mapVehicleComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*playerComp.m_associatedVehicle);
         assert(mapVehicleComp);
     }
+    bool currentShot = false;
+    if(checkPlayerKeyTriggered(ControlKey_e::SHOOT))
+    {
+        currentShot = true;
+    }
     float velocity;
     playerComp.m_inMovement = false;
     playerComp.m_currentAim.fill(false);
@@ -368,7 +381,14 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
     {
         playerComp.m_inMovement = true;
         velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
-        playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_RIGHT;
+        if(!currentShot)
+        {
+            if(playerComp.m_spriteType == PlayerSpriteElementType_e::SHOOT_RUN_RIGHT)
+            {
+                playerComp.m_memPreviousSprite = playerComp.m_countAnimationCycle;
+            }
+            playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_RIGHT;
+        }
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
         if(!playerComp.m_associatedVehicle)
         {
@@ -384,7 +404,14 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
     {
         playerComp.m_inMovement = true;
         velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
-        playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_LEFT;
+        if(!currentShot)
+        {
+            if(playerComp.m_spriteType == PlayerSpriteElementType_e::SHOOT_RUN_LEFT)
+            {
+                playerComp.m_memPreviousSprite = playerComp.m_countAnimationCycle;
+            }
+            playerComp.m_spriteType = PlayerSpriteElementType_e::RUN_LEFT;
+        }
         playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
         if(!playerComp.m_associatedVehicle)
         {
@@ -398,13 +425,16 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
     }
     else
     {
-        if(playerComp.m_currentDirectionRight)
+        if(!playerComp.m_associatedVehicle)
         {
-            playerComp.m_spriteType = PlayerSpriteElementType_e::STAY_RIGHT;
-        }
-        else
-        {
-            playerComp.m_spriteType = PlayerSpriteElementType_e::STAY_LEFT;
+            if(playerComp.m_currentDirectionRight)
+            {
+                playerComp.m_spriteType = PlayerSpriteElementType_e::STAY_RIGHT;
+            }
+            else
+            {
+                playerComp.m_spriteType = PlayerSpriteElementType_e::STAY_LEFT;
+            }
         }
     }
     if(playerComp.m_associatedVehicle)

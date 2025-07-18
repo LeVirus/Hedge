@@ -223,28 +223,39 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
     }
     PlayerConfComponent *playerConfComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(playerEntity);
     MapPlayerSprite_t::const_iterator it = playerConfComp->m_mapSpriteAssociate.find(playerConfComp->m_spriteType);
-    //if sprite outside
-    if(playerConfComp->m_currentSprite < it->second.first ||
-        playerConfComp->m_currentSprite > it->second.second)
+    if(playerConfComp->m_memPreviousSprite)
     {
-        playerConfComp->m_currentSprite = it->second.first;
-        timerComp.m_cycleCountD = 0;
+        playerConfComp->m_currentSprite = it->second.first + *playerConfComp->m_memPreviousSprite;
+        playerConfComp->m_memPreviousSprite = {};
     }
-    else if(++timerComp.m_cycleCountD > playerConfComp->m_standardSpriteInterval)
+    else
     {
-        if(playerConfComp->m_currentSprite == it->second.second)
+        //if sprite outside
+        if(playerConfComp->m_currentSprite < it->second.first ||
+            playerConfComp->m_currentSprite > it->second.second)
         {
             playerConfComp->m_currentSprite = it->second.first;
-            if(playerConfComp->m_spriteType == PlayerSpriteElementType_e::JUMP_RIGHT || playerConfComp->m_spriteType == PlayerSpriteElementType_e::JUMP_LEFT)
+            timerComp.m_cycleCountD = 0;
+            playerConfComp->m_countAnimationCycle = 0;
+        }
+        else if(++timerComp.m_cycleCountD > playerConfComp->m_standardSpriteInterval)
+        {
+            if(playerConfComp->m_currentSprite == it->second.second)
+            {
+                playerConfComp->m_currentSprite = it->second.first;
+                playerConfComp->m_countAnimationCycle = 0;
+                if(playerConfComp->m_spriteType == PlayerSpriteElementType_e::JUMP_RIGHT || playerConfComp->m_spriteType == PlayerSpriteElementType_e::JUMP_LEFT)
+                {
+                    ++playerConfComp->m_currentSprite;
+                }
+            }
+            else
             {
                 ++playerConfComp->m_currentSprite;
+                ++playerConfComp->m_countAnimationCycle;
             }
+            timerComp.m_cycleCountD = 0;
         }
-        else
-        {
-            ++playerConfComp->m_currentSprite;
-        }
-        timerComp.m_cycleCountD = 0;
     }
     spriteComp.m_spriteData = memSpriteComp.m_vectSpriteData[static_cast<uint32_t>(playerConfComp->m_currentSprite)];
     if(playerConfComp->m_associatedVehicle)
