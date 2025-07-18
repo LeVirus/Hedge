@@ -489,6 +489,7 @@ void IASystem::confNewVisibleShot(const std::vector<uint32_t> &visibleShots)
     assert(visibleShots.size() > 1);
     uint32_t targetIndex = visibleShots.size() - 1, baseIndex = targetIndex - 1;
     MemSpriteDataComponent *baseMemSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(visibleShots[baseIndex]);
+    SpriteTextureComponent *baseSpriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(visibleShots[baseIndex]);
     SpriteTextureComponent *targetSpriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(visibleShots[targetIndex]);
     MemSpriteDataComponent *targetMemSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(visibleShots[targetIndex]);
     ShotConfComponent *baseShotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(visibleShots[baseIndex]);
@@ -504,6 +505,7 @@ void IASystem::confNewVisibleShot(const std::vector<uint32_t> &visibleShots)
     audioCompTarget->m_soundElements[0]->m_sourceALID =  Ecsm_t::instance().getSystem<SoundSystem>(static_cast<uint32_t>(Systems_e::SOUND_SYSTEM))->createSource(audioCompBase->m_soundElements[0]->m_bufferALID);
     targetMemSpriteComp->m_vectSpriteData = baseMemSpriteComp->m_vectSpriteData;
     targetSpriteComp->m_spriteData = targetMemSpriteComp->m_vectSpriteData[0];
+    targetSpriteComp->m_displaySize = baseSpriteComp->m_displaySize;
     targetMoveComp->m_velocity = baseMoveComp->m_velocity;
     targetShotConfComp->m_damage = baseShotConfComp->m_damage;
     targetShotConfComp->m_spriteTotal = baseShotConfComp->m_spriteTotal;
