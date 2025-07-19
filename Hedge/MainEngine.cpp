@@ -2674,7 +2674,10 @@ void MainEngine::loadVisibleShotData(const std::vector<SpriteData> &vectSprite, 
         {
             m_memSoundElements.m_visibleShots->insert({it->second.first, loadSound(it->second.first)});
         }
-        spriteComp->m_displaySize = {it->second.second[0].m_GLSize.first, it->second.second[0].m_GLSize.second};
+        if(!vehicle)
+        {
+            spriteComp->m_displaySize = {it->second.second[0].m_GLSize.first, it->second.second[0].m_GLSize.second};
+        }
         audioComp->m_soundElements.push_back(m_memSoundElements.m_visibleShots->at(it->second.first));
         memSpriteComp->m_vectSpriteData.reserve(it->second.second.size());
         shotComp->m_spriteTotal = it->second.second.size();
