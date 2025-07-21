@@ -35,7 +35,7 @@ void GraphicEngine::loadExistingLevelNumSaves(const std::array<std::optional<Dat
             m_saveStandardLevelMenuWrite += std::to_string(i + 1);
             checkpoint = (existingLevelNum[i]->m_checkpointNum == 0 || m_restartLevelMode) ? "" :
                 " Chckpt " + std::to_string(existingLevelNum[i]->m_checkpointNum);
-            m_saveStandardLevelMenuWrite += "  Lvl " + std::to_string(existingLevelNum[i]->m_levelNum) +
+            m_saveStandardLevelMenuWrite += "  Nv " + std::to_string(existingLevelNum[i]->m_levelNum) +
                     checkpoint + " " + existingLevelNum[i]->m_date;
         }
         else
@@ -265,52 +265,52 @@ void GraphicEngine::fillTitleMenuWrite(WriteComponent &writeComp, MenuMode_e men
     switch (menuEntry)
     {
     case MenuMode_e::TITLE:
-        writeComp.m_vectMessage[0].second = "ARNIHS";
+        writeComp.m_vectMessage[0].second = "HEDGE";
         break;
     case MenuMode_e::BASE:
-        writeComp.m_vectMessage[0].second = "MAIN MENU";
+        writeComp.m_vectMessage[0].second = "MENU PRINCIPAL";
         break;
     case MenuMode_e::LOAD_GAME:
-        writeComp.m_vectMessage[0].second = "LOAD GAME";
+        writeComp.m_vectMessage[0].second = "CHARGER";
         break;
     case MenuMode_e::LOAD_CUSTOM_LEVEL:
-        writeComp.m_vectMessage[0].second = "LOAD CUSTOM GAME";
+        writeComp.m_vectMessage[0].second = "CHARGER NIVEAU PERSONALISE";
         break;
     case MenuMode_e::CONFIRM_LOADING_GAME_FORM:
     {
         if(previousMenuEntry == MenuMode_e::LOAD_GAME)
         {
-            writeComp.m_vectMessage[0].second = "LOAD GAME";
+            writeComp.m_vectMessage[0].second = "Charger";
         }
         else if(previousMenuEntry == MenuMode_e::LOAD_GAME)
         {
-            writeComp.m_vectMessage[0].second = "NEW GAME";
+            writeComp.m_vectMessage[0].second = "Nouveau Jeu";
         }
         break;
     }
     case MenuMode_e::NEW_GAME:
-        writeComp.m_vectMessage[0].second = "NEW GAME";
+        writeComp.m_vectMessage[0].second = "NOUVEAU JEU";
         break;
     case MenuMode_e::DISPLAY:
-        writeComp.m_vectMessage[0].second = "GRAPHIC MENU";
+        writeComp.m_vectMessage[0].second = "MENU GRAPHIQUE";
         break;
     case MenuMode_e::INPUT:
     case MenuMode_e::NEW_KEY:
     case MenuMode_e::CONFIRM_QUIT_INPUT_FORM:
-        writeComp.m_vectMessage[0].second = "INPUT MENU";
+        writeComp.m_vectMessage[0].second = "COMMANDES";
         break;
     case MenuMode_e::CONFIRM_RESTART_LEVEL:
-        writeComp.m_vectMessage[0].second = "RESTART LEVEL";
+        writeComp.m_vectMessage[0].second = "RECOMMANCER NIVEAU";
         break;
     case MenuMode_e::CONFIRM_QUIT_GAME:
-        writeComp.m_vectMessage[0].second = "QUIT GAME?";
+        writeComp.m_vectMessage[0].second = "QUITTER LE JEU?";
         break;
     case MenuMode_e::CONFIRM_RESTART_FROM_LAST_CHECKPOINT:
         writeComp.m_upLeftPositionGL.first = -0.5f;
-        writeComp.m_vectMessage[0].second = "RESTART FROM LAST CHECKPOINT";
+        writeComp.m_vectMessage[0].second = "REPRENDRE AU DERNIER CHECKPOINT";
         break;
     case MenuMode_e::SOUND:
-        writeComp.m_vectMessage[0].second = "AUDIO MENU";
+        writeComp.m_vectMessage[0].second = "MENU AUDIO";
         break;
     case MenuMode_e::TRANSITION_LEVEL:
         writeComp.m_vectMessage[0].second = "";
