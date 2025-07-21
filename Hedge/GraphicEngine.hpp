@@ -174,6 +174,7 @@ private:
         {InputMenuCursorPos_e::PREVIOUS_WEAPON, "PREVIOUS WEAPON"},
         {InputMenuCursorPos_e::JUMP, "JUMP"},
         {InputMenuCursorPos_e::SHOOT, "SHOOT"},
+        {InputMenuCursorPos_e::GRENADE, "THROW GRENADE"},
         {InputMenuCursorPos_e::AIM_DIAG_UP, "AIM DIAG UP"},
         {InputMenuCursorPos_e::AIM_DIAG_DOWN, "AIM DIAG DOWN"},
         {InputMenuCursorPos_e::MOVE_LEFT, "MOVE LEFT"},

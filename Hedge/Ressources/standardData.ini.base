@@ -510,8 +510,8 @@ ImpactSound = ImpactLaser.wav
 
 [VisibleShootRocket]
 Sprites = SpriteBazookaShot SpriteBazookaShotDA  SpriteBazookaShotDB  SpriteBazookaShotDC  
-SpriteWeightGame = 0.1 0.6 0.7 0.8
-SpriteHeightGame = 0.15 0.7 1.0 1.1
+SpriteWeightGame = 0.3 0.6 0.7 0.8
+SpriteHeightGame = 0.45 0.7 1.0 1.1
 ImpactSound = BazookaExplosion.wav
 
 [VehiculeTank]

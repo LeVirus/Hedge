@@ -33,6 +33,7 @@ enum class ControlKey_e
     JUMP,
     ACTION,
     SHOOT,
+    GRENADE,
     PREVIOUS_WEAPON,
     NEXT_WEAPON,
     TOTAL
@@ -171,6 +172,7 @@ enum class InputMenuCursorPos_e
     JUMP,
     ACTION,
     SHOOT,
+    GRENADE,
     PREVIOUS_WEAPON,
     NEXT_WEAPON,
     DEFAULT,
@@ -513,7 +515,7 @@ inline const std::map<MenuMode_e, PairPairFloatStr_t> MAP_MENU_DATA =
      PairPairFloatStr_t{{-0.7f, 0.5f}, "Set Resolution\\Fullscreen\\Return\\Valid"}},
     {MenuMode_e::INPUT,
      PairPairFloatStr_t{{-0.7f, 0.7f}, "Look Up\\Look Down\\Aim Diagonal Up\\"
-         "Aim Diagonal Down\\Move Left\\Move Right\\Jump\\Action\\Shoot\\Previous Weapon\\Next Weapon\\Default\\Return\\Valid"}
+         "Aim Diagonal Down\\Move Left\\Move Right\\Jump\\Action\\Shoot\\Grenade\\Previous Weapon\\Next Weapon\\Default\\Return\\Valid"}
     },
     {MenuMode_e::NEW_GAME,
      PairPairFloatStr_t{{-0.6f, 0.5f}, "Empty\\Empty\\Empty\\Return"}

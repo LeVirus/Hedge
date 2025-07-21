@@ -42,22 +42,10 @@ inline const std::map<ControlKey_e, MouseKeyboardInputState> MAP_KEYBOARD_DEFAUL
     {ControlKey_e::JUMP, {true, GLFW_KEY_SPACE}},
     {ControlKey_e::ACTION, {true, GLFW_KEY_SPACE}},
     {ControlKey_e::SHOOT, {true, GLFW_KEY_LEFT_SHIFT}},
+    {ControlKey_e::GRENADE, {true, GLFW_KEY_X}},
     {ControlKey_e::PREVIOUS_WEAPON, {true, GLFW_KEY_E}},
     {ControlKey_e::NEXT_WEAPON, {true, GLFW_KEY_R}}
 };
-
-//inline const std::map<ControlKey_e, GamepadInputState> MAP_GAMEPAD_DEFAULT_KEY = {
-//    {ControlKey_e::LOOK_UP, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, false}},
-//    {ControlKey_e::LOOK_DOWN, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, true}},
-//    {ControlKey_e::AIM_DIAG_UP, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_X, false}},
-//    {ControlKey_e::AIM_DIAG_DOWN, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_X, true}},
-//    {ControlKey_e::MOVE_LEFT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_RIGHT_Y, false}},
-//    {ControlKey_e::TURN_RIGHT, GamepadInputState{false, GLFW_GAMEPAD_AXIS_RIGHT_Y, true}},
-//    {ControlKey_e::ACTION, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_A, {}}},
-//    {ControlKey_e::SHOOT, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER, {}}},
-//    {ControlKey_e::PREVIOUS_WEAPON, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_DPAD_LEFT, {}}},
-//    {ControlKey_e::NEXT_WEAPON, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_DPAD_RIGHT, {}}}
-//};
 
 inline const std::map<ControlKey_e, GamepadInputState> MAP_GAMEPAD_DEFAULT_KEY= {
     {ControlKey_e::LOOK_UP, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, true}},
@@ -69,6 +57,7 @@ inline const std::map<ControlKey_e, GamepadInputState> MAP_GAMEPAD_DEFAULT_KEY= 
     {ControlKey_e::JUMP, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_X, {}}},
     {ControlKey_e::ACTION, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_A, {}}},
     {ControlKey_e::SHOOT, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER, {}}},
+    {ControlKey_e::GRENADE, {true, GLFW_GAMEPAD_BUTTON_LEFT_BUMPER}},
     {ControlKey_e::PREVIOUS_WEAPON, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_Y, {}}},
     {ControlKey_e::NEXT_WEAPON, GamepadInputState{true, GLFW_GAMEPAD_BUTTON_B, {}}}
 };
@@ -214,6 +203,7 @@ private:
         {InputMenuCursorPos_e::PREVIOUS_WEAPON, ControlKey_e::PREVIOUS_WEAPON},
         {InputMenuCursorPos_e::SHOOT, ControlKey_e::SHOOT},
         {InputMenuCursorPos_e::JUMP, ControlKey_e::JUMP},
+        {InputMenuCursorPos_e::GRENADE, ControlKey_e::GRENADE},
         {InputMenuCursorPos_e::AIM_DIAG_UP, ControlKey_e::AIM_DIAG_UP},
         {InputMenuCursorPos_e::AIM_DIAG_DOWN, ControlKey_e::AIM_DIAG_DOWN},
         {InputMenuCursorPos_e::MOVE_LEFT, ControlKey_e::MOVE_LEFT},

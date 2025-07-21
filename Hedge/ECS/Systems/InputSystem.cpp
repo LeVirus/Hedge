@@ -252,11 +252,11 @@ void InputSystem::treatPlayerInput()
         }
         updateDetectRect(*playerComp, *mapComp);
         m_mainEngine->addEntityToZone(m_playerEntity, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
-        if(checkPlayerKeyTriggered(ControlKey_e::ACTION))
+        if(checkPlayerKeyTriggered(ControlKey_e::GRENADE))
         {
             m_mainEngine->playerThrowGrenade();
         }
-        else if(checkPlayerKeyTriggered(ControlKey_e::ACTION, GLFW_RELEASE))
+        else if(checkPlayerKeyTriggered(ControlKey_e::GRENADE, GLFW_RELEASE))
         {
             playerComp->m_grenadeThrow = false;
         }
