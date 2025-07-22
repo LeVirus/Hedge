@@ -42,16 +42,16 @@ void GraphicEngine::loadExistingLevelNumSaves(const std::array<std::optional<Dat
         {
             if(i == 0)
             {
-                m_saveStandardLevelMenuWrite += std::to_string(i + 1) + "  Empty";
+                m_saveStandardLevelMenuWrite += std::to_string(i + 1) + "  Vide";
             }
             else
             {
-                m_saveStandardLevelMenuWrite += std::to_string(i + 1) + " Empty";
+                m_saveStandardLevelMenuWrite += std::to_string(i + 1) + " Vide";
             }
         }
         m_saveStandardLevelMenuWrite += "\\";
     }
-    m_saveStandardLevelMenuWrite += "Return";
+    m_saveStandardLevelMenuWrite += "Retour";
     m_restartLevelMode = false;
 }
 
@@ -60,7 +60,7 @@ void GraphicEngine::loadExistingCustomLevel(const std::vector<std::string> &cust
 {
     if(customLevels.empty())
     {
-        m_existingCustomLevelsMenuWrite.emplace_back(std::pair<std::string, uint32_t>{"Return", 0});
+        m_existingCustomLevelsMenuWrite.emplace_back(std::pair<std::string, uint32_t>{"Retour", 0});
         return;
     }
     uint32_t currentSectionCursor = 0, size = customLevels.size() / CUSTOM_MENU_SECTION_SIZE +
@@ -82,7 +82,7 @@ void GraphicEngine::loadExistingCustomLevel(const std::vector<std::string> &cust
         strFinal += std::to_string(i + 1) + " " + levelName + "\\";
         if(currentSectionCursor == (CUSTOM_MENU_SECTION_SIZE - 1) || i == customLevels.size() - 1)
         {
-            strFinal += (size > 1) ? "Previous\\Next\\Return" : "Return";
+            strFinal += (size > 1) ? "Precedant\\Suivant\\Retour" : "Retour";
             m_existingCustomLevelsMenuWrite[currentSection] = {strFinal, currentSectionCursor + ((size > 1) ? 3 : 1)};
             ++currentSection;
             currentSectionCursor = 0;
@@ -274,7 +274,7 @@ void GraphicEngine::fillTitleMenuWrite(WriteComponent &writeComp, MenuMode_e men
         writeComp.m_vectMessage[0].second = "CHARGER";
         break;
     case MenuMode_e::LOAD_CUSTOM_LEVEL:
-        writeComp.m_vectMessage[0].second = "CHARGER NIVEAU PERSONALISE";
+        writeComp.m_vectMessage[0].second = "NIVEAUX PERSONALISES";
         break;
     case MenuMode_e::CONFIRM_LOADING_GAME_FORM:
     {
@@ -725,17 +725,7 @@ std::string getEndLevelMenuStr(const std::tuple<PlayerConfComponent*, uint32_t, 
 {
   if(std::get<0>(endLevelData)->m_life == 0)
     {
-        return "You are dead\\Press Enter to Restart";
+        return "Appuyez Sur Entre \\Pour Recommancer";
     }
-    float enemiesKilledPercent =
-            (!std::get<0>(endLevelData)->m_enemiesKilled || std::get<2>(endLevelData) == 0) ? EPSILON_FLOAT :
-                static_cast<float>(*std::get<0>(endLevelData)->m_enemiesKilled) /
-                static_cast<float>(std::get<2>(endLevelData)) * 100.0f,
-            secretsFoundPercent =
-            (!std::get<0>(endLevelData)->m_secretsFound || std::get<1>(endLevelData) == 0) ? EPSILON_FLOAT :
-                static_cast<float>(*std::get<0>(endLevelData)->m_secretsFound) /
-                static_cast<float>(std::get<1>(endLevelData)) * 100.0f;
-    return "Enemies Killed:         " + std::to_string(static_cast<uint32_t>(enemiesKilledPercent)) +
-       "%\\\\Secrets Found:         " + std::to_string(static_cast<uint32_t>(secretsFoundPercent)) +
-                    "%\\\\Press Enter to Continue";
+    return "Appuyez Sur Entre \\Pour Continuer";
 }

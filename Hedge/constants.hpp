@@ -474,7 +474,7 @@ inline const float EPSILON_FLOAT = std::numeric_limits<float>::epsilon();
 inline const float EPSILON_DOUBLE = std::numeric_limits<double>::epsilon();
 inline const float TAN_PI_QUARTER = std::tan(45.0f);
 inline const float CONE_VISION = 60.0f;
-inline const float LEFT_POS_STD_MENU_BAR = 0.10f;
+inline const float LEFT_POS_STD_MENU_BAR = 0.25f;
 inline const float MAX_BAR_MENU_SIZE = 0.5f;
 inline const float HALF_CONE_VISION = CONE_VISION / 2.0f;
 inline const float DOUBLE_CONE_VISION = CONE_VISION * 2.0f;
@@ -514,7 +514,7 @@ inline const std::map<MenuMode_e, PairPairFloatStr_t> MAP_MENU_DATA =
     {MenuMode_e::DISPLAY,
      PairPairFloatStr_t{{-0.7f, 0.5f}, "Resolution\\Plein Ecran\\Retour\\Valider"}},
     {MenuMode_e::INPUT,
-     PairPairFloatStr_t{{-0.7f, 0.7f}, "Regarder En Haut\\Regarder En Bas\\Viser Diagonale Haut\\"
+     PairPairFloatStr_t{{-0.7f, 0.7f}, "Viser Haut\\Viser Bas\\Viser Diagonale Haut\\"
          "Viser Diagonale Bas\\Gauche\\Droite\\Sauter\\Action\\Tirer\\Grenade\\Arme Precedente\\Arme Suivante\\Par Defaut\\Retour\\Valider"}
     },
     {MenuMode_e::NEW_GAME,

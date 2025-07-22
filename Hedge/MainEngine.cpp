@@ -330,8 +330,7 @@ void MainEngine::saveGameProgressCheckpoint(uint32_t levelNum, const PairUI_t &c
 {
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerConf);
-    uint32_t enemiesKilled = (playerConf->m_enemiesKilled) ? *playerConf->m_enemiesKilled : 0;
-    m_memCheckpointLevelState = {levelNum, checkpointData.first, enemiesKilled, checkpointData.second,
+    m_memCheckpointLevelState = {levelNum, checkpointData.first, 0, checkpointData.second,
                                  checkpointReached};
     //OOOK SAVE GEAR BEGIN LEVEL
     savePlayerGear(false);
@@ -345,7 +344,7 @@ void MainEngine::saveGameProgressCheckpoint(uint32_t levelNum, const PairUI_t &c
     }
     WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
     assert(weaponComp);
-    m_memCheckpointData = {checkpointData.first, 0, enemiesKilled, weaponComp->m_grenadeData.m_ammunationsCount, checkpointReached,
+    m_memCheckpointData = {checkpointData.first, 0, 0, weaponComp->m_grenadeData.m_ammunationsCount, checkpointReached,
                            checkpointData.second, m_memEnemiesStateFromCheckpoint,
                            m_memMoveableWallCheckpointData, m_memTriggerWallMoveableWallCheckpointData,
                            m_memStaticEntitiesDeletedFromCheckpoint, revealedMap, playerConf->m_card};
@@ -1293,7 +1292,6 @@ void MainEngine::loadGameProgressCheckpoint()
     m_memStaticEntitiesDeletedFromCheckpoint = m_currentEntitiesDelete;
     updatePlayerArrow(*moveComp, *pos);
     playerConf->m_currentCheckpoint = {m_memCheckpointLevelState->m_checkpointNum, m_memCheckpointLevelState->m_direction};
-    playerConf->m_enemiesKilled = m_memCheckpointLevelState->m_ennemiesKilled;
 }
 
 //===================================================================
@@ -2198,7 +2196,7 @@ void MainEngine::updateConfirmLoadingMenuInfo(PlayerConfComponent &playerComp)
                 }
                 else if(playerComp.m_previousMenuMode == MenuMode_e::LOAD_CUSTOM_LEVEL)
                 {
-                    writeComp->addTextLine({{}, "Charger Niveau Personnalise?"});
+                    writeComp->addTextLine({{}, "Charger?"});
                 }
             }
         }
@@ -2296,7 +2294,6 @@ void MainEngine::reinitPlayerGear()
     playerConf->m_card.clear();
     playerConf->m_checkpointReached = {};
     playerConf->m_currentCheckpoint = {};
-    playerConf->m_enemiesKilled = {};
     playerConf->m_life = 100;
     for(uint32_t i = 0; i < weaponConf->m_weaponsData.size(); ++i)
     {

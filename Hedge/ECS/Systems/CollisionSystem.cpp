@@ -335,14 +335,6 @@ void CollisionSystem::treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t dam
     //if enemy dead
     if(!enemyConfCompB->takeDamage(damage))
     {
-        if(!playerComp->m_enemiesKilled)
-        {
-            playerComp->m_enemiesKilled = 1;
-        }
-        else
-        {
-            ++(*playerComp->m_enemiesKilled);
-        }
         GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(enemyEntityNum);
         if(gravComp)
         {

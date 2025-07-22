@@ -490,7 +490,7 @@ void StaticDisplaySystem::updateStringWriteEntitiesInputMenu(bool keyboardInputM
             {
                 writeConf->m_vectMessage.resize(1);
             }
-            writeConf->m_vectMessage[0] = {0.1, getMouseKeyboardStringKeyAssociated(map.at(static_cast<ControlKey_e>(i)))};
+            writeConf->m_vectMessage[0] = {0.3, getMouseKeyboardStringKeyAssociated(map.at(static_cast<ControlKey_e>(i)))};
             m_mainEngine->updateWriteComp(*writeConf);
         }
     }
