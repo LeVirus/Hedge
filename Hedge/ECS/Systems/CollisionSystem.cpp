@@ -355,6 +355,10 @@ void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
 {
     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerComp);
+    if(playerComp->m_invulnerable)
+    {
+        return;
+    }
     if(playerComp->m_associatedVehicle)
     {
         ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(*playerComp->m_associatedVehicle);
@@ -386,6 +390,11 @@ void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
     else
     {
         playerComp->takeDamage(damage);
+        //invulnerability frames
+        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+        assert(timerComp);
+        timerComp->m_cycleCountE = 0;
+        playerComp->m_invulnerable = true;
     }
 }
 

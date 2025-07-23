@@ -2,12 +2,28 @@
 
 
 ))
+Make bosses
+	-Set bosses in conf files
+	-Change music when arena is reached--------------OK
+	-Freeze camera-------OK
+		*********Modif LEVEL EDITOR--OK
+
+))
+Make all animation for shooting in 8 directions
+
+
+===============================================NON
+
+))
 Add "rage" jauge to make special attack
 	-Animation with game paused?
 	-Real Time?
 
+=============================================================================================================================
+=============================================================================================================================
+
 ))
-Add vehicule
+Add vehicule===============================OK
 	-moto
 		**Add new item in std ini-----OK
 		--enter exit vehicle by using jump------OK
@@ -21,18 +37,6 @@ Add vehicule
 	-tank
 		*********Modif LEVEL EDITOR--OK
 
-))
-Make bosses
-	-Set bosses in conf files
-	-Change music when arena is reached--------------OK
-	-Freeze camera-------OK
-		*********Modif LEVEL EDITOR--OK
-
-))
-Make all animation for shooting in 8 directions
-
-=============================================================================================================================
-=============================================================================================================================
 
 ))
 Add enemies

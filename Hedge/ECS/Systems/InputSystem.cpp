@@ -149,6 +149,15 @@ void InputSystem::treatPlayerInput()
             treatDialogInput();
             return;
         }
+        if(playerComp->m_invulnerable)
+        {
+            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+            assert(timerComp);
+            if(++timerComp->m_cycleCountE > 100)
+            {
+                playerComp->m_invulnerable = false;
+            }
+        }
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(*it);
         MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
         if(playerComp->m_damageAnim)

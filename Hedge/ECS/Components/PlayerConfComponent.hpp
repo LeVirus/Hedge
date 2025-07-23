@@ -59,7 +59,7 @@ struct PlayerConfComponent : public ECS::Component
             m_life -= damage;
         }
     }
-    bool m_playerShoot = false, m_takeDamage = false, m_damageAnim = false, m_inMovement = false, m_inputModified, m_firstMenu = true,
+    bool m_playerShoot = false, m_takeDamage = false, m_damageAnim = false, m_inMovement = false, m_inputModified, m_firstMenu = true, m_invulnerable = false,
     m_pickItem = false, m_crush = false, m_frozen = false, m_insideWall = false, m_keyboardInputMenuMode = true, m_vehicleEject = false;//eject to prevent loop exit/enter vehicle
     std::pair<bool, std::pair<std::string, uint32_t>> m_infoWriteData = {false, {"", 0}};
     std::set<uint32_t> m_card;
