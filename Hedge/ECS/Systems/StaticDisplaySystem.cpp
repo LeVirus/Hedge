@@ -77,17 +77,14 @@ void StaticDisplaySystem::execSystem()
         std::string strAmmoDisplay = std::to_string(weaponComp->m_weaponsData[weaponComp->m_currentWeapon].m_ammunationsCount);
         drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::AMMO_WRITE)], VertexID_e::AMMO_WRITE, Font_e::STANDARD, strAmmoDisplay);
         drawWriteVertex(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::LIFE_WRITE)], VertexID_e::LIFE_WRITE, Font_e::STANDARD,
-                         std::to_string(playerComp->m_life));
-        if(weaponComp->m_weaponChange)
+                        std::to_string(playerComp->m_life));
+        TimerComponent *timerCompPlay = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
+        assert(timerCompPlay);
+        WeaponComponent *weaponCompA = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
+        drawWeaponsPreviewPlayer(*playerComp, *weaponCompA);
+        if(++timerCompPlay->m_cycleCountC >= playerComp->m_standardSpriteInterval * 3)
         {
-            TimerComponent *timerCompPlay = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
-            assert(timerCompPlay);
-            WeaponComponent *weaponComp = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
-            drawWeaponsPreviewPlayer(*playerComp, *weaponComp);
-            if(++timerCompPlay->m_cycleCountC >= playerComp->m_standardSpriteInterval * 3)
-            {
-                weaponComp->m_weaponChange = false;
-            }
+            weaponCompA->m_weaponChange = false;
         }
     }
 }
@@ -122,7 +119,7 @@ void StaticDisplaySystem::drawWeaponsPreviewPlayer(PlayerConfComponent const &pl
     for(uint32_t i = 0; i < weaponComp.m_weaponsData.size(); ++i)
     {
         currentEntity = playerComp.m_vectPossessedWeaponsPreviewEntities[i];
-        if(weaponComp.m_weaponsData[i].m_posses)
+        if(weaponComp.m_weaponsData[i].m_posses && static_cast<uint32_t>(i) == weaponComp.m_currentWeapon)
         {
             PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(currentEntity);
             SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(currentEntity);
@@ -136,17 +133,13 @@ void StaticDisplaySystem::drawWeaponsPreviewPlayer(PlayerConfComponent const &pl
             posComp->m_vertex[1] = {currentXCursorRight, currentYCursorUp};
             posComp->m_vertex[2] = {currentXCursorRight, currentYCursorDown};
             posComp->m_vertex[3] = {WEAPONS_PREVIEW_GL_POS_LEFT, currentYCursorDown};
-            //display cursor current weapon
-            if(static_cast<uint32_t>(i) == weaponComp.m_currentWeapon)
-            {
-                PositionVertexComponent *posCompCursor = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(
-                    playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::CURSOR_WEAPON_PREVIEW)]);
-                SpriteTextureComponent *spriteCompCursor = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(
-                    playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::CURSOR_WEAPON_PREVIEW)]);
-                posCompCursor->m_vertex = posComp->m_vertex;
-                m_vertices[vertexIndexCursor].loadVertexStandartTextureComponent(*posCompCursor, *spriteCompCursor);
-                drawVertex(spriteCompCursor->m_spriteData->m_textureNum, VertexID_e::CURSOR_WEAPON);
-            }
+            PositionVertexComponent *posCompCursor = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(
+                playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::CURSOR_WEAPON_PREVIEW)]);
+            SpriteTextureComponent *spriteCompCursor = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(
+                playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::CURSOR_WEAPON_PREVIEW)]);
+            posCompCursor->m_vertex = posComp->m_vertex;
+            m_vertices[vertexIndexCursor].loadVertexStandartTextureComponent(*posCompCursor, *spriteCompCursor);
+            drawVertex(spriteCompCursor->m_spriteData->m_textureNum, VertexID_e::CURSOR_WEAPON);
             m_vertices[vertexIndex].loadVertexStandartTextureComponent(*posComp, *spriteComp);
             currentYCursorDown = currentYCursorUp + 0.01f;
             drawVertex(spriteComp->m_spriteData->m_textureNum, VertexID_e::POSSESSED_WEAPONS);

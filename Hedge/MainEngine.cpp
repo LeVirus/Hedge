@@ -2165,7 +2165,7 @@ void MainEngine::updateConfirmLoadingMenuInfo(PlayerConfComponent &playerComp)
         if(!playerComp.m_firstMenu)
         {
             writeComp->m_upLeftPositionGL = {-0.8f, 0.5f};
-            writeComp->addTextLine({{}, "Toutes Progressions Depuis La Derniere Sauvegarde"});
+            writeComp->addTextLine({{}, "Toutes Progressions Depuis \\La Derniere Sauvegarde"});
             writeComp->addTextLine({{}, "Seront Perdues"});
         }
         else
