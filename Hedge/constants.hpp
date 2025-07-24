@@ -227,7 +227,11 @@ enum class TypeEnemy_e
 {
     GROUND,
     FLYING,
-    STATIC
+    STATIC,
+    LOOP_VERTICAL,
+    LOOP_HORIZONTAL,
+    LOOP_GROUND_HORIZONTAL_RIGHT,//5
+    LOOP_GROUND_HORIZONTAL_LEFT//6
 };
 
 enum class StaticEnemyShootBehaviour_e

@@ -261,6 +261,18 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         }
         return;
     }
+    else if(enemyConfComp.m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT || enemyConfComp.m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_RIGHT || enemyConfComp.m_type == TypeEnemy_e::LOOP_HORIZONTAL)
+    {
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
+        mapComp->m_absoluteMapPositionPX.first += (moveComp->m_degreeOrientation <= 0.1f) ? moveComp->m_velocity : -moveComp->m_velocity;
+        return;
+    }
+    else if(enemyConfComp.m_type == TypeEnemy_e::LOOP_VERTICAL)
+    {
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
+        mapComp->m_absoluteMapPositionPX.second += (moveComp->m_degreeOrientation <= 90.1f) ? -moveComp->m_velocity : moveComp->m_velocity;
+        return;
+    }
     if(!enemyConfComp.m_stuck)
     {
         enemyConfComp.m_previousMove = {EnemyAttackPhase_e::TOTAL, EnemyAttackPhase_e::TOTAL};
@@ -273,6 +285,9 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         {
             enemyConfComp.m_attackPhase = EnemyAttackPhase_e::SHOOT;
             enemyConfComp.m_stuck = false;
+            updateEnemyDirection(enemyConfComp, *moveComp, enemyMapComp);
+            enemyShoot(enemyConfComp, *moveComp, enemyMapComp, distancePlayer);
+            activeSound(enemyEntity, static_cast<uint32_t>(EnemySoundEffect_e::ATTACK));
         }
         else
         {
@@ -316,12 +331,6 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         std::swap(enemyConfComp.m_previousMove[1], enemyConfComp.m_previousMove[0]);
         enemyConfComp.m_previousMove[0] = enemyConfComp.m_attackPhase;
         timerComp->m_cycleCountB = 0;
-        updateEnemyDirection(enemyConfComp, *moveComp, enemyMapComp);
-        if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOT)
-        {
-            enemyShoot(enemyConfComp, *moveComp, enemyMapComp, distancePlayer);
-            activeSound(enemyEntity, static_cast<uint32_t>(EnemySoundEffect_e::ATTACK));
-        }
     }
     //CONTINUING PHASE
     else if(enemyConfComp.m_attackPhase != EnemyAttackPhase_e::SHOOT && distancePlayer > LEVEL_TILE_SIZE_PX)

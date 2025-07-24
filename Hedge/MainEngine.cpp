@@ -1654,10 +1654,10 @@ std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManag
     {
         enemyComp->m_meleeAttackDamage = *enemyData.m_meleeDamage;
     }
-    if(!generatorMode && !enemyData.m_dropedObjectID.empty())
-    {
-        enemyComp->m_dropedObjectEntity = createEnemyDropObject(levelManager, enemyData, index, loadFromCheckpoint, m_currentLevelEnemiesNumber);
-    }
+    // if(!generatorMode && !enemyData.m_dropedObjectID.empty())
+    // {
+    //     enemyComp->m_dropedObjectEntity = createEnemyDropObject(levelManager, enemyData, index, loadFromCheckpoint, m_currentLevelEnemiesNumber);
+    // }
     if(enemyComp->m_visibleShot)
     {
         if(!loadFromCheckpoint || !m_memEnemiesStateFromCheckpoint[m_currentLevelEnemiesNumber].m_dead)
@@ -1723,6 +1723,14 @@ std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManag
         case StaticEnemyShootBehaviour_e::AIM_PLAYER:
             break;
         }
+    }
+    if(enemyComp->m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT || enemyComp->m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_RIGHT)
+    {
+        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(numEntity);
+        assert(moveComp);
+        bool left = (enemyComp->m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT);
+        moveComp->m_degreeOrientation = left ? 180.0f : 0.0f;
+        enemyComp->m_attackPhase = left ? EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT : EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT;
     }
     timerComponent->m_timeIntervalOptional = enemyData.m_cycleNumberBehaviour;
     ++m_currentLevelEnemiesNumber;
@@ -2790,7 +2798,7 @@ uint32_t MainEngine::createEnemyEntity(TypeEnemy_e type)
     vect[Components_e::TIMER_COMPONENT] = 1;
     vect[Components_e::AUDIO_COMPONENT] = 1;
     vect[Components_e::MOVEABLE_COMPONENT] = 1;
-    if(type == TypeEnemy_e::GROUND)
+    if(type == TypeEnemy_e::GROUND || type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT || type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_RIGHT)
     {
         vect[Components_e::GRAVITY_COMPONENT] = 1;
     }
