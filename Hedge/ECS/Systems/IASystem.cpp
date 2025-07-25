@@ -264,13 +264,25 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
     else if(enemyConfComp.m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT || enemyConfComp.m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_RIGHT || enemyConfComp.m_type == TypeEnemy_e::LOOP_HORIZONTAL)
     {
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
-        mapComp->m_absoluteMapPositionPX.first += (moveComp->m_degreeOrientation <= 0.1f) ? moveComp->m_velocity : -moveComp->m_velocity;
+        bool right = (moveComp->m_degreeOrientation <= 0.1f);
+        mapComp->m_absoluteMapPositionPX.first += right ? moveComp->m_velocity : -moveComp->m_velocity;
+        EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntity);
+        if(enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOTED)
+        {
+            enemyComp->m_attackPhase = right ? EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT : EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
+        }
         return;
     }
     else if(enemyConfComp.m_type == TypeEnemy_e::LOOP_VERTICAL)
     {
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
-        mapComp->m_absoluteMapPositionPX.second += (moveComp->m_degreeOrientation <= 90.1f) ? -moveComp->m_velocity : moveComp->m_velocity;
+        bool up = (moveComp->m_degreeOrientation <= 90.1f);
+        mapComp->m_absoluteMapPositionPX.second += up ? -moveComp->m_velocity : moveComp->m_velocity;
+        EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntity);
+        if(enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOTED)
+        {
+            enemyComp->m_attackPhase = up ? EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT : EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
+        }
         return;
     }
     if(!enemyConfComp.m_stuck)
