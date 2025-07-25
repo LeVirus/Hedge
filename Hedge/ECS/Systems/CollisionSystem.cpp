@@ -632,7 +632,6 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         collision = true;
         if((args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT))
         {
-            if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)std::cerr << args.entityNumA << "  ";
             if(!(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT))
             {
                 if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
@@ -641,8 +640,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                     //if loop behaviour
                     if(static_cast<uint32_t>(enemyComp->m_type) > static_cast<uint32_t>(TypeEnemy_e::STATIC))
                     {
-                        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-                        playerComp->takeDamage(*enemyComp->m_meleeAttackDamage);
+                        treatPlayerTakeDamage(*enemyComp->m_meleeAttackDamage);
                     }
                 }
                 collisionRectRectEject(args);
