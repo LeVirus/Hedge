@@ -251,7 +251,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
 {
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(enemyEntity);
     MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
-    bool wave = (enemyConfComp.m_type == TypeEnemy_e::LOOP_WAVE_LEFT || enemyConfComp.m_type == TypeEnemy_e::LOOP_WAVE_RIGHT);
+    bool wave = (enemyConfComp.m_type == TypeEnemy_e::LOOP_WAVE_LEFT || enemyConfComp.m_type == TypeEnemy_e::LOOP_WAVE_RIGHT), loop = false;
     if(enemyConfComp.m_type == TypeEnemy_e::STATIC)
     {
         if(++timerComp->m_cycleCountB >= timerComp->m_timeIntervalOptional)
@@ -265,6 +265,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
     else if(wave || enemyConfComp.m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT || enemyConfComp.m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_RIGHT ||
                enemyConfComp.m_type == TypeEnemy_e::LOOP_HORIZONTAL)
     {
+        loop = true;
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
         bool right = (moveComp->m_degreeOrientation <= 0.1f);
         mapComp->m_absoluteMapPositionPX.first += right ? moveComp->m_velocity : -moveComp->m_velocity;
@@ -278,23 +279,30 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
                 enemyComp->m_waveUp = !enemyComp->m_waveUp;
             }
         }
-        if(enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOTED)
+        if(enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOTED || enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOT)
         {
             enemyComp->m_attackPhase = right ? EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT : EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
         }
-        return;
+        if(enemyComp->m_meleeOnly)
+        {
+            return;
+        }
     }
     else if(enemyConfComp.m_type == TypeEnemy_e::LOOP_VERTICAL)
     {
+        loop = true;
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
         bool up = (moveComp->m_degreeOrientation <= 90.1f);
         mapComp->m_absoluteMapPositionPX.second += up ? -moveComp->m_velocity : moveComp->m_velocity;
         EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntity);
-        if(enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOTED)
+        if(enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOTED || enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOT)
         {
             enemyComp->m_attackPhase = up ? EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT : EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
         }
-        return;
+        if(enemyComp->m_meleeOnly)
+        {
+            return;
+        }
     }
     if(!enemyConfComp.m_stuck)
     {
@@ -314,6 +322,11 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         }
         else
         {
+            if(loop)
+            {
+                ++enemyConfComp.m_countTillLastAttack;
+                return;
+            }
             if(enemyConfComp.m_type != TypeEnemy_e::FLYING)
             {
                 uint32_t modulo = (enemyConfComp.m_meleeOnly || enemyConfComp.m_countTillLastAttack < 2) ? static_cast<uint32_t>(EnemyAttackPhase_e::SHOOT) :
@@ -325,9 +338,11 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
                 enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
             }
         }
-        enemyConfComp.m_countTillLastAttack =
-                (enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOT) ? 0 : ++enemyConfComp.m_countTillLastAttack;
-
+        enemyConfComp.m_countTillLastAttack = (enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOT) ? 0 : ++enemyConfComp.m_countTillLastAttack;
+        if(loop)
+        {
+            return;
+        }
         while(enemyConfComp.m_stuck)
         {
             if((enemyConfComp.m_attackPhase != std::get<0>(enemyConfComp.m_previousMove) &&
@@ -358,6 +373,10 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
     //CONTINUING PHASE
     else if(enemyConfComp.m_attackPhase != EnemyAttackPhase_e::SHOOT && distancePlayer > LEVEL_TILE_SIZE_PX)
     {
+        if(loop)
+        {
+            return;
+        }
         if(enemyConfComp.m_attackPhase != EnemyAttackPhase_e::SHOOTED)
         {
             // moveElementFromAngle(moveComp->m_velocity, getRadiantAngle(moveComp->m_degreeOrientation), enemyMapComp.m_absoluteMapPositionPX);
