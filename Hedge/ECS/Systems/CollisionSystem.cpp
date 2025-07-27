@@ -1505,7 +1505,8 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
         {
             EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(args.entityNumA);
             if(enemyComp->m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT || enemyComp->m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_RIGHT
-                || enemyComp->m_type == TypeEnemy_e::LOOP_HORIZONTAL)
+                || enemyComp->m_type == TypeEnemy_e::LOOP_HORIZONTAL || enemyComp->m_type == TypeEnemy_e::LOOP_WAVE_LEFT ||
+                enemyComp->m_type == TypeEnemy_e::LOOP_WAVE_RIGHT)
             {
                 bool left = (diffX < 0.0f);
                 MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(args.entityNumA);

@@ -1724,11 +1724,18 @@ std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManag
             break;
         }
     }
-    if(enemyComp->m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT || enemyComp->m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_RIGHT)
+    bool wave = (enemyComp->m_type == TypeEnemy_e::LOOP_WAVE_LEFT || enemyComp->m_type == TypeEnemy_e::LOOP_WAVE_RIGHT);
+    if(enemyComp->m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT || enemyComp->m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_RIGHT || wave)
     {
         MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(numEntity);
         assert(moveComp);
-        bool left = (enemyComp->m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT);
+        if(wave)
+        {
+            TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(numEntity);
+            timerComp->m_cycleCountE = 25;
+            enemyComp->m_waveUp = true;
+        }
+        bool left = (enemyComp->m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT || enemyComp->m_type == TypeEnemy_e::LOOP_WAVE_LEFT);
         moveComp->m_degreeOrientation = left ? 180.0f : 0.0f;
         enemyComp->m_attackPhase = left ? EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT : EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT;
     }

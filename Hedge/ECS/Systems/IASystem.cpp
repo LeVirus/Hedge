@@ -251,6 +251,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
 {
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(enemyEntity);
     MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
+    bool wave = (enemyConfComp.m_type == TypeEnemy_e::LOOP_WAVE_LEFT || enemyConfComp.m_type == TypeEnemy_e::LOOP_WAVE_RIGHT);
     if(enemyConfComp.m_type == TypeEnemy_e::STATIC)
     {
         if(++timerComp->m_cycleCountB >= timerComp->m_timeIntervalOptional)
@@ -261,12 +262,22 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         }
         return;
     }
-    else if(enemyConfComp.m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT || enemyConfComp.m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_RIGHT || enemyConfComp.m_type == TypeEnemy_e::LOOP_HORIZONTAL)
+    else if(wave || enemyConfComp.m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_LEFT || enemyConfComp.m_type == TypeEnemy_e::LOOP_GROUND_HORIZONTAL_RIGHT ||
+               enemyConfComp.m_type == TypeEnemy_e::LOOP_HORIZONTAL)
     {
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
         bool right = (moveComp->m_degreeOrientation <= 0.1f);
         mapComp->m_absoluteMapPositionPX.first += right ? moveComp->m_velocity : -moveComp->m_velocity;
         EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntity);
+        if(wave)
+        {
+            mapComp->m_absoluteMapPositionPX.second += enemyComp->m_waveUp ? -moveComp->m_velocity : moveComp->m_velocity;
+            if(++timerComp->m_cycleCountE >= 50)
+            {
+                timerComp->m_cycleCountE = 0;
+                enemyComp->m_waveUp = !enemyComp->m_waveUp;
+            }
+        }
         if(enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOTED)
         {
             enemyComp->m_attackPhase = right ? EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT : EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
