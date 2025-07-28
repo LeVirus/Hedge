@@ -606,7 +606,7 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
             if(vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_MOVE_RIGHT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::MOVE_RIGHT
                                || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_MOVE_LEFT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::MOVE_LEFT)
             {
-                divY = 2.0f;
+                divY = 1.5f;
             }
             //STAIR UP
             else if(vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_UP_RIGHT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_UP_RIGHT
