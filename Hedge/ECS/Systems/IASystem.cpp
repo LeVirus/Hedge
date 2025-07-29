@@ -212,14 +212,23 @@ void IASystem::treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool gren
             moveElementFromAngle(ammoMoveComp->m_velocity, getRadiantAngle(ammoMoveComp->m_degreeOrientation), ammoMapComp->m_absoluteMapPositionPX);
             segmentComp->m_points.second = ammoMapComp->m_absoluteMapPositionPX;
             //if tank check collision down of shot picture
-            if(tank /*&& (ammoMoveComp->m_degreeOrientation == 0.0f || ammoMoveComp->m_degreeOrientation == 180.0f)*/)
+            if(tank)
             {
                 SegmentCollisionComponent *segmentCompB = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(stdAmmo[i], 1);
                 assert(segmentCompB);
                 segmentCompB->m_points.first = segmentComp->m_points.first;
                 segmentCompB->m_points.second = segmentComp->m_points.second;
-                segmentCompB->m_points.first.second += 30;
-                segmentCompB->m_points.second.second += 30;
+                //on lateral ground
+                if(ammoMoveComp->m_degreeOrientation == 0.0f || ammoMoveComp->m_degreeOrientation == 180.0f)
+                {
+                    segmentCompB->m_points.first.second += 20;
+                    segmentCompB->m_points.second.second += 20;
+                }
+                else
+                {
+                    segmentCompB->m_points.first.second += 50;
+                    segmentCompB->m_points.second.second += 50;
+                }
             }
         }
     }

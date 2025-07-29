@@ -609,10 +609,14 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
                 divY = 2.0f;
             }
             //STAIR UP
-            else if(vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_UP_RIGHT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_UP_RIGHT
-                                 || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_DOWN_LEFT|| vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_DOWN_LEFT)
+            else if(vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_UP_RIGHT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_UP_RIGHT)
             {
-                divY = 1.7f;
+                divY = 1.4f;
+            }
+            //DOWN
+            else if(vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_DOWN_LEFT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_DOWN_LEFT)
+            {
+                divY = 1.2f;
             }
             //STAIR DOWN
             else if(vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_UP_LEFT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_UP_LEFT)
