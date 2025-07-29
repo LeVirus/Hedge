@@ -39,7 +39,7 @@ void IASystem::execSystem()
     treatEject();
     for(uint32_t i = 0; i < m_refVehicleAmmo.size(); ++i)
     {
-        treatVisibleShots(m_refVehicleAmmo[i].get());
+        treatVisibleShots(m_refVehicleAmmo[i].get(), false, true);
     }
     for(uint32_t i = 0; i < weaponComp->m_weaponsData.size(); ++i)
     {
@@ -172,7 +172,7 @@ void IASystem::treatGenerator()
 }
 
 //===================================================================
-void IASystem::treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool grenade)
+void IASystem::treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool grenade, bool tank)
 {
     for(uint32_t i = 0; i < stdAmmo.size(); ++i)
     {
@@ -195,7 +195,6 @@ void IASystem::treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool gren
         }
         MapCoordComponent *ammoMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(stdAmmo[i]);
         MoveableComponent *ammoMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(stdAmmo[i]);
-
         if(grenade)
         {
             PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
@@ -208,10 +207,20 @@ void IASystem::treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool gren
         }
         else
         {
-            moveElementFromAngle(ammoMoveComp->m_velocity, getRadiantAngle(ammoMoveComp->m_degreeOrientation), ammoMapComp->m_absoluteMapPositionPX);
             SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(stdAmmo[i]);
             segmentComp->m_points.first = ammoMapComp->m_absoluteMapPositionPX;
+            moveElementFromAngle(ammoMoveComp->m_velocity, getRadiantAngle(ammoMoveComp->m_degreeOrientation), ammoMapComp->m_absoluteMapPositionPX);
             segmentComp->m_points.second = ammoMapComp->m_absoluteMapPositionPX;
+            //if tank check collision down of shot picture
+            if(tank /*&& (ammoMoveComp->m_degreeOrientation == 0.0f || ammoMoveComp->m_degreeOrientation == 180.0f)*/)
+            {
+                SegmentCollisionComponent *segmentCompB = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(stdAmmo[i], 1);
+                assert(segmentCompB);
+                segmentCompB->m_points.first = segmentComp->m_points.first;
+                segmentCompB->m_points.second = segmentComp->m_points.second;
+                segmentCompB->m_points.first.second += 30;
+                segmentCompB->m_points.second.second += 30;
+            }
         }
     }
 }
@@ -448,14 +457,14 @@ void IASystem::memPlayerDatas(uint32_t playerEntity)
 }
 
 //===================================================================
-void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairFloat_t &point, float degreeAngle, CollisionTag_e tag)
+void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairFloat_t &point, float degreeAngle, CollisionTag_e tag, bool tank)
 {
     uint32_t currentShot = 0;
     assert(!visibleShots.empty());
-    GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(visibleShots[currentShot]);
-    assert(genComp);
+    GeneralCollisionComponent *genComp;
     for(; currentShot < visibleShots.size(); ++currentShot)
     {
+        genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(visibleShots[currentShot]);
         if(!genComp->m_active)
         {
             break;
@@ -463,10 +472,9 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
         //if all shoot active create a new one
         else if(currentShot == (visibleShots.size() - 1))
         {
-            visibleShots.push_back(m_mainEngine->createAmmoEntity(tag));
+            visibleShots.push_back(m_mainEngine->createAmmoEntity(tag, false, tank));
             confNewVisibleShot(visibleShots);
             ++currentShot;
-            genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(visibleShots[currentShot]);
             break;
         }
     }

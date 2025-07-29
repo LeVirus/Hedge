@@ -109,6 +109,7 @@ private:
     bool checkCollisionFirstSegment(CollisionArgs &args, uint32_t numEntityA, uint32_t numEntityB,
                                     GeneralCollisionComponent &tagCompB,
                                     MapCoordComponent &mapCompB);
+    bool treatSegmentRectColl(CollisionArgs &args, uint32_t numEntityA, uint32_t numEntityB, SegmentCollisionComponent *segmentComp);
     void treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t damage = 1, std::optional<uint32_t> vehicleDamageMax = std::nullopt);
     void confDropedObject(uint32_t objectEntity, uint32_t enemyEntity);
     void activeSound(uint32_t entityNum);

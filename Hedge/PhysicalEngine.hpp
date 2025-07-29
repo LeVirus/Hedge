@@ -22,7 +22,7 @@ public:
     void linkSystems(InputSystem *inputSystem, CollisionSystem * collisionSystem, IASystem *iaSystem, GravitySystem *gravSystem, PlatformSystem *platformSystem);
     void memPlayerEntity(uint32_t playerEntity);
     void confPlayerVisibleShoot(std::vector<uint32_t> &visibleShots,
-                                const PairFloat_t &point, float degreeAngle);
+                                const PairFloat_t &point, float degreeAngle, bool tank = false);
     void setModeTransitionMenu(bool transition);
     void clearSystems();
     void setKeyboardKey(const std::array<MouseKeyboardInputState, static_cast<uint32_t>(ControlKey_e::TOTAL)> &keyboardArray);

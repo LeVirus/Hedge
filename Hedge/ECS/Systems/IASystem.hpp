@@ -19,7 +19,7 @@ public:
     IASystem();
     void execSystem()override;
     void memPlayerDatas(uint32_t playerEntity);
-    void confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairFloat_t &point, float degreeAngle, CollisionTag_e tag);
+    void confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairFloat_t &point, float degreeAngle, CollisionTag_e tag, bool tank = false);
     inline void linkMainEngine(MainEngine *mainEngine)
     {
         m_mainEngine = mainEngine;
@@ -42,7 +42,7 @@ private:
                                    EnemyConfComponent &enemyConfComp, float distancePlayer);
     void treatStaticEnemy(EnemyConfComponent &enemyConfComp, MoveableComponent &moveComp, uint32_t enemyEntity, float distancePlayer);
     void updateEnemyDirection(EnemyConfComponent &enemyConfComp, MoveableComponent &moveComp, MapCoordComponent &enemyMapComp);
-    void treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool grenade = false);
+    void treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool grenade = false, bool tank = false);
     void activeSound(uint32_t entityNum, uint32_t soundNum);
     void enemyShoot(EnemyConfComponent &enemyConfComp, MoveableComponent &moveComp, MapCoordComponent &enemyMapComp, float distancePlayer);
     void treatEnemyMove(MapCoordComponent *playerMapComp, MapCoordComponent &mapComp, float velocity, EnemyConfComponent &enemyConfComp, uint32_t enemyEntity);

@@ -1,6 +1,13 @@
 ))
 When jump on traversable wall, eject lateral some time
 
+))
+Enemies shot but no shot appear at begins
+
+))
+In stair tank shot sometimes kill enemies without exploding
+AND Collision ISSUE in stair with tank
+
 ============================================================================================================
 ============================================================================================================
 

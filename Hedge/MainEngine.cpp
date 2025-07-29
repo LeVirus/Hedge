@@ -579,9 +579,9 @@ float getTopEpilogueVerticalPosition(const WriteComponent &writeComp)
 
 //===================================================================
 void MainEngine::confPlayerVisibleShoot(std::vector<uint32_t> &playerVisibleShots,
-                                        const PairFloat_t &point, float degreeAngle)
+                                        const PairFloat_t &point, float degreeAngle, bool tank)
 {
-    m_physicalEngine.confPlayerVisibleShoot(playerVisibleShots, point, degreeAngle);
+    m_physicalEngine.confPlayerVisibleShoot(playerVisibleShots, point, degreeAngle, tank);
 }
 
 //===================================================================
@@ -606,7 +606,7 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
             if(vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_MOVE_RIGHT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::MOVE_RIGHT
                                || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_MOVE_LEFT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::MOVE_LEFT)
             {
-                divY = 1.5f;
+                divY = 2.0f;
             }
             //STAIR UP
             else if(vehicleComp->m_currentSpritesType == VehicleSpriteType_e::SHOOT_STAIR_UP_RIGHT || vehicleComp->m_currentSpritesType == VehicleSpriteType_e::STAIR_UP_RIGHT
@@ -627,7 +627,7 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
             PairFloat_t pointVehicle = {mapComp->m_absoluteMapPositionPX.first + rectComp->m_size.first / divX, mapComp->m_absoluteMapPositionPX.second + rectComp->m_size.second / divY};
             vehicleComp->m_currentShootAnimation = true;
             float degreeAim = getShootVehicleAim(*vehicleComp);
-            confPlayerVisibleShoot(vehicleComp->m_vectAmmo, pointVehicle, degreeAim);
+            confPlayerVisibleShoot(vehicleComp->m_vectAmmo, pointVehicle, degreeAim, true);
             return;
         }
     }
@@ -1958,11 +1958,11 @@ void MainEngine::createPlayerAmmoEntities(PlayerConfComponent &playerConf, Colli
 
 //===================================================================
 void MainEngine::confAmmoEntities(std::vector<uint32_t> &ammoEntities, CollisionTag_e collTag, bool visibleShot,
-                                  uint32_t damage, float shotVelocity, std::optional<float> damageRay, bool grenade)
+                                  uint32_t damage, float shotVelocity, std::optional<float> damageRay, bool grenade, bool tank)
 {
     for(uint32_t j = 0; j < ammoEntities.size(); ++j)
     {
-        ammoEntities[j] = createAmmoEntity(collTag, grenade);
+        ammoEntities[j] = createAmmoEntity(collTag, grenade, tank);
         ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(ammoEntities[j]);
         assert(shotConfComp);
         shotConfComp->m_damage = damage;
@@ -1990,7 +1990,7 @@ void MainEngine::confAmmoEntities(std::vector<uint32_t> &ammoEntities, Collision
 }
 
 //===================================================================
-uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool grenade)
+uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool grenade, bool tank)
 {
     uint32_t ammoNum;
     if(grenade)
@@ -1999,7 +1999,7 @@ uint32_t MainEngine::createAmmoEntity(CollisionTag_e collTag, bool grenade)
     }
     else
     {
-        ammoNum = createVisibleShotEntity();
+        ammoNum = createVisibleShotEntity(tank);
         //Fix reuse of determined size sprite data
         SpriteTextureComponent *targetSpriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(ammoNum);
         targetSpriteComp->m_displaySize = std::nullopt;
@@ -2846,11 +2846,12 @@ uint32_t MainEngine::createTriggerEntity(bool visible)
 }
 
 //===================================================================
-uint32_t MainEngine::createVisibleShotEntity()
+uint32_t MainEngine::createVisibleShotEntity(bool tank)
 {
     std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
     vect.fill(0);
-    vect[Components_e::SEGMENT_COLLISION_COMPONENT] = 1;
+    uint32_t numSegment = tank ? 2 : 1;
+    vect[Components_e::SEGMENT_COLLISION_COMPONENT] = numSegment;
     vect[Components_e::AUDIO_COMPONENT] = 1;
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
@@ -3703,7 +3704,8 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         if(vehicleComp->m_vehicleShoot)
         {
             vehicleComp->m_vectAmmo.resize(4);
-            confAmmoEntities(vehicleComp->m_vectAmmo, CollisionTag_e::BULLET_PLAYER_CT, true, staticElementData.m_shootDamage, staticElementData.m_shootVelocity, staticElementData.m_rayDamage);
+            confAmmoEntities(vehicleComp->m_vectAmmo, CollisionTag_e::BULLET_PLAYER_CT, true, staticElementData.m_shootDamage, staticElementData.m_shootVelocity, staticElementData.m_rayDamage,
+                             false, true);
             loadVisibleShotData(vectSpriteData, vehicleComp->m_vectAmmo, staticElementData.m_shootID, levelManager.getVisibleShootDisplayData());
             m_physicalEngine.memVehicleAmmoVet(vehicleComp->m_vectAmmo);
         }

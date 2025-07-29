@@ -135,7 +135,7 @@ public:
     }
     void clearLevel();
     void confSystems();
-    uint32_t createAmmoEntity(CollisionTag_e collTag, bool grenade = false);
+    uint32_t createAmmoEntity(CollisionTag_e collTag, bool grenade = false, bool tank = false);
     uint32_t createGrenadeEntity();
     void playerThrowGrenade();
     void setMenuEntries(PlayerConfComponent &playerComp, std::optional<uint32_t> cursorPos = {});
@@ -331,7 +331,7 @@ private:
     void createPlayerAmmoEntities(PlayerConfComponent &playerConf, CollisionTag_e collTag);
     void confAmmoEntities(std::vector<uint32_t> &ammoEntities, CollisionTag_e collTag,
                           bool visibleShot, uint32_t damage, float shotVelocity = 0,
-                          std::optional<float> damageRay = std::nullopt, bool grenade = false);
+                          std::optional<float> damageRay = std::nullopt, bool grenade = false, bool tank = false);
     uint32_t createTriggerEntity(bool visible);
     uint32_t createColorEntity();
     uint32_t createCheckpointEntity();
@@ -354,7 +354,7 @@ private:
     uint32_t createEnemyEntity(TypeEnemy_e type);
     uint32_t createGeneratorEntity();
     uint32_t createWriteEntity();
-    uint32_t createVisibleShotEntity();
+    uint32_t createVisibleShotEntity(bool tank = false);
     uint32_t createSimpleSpriteEntity();
     uint32_t createStaticEntity();
     uint32_t createVehiculeEntity();
@@ -369,7 +369,7 @@ private:
     void memTimerPausedValue();
     void applyTimerPausedValue();
     void confPlayerVisibleShoot(std::vector<uint32_t> &playerVisibleShots,
-                                const PairFloat_t &point, float degreeAngle);
+                                const PairFloat_t &point, float degreeAngle, bool tank = false);
     void confPlayerBullet(PlayerConfComponent *playerComp,
                           const PairFloat_t &point, float degreeAngle, uint32_t numBullet);
     void loadWallEntities(const std::map<std::string, MoveableWallData> &wallData, const std::vector<SpriteData> &vectSprite);
