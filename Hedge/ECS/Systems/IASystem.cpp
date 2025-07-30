@@ -492,7 +492,6 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     {
         currentPoint.first += 10;
     }
-
     ShotConfComponent *targetShotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(visibleShots[currentShot]);
     assert(targetShotConfComp);
     if(targetShotConfComp->m_ejectMode)

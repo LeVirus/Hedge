@@ -3708,7 +3708,7 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
         if(vehicleComp->m_vehicleShoot)
         {
             vehicleComp->m_vectAmmo.resize(4);
-            confAmmoEntities(vehicleComp->m_vectAmmo, CollisionTag_e::BULLET_PLAYER_CT, true, staticElementData.m_shootDamage, staticElementData.m_shootVelocity, staticElementData.m_rayDamage,
+            confAmmoEntities(vehicleComp->m_vectAmmo, CollisionTag_e::BULLET_PLAYER_CT, true, staticElementData.m_shootDamage, staticElementData.m_shootVelocity, {},
                              false, true);
             loadVisibleShotData(vectSpriteData, vehicleComp->m_vectAmmo, staticElementData.m_shootID, levelManager.getVisibleShootDisplayData());
             m_physicalEngine.memVehicleAmmoVet(vehicleComp->m_vectAmmo);
