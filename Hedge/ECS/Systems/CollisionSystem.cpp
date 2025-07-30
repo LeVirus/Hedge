@@ -434,7 +434,6 @@ void CollisionSystem::treatSegmentShots()
             {
                 treatEnemyTakeDamage(m_vectMemShots[i].second, shotConfComp->m_damage);
             }
-            tagCompBullet->m_active = false;
         }
         else if(tagCompBullet->m_tagA == CollisionTag_e::BULLET_ENEMY_CT)
         {

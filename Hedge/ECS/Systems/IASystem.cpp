@@ -484,6 +484,7 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
             visibleShots.push_back(m_mainEngine->createAmmoEntity(tag, false, tank));
             confNewVisibleShot(visibleShots);
             ++currentShot;
+            genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(visibleShots[currentShot]);
             break;
         }
     }

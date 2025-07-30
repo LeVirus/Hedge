@@ -5,9 +5,6 @@ When jump on traversable wall, eject lateral some time
 Enemies shot but no shot appear at begins
 
 ))
-In Tank, if touch enemies and shoot shoot does not work
-
-))
 When wall clipping enemies can fall down
 
 ))
@@ -15,6 +12,9 @@ On tank enemies aim player instead of player and miss
 
 ============================================================================================================
 ============================================================================================================
+
+))
+In Tank, if touch enemies and shoot shoot does not work====================OK
 
 ))
 In stair tank shot sometimes kill enemies without exploding================OK

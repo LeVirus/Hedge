@@ -59,7 +59,10 @@ public:
     template <Component_C T, uint32_t NC>
     T *getComponent(uint32_t entityNum, uint32_t componentNum = 0)
     {
-        assert(entityNum < m_refComponents.size());
+        if(entityNum >= m_refComponents.size())
+        {
+            return nullptr;
+        }
         assert(NC < N);
         if(m_refComponents[entityNum][NC].size() == 0 || componentNum >= m_refComponents[entityNum][NC].size())
         {
