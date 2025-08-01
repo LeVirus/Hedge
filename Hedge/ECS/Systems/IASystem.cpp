@@ -351,16 +351,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
                 ++enemyConfComp.m_countTillLastAttack;
                 return;
             }
-            if(enemyConfComp.m_type != TypeEnemy_e::FLYING)
-            {
-                uint32_t modulo = (enemyConfComp.m_meleeOnly || enemyConfComp.m_countTillLastAttack < 2) ? static_cast<uint32_t>(EnemyAttackPhase_e::SHOOT) :
-                                      static_cast<uint32_t>(EnemyAttackPhase_e::SHOOT) + 1;
-                enemyConfComp.m_attackPhase = static_cast<EnemyAttackPhase_e>(std::rand() / ((RAND_MAX + 1u) / modulo));
-            }
-            else
-            {
-                enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
-            }
+            enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
         }
         enemyConfComp.m_countTillLastAttack = (enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOT) ? 0 : ++enemyConfComp.m_countTillLastAttack;
         if(loop)

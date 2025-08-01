@@ -2,9 +2,6 @@
 When jump on traversable wall, eject lateral some time
 
 ))
-Enemies shot but no shot appear at begins
-
-))
 When wall clipping enemies can fall down
 
 ))
@@ -12,6 +9,9 @@ Tank display a bit upper ground
 
 ============================================================================================================
 ============================================================================================================
+
+))
+Enemies shot but no shot appear at begins===================OK
 
 ))
 On tank enemies aim player instead of player and miss=================OK 
