@@ -8,10 +8,13 @@ Enemies shot but no shot appear at begins
 When wall clipping enemies can fall down
 
 ))
-On tank enemies aim player instead of player and miss 
+Tank display a bit upper ground
 
 ============================================================================================================
 ============================================================================================================
+
+))
+On tank enemies aim player instead of player and miss=================OK 
 
 ))
 In Tank, if touch enemies and shoot shoot does not work====================OK

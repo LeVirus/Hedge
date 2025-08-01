@@ -246,7 +246,13 @@ void IASystem::updateEnemyDirection(EnemyConfComponent &enemyConfComp, MoveableC
                                     MapCoordComponent &enemyMapComp)
 {
     MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
-    moveComp.m_degreeOrientation = getTrigoAngle(enemyMapComp.m_absoluteMapPositionPX, playerMapComp->m_absoluteMapPositionPX);
+    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    PairFloat_t point;
+    //Check if vehicle associated
+    RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(
+        playerComp->m_associatedVehicle ? *playerComp->m_associatedVehicle : m_playerEntity);
+    point = {playerMapComp->m_absoluteMapPositionPX.first + rectComp->m_size.first / 2, playerMapComp->m_absoluteMapPositionPX.second + rectComp->m_size.second / 2};
+    moveComp.m_degreeOrientation = getTrigoAngle(enemyMapComp.m_absoluteMapPositionPX, point);
     if(enemyConfComp.m_type == TypeEnemy_e::FLYING)
     {
         moveComp.m_currentDegreeMoveDirection = std::abs(std::rand()) % 360;
