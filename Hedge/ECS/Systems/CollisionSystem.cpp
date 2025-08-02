@@ -631,7 +631,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         collision = true;
         if((args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT))
         {
-            if(!(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT && args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT))
+            if(!(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT && (args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompB.m_tagA == CollisionTag_e::VEHICULE_CT)))
             {
                 if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
                 {
@@ -640,6 +640,14 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                     if(static_cast<uint32_t>(enemyComp->m_type) > static_cast<uint32_t>(TypeEnemy_e::STATIC))
                     {
                         treatPlayerTakeDamage(*enemyComp->m_meleeAttackDamage);
+                    }
+                }
+                else if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
+                {
+                    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                    if(!playerComp->m_associatedVehicle || *playerComp->m_associatedVehicle != args.entityNumA)
+                    {
+                        return;
                     }
                 }
                 collisionRectRectEject(args);
