@@ -490,6 +490,7 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     {
         currentPoint.first += 10;
     }
+    m_mainEngine->addEntityToZone(visibleShots[currentShot], *getLevelCoord(point));
     ShotConfComponent *targetShotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(visibleShots[currentShot]);
     assert(targetShotConfComp);
     if(targetShotConfComp->m_ejectMode)
@@ -553,6 +554,8 @@ void IASystem::confEnemiesGenerator(uint32_t generatorEntity, const PairFloat_t 
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(generatorComp->m_vectElementGen[i]);
         assert(mapComp);
         mapComp->m_absoluteMapPositionPX = point;
+        mapComp->m_coord = *getLevelCoord(mapComp->m_absoluteMapPositionPX);
+        m_mainEngine->addEntityToZone(generatorComp->m_vectElementGen[i], mapComp->m_coord);
         EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(generatorComp->m_vectElementGen[i]);
         assert(enemyComp);
         enemyComp->m_life = generatorComp->m_memEnemyLife;
