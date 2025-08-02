@@ -27,7 +27,6 @@ enum class PlayerEntities_e
     LIFE_WRITE,
     NUM_INFO_WRITE,
     DISPLAY_TELEPORT,
-    MAP_DETECT_SHAPE,
     LIFE_ICON,
     AMMO_ICON,
     CURSOR_WEAPON_PREVIEW,

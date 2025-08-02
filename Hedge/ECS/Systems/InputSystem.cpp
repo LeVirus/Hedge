@@ -259,7 +259,6 @@ void InputSystem::treatPlayerInput()
             playerComp->m_vehicleEject = false;
             gravityComp->m_jump = false;
         }
-        updateDetectRect(*playerComp, *mapComp);
         m_mainEngine->addEntityToZone(m_playerEntity, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
         if(checkPlayerKeyTriggered(ControlKey_e::GRENADE))
         {
@@ -1751,14 +1750,6 @@ void InputSystem::scroll_callback(GLFWwindow *window, double xOffset, double yOf
     {
         m_scrollUp = true;
     }
-}
-
-//===================================================================
-void InputSystem::updateDetectRect(PlayerConfComponent &playerComp, MapCoordComponent &mapPlayerComp)
-{
-    MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerComp.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MAP_DETECT_SHAPE)]);
-    mapComp->m_absoluteMapPositionPX = {mapPlayerComp.m_absoluteMapPositionPX.first - DETECT_RECT_SHAPE_HALF_SIZE,
-                                       mapPlayerComp.m_absoluteMapPositionPX.second - DETECT_RECT_SHAPE_HALF_SIZE};
 }
 
 //===================================================================

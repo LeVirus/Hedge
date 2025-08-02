@@ -311,7 +311,6 @@ private:
     void confPlayerEntity(const LevelManager &levelManager, uint32_t entityNum, const Level &level, uint32_t numWeaponEntity,
                           uint32_t numDisplayTeleportEntity);
     void confActionEntity();
-    void confMapDetectShapeEntity(const PairFloat_t &playerPos);
     bool loadEnemiesEntities(const LevelManager &levelManager);
     std::pair<bool, uint32_t> createEnemy(const LevelManager &levelManager, const SpriteData &memSpriteData, const EnemyData &enemyData,
                          bool loadFromCheckpoint, uint32_t index, const std::array<SoundElement, 3> &soundElements, const std::pair<float, float> &inGameSpriteSize, bool generatorMode = false);

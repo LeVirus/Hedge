@@ -459,9 +459,10 @@ void MapDisplaySystem::drawGround()
 void MapDisplaySystem::getMapDisplayLimit(const PairFloat_t &playerPos, PairUI_t &min, PairUI_t &max)
 {
     assert(playerPos.first >= 0.0f || playerPos.second >= 0.0f);
+    float correctedLevelSize = m_localLevelSizePX + LEVEL_TILE_SIZE_PX;
     //getBound
-    PairFloat_t posMax = {playerPos.first + m_localLevelSizePX, playerPos.second + m_localLevelSizePX},
-        posMin = {playerPos.first - m_localLevelSizePX, playerPos.second - m_localLevelSizePX};
+    PairFloat_t posMax = {playerPos.first + correctedLevelSize, playerPos.second + correctedLevelSize},
+        posMin = {playerPos.first - correctedLevelSize, playerPos.second - correctedLevelSize};
     max = *getLevelCoord(posMax);
     if(posMin.first < 0.0f)
     {

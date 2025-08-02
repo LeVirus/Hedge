@@ -3067,7 +3067,6 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     confLifeAmmoPannelEntities();
     confWeaponsPreviewEntities();
     confActionEntity();
-    confMapDetectShapeEntity(map->m_absoluteMapPositionPX);
     for(uint32_t i = 0; i < weaponConf->m_weaponsData.size(); ++i)
     {
         if(weaponConf->m_weaponsData[i].m_attackType == AttackType_e::MELEE)
@@ -3099,33 +3098,6 @@ void MainEngine::confActionEntity()
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerConf);
     playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::ACTION)] = entityNum;
-}
-
-//===================================================================
-void MainEngine::confMapDetectShapeEntity(const PairFloat_t &playerPos)
-{
-    PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-    assert(playerConf);
-    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
-    vect.fill(0);
-    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
-    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
-    vect[Components_e::MAP_COORD_COMPONENT] = 1;
-    playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MAP_DETECT_SHAPE)] = Ecsm_t::instance().addEntity(vect);
-    RectangleCollisionComponent *rectColl = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(
-        playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MAP_DETECT_SHAPE)]);
-    assert(rectColl);
-
-    MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MAP_DETECT_SHAPE)]);
-    assert(mapComp);
-    GeneralCollisionComponent *genComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(
-        playerConf->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::MAP_DETECT_SHAPE)]);
-    assert(genComp);
-    mapComp->m_absoluteMapPositionPX = {playerPos.first - DETECT_RECT_SHAPE_HALF_SIZE,
-                                        playerPos.second - DETECT_RECT_SHAPE_HALF_SIZE};
-    rectColl->m_size = {DETECT_RECT_SHAPE_SIZE, DETECT_RECT_SHAPE_SIZE};
-    genComp->m_shape = CollisionShape_e::RECTANGLE_C;
-    genComp->m_tagA = CollisionTag_e::DETECT_MAP_CT;
 }
 
 //===================================================================

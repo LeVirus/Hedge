@@ -122,7 +122,6 @@ public:
     static void scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
 private:
     void treatDiagUpAim(PlayerConfComponent &playerComp);
-    void updateDetectRect(PlayerConfComponent &playerComp, MapCoordComponent &mapPlayerComp);
     void gamepadUpdate();
     bool checkStandardButtonGamepadKeyStatus(uint32_t key, uint32_t status);
     bool checkAxisGamepadKeyStatus(uint32_t key, bool positive);
