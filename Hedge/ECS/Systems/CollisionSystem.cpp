@@ -173,7 +173,7 @@ void CollisionSystem::secondEntitiesLoop(uint32_t entityA, uint32_t currentItera
 bool CollisionSystem::iterationLoop(uint32_t currentIteration, uint32_t entityA, uint32_t entityB,
                                     GeneralCollisionComponent &tagCompA)
 {
-    if(currentIteration == entityB)
+    if(entityA == entityB)
     {
         return true;
     }
@@ -335,6 +335,8 @@ void CollisionSystem::treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t dam
     //if enemy dead
     if(!enemyConfCompB->takeDamage(damage))
     {
+        GeneralCollisionComponent *tagComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(enemyEntityNum);
+        tagComp->m_tagA = CollisionTag_e::GHOST_CT;
         GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(enemyEntityNum);
         if(gravComp)
         {
@@ -661,14 +663,6 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                     WallMultiSpriteComponent *wallMultiComp = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT>(args.entityNumB);
                     assert(wallMultiComp);
                     treatPlayerTakeDamage(wallMultiComp->m_damage);
-                }
-                else if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT && playerComp->m_associatedVehicle)
-                {
-                    VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp->m_associatedVehicle);
-                    assert(vehicleComp);
-                    ShotConfComponent *shotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(*playerComp->m_associatedVehicle);
-                    assert(shotConfComp);
-                    treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage, vehicleComp->m_minHealthDamage);
                 }
             }
             else if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)

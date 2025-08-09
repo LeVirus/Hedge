@@ -551,6 +551,7 @@ void IASystem::confEnemiesGenerator(uint32_t generatorEntity, const PairFloat_t 
             continue;
         }
         collComp->m_active = true;
+        collComp->m_tagA = CollisionTag_e::ENEMY_CT;
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(generatorComp->m_vectElementGen[i]);
         assert(mapComp);
         mapComp->m_absoluteMapPositionPX = point;
