@@ -382,7 +382,6 @@ void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
             assert(gravPlayerComp);
             gravComp->m_freeze = false;
             gravComp->m_exitVehicle = true;
-            gravPlayerComp->m_jump = true;
         }
         else
         {
