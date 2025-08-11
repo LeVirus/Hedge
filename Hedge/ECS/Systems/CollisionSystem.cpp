@@ -62,6 +62,7 @@ void CollisionSystem::execSystem()
         vehicleComp->m_onLateralGround = false;
         vehicleComp->m_touchGround = false;
         vehicleComp->m_onStair = false;
+        ++vehicleComp->m_stairCount;
     }
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it, ++i)
     {
@@ -1604,6 +1605,7 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 assert(vehicleComp);
                 if(!vehicleComp->m_onLateralGround)
                 {
+//                    std::cerr << diffX << " UUP ";
                     updateVehicleSpriteType(down);
                 }
             }
@@ -1647,6 +1649,7 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 {
                     return;
                 }
+//                std::cerr << "UUPDDD ";
                 updateVehicleSpriteType(down);
             }
             if(down && diffX > 0.0f && elementAPosX > elementBPosX)
