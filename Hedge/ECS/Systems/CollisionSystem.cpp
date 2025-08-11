@@ -1603,9 +1603,9 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 }
                 VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
                 assert(vehicleComp);
-                if(!vehicleComp->m_onLateralGround)
+                //if onstair ==> sprite already treated for this frame
+                if(!vehicleComp->m_onStair && std::abs(diffY) > EPSILON_FLOAT)
                 {
-//                    std::cerr << diffX << " UUP ";
                     updateVehicleSpriteType(down);
                 }
             }
@@ -1649,7 +1649,6 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 {
                     return;
                 }
-//                std::cerr << "UUPDDD ";
                 updateVehicleSpriteType(down);
             }
             if(down && diffX > 0.0f && elementAPosX > elementBPosX)
