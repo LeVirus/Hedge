@@ -1465,16 +1465,6 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
                 gravityComp->m_onGround = false;
                 gravityComp->m_memOnGround = false;
             }
-            else if(gravityComp->m_fall)
-            {
-                if(std::abs(std::abs(diffY) - std::abs(diffX)) >= 1.0f)
-                {
-                    //cancel gravity
-                    mapComp->m_absoluteMapPositionPX.second -= gravityComp->m_gravityCohef;
-                    gravityComp->m_fall = false;
-                    diffY = std::numeric_limits<float>::epsilon();
-                }
-            }
             if(gravityComp->m_onGround)
             {
                 m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
