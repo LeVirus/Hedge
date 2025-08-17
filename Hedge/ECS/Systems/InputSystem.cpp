@@ -451,8 +451,8 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         //Bike only
         if(vehicleComp->m_onStair && !vehicleComp->m_vehicleShoot)
         {
-            vehicleComp->m_bikeStairCorrection = true;
-            mapVehicleComp->m_absoluteMapPositionPX.second += LEVEL_TILE_SIZE_PX;
+            // vehicleComp->m_bikeStairCorrection = true;
+            // mapVehicleComp->m_absoluteMapPositionPX.second += LEVEL_TILE_SIZE_PX;
         }
         MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerEntity);
         assert(playerMapComp);
