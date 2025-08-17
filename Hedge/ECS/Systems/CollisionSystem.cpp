@@ -69,6 +69,14 @@ void CollisionSystem::execSystem()
         SegmentCollisionComponent *segmentCompA = nullptr;
         GeneralCollisionComponent *tagCompA = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
         assert(tagCompA);
+        if(tagCompA->m_tagA == CollisionTag_e::PLAYER_CT)
+        {
+            PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+            if(playerComp->m_associatedVehicle)
+            {
+                continue;
+            }
+        }
         //check if entity is moveable
         MoveableComponent *moveCompA = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(*it);
         if(!tagCompA->m_active || tagCompA->m_tagA == CollisionTag_e::WALL_CT || tagCompA->m_tagA == CollisionTag_e::OBJECT_CT)
