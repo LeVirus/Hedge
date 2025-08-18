@@ -405,6 +405,11 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         else
         {
             mapVehicleComp->m_absoluteMapPositionPX.first += velocity;
+            VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp.m_associatedVehicle);
+            if(vehicleComp->m_onStair)
+            {
+                mapVehicleComp->m_absoluteMapPositionPX.second += velocity + 1;
+            }
         }
         playerComp.m_currentDirectionRight = true;
     }
@@ -427,7 +432,12 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         }
         else
         {
+            VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp.m_associatedVehicle);
             mapVehicleComp->m_absoluteMapPositionPX.first -= velocity;
+            if(vehicleComp->m_onStair)
+            {
+                mapVehicleComp->m_absoluteMapPositionPX.second += velocity + 1;
+            }
         }
         playerComp.m_currentDirectionRight = false;
     }
