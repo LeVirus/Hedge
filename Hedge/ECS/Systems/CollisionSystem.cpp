@@ -74,6 +74,7 @@ void CollisionSystem::execSystem()
             PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
             if(playerComp->m_associatedVehicle)
             {
+                treatCollisionVehiclePlayer(*playerComp->m_associatedVehicle);
                 continue;
             }
         }
@@ -999,7 +1000,17 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
         m_vectEntitiesToDelete.push_back(args.entityNumB);
         return true;
     }
-    else if(args.tagCompB.m_tagA == CollisionTag_e::VEHICULE_CT)
+    else
+    {
+        return treatCollisionVehiclePlayer(args.entityNumB);
+    }
+}
+
+//===================================================================
+bool CollisionSystem::treatCollisionVehiclePlayer(uint32_t vehicleEntity)
+{
+    GeneralCollisionComponent *vehicleColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(vehicleEntity);
+    if(vehicleColl->m_tagA == CollisionTag_e::VEHICULE_CT)
     {
         GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
         assert(gravComp);
@@ -1007,13 +1018,13 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
         {
             PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
             assert(playerComp);
-            GravityComponent *vehicleGravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumB);
+            GravityComponent *vehicleGravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(vehicleEntity);
             assert(vehicleGravComp);
-            VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumB);
+            VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(vehicleEntity);
             assert(vehicleComp);
             if(vehicleComp->m_currentShootAnimation)
             {
-                m_refMainEngine->updateExitVehicleSprites(args.entityNumB, *vehicleComp);
+                m_refMainEngine->updateExitVehicleSprites(vehicleEntity, *vehicleComp);
             }
             playerComp->m_associatedVehicle = std::nullopt;
             vehicleComp->m_vehicleMemPlayerAssociated = false;
@@ -1027,13 +1038,13 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
             assert(playerComp);
             if(!playerComp->m_vehicleEject && !playerComp->m_associatedVehicle)
             {
-                VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumB);
+                VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(vehicleEntity);
                 assert(vehicleComp);
-                GravityComponent *vehicleGravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumB);
+                GravityComponent *vehicleGravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(vehicleEntity);
                 assert(vehicleGravComp);
-                ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(args.entityNumB);
+                ShotConfComponent *shotComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(vehicleEntity);
                 assert(shotComp);
-                playerComp->m_associatedVehicle = args.entityNumB;
+                playerComp->m_associatedVehicle = vehicleEntity;
                 vehicleComp->m_vehicleMemPlayerAssociated = true;
                 //Stop jumping if enter vehicle
                 gravComp->m_jump = false;
