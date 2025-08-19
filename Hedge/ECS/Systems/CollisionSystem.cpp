@@ -1622,9 +1622,11 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
                 assert(vehicleComp);
                 //if onstair ==> sprite already treated for this frame
-                if(vehicleComp->m_vehicleShoot || ((std::abs(diffY) > EPSILON_FLOAT && (!vehicleComp->m_onStair || std::abs(diffX) == 30)) ||
-                                                     (!triangleCollB->m_upStair && std::abs(diffX) == 30 && std::abs(diffY) == EPSILON_FLOAT)))
+                if((!vehicleComp->m_vehicleShoot && ((std::abs(diffY) > EPSILON_FLOAT && (!vehicleComp->m_onStair || std::abs(diffX) == 30)) ||
+                                                      (!triangleCollB->m_upStair && std::abs(diffX) == 30 && std::abs(diffY) == EPSILON_FLOAT))) ||
+                    (vehicleComp->m_vehicleShoot && ((!triangleCollB->m_upStair && diffX > EPSILON_FLOAT) || (triangleCollB->m_upStair && diffX < EPSILON_FLOAT))))
                 {
+                    if(vehicleComp->m_vehicleShoot)std::cerr << diffX << "  " << diffY << "\n";
                     updateVehicleSpriteType(down);
                 }
             }
