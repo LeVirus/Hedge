@@ -262,7 +262,7 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
     {
         VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerConfComp->m_associatedVehicle);
         assert(vehicleComp);
-        if(!vehicleComp->m_onStair /*&& vehicleComp->m_vehicleShoot*/ && vehicleComp->m_stairCount > 3)
+        if(!vehicleComp->m_onStair && vehicleComp->m_stairCount > 3)
         {
             updateVehicleGroundSprites(*playerConfComp, *vehicleComp);
         }

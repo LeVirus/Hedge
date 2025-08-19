@@ -521,6 +521,8 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
         assert(segmentCompB);
         segmentCompB->m_points.first = segmentComp->m_points.first;
         segmentCompB->m_points.second = segmentComp->m_points.second;
+        ammoMoveComp->m_degreeOrientation = degreeAngle;
+        ammoMoveComp->m_currentDegreeMoveDirection = degreeAngle;
         //on lateral ground
         if(ammoMoveComp->m_degreeOrientation == 0.0f || ammoMoveComp->m_degreeOrientation == 180.0f)
         {
@@ -533,8 +535,6 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
             segmentCompB->m_points.second.second += 50;
         }
     }
-    ammoMoveComp->m_degreeOrientation = degreeAngle;
-    ammoMoveComp->m_currentDegreeMoveDirection = degreeAngle;
 }
 
 //===================================================================
