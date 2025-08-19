@@ -1455,16 +1455,6 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     //if player touch ground
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
     {
-        if((args.tagCompB.m_tagA == CollisionTag_e::WALL_CT || args.tagCompB.m_tagA == CollisionTag_e::TRAVERSABLE_WALL_CT) && args.tagCompB.m_shape == CollisionShape_e::RECTANGLE_C)
-        {
-            VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
-            if(vehicleComp && vehicleComp->m_bikeStairCorrection)
-            {
-                mapComp->m_absoluteMapPositionPX.second -= 10;
-                vehicleComp->m_bikeStairCorrection = false;
-                return;
-            }
-        }
         GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
         assert(gravityComp);
         GeneralCollisionComponent *CollCompB = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(args.entityNumB);
@@ -1626,7 +1616,6 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                                                       (!triangleCollB->m_upStair && std::abs(diffX) == 30 && std::abs(diffY) == EPSILON_FLOAT))) ||
                     (vehicleComp->m_vehicleShoot && ((!triangleCollB->m_upStair && diffX > EPSILON_FLOAT) || (triangleCollB->m_upStair && diffX < EPSILON_FLOAT))))
                 {
-                    if(vehicleComp->m_vehicleShoot)std::cerr << diffX << "  " << diffY << "\n";
                     updateVehicleSpriteType(down);
                 }
             }

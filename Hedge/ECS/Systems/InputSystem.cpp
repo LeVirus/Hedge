@@ -457,13 +457,6 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
     }
     if(playerComp.m_associatedVehicle)
     {
-        VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp.m_associatedVehicle);
-        //Bike only
-        if(vehicleComp->m_onStair && !vehicleComp->m_vehicleShoot)
-        {
-            // vehicleComp->m_bikeStairCorrection = true;
-            // mapVehicleComp->m_absoluteMapPositionPX.second += LEVEL_TILE_SIZE_PX;
-        }
         MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerEntity);
         assert(playerMapComp);
         RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(*playerComp.m_associatedVehicle);
