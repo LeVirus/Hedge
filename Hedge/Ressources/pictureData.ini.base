@@ -570,6 +570,15 @@ texturePosY = 0.9166
 textureWeight = 0.0652
 textureHeight = 0.0664
 
+#591 543 624 569
+[SpriteBossBall]
+texture = 1
+texturePosX = 0.615625
+texturePosY = 0.606026785714
+textureWeight = 0.034375
+textureHeight = 0.0290178571429
+
+
 
 #================================Cyber Demon
 

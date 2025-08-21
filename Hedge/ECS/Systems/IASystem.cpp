@@ -515,14 +515,14 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     m_mainEngine->addEntityToZone(visibleShots[currentShot], mapComp->m_coord);
     moveElementFromAngle(LEVEL_HALF_TILE_SIZE_PX, getRadiantAngle(degreeAngle), mapComp->m_absoluteMapPositionPX);
     segmentComp->m_points.second = mapComp->m_absoluteMapPositionPX;
+    ammoMoveComp->m_degreeOrientation = degreeAngle;
+    ammoMoveComp->m_currentDegreeMoveDirection = degreeAngle;
     if(tank)
     {
         SegmentCollisionComponent *segmentCompB = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(visibleShots[currentShot], 1);
         assert(segmentCompB);
         segmentCompB->m_points.first = segmentComp->m_points.first;
         segmentCompB->m_points.second = segmentComp->m_points.second;
-        ammoMoveComp->m_degreeOrientation = degreeAngle;
-        ammoMoveComp->m_currentDegreeMoveDirection = degreeAngle;
         //on lateral ground
         if(ammoMoveComp->m_degreeOrientation == 0.0f || ammoMoveComp->m_degreeOrientation == 180.0f)
         {
