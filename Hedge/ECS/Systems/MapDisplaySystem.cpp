@@ -29,7 +29,7 @@ void MapDisplaySystem::confLevelData()
 {
     m_backgroundLock = false;
     m_firstLoop = true;
-    m_localLevelSizePX = 350.0f;
+    m_localLevelSizePX = 200.0f;
     m_visibleTile = (m_localLevelSizePX / LEVEL_TILE_SIZE_PX + 1) * 2;
     m_localLevelSizeCase = m_localLevelSizePX / LEVEL_TILE_SIZE_PX + 1;
     m_sizeLevelPX = {Level::getSize().first * LEVEL_TILE_SIZE_PX,

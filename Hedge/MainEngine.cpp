@@ -668,6 +668,11 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
         assert(currentWeapon.m_visibleShootEntities);
         float degreeAim = getDegreeAngleFromAim(playerComp.m_currentAim, gravComp->m_onGround, playerComp.m_currentDirectionRight);
         confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), {point.first, point.second + rectComp->m_size.second / 3}, degreeAim);
+        //Unlimited ammo for simple gun
+        if(weaponConf->m_currentWeapon == 1)
+        {
+            return;
+        }
     }
     assert(weaponConf->m_weaponsData[weaponConf->m_currentWeapon].m_ammunationsCount > 0);
     --weaponConf->m_weaponsData[weaponConf->m_currentWeapon].m_ammunationsCount;
