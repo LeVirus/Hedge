@@ -37,6 +37,22 @@ Sound = Message.wav
 IdPicture = Hedge Manuwaza
 AssociateSprite = SpriteLog SpriteTreeA
 
+[MessageLogLocke]
+Sprite = SpriteFFVILockeA
+SpriteWeightGame = 1.5
+SpriteHeightGame = 0.5
+Sound = Message.wav
+IdPicture = Hedge Locke
+AssociateSprite = SpriteLog SpriteFFVILockeHeadA
+
+[MessageLogKefka]
+Sprite = SpriteFFVIKefkaA
+SpriteWeightGame = 1.5
+SpriteHeightGame = 0.5
+Sound = Message.wav
+IdPicture = Hedge Kefka
+AssociateSprite = SpriteLog SpriteFFVIKefkaA
+
 [WallStairUp]
 Sprite = SpriteDMBLA
 StairUp = true
@@ -72,6 +88,25 @@ Sprite = SpriteWallF
 
 [WallH]
 Sprite = SpriteWallG
+
+[WallFFVIA]
+Sprite = SpriteFFVIMountainB
+
+[WallFFVIB]
+Sprite = SpriteFFVIMountainC
+
+[WallFFVIC]
+Sprite = SpriteFFVIMountainD
+
+[WallFFVID]
+Sprite = SpriteFFVIMountainDB
+
+[WallFFVIE]
+Sprite = SpriteFFVIMountainDC
+
+[WallFFVIF]
+Sprite = SpriteFFVIMountainDD
+
 
 [WallOldA]
 Sprite = SpriteWallA SpriteWallB 

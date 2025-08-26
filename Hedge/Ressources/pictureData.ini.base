@@ -1,8 +1,8 @@
 #player.png ==> 0 Global.png ==> 1  FontTexture.png ==> 2 EnemyDemon.png ==> 3 GeneralSprites.png ==> 4 EnemyMarine.png ==> 5 Stars.jpg ==> 6 Simetra_green.png ==> 7 BossArachnotron.png ==> 8 BossCyberDemon.png ==> 9
 #EnemyBaronOfHell.png ==> 10 EnemyCacodemon.png ==> 11 EnemyDemonClaw.png ==> 12 EnemyZombieSergeant.png ==> 13  MenuFilled.png ==> 14 Font.png ==> 15  TitleMenu.png ==> 16 MenuLeft.png ==> 17  MenuRightLeft.png ==> 18 
-#NouvText.png ==> 19 BackroomText.png ==> 20   TreesFree.png ==> 21 walltest.jpg ==> 22 Moto.png ==> 23 CharMod.png ==> 24
+#NouvText.png ==> 19 BackroomText.png ==> 20   TreesFree.png ==> 21 walltest.jpg ==> 22 Moto.png ==> 23 CharMod.png ==> 24 FF6LVL.png ==> 25
 [PathToTexture]
-textures = player.png Global.png FontTexture.png EnemyDemon.png GeneralSprites.png EnemyMarine.png Stars.jpg Simetra_green.png BossArachnotron.png BossCyberDemon.png EnemyBaronOfHell.png EnemyCacodemon.png EnemyDemonClaw.png EnemyZombieSergeant.png MenuFilled.png Font.png TitleMenu.png MenuLeft.png MenuRightLeft.png NouvText.png BackroomText.png TreesFree.png walltest.jpg Moto.png CharMod.png
+textures = player.png Global.png FontTexture.png EnemyDemon.png GeneralSprites.png EnemyMarine.png Stars.jpg Simetra_green.png BossArachnotron.png BossCyberDemon.png EnemyBaronOfHell.png EnemyCacodemon.png EnemyDemonClaw.png EnemyZombieSergeant.png MenuFilled.png Font.png TitleMenu.png MenuLeft.png MenuRightLeft.png NouvText.png BackroomText.png TreesFree.png walltest.jpg Moto.png CharMod.png FF6LVL.png
 
  #4335 405  4522 599
 [SpriteLog]
@@ -3455,3 +3455,101 @@ texturePosX = 0.62668
 texturePosY = 0.207031
 textureWeight = 0.149508
 textureHeight = 0.0963542
+
+[SpriteFFVIMountainA]
+texture = 25
+texturePosX = 0
+texturePosY = 0.231729
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIMountainB]
+texture = 25
+texturePosX = 0.0266223
+texturePosY = 0.231729
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIMountainC]
+texture = 25
+texturePosX = 0.0532446
+texturePosY = 0.231729
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIMountainD]
+texture = 25
+texturePosX = 0.0798669
+texturePosY = 0.231729
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIMountainE]
+texture = 25
+texturePosX = 0.106489
+texturePosY = 0.231729
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIBGA]
+texture = 25
+texturePosX = 0.430948
+texturePosY = 0
+textureWeight = 0.567388
+textureHeight = 0.14082
+
+[SpriteFFVIMountainDA]
+texture = 25
+texturePosX = 0
+texturePosY = 0.26025
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIMountainDB]
+texture = 25
+texturePosX = 0.0266223
+texturePosY = 0.26025
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIMountainDC]
+texture = 25
+texturePosX = 0.0532446
+texturePosY = 0.26025
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIMountainDD]
+texture = 25
+texturePosX = 0.0798669
+texturePosY = 0.26025
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIMountainDE]
+texture = 25
+texturePosX = 0.106489
+texturePosY = 0.26025
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVILockeA]
+texture = 25
+texturePosX = 0.467554
+texturePosY = 0.664884
+textureWeight = 0.0266223
+textureHeight = 0.0409982
+
+[SpriteFFVIKefkaA]
+texture = 25
+texturePosX = 0.00998336
+texturePosY = 0.632799
+textureWeight = 0.0249584
+textureHeight = 0.0392157
+
+[SpriteFFVILockeHeadA]
+texture = 25
+texturePosX = 0.510815
+texturePosY = 0.88057
+textureWeight = 0.063228
+textureHeight = 0.0713012
