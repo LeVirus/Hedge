@@ -324,11 +324,12 @@ void StaticDisplaySystem::drawPictureDialog(uint32_t numSprite, uint32_t logEnti
 {
     MemSpriteDataComponent *memSprite = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(logEntity);
     assert(memSprite);
-    SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(logEntity);
-    assert(spriteComp);
     PositionVertexComponent *posVertexComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(logEntity);
     assert(posVertexComp);
-    spriteComp->m_spriteData = memSprite->m_vectSpriteData[numSprite];
+    //Quick fix
+    SpriteTextureComponent spriteComp;
+    spriteComp.m_spriteData = memSprite->m_vectSpriteData[numSprite];
+
     posVertexComp->m_vertex.resize(4);
     float leftPos = rightUpPos.first - 0.2f, downPos = rightUpPos.second - 0.2f;
     posVertexComp->m_vertex[0] = {leftPos, rightUpPos.second};
@@ -336,8 +337,8 @@ void StaticDisplaySystem::drawPictureDialog(uint32_t numSprite, uint32_t logEnti
     posVertexComp->m_vertex[2] = {rightUpPos.first, downPos};
     posVertexComp->m_vertex[3] = {leftPos, downPos};
     m_vertices[static_cast<uint32_t>(VertexID_e::DIALOG_PIC)].clear();
-    m_vertices[static_cast<uint32_t>(VertexID_e::DIALOG_PIC)].loadVertexStandartTextureComponent(*posVertexComp, *spriteComp);
-    drawVertex(spriteComp->m_spriteData->m_textureNum, VertexID_e::DIALOG_PIC);
+    m_vertices[static_cast<uint32_t>(VertexID_e::DIALOG_PIC)].loadVertexStandartTextureComponent(*posVertexComp, spriteComp);
+    drawVertex(memSprite->m_vectSpriteData[numSprite]->m_textureNum, VertexID_e::DIALOG_PIC);
 }
 
 //===================================================================
