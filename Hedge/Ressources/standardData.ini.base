@@ -32,23 +32,23 @@ SpriteHeightGame = 1.8
 [MessageLogA]
 Sprite = SpriteLog
 SpriteWeightGame = 0.4
-SpriteHeightGame = 1.2
+SpriteHeightGame = 1.4
 Sound = Message.wav
 IdPicture = Hedge Manuwaza
 AssociateSprite = SpriteLog SpriteTreeA
 
 [MessageLogLocke]
 Sprite = SpriteFFVILockeA
-SpriteWeightGame = 1.5
-SpriteHeightGame = 0.5
+SpriteWeightGame = 0.5
+SpriteHeightGame = 1.4
 Sound = Message.wav
 IdPicture = Hedge Locke
 AssociateSprite = SpriteLog SpriteFFVILockeHeadA
 
 [MessageLogKefka]
 Sprite = SpriteFFVIKefkaA
-SpriteWeightGame = 1.5
-SpriteHeightGame = 0.5
+SpriteWeightGame = 0.5
+SpriteHeightGame = 1.4
 Sound = Message.wav
 IdPicture = Hedge Kefka
 AssociateSprite = SpriteLog SpriteFFVIKefkaA

@@ -1880,6 +1880,7 @@ void MainEngine::loadLogsEntities(const LevelManager &levelManager, const std::v
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
         assert(spriteComp);
         assert(mapComp);
+        spriteComp->m_displaySize = it->second.m_fpsSize;
         MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(entityNum);
         assert(memSpriteComp);
         memSpriteComp->m_vectSpriteData.reserve(it->second.m_vectSprites.size());
