@@ -260,6 +260,7 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
     }
     else
     {
+        //!!!For multiple dialog charachter ADD "*" at the end of character line!!!
         if(m_currentDialogToDisplay == 0)
         {
             m_memDialogSprite = std::nullopt;
@@ -278,7 +279,7 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
                 infoToWrite = infoToWrite.substr(0, m_currentDialogToDisplay);
                 for(uint32_t i = 0; i < logComp->m_memCharacterPic.size(); ++i)
                 {
-                    sz = infoToWrite.find_first_of(logComp->m_memCharacterPic[i]);
+                    sz = infoToWrite.find(logComp->m_memCharacterPic[i]);
                     if(sz != std::string::npos)
                     {
                         m_memDialogSprite = i;
