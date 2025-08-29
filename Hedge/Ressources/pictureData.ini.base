@@ -3553,3 +3553,101 @@ texturePosX = 0.510815
 texturePosY = 0.88057
 textureWeight = 0.063228
 textureHeight = 0.0713012
+
+[SpriteFFVIBuildA]
+texture = 25
+texturePosX = 0.427621
+texturePosY = 0.201426
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIBuildB]
+texture = 25
+texturePosX = 0.454243
+texturePosY = 0.201426
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIBuildC]
+texture = 25
+texturePosX = 0.480865
+texturePosY = 0.201426
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIBuildD]
+texture = 25
+texturePosX = 0.507487
+texturePosY = 0.201426
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIBuildE]
+texture = 25
+texturePosX = 0.534109
+texturePosY = 0.201426
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIBuildF]
+texture = 25
+texturePosX = 0.560731
+texturePosY = 0.201426
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIBuildG]
+texture = 25
+texturePosX = 0.587353
+texturePosY = 0.201426
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIDBuildA]
+texture = 25
+texturePosX = 0.427621
+texturePosY = 0.229947
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIDBuildB]
+texture = 25
+texturePosX = 0.454243
+texturePosY = 0.229947
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIDBuildC]
+texture = 25
+texturePosX = 0.480865
+texturePosY = 0.229947
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIDBuildD]
+texture = 25
+texturePosX = 0.507487
+texturePosY = 0.229947
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIDBuildE]
+texture = 25
+texturePosX = 0.534109
+texturePosY = 0.229947
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIDBuildF]
+texture = 25
+texturePosX = 0.560731
+texturePosY = 0.229947
+textureWeight = 0.0266223
+textureHeight = 0.0285205
+
+[SpriteFFVIDBuildG]
+texture = 25
+texturePosX = 0.587353
+texturePosY = 0.229947
+textureWeight = 0.0266223
+textureHeight = 0.0285205

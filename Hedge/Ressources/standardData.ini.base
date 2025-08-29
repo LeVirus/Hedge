@@ -107,6 +107,48 @@ Sprite = SpriteFFVIMountainDC
 [WallFFVIF]
 Sprite = SpriteFFVIMountainDD
 
+[WallBuildFFVIA]
+Sprite = SpriteFFVIBuildA
+
+[WallBuildFFVIB]
+Sprite = SpriteFFVIBuildB
+
+[WallBuildFFVIC]
+Sprite = SpriteFFVIBuildC
+
+[WallBuildFFVID]
+Sprite = SpriteFFVIBuildD
+
+[WallBuildFFVIE]
+Sprite = SpriteFFVIBuildE
+
+[WallBuildFFVIF]
+Sprite = SpriteFFVIBuildF
+
+[WallBuildFFVIG]
+Sprite = SpriteFFVIBuildG
+
+
+[WallDBuildFFVIA]
+Sprite = SpriteFFVIDBuildA
+
+[WallDBuildFFVIB]
+Sprite = SpriteFFVIDBuildB
+
+[WallDBuildFFVIC]
+Sprite = SpriteFFVIDBuildC
+
+[WallDBuildFFVID]
+Sprite = SpriteFFVIDBuildD
+
+[WallDBuildFFVIE]
+Sprite = SpriteFFVIDBuildE
+
+[WallDBuildFFVIF]
+Sprite = SpriteFFVIDBuildF
+
+[WallDBuildFFVIG]
+Sprite = SpriteFFVIDBuildG
 
 [WallOldA]
 Sprite = SpriteWallA SpriteWallB 
