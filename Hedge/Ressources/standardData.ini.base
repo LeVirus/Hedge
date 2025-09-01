@@ -61,34 +61,6 @@ StairUp = true
 Sprite = SpriteDRA
 StairDown = true
 
-[WallBackroom]
-Sprite = SpriteWallBackroom
-
-[WallA]
-Sprite = SpriteWallMetalCol
-traversable = true
-
-[WallB]
-Sprite = SpriteWallLight
-
-[WallC]
-Sprite = SpriteMetalGroundB
-
-[WallD]
-Sprite = SpriteMetalGroundA
-
-[WallE]
-Sprite = SpriteWallD
-
-[WallF]
-Sprite = SpriteWallE
-
-[WallG]
-Sprite = SpriteWallF
-
-[WallH]
-Sprite = SpriteWallG
-
 [WallFFVIA]
 Sprite = SpriteFFVIMountainB
 
@@ -128,7 +100,6 @@ Sprite = SpriteFFVIBuildF
 [WallBuildFFVIG]
 Sprite = SpriteFFVIBuildG
 
-
 [WallDBuildFFVIA]
 Sprite = SpriteFFVIDBuildA
 
@@ -149,22 +120,6 @@ Sprite = SpriteFFVIDBuildF
 
 [WallDBuildFFVIG]
 Sprite = SpriteFFVIDBuildG
-
-[WallOldA]
-Sprite = SpriteWallA SpriteWallB 
-
-[WallOldB]
-Sprite = SpriteWallB
-
-[WallOldC]
-Sprite = SpriteWallC
-
-[WallScreen]
-Sprite = SpriteSimetraLogo SpriteSimetraWrite
-Time = 0.5 1.5
-
-[WallLogo]
-Sprite = SpriteSimetraLogo
 
 [WallElecA]
 Sprite = SpriteWallB SpriteWallA
@@ -193,46 +148,6 @@ Vertical = true
 [DoorHorizontal]
 Sprite = SpriteMetalDoor
 Vertical = false
-
-[DoorCardV]
-Sprite = SpriteMetalDoor
-Vertical = true
-CardID = ObjectPurpleCard
-
-[DoorCardPurpleH]
-Sprite = SpriteMetalDoor
-Vertical = false
-CardID = ObjectPurpleCard
-
-[DoorCardGreenV]
-Sprite = SpriteMetalDoor
-Vertical = true
-CardID = ObjectGreenCard
-
-[DoorCardGreenH]
-Sprite = SpriteMetalDoor
-Vertical = false
-CardID = ObjectGreenCard
-
-[DoorCardBlueV]
-Sprite = SpriteMetalDoor
-Vertical = true
-CardID = ObjectBlueCard
-
-[DoorCardBlueH]
-Sprite = SpriteMetalDoor
-Vertical = false
-CardID = ObjectBlueCard
-
-[DoorCardGoldV]
-Sprite = SpriteMetalDoor
-Vertical = true
-CardID = ObjectGoldCard
-
-[DoorCardGoldH]
-Sprite = SpriteMetalDoor
-Vertical = false
-CardID = ObjectGoldCard
 
 [TriggerA]
 Sprite = SpriteTriggerA
@@ -732,38 +647,6 @@ SpriteHeightGame = 0.5
 Type = 2
 Containing = 10
 
-[ObjectPurpleCard]
-CardName = Purple Card
-Sprite = SpriteSimetraCardPurple
-SpriteWeightGame = 0.1365
-SpriteHeightGame = 0.4665
-Type = 3
-CardID = 0
-
-[ObjectBlueCard]
-CardName = Blue Card
-Sprite = SpriteSimetraCardBlue
-SpriteWeightGame = 0.1365
-SpriteHeightGame = 0.4665
-Type = 3
-CardID = 1
-
-[ObjectGreenCard]
-CardName = Green Card
-Sprite = SpriteSimetraCardGreen
-SpriteWeightGame = 0.1365
-SpriteHeightGame = 0.4665
-Type = 3
-CardID = 2
-
-[ObjectGoldCard]
-CardName = Gold Card
-Sprite = SpriteSimetraCardGold
-SpriteWeightGame = 0.1365
-SpriteHeightGame = 0.4665
-Type = 3
-CardID = 3
-
 [GroundGeneratorEnemies]
 Sprite = SpriteGigerTeleport
 SpriteWeightGame = 0.4
@@ -784,72 +667,6 @@ Direction = north
 Cycles = 2.5
 Damage = 5
 MaxPop = 4
-
-[GroundLittleStorage]
-Sprite = SpriteLittleStorage
-SpriteWeightGame = 0.4
-SpriteHeightGame = 0.8
-traversable = false
-
-[GroundTable]
-Sprite = SpriteTable
-SpriteWeightGame = 0.5
-SpriteHeightGame = 0.8
-traversable = false
-
-[GroundChair]
-Sprite = SpriteChair
-SpriteWeightGame = 0.4
-SpriteHeightGame = 0.9
-traversable = false
-
-[GroundStorage]
-Sprite = SpriteLittleStorage
-SpriteWeightGame = 0.4
-SpriteHeightGame = 1.2
-traversable = false
-
-[GroundGigerA]
-Sprite = SpriteGigerGroundA
-SpriteWeightGame = 0.8
-SpriteHeightGame = 0.5
-traversable = false
-
-[GroundGigerB]
-Sprite = SpriteGigerGroundB
-SpriteWeightGame = 0.8
-SpriteHeightGame = 0.5
-traversable = false
-
-[GroundGigerC]
-Sprite = SpriteGigerGroundC
-SpriteWeightGame = 0.54
-SpriteHeightGame = 0.85
-traversable = false
-
-[CeilingGigerA]
-Sprite = SpriteGigerCeilingA
-SpriteWeightGame = 0.62
-SpriteHeightGame = 0.92
-traversable = false
-
-[CeilingGigerB]
-Sprite = SpriteGigerCeilingB
-SpriteWeightGame = 0.38
-SpriteHeightGame = 0.61
-traversable = false
-
-[CeilingGigerC]
-Sprite = SpriteGigerCeilingC
-SpriteWeightGame = 0.85
-SpriteHeightGame = 0.53
-traversable = false
-
-[CeilingGigerD]
-Sprite = SpriteGigerCeilingD
-SpriteWeightGame = 0.38
-SpriteHeightGame = 1.32
-traversable = false
 
 [GroundTreeA]
 Sprite = SpriteTreeA
@@ -920,12 +737,6 @@ StaticSpriteHeightGame = 1.0
 ExplosionSprite = SpriteBarrelsDA SpriteBarrelsDB SpriteBarrelsDC
 ExplosionSpriteWeightGame = 0.5 0.6 0.7
 ExplosionSpriteHeightGame = 1.1 1.2 1.3 
-
-[CeilingPanel]
-Sprite = SpriteExit
-SpriteWeightGame = 0.3
-SpriteHeightGame = 0.2
-traversable = false
 
 [Exit]
 Sprite = SpriteExitSwitch 
