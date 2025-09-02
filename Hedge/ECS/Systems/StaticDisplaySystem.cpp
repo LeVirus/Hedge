@@ -279,6 +279,7 @@ bool StaticDisplaySystem::drawDialogPlayer(PlayerConfComponent &playerComp)
                 infoToWrite = infoToWrite.substr(0, m_currentDialogToDisplay);
                 for(uint32_t i = 0; i < logComp->m_memCharacterPic.size(); ++i)
                 {
+
                     sz = infoToWrite.find(logComp->m_memCharacterPic[i]);
                     if(sz != std::string::npos)
                     {

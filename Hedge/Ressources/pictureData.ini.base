@@ -3651,3 +3651,234 @@ texturePosX = 0.587353
 texturePosY = 0.229947
 textureWeight = 0.0266223
 textureHeight = 0.0285205
+
+[SpriteFFVIMecaA]
+texture = 25
+texturePosX = 0
+texturePosY = 0.736185
+textureWeight = 0.078203
+textureHeight = 0.0766488
+
+[SpriteFFVIMecaSteamA]
+texture = 25
+texturePosX = 0.108153
+texturePosY = 0.737968
+textureWeight = 0.104825
+textureHeight = 0.0641711
+
+[SpriteFFVITonneauA]
+texture = 25
+texturePosX = 0.232945
+texturePosY = 0.746881
+textureWeight = 0.0216306
+textureHeight = 0.0356506
+
+[SpriteFFVIChemineeA]
+texture = 25
+texturePosX = 0.266223
+texturePosY = 0.748663
+textureWeight = 0.0249584
+textureHeight = 0.0534759
+
+[SpriteFFVIWoodPathA]
+texture = 25
+texturePosX = 0.171381
+texturePosY = 0.819964
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIWoodPathB]
+texture = 25
+texturePosX = 0.198003
+texturePosY = 0.819964
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIWoodPathC]
+texture = 25
+texturePosX = 0.224625
+texturePosY = 0.819964
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIWoodPathD]
+texture = 25
+texturePosX = 0.251247
+texturePosY = 0.819964
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIWoodPathE]
+texture = 25
+texturePosX = 0.277869
+texturePosY = 0.819964
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIToitPathA]
+texture = 25
+texturePosX = 0.171381
+texturePosY = 0.848485
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIToitPathB]
+texture = 25
+texturePosX = 0.198003
+texturePosY = 0.848485
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIToitPathC]
+texture = 25
+texturePosX = 0.224625
+texturePosY = 0.848485
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIToitPathD]
+texture = 25
+texturePosX = 0.251247
+texturePosY = 0.848485
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIToitPathE]
+texture = 25
+texturePosX = 0.277869
+texturePosY = 0.848485
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIToitPathF]
+texture = 25
+texturePosX = 0.304491
+texturePosY = 0.848485
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIToitDownA]
+texture = 25
+texturePosX = 0.171381
+texturePosY = 0.905526
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIToitDownB]
+texture = 25
+texturePosX = 0.198003
+texturePosY = 0.905526
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIHouseUpA]
+texture = 25
+texturePosX = 0.171381
+texturePosY = 0.934046
+textureWeight = 0.0249584
+textureHeight = 0.0285205
+
+[SpriteFFVIHouseUpB]
+texture = 25
+texturePosX = 0.198003
+texturePosY = 0.934046
+textureWeight = 0.0249584
+textureHeight = 0.0285205
+
+[SpriteFFVIHouseDownA]
+texture = 25
+texturePosX = 0.171381
+texturePosY = 0.962567
+textureWeight = 0.0249584
+textureHeight = 0.0285205
+
+[SpriteFFVIHouseDownB]
+texture = 25
+texturePosX = 0.198003
+texturePosY = 0.962567
+textureWeight = 0.0249584
+textureHeight = 0.0285205
+
+[SpriteFFVIStairToitAC]
+texture = 25
+texturePosX = 0.0532446
+texturePosY = 0.850267
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIPannelA]
+texture = 25
+texturePosX = 0
+texturePosY = 0.819964
+textureWeight = 0.0266223
+textureHeight = 0.0249554
+
+[SpriteFFVIPannelB]
+texture = 25
+texturePosX = 0.0266223
+texturePosY = 0.819964
+textureWeight = 0.0266223
+textureHeight = 0.0249554
+
+[SpriteFFVIPannelC]
+texture = 25
+texturePosX = 0.0532446
+texturePosY = 0.819964
+textureWeight = 0.0266223
+textureHeight = 0.0249554
+
+[SpriteFFVIPannelD]
+texture = 25
+texturePosX = 0.0798669
+texturePosY = 0.819964
+textureWeight = 0.0266223
+textureHeight = 0.0249554
+
+[SpriteFFVIPannelE]
+texture = 25
+texturePosX = 0.106489
+texturePosY = 0.819964
+textureWeight = 0.0266223
+textureHeight = 0.0249554
+
+[SpriteFFVIPannelF]
+texture = 25
+texturePosX = 0.133111
+texturePosY = 0.819964
+textureWeight = 0.0266223
+textureHeight = 0.0249554
+
+[SpriteFFVIStairToitBA]
+texture = 25
+texturePosX = 0
+texturePosY = 0.893048
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIStairToitBB]
+texture = 25
+texturePosX = 0.0266223
+texturePosY = 0.893048
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIStairToitBC]
+texture = 25
+texturePosX = 0.0532446
+texturePosY = 0.893048
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIStairToitBD]
+texture = 25
+texturePosX = 0.0798669
+texturePosY = 0.893048
+textureWeight = 0.0249584
+textureHeight = 0.026738
+
+[SpriteFFVIStairToitBE]
+texture = 25
+texturePosX = 0.106489
+texturePosY = 0.893048
+textureWeight = 0.0249584
+textureHeight = 0.026738

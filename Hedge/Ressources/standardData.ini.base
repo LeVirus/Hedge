@@ -53,13 +53,74 @@ Sound = Message.wav
 IdPicture = Hedge Kefka
 AssociateSprite = SpriteLog SpriteFFVIKefkaA
 
+[WallFFVIToitStairDownA]
+Sprite = SpriteFFVIStairToitBB
+
+[WallFFVIToitStairDownB]
+Sprite = SpriteFFVIStairToitBC
+
+[WallFFVIToitStairDownC]
+Sprite = SpriteFFVIStairToitBD
+
 [WallStairUp]
-Sprite = SpriteDMBLA
+Sprite = SpriteFFVIStairToitBA
 StairUp = true
 
 [WallStairDown]
-Sprite = SpriteDRA
+Sprite = SpriteFFVIStairToitBE
 StairDown = true
+
+
+[WallFFVIWoodA]
+Sprite = SpriteFFVIWoodPathA
+
+[WallFFVIWoodB]
+Sprite = SpriteFFVIWoodPathB
+
+[WallFFVIWoodC]
+Sprite = SpriteFFVIWoodPathC
+
+[WallFFVIWoodD]
+Sprite = SpriteFFVIWoodPathD
+
+[WallFFVIWoodE]
+Sprite = SpriteFFVIWoodPathE
+
+[WallFFVIToitA]
+Sprite = SpriteFFVIToitPathA
+
+[WallFFVIToitB]
+Sprite = SpriteFFVIToitPathB
+
+[WallFFVIToitC]
+Sprite = SpriteFFVIToitPathC
+
+[WallFFVIToitD]
+Sprite = SpriteFFVIToitPathD
+
+[WallFFVIToitE]
+Sprite = SpriteFFVIToitPathE
+
+[WallFFVIToitF]
+Sprite = SpriteFFVIToitPathF
+
+[WallFFVIToitDownA]
+Sprite = SpriteFFVIToitDownA
+
+[WallFFVIToitDownB]
+Sprite = SpriteFFVIToitDownB
+
+[WallFFVIHouseUpA]
+Sprite = SpriteFFVIHouseUpA
+
+[WallFFVIHouseUpB]
+Sprite = SpriteFFVIHouseUpB
+
+[WallFFVIHouseDownA]
+Sprite = SpriteFFVIHouseDownA
+
+[WallFFVIHouseDownB]
+Sprite = SpriteFFVIHouseDownB
 
 [WallFFVIA]
 Sprite = SpriteFFVIMountainB
@@ -715,6 +776,49 @@ Sprite = SpriteTreeB
 SpriteWeightGame = 1.2
 SpriteHeightGame = 2.0
 traversable = true
+
+[GroundFFVIMecaA]
+Sprite = SpriteFFVIMecaA
+SpriteWeightGame = 2.2
+SpriteHeightGame = 1.5
+traversable = false
+
+[GroundFFVIMecaSteam]
+Sprite = SpriteFFVIMecaSteamA
+SpriteWeightGame = 2.2
+SpriteHeightGame = 1.5
+traversable = false
+
+[GroundFFVIBarrel]
+Sprite = SpriteFFVITonneauA
+SpriteWeightGame = 0.5
+SpriteHeightGame = 0.9
+traversable = false
+
+[GroundFFVICheminee]
+Sprite = SpriteFFVIChemineeA
+SpriteWeightGame = 0.6
+SpriteHeightGame = 1.5
+traversable = false
+
+[GroundFFVIPannelA]
+Sprite = SpriteFFVIPannelA
+SpriteWeightGame = 1.0
+SpriteHeightGame = 0.5
+traversable = false
+
+[GroundFFVIPannelB]
+Sprite = SpriteFFVIPannelB
+SpriteWeightGame = 1.0
+SpriteHeightGame = 0.5
+traversable = false
+
+[GroundFFVIPannelC]
+Sprite = SpriteFFVIPannelC
+SpriteWeightGame = 1.0
+SpriteHeightGame = 0.5
+traversable = false
+
 
 
 [TeleportInvisible]
