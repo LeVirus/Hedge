@@ -3911,153 +3911,6 @@ texturePosY = 0.118421
 textureWeight = 0.129699
 textureHeight = 0.233553
 
-[SpriteManaPlatformA]
-texture = 26
-texturePosX = 0
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaPlatformB]
-texture = 26
-texturePosX = 0.0319549
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaPlatformC]
-texture = 26
-texturePosX = 0.0639098
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaPlatformD]
-texture = 26
-texturePosX = 0.0958647
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaPlatformE]
-texture = 26
-texturePosX = 0.12782
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaPlatformF]
-texture = 26
-texturePosX = 0.159775
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaPlatformG]
-texture = 26
-texturePosX = 0.19173
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaPlatformH]
-texture = 26
-texturePosX = 0.223685
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaPlatformI]
-texture = 26
-texturePosX = 0.25564
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaPlatformJ]
-texture = 26
-texturePosX = 0.287595
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaPlatformK]
-texture = 26
-texturePosX = 0.31955
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaPlatformL]
-texture = 26
-texturePosX = 0.351505
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaPlatformM]
-texture = 26
-texturePosX = 0.38346
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaRoofA]
-texture = 26
-texturePosX = 0.453008
-texturePosY = 0.434211
-textureWeight = 0.0281955
-textureHeight = 0.0493421
-
-[SpriteManaRoofB]
-texture = 26
-texturePosX = 0.484963
-texturePosY = 0.434211
-textureWeight = 0.0281955
-textureHeight = 0.0493421
-
-[SpriteManaRoofC]
-texture = 26
-texturePosX = 0.516918
-texturePosY = 0.434211
-textureWeight = 0.0281955
-textureHeight = 0.0493421
-
-[SpriteManaRoofD]
-texture = 26
-texturePosX = 0.548873
-texturePosY = 0.434211
-textureWeight = 0.0281955
-textureHeight = 0.0493421
-
-[SpriteManaStairRockA]
-texture = 26
-texturePosX = 0.577068
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0526316
-
-[SpriteManaStairRockB]
-texture = 26
-texturePosX = 0.609023
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0526316
-
-[SpriteManaStairRockC]
-texture = 26
-texturePosX = 0.640978
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0526316
-
-[SpriteManaStairRockD]
-texture = 26
-texturePosX = 0.672933
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0526316
-
 [SpriteManaRockAA]
 texture = 26
 texturePosX = 0.577068
@@ -4113,13 +3966,6 @@ texturePosX = 0.672933
 texturePosY = 0.539474
 textureWeight = 0.0300752
 textureHeight = 0.0526316
-
-[SpriteManaTreeA]
-texture = 26
-texturePosX = 0.0037594
-texturePosY = 0.506579
-textureWeight = 0.0319549
-textureHeight = 0.0986842
 
 [SpriteManaPannelA]
 texture = 26
@@ -4230,5 +4076,159 @@ textureHeight = 0.0526316
 texture = 26
 texturePosX = 0.825188
 texturePosY = 0.440789
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaTreeA]
+texture = 26
+texturePosX = 0.0037594
+texturePosY = 0.506579
+textureWeight = 0.056391
+textureHeight = 0.177632
+
+[SpriteManaPlatformA]
+texture = 26
+texturePosX = 0
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformB]
+texture = 26
+texturePosX = 0.0300752
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformC]
+texture = 26
+texturePosX = 0.0601504
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformD]
+texture = 26
+texturePosX = 0.0902256
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformE]
+texture = 26
+texturePosX = 0.120301
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformF]
+texture = 26
+texturePosX = 0.150376
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformG]
+texture = 26
+texturePosX = 0.180451
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformH]
+texture = 26
+texturePosX = 0.210526
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformI]
+texture = 26
+texturePosX = 0.240601
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformJ]
+texture = 26
+texturePosX = 0.270676
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformK]
+texture = 26
+texturePosX = 0.300751
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformL]
+texture = 26
+texturePosX = 0.330826
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformM]
+texture = 26
+texturePosX = 0.360901
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaRoofA]
+texture = 26
+texturePosX = 0.453008
+texturePosY = 0.434211
+textureWeight = 0.0281955
+textureHeight = 0.0493421
+
+[SpriteManaRoofB]
+texture = 26
+texturePosX = 0.483083
+texturePosY = 0.434211
+textureWeight = 0.0281955
+textureHeight = 0.0493421
+
+[SpriteManaRoofC]
+texture = 26
+texturePosX = 0.513158
+texturePosY = 0.434211
+textureWeight = 0.0281955
+textureHeight = 0.0493421
+
+[SpriteManaRoofD]
+texture = 26
+texturePosX = 0.543233
+texturePosY = 0.434211
+textureWeight = 0.0281955
+textureHeight = 0.0493421
+
+[SpriteManaStairRockA]
+texture = 26
+texturePosX = 0.577068
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaStairRockB]
+texture = 26
+texturePosX = 0.607143
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaStairRockC]
+texture = 26
+texturePosX = 0.637218
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaStairRockD]
+texture = 26
+texturePosX = 0.667293
+texturePosY = 0.434211
 textureWeight = 0.0300752
 textureHeight = 0.0526316

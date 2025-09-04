@@ -124,12 +124,14 @@ Sprite = SpriteFFVIHouseDownB
 
 [WallFFVIA]
 Sprite = SpriteFFVIMountainB
+StairUp = true
 
 [WallFFVIB]
 Sprite = SpriteFFVIMountainC
 
 [WallFFVIC]
 Sprite = SpriteFFVIMountainD
+StairDown = true
 
 [WallFFVID]
 Sprite = SpriteFFVIMountainDB
@@ -242,7 +244,7 @@ StairUp = true
 
 [WallManaGrassStairDown]
 Sprite = SpriteManaPlatformJ
-StairUp = false
+StairDown = true
 
 [WallManaStair]
 Sprite = SpriteManaPlatformK
@@ -260,7 +262,7 @@ StairUp = true
 
 [WallManaWoodStairDown]
 Sprite = SpriteManaWoodStairE
-StairUp = false
+StairDown = true
 
 [WallManaWoodPath]
 Sprite = SpriteManaWoodStairC
@@ -273,15 +275,15 @@ Sprite = SpriteManaRoofC
 
 [WallManaRoofStairDown]
 Sprite = SpriteManaRoofD
-StairUp = false
+StairDown = true
 
 [WallManaStairUpRock]
 Sprite = SpriteManaStairRockA
-StairUp = true
+StairDown = true
 
 [WallManaStairDownRock]
 Sprite = SpriteManaStairRockD
-StairUp = false
+StairUp = true
 
 [WallManaRockA]
 Sprite = SpriteManaRockAA
