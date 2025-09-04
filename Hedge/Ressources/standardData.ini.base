@@ -182,6 +182,143 @@ Sprite = SpriteFFVIDBuildF
 [WallDBuildFFVIG]
 Sprite = SpriteFFVIDBuildG
 
+[MessageLogRandy]
+Sprite = SpriteManaRandyA
+SpriteWeightGame = 0.5
+SpriteHeightGame = 1.4
+Sound = Message.wav
+IdPicture = Hedge Randy
+AssociateSprite = SpriteLog SpriteManaRandyA
+
+
+[MessageLogManaPannel]
+Sprite = SpriteManaPannelA
+SpriteWeightGame = 0.5
+SpriteHeightGame = 1.4
+Sound = Message.wav
+IdPicture = Hedge Pannel
+AssociateSprite = SpriteLog SpriteManaPannelA
+
+
+[GroundManaCanon]
+Sprite = SpriteManaCanonA
+SpriteWeightGame = 2.0
+SpriteHeightGame = 3.0
+traversable = false
+
+[GroundManaTree]
+Sprite = SpriteManaTreeA
+SpriteWeightGame = 0.5
+SpriteHeightGame = 1.5
+traversable = false
+
+[GroundManaMenhir]
+Sprite = SpriteManaMenhirA
+SpriteWeightGame = 0.4
+SpriteHeightGame = 1.0
+traversable = false
+
+[GroundManaBushA]
+Sprite = SpriteManaBushA
+SpriteWeightGame = 0.6
+SpriteHeightGame = 0.8
+traversable = false
+
+[GroundManaBushB]
+Sprite = SpriteManaBushB
+SpriteWeightGame = 0.6
+SpriteHeightGame = 0.8
+traversable = false
+
+[WallManaWood]
+Sprite = SpriteManaPlatformA
+
+[WallManaGrass]
+Sprite = SpriteManaPlatformE
+
+[WallManaGrassStairUp]
+Sprite = SpriteManaPlatformG
+StairUp = true
+
+[WallManaGrassStairDown]
+Sprite = SpriteManaPlatformJ
+StairUp = false
+
+[WallManaStair]
+Sprite = SpriteManaPlatformK
+
+[WallManaWoodBridge]
+Sprite = SpriteManaPlatformM
+
+[WallManaRoofStairUp]
+Sprite = SpriteManaRoofA
+StairUp = true
+
+[WallManaWoodStairUp]
+Sprite = SpriteManaWoodStairA
+StairUp = true
+
+[WallManaWoodStairDown]
+Sprite = SpriteManaWoodStairE
+StairUp = false
+
+[WallManaWoodPath]
+Sprite = SpriteManaWoodStairC
+
+[WallManaRoofA]
+Sprite = SpriteManaRoofB
+
+[WallManaRoofB]
+Sprite = SpriteManaRoofC
+
+[WallManaRoofStairDown]
+Sprite = SpriteManaRoofD
+StairUp = false
+
+[WallManaStairUpRock]
+Sprite = SpriteManaStairRockA
+StairUp = true
+
+[WallManaStairDownRock]
+Sprite = SpriteManaStairRockD
+StairUp = false
+
+[WallManaRockA]
+Sprite = SpriteManaRockAA
+
+[WallManaRockB]
+Sprite = SpriteManaRockAB
+
+[WallManaRockC]
+Sprite = SpriteManaRockAC
+
+[WallManaRockD]
+Sprite = SpriteManaRockAD
+
+[WallManaRockE]
+Sprite = SpriteManaRockBA
+
+[WallManaRockF]
+Sprite = SpriteManaRockBB
+
+[WallManaRockG]
+Sprite = SpriteManaRockBC
+
+[WallManaRockH]
+Sprite = SpriteManaRockBD
+
+[WallManaRoofDishA]
+Sprite = SpriteManaRoofDishUpA
+
+[WallManaRoofDishB]
+Sprite = SpriteManaRoofDishUpC
+
+[WallManaRoofDownA]
+Sprite = SpriteManaRoofDishDownA
+
+[WallManaRoofDownB]
+Sprite = SpriteManaRoofDishDownB
+
 [WallElecA]
 Sprite = SpriteWallB SpriteWallA
 Time = 1.0 2.5

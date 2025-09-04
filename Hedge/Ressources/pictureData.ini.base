@@ -1,8 +1,8 @@
 #player.png ==> 0 Global.png ==> 1  FontTexture.png ==> 2 EnemyDemon.png ==> 3 GeneralSprites.png ==> 4 EnemyMarine.png ==> 5 Stars.jpg ==> 6 Simetra_green.png ==> 7 BossArachnotron.png ==> 8 BossCyberDemon.png ==> 9
 #EnemyBaronOfHell.png ==> 10 EnemyCacodemon.png ==> 11 EnemyDemonClaw.png ==> 12 EnemyZombieSergeant.png ==> 13  MenuFilled.png ==> 14 Font.png ==> 15  TitleMenu.png ==> 16 MenuLeft.png ==> 17  MenuRightLeft.png ==> 18 
-#NouvText.png ==> 19 BackroomText.png ==> 20   TreesFree.png ==> 21 walltest.jpg ==> 22 Moto.png ==> 23 CharMod.png ==> 24 FF6LVL.png ==> 25
+#NouvText.png ==> 19 BackroomText.png ==> 20   TreesFree.png ==> 21 walltest.jpg ==> 22 Moto.png ==> 23 CharMod.png ==> 24 FF6LVL.png ==> 25 ManaGen.png ==> 26  DonkeyLVL.png ==> 27  FF6Enemies.png ==> 28
 [PathToTexture]
-textures = player.png Global.png FontTexture.png EnemyDemon.png GeneralSprites.png EnemyMarine.png Stars.jpg Simetra_green.png BossArachnotron.png BossCyberDemon.png EnemyBaronOfHell.png EnemyCacodemon.png EnemyDemonClaw.png EnemyZombieSergeant.png MenuFilled.png Font.png TitleMenu.png MenuLeft.png MenuRightLeft.png NouvText.png BackroomText.png TreesFree.png walltest.jpg Moto.png CharMod.png FF6LVL.png
+textures = player.png Global.png FontTexture.png EnemyDemon.png GeneralSprites.png EnemyMarine.png Stars.jpg Simetra_green.png BossArachnotron.png BossCyberDemon.png EnemyBaronOfHell.png EnemyCacodemon.png EnemyDemonClaw.png EnemyZombieSergeant.png MenuFilled.png Font.png TitleMenu.png MenuLeft.png MenuRightLeft.png NouvText.png BackroomText.png TreesFree.png walltest.jpg Moto.png CharMod.png FF6LVL.png ManaGen.png DonkeyLVL.png FF6Enemies.png 
 
  #4335 405  4522 599
 [SpriteLog]
@@ -3882,3 +3882,353 @@ texturePosX = 0.106489
 texturePosY = 0.893048
 textureWeight = 0.0249584
 textureHeight = 0.026738
+
+[SpriteManaRandyA]
+texture = 26
+texturePosX = 0.0056391
+texturePosY = 0.00657895
+textureWeight = 0.0281955
+textureHeight = 0.101974
+
+[SpriteManaWaterFallA]
+texture = 26
+texturePosX = 0
+texturePosY = 0.118421
+textureWeight = 0.479323
+textureHeight = 0.3125
+
+[SpriteManaSkyBack]
+texture = 26
+texturePosX = 0.481203
+texturePosY = 0.118421
+textureWeight = 0.208647
+textureHeight = 0.259868
+
+[SpriteManaCanonA]
+texture = 26
+texturePosX = 0.753759
+texturePosY = 0.118421
+textureWeight = 0.129699
+textureHeight = 0.233553
+
+[SpriteManaPlatformA]
+texture = 26
+texturePosX = 0
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformB]
+texture = 26
+texturePosX = 0.0319549
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformC]
+texture = 26
+texturePosX = 0.0639098
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformD]
+texture = 26
+texturePosX = 0.0958647
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformE]
+texture = 26
+texturePosX = 0.12782
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformF]
+texture = 26
+texturePosX = 0.159775
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformG]
+texture = 26
+texturePosX = 0.19173
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformH]
+texture = 26
+texturePosX = 0.223685
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformI]
+texture = 26
+texturePosX = 0.25564
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformJ]
+texture = 26
+texturePosX = 0.287595
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformK]
+texture = 26
+texturePosX = 0.31955
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformL]
+texture = 26
+texturePosX = 0.351505
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaPlatformM]
+texture = 26
+texturePosX = 0.38346
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
+
+[SpriteManaRoofA]
+texture = 26
+texturePosX = 0.453008
+texturePosY = 0.434211
+textureWeight = 0.0281955
+textureHeight = 0.0493421
+
+[SpriteManaRoofB]
+texture = 26
+texturePosX = 0.484963
+texturePosY = 0.434211
+textureWeight = 0.0281955
+textureHeight = 0.0493421
+
+[SpriteManaRoofC]
+texture = 26
+texturePosX = 0.516918
+texturePosY = 0.434211
+textureWeight = 0.0281955
+textureHeight = 0.0493421
+
+[SpriteManaRoofD]
+texture = 26
+texturePosX = 0.548873
+texturePosY = 0.434211
+textureWeight = 0.0281955
+textureHeight = 0.0493421
+
+[SpriteManaStairRockA]
+texture = 26
+texturePosX = 0.577068
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaStairRockB]
+texture = 26
+texturePosX = 0.609023
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaStairRockC]
+texture = 26
+texturePosX = 0.640978
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaStairRockD]
+texture = 26
+texturePosX = 0.672933
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRockAA]
+texture = 26
+texturePosX = 0.577068
+texturePosY = 0.486842
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRockAB]
+texture = 26
+texturePosX = 0.609023
+texturePosY = 0.486842
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRockAC]
+texture = 26
+texturePosX = 0.640978
+texturePosY = 0.486842
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRockAD]
+texture = 26
+texturePosX = 0.672933
+texturePosY = 0.486842
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRockBA]
+texture = 26
+texturePosX = 0.577068
+texturePosY = 0.539474
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRockBB]
+texture = 26
+texturePosX = 0.609023
+texturePosY = 0.539474
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRockBC]
+texture = 26
+texturePosX = 0.640978
+texturePosY = 0.539474
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRockBD]
+texture = 26
+texturePosX = 0.672933
+texturePosY = 0.539474
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaTreeA]
+texture = 26
+texturePosX = 0.0037594
+texturePosY = 0.506579
+textureWeight = 0.0319549
+textureHeight = 0.0986842
+
+[SpriteManaPannelA]
+texture = 26
+texturePosX = 0.0714286
+texturePosY = 0.5
+textureWeight = 0.0432331
+textureHeight = 0.0690789
+
+[SpriteManaMenhirA]
+texture = 26
+texturePosX = 0.12218
+texturePosY = 0.5
+textureWeight = 0.0545113
+textureHeight = 0.134868
+
+[SpriteManaBushA]
+texture = 26
+texturePosX = 0.182331
+texturePosY = 0.506579
+textureWeight = 0.0582707
+textureHeight = 0.0953947
+
+[SpriteManaBushB]
+texture = 26
+texturePosX = 0.242481
+texturePosY = 0.506579
+textureWeight = 0.0582707
+textureHeight = 0.0953947
+
+[SpriteManaRoofDishUpA]
+texture = 26
+texturePosX = 0
+texturePosY = 0.756579
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRoofDishUpB]
+texture = 26
+texturePosX = 0.0319549
+texturePosY = 0.756579
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRoofDishUpC]
+texture = 26
+texturePosX = 0.0639098
+texturePosY = 0.756579
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRoofDishDownA]
+texture = 26
+texturePosX = 0
+texturePosY = 0.809211
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRoofDishDownB]
+texture = 26
+texturePosX = 0.0319549
+texturePosY = 0.809211
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRoofDishDownC]
+texture = 26
+texturePosX = 0.0639098
+texturePosY = 0.809211
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaBackForestA]
+texture = 26
+texturePosX = 0.257519
+texturePosY = 0.700658
+textureWeight = 0.300752
+textureHeight = 0.220395
+
+[SpriteManaWoodStairA]
+texture = 26
+texturePosX = 0.697368
+texturePosY = 0.440789
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaWoodStairB]
+texture = 26
+texturePosX = 0.729323
+texturePosY = 0.440789
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaWoodStairC]
+texture = 26
+texturePosX = 0.761278
+texturePosY = 0.440789
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaWoodStairD]
+texture = 26
+texturePosX = 0.793233
+texturePosY = 0.440789
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaWoodStairE]
+texture = 26
+texturePosX = 0.825188
+texturePosY = 0.440789
+textureWeight = 0.0300752
+textureHeight = 0.0526316
