@@ -3904,13 +3904,6 @@ texturePosY = 0.118421
 textureWeight = 0.129699
 textureHeight = 0.233553
 
-[SpriteManaRockAA]
-texture = 26
-texturePosX = 0.577068
-texturePosY = 0.486842
-textureWeight = 0.0300752
-textureHeight = 0.0526316
-
 [SpriteManaRockAB]
 texture = 26
 texturePosX = 0.609023
@@ -4072,13 +4065,6 @@ texturePosY = 0.506579
 textureWeight = 0.056391
 textureHeight = 0.177632
 
-[SpriteManaPlatformA]
-texture = 26
-texturePosX = 0
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0493421
-
 [SpriteManaPlatformB]
 texture = 26
 texturePosX = 0.0300752
@@ -4191,34 +4177,6 @@ texturePosY = 0.434211
 textureWeight = 0.0281955
 textureHeight = 0.0493421
 
-[SpriteManaStairRockA]
-texture = 26
-texturePosX = 0.577068
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0526316
-
-[SpriteManaStairRockB]
-texture = 26
-texturePosX = 0.607143
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0526316
-
-[SpriteManaStairRockC]
-texture = 26
-texturePosX = 0.637218
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0526316
-
-[SpriteManaStairRockD]
-texture = 26
-texturePosX = 0.667293
-texturePosY = 0.434211
-textureWeight = 0.0300752
-textureHeight = 0.0526316
-
 [SpriteManaWaterFallA]
 texture = 26
 texturePosX = 0.0018797
@@ -4233,3 +4191,45 @@ texturePosY = 0.700658
 textureWeight = 0.298872
 textureHeight = 0.220395
 
+
+[SpriteManaStairRockA]
+texture = 26
+texturePosX = 0.578947
+texturePosY = 0.434211
+textureWeight = 0.0281955
+textureHeight = 0.0526316
+
+[SpriteManaStairRockB]
+texture = 26
+texturePosX = 0.609022
+texturePosY = 0.434211
+textureWeight = 0.0281955
+textureHeight = 0.0526316
+
+[SpriteManaStairRockC]
+texture = 26
+texturePosX = 0.639097
+texturePosY = 0.434211
+textureWeight = 0.0281955
+textureHeight = 0.0526316
+
+[SpriteManaStairRockD]
+texture = 26
+texturePosX = 0.665414
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaRockAA]
+texture = 26
+texturePosX = 0.578947
+texturePosY = 0.486842
+textureWeight = 0.0300752
+textureHeight = 0.0526316
+
+[SpriteManaPlatformA]
+texture = 26
+texturePosX = 0.0018797
+texturePosY = 0.434211
+textureWeight = 0.0300752
+textureHeight = 0.0493421
