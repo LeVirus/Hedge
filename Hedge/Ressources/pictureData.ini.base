@@ -3890,13 +3890,6 @@ texturePosY = 0.00657895
 textureWeight = 0.0281955
 textureHeight = 0.101974
 
-[SpriteManaWaterFallA]
-texture = 26
-texturePosX = 0
-texturePosY = 0.118421
-textureWeight = 0.479323
-textureHeight = 0.3125
-
 [SpriteManaSkyBack]
 texture = 26
 texturePosX = 0.481203
@@ -4018,9 +4011,9 @@ textureHeight = 0.0526316
 
 [SpriteManaRoofDishDownA]
 texture = 26
-texturePosX = 0
+texturePosX = 0.0018797
 texturePosY = 0.809211
-textureWeight = 0.0300752
+textureWeight = 0.0281955
 textureHeight = 0.0526316
 
 [SpriteManaRoofDishDownB]
@@ -4036,13 +4029,6 @@ texturePosX = 0.0639098
 texturePosY = 0.809211
 textureWeight = 0.0300752
 textureHeight = 0.0526316
-
-[SpriteManaBackForestA]
-texture = 26
-texturePosX = 0.257519
-texturePosY = 0.700658
-textureWeight = 0.300752
-textureHeight = 0.220395
 
 [SpriteManaWoodStairA]
 texture = 26
@@ -4232,3 +4218,18 @@ texturePosX = 0.667293
 texturePosY = 0.434211
 textureWeight = 0.0300752
 textureHeight = 0.0526316
+
+[SpriteManaWaterFallA]
+texture = 26
+texturePosX = 0.0018797
+texturePosY = 0.118421
+textureWeight = 0.475564
+textureHeight = 0.3125
+
+[SpriteManaBackForestA]
+texture = 26
+texturePosX = 0.259398
+texturePosY = 0.700658
+textureWeight = 0.298872
+textureHeight = 0.220395
+
