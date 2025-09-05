@@ -4102,8 +4102,8 @@ textureHeight = 0.0493421
 
 [SpriteManaPlatformG]
 texture = 26
-texturePosX = 0.180451
-texturePosY = 0.434211
+texturePosX = 0.182451
+texturePosY = 0.436211
 textureWeight = 0.0300752
 textureHeight = 0.0493421
 
@@ -4123,14 +4123,14 @@ textureHeight = 0.0493421
 
 [SpriteManaPlatformJ]
 texture = 26
-texturePosX = 0.270676
-texturePosY = 0.434211
+texturePosX = 0.268676
+texturePosY = 0.436211
 textureWeight = 0.0300752
 textureHeight = 0.0493421
 
 [SpriteManaPlatformK]
 texture = 26
-texturePosX = 0.300751
+texturePosX = 0.302751
 texturePosY = 0.434211
 textureWeight = 0.0300752
 textureHeight = 0.0493421
