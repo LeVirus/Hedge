@@ -3554,27 +3554,6 @@ texturePosY = 0.88057
 textureWeight = 0.063228
 textureHeight = 0.0713012
 
-[SpriteFFVIBuildA]
-texture = 25
-texturePosX = 0.427621
-texturePosY = 0.201426
-textureWeight = 0.0266223
-textureHeight = 0.0285205
-
-[SpriteFFVIBuildB]
-texture = 25
-texturePosX = 0.454243
-texturePosY = 0.201426
-textureWeight = 0.0266223
-textureHeight = 0.0285205
-
-[SpriteFFVIBuildC]
-texture = 25
-texturePosX = 0.480865
-texturePosY = 0.201426
-textureWeight = 0.0266223
-textureHeight = 0.0285205
-
 [SpriteFFVIBuildD]
 texture = 25
 texturePosX = 0.507487
@@ -3613,13 +3592,6 @@ textureHeight = 0.0285205
 [SpriteFFVIDBuildB]
 texture = 25
 texturePosX = 0.454243
-texturePosY = 0.229947
-textureWeight = 0.0266223
-textureHeight = 0.0285205
-
-[SpriteFFVIDBuildC]
-texture = 25
-texturePosX = 0.480865
 texturePosY = 0.229947
 textureWeight = 0.0266223
 textureHeight = 0.0285205
@@ -3680,86 +3652,37 @@ texturePosY = 0.748663
 textureWeight = 0.0249584
 textureHeight = 0.0534759
 
-[SpriteFFVIWoodPathA]
-texture = 25
-texturePosX = 0.171381
-texturePosY = 0.819964
-textureWeight = 0.0249584
-textureHeight = 0.026738
-
 [SpriteFFVIWoodPathB]
 texture = 25
 texturePosX = 0.198003
-texturePosY = 0.819964
-textureWeight = 0.0249584
-textureHeight = 0.026738
-
-[SpriteFFVIWoodPathC]
-texture = 25
-texturePosX = 0.224625
-texturePosY = 0.819964
-textureWeight = 0.0249584
-textureHeight = 0.026738
-
-[SpriteFFVIWoodPathD]
-texture = 25
-texturePosX = 0.251247
-texturePosY = 0.819964
+texturePosY = 0.820964
 textureWeight = 0.0249584
 textureHeight = 0.026738
 
 [SpriteFFVIWoodPathE]
 texture = 25
 texturePosX = 0.277869
-texturePosY = 0.819964
-textureWeight = 0.0249584
-textureHeight = 0.026738
-
-[SpriteFFVIToitPathA]
-texture = 25
-texturePosX = 0.171381
-texturePosY = 0.848485
+texturePosY = 0.820964
 textureWeight = 0.0249584
 textureHeight = 0.026738
 
 [SpriteFFVIToitPathB]
 texture = 25
 texturePosX = 0.198003
-texturePosY = 0.848485
+texturePosY = 0.849485
 textureWeight = 0.0249584
 textureHeight = 0.026738
 
-[SpriteFFVIToitPathC]
+[SpriteFFVIToitPathC] 
 texture = 25
 texturePosX = 0.224625
-texturePosY = 0.848485
-textureWeight = 0.0249584
-textureHeight = 0.026738
-
-[SpriteFFVIToitPathD]
-texture = 25
-texturePosX = 0.251247
-texturePosY = 0.848485
-textureWeight = 0.0249584
-textureHeight = 0.026738
-
-[SpriteFFVIToitPathE]
-texture = 25
-texturePosX = 0.277869
-texturePosY = 0.848485
-textureWeight = 0.0249584
-textureHeight = 0.026738
-
-[SpriteFFVIToitPathF]
-texture = 25
-texturePosX = 0.304491
-texturePosY = 0.848485
+texturePosY = 0.849485
 textureWeight = 0.0249584
 textureHeight = 0.026738
 
 [SpriteFFVIToitDownA]
 texture = 25
-texturePosX = 0.171381
+texturePosX = 0.173381
 texturePosY = 0.905526
 textureWeight = 0.0249584
 textureHeight = 0.026738
@@ -3768,41 +3691,6 @@ textureHeight = 0.026738
 texture = 25
 texturePosX = 0.198003
 texturePosY = 0.905526
-textureWeight = 0.0249584
-textureHeight = 0.026738
-
-[SpriteFFVIHouseUpA]
-texture = 25
-texturePosX = 0.171381
-texturePosY = 0.934046
-textureWeight = 0.0249584
-textureHeight = 0.0285205
-
-[SpriteFFVIHouseUpB]
-texture = 25
-texturePosX = 0.198003
-texturePosY = 0.934046
-textureWeight = 0.0249584
-textureHeight = 0.0285205
-
-[SpriteFFVIHouseDownA]
-texture = 25
-texturePosX = 0.171381
-texturePosY = 0.962567
-textureWeight = 0.0249584
-textureHeight = 0.0285205
-
-[SpriteFFVIHouseDownB]
-texture = 25
-texturePosX = 0.198003
-texturePosY = 0.962567
-textureWeight = 0.0249584
-textureHeight = 0.0285205
-
-[SpriteFFVIStairToitAC]
-texture = 25
-texturePosX = 0.0532446
-texturePosY = 0.850267
 textureWeight = 0.0249584
 textureHeight = 0.026738
 
@@ -4233,3 +4121,10 @@ texturePosX = 0.0018797
 texturePosY = 0.434211
 textureWeight = 0.0300752
 textureHeight = 0.0493421
+
+[SpriteFFVIMidBackA]
+texture = 28
+texturePosX = 0.694503
+texturePosY = 0
+textureWeight = 0.268499
+textureHeight = 0.109589

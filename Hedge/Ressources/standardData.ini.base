@@ -71,23 +71,11 @@ Sprite = SpriteFFVIStairToitBE
 StairDown = true
 
 
-[WallFFVIWoodA]
-Sprite = SpriteFFVIWoodPathA
-
 [WallFFVIWoodB]
 Sprite = SpriteFFVIWoodPathB
 
-[WallFFVIWoodC]
-Sprite = SpriteFFVIWoodPathC
-
-[WallFFVIWoodD]
-Sprite = SpriteFFVIWoodPathD
-
 [WallFFVIWoodE]
 Sprite = SpriteFFVIWoodPathE
-
-[WallFFVIToitA]
-Sprite = SpriteFFVIToitPathA
 
 [WallFFVIToitB]
 Sprite = SpriteFFVIToitPathB
@@ -95,32 +83,11 @@ Sprite = SpriteFFVIToitPathB
 [WallFFVIToitC]
 Sprite = SpriteFFVIToitPathC
 
-[WallFFVIToitD]
-Sprite = SpriteFFVIToitPathD
-
-[WallFFVIToitE]
-Sprite = SpriteFFVIToitPathE
-
-[WallFFVIToitF]
-Sprite = SpriteFFVIToitPathF
-
 [WallFFVIToitDownA]
 Sprite = SpriteFFVIToitDownA
 
 [WallFFVIToitDownB]
 Sprite = SpriteFFVIToitDownB
-
-[WallFFVIHouseUpA]
-Sprite = SpriteFFVIHouseUpA
-
-[WallFFVIHouseUpB]
-Sprite = SpriteFFVIHouseUpB
-
-[WallFFVIHouseDownA]
-Sprite = SpriteFFVIHouseDownA
-
-[WallFFVIHouseDownB]
-Sprite = SpriteFFVIHouseDownB
 
 [WallFFVIA]
 Sprite = SpriteFFVIMountainB
@@ -142,15 +109,6 @@ Sprite = SpriteFFVIMountainDC
 [WallFFVIF]
 Sprite = SpriteFFVIMountainDD
 
-[WallBuildFFVIA]
-Sprite = SpriteFFVIBuildA
-
-[WallBuildFFVIB]
-Sprite = SpriteFFVIBuildB
-
-[WallBuildFFVIC]
-Sprite = SpriteFFVIBuildC
-
 [WallBuildFFVID]
 Sprite = SpriteFFVIBuildD
 
@@ -168,9 +126,6 @@ Sprite = SpriteFFVIDBuildA
 
 [WallDBuildFFVIB]
 Sprite = SpriteFFVIDBuildB
-
-[WallDBuildFFVIC]
-Sprite = SpriteFFVIDBuildC
 
 [WallDBuildFFVID]
 Sprite = SpriteFFVIDBuildD
