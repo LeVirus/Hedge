@@ -3780,7 +3780,7 @@ textureHeight = 0.101974
 
 [SpriteManaSkyBack]
 texture = 26
-texturePosX = 0.481203
+texturePosX = 0.482203
 texturePosY = 0.118421
 textureWeight = 0.208647
 textureHeight = 0.259868
