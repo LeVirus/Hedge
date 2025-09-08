@@ -207,10 +207,6 @@ Sprite = SpriteManaPlatformK
 [WallManaWoodBridge]
 Sprite = SpriteManaPlatformM
 
-[WallManaRoofStairUp]
-Sprite = SpriteManaRoofA
-StairUp = true
-
 [WallManaWoodStairUp]
 Sprite = SpriteManaWoodStairA
 StairUp = true
@@ -221,16 +217,6 @@ StairDown = true
 
 [WallManaWoodPath]
 Sprite = SpriteManaWoodStairC
-
-[WallManaRoofA]
-Sprite = SpriteManaRoofB
-
-[WallManaRoofB]
-Sprite = SpriteManaRoofC
-
-[WallManaRoofStairDown]
-Sprite = SpriteManaRoofD
-StairDown = true
 
 [WallManaStairUpRock]
 Sprite = SpriteManaStairRockA
@@ -249,9 +235,6 @@ Sprite = SpriteManaRockAB
 [WallManaRockC]
 Sprite = SpriteManaRockAC
 
-[WallManaRockD]
-Sprite = SpriteManaRockAD
-
 [WallManaRockE]
 Sprite = SpriteManaRockBA
 
@@ -260,9 +243,6 @@ Sprite = SpriteManaRockBB
 
 [WallManaRockG]
 Sprite = SpriteManaRockBC
-
-[WallManaRockH]
-Sprite = SpriteManaRockBD
 
 [WallManaRoofDishA]
 Sprite = SpriteManaRoofDishUpA

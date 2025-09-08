@@ -3806,13 +3806,6 @@ texturePosY = 0.486842
 textureWeight = 0.0300752
 textureHeight = 0.0526316
 
-[SpriteManaRockAD]
-texture = 26
-texturePosX = 0.672933
-texturePosY = 0.486842
-textureWeight = 0.0300752
-textureHeight = 0.0526316
-
 [SpriteManaRockBA]
 texture = 26
 texturePosX = 0.577068
@@ -3830,13 +3823,6 @@ textureHeight = 0.0526316
 [SpriteManaRockBC]
 texture = 26
 texturePosX = 0.640978
-texturePosY = 0.539474
-textureWeight = 0.0300752
-textureHeight = 0.0526316
-
-[SpriteManaRockBD]
-texture = 26
-texturePosX = 0.672933
 texturePosY = 0.539474
 textureWeight = 0.0300752
 textureHeight = 0.0526316
@@ -3871,14 +3857,14 @@ textureHeight = 0.0953947
 
 [SpriteManaRoofDishUpA]
 texture = 26
-texturePosX = 0
-texturePosY = 0.756579
+texturePosX = 0.001
+texturePosY = 0.758579
 textureWeight = 0.0300752
 textureHeight = 0.0526316
 
 [SpriteManaRoofDishUpB]
 texture = 26
-texturePosX = 0.0319549
+texturePosX = 0.2319549
 texturePosY = 0.756579
 textureWeight = 0.0300752
 textureHeight = 0.0526316
@@ -3886,7 +3872,7 @@ textureHeight = 0.0526316
 [SpriteManaRoofDishUpC]
 texture = 26
 texturePosX = 0.0639098
-texturePosY = 0.756579
+texturePosY = 0.759579
 textureWeight = 0.0300752
 textureHeight = 0.0526316
 
@@ -4035,34 +4021,6 @@ texture = 26
 texturePosX = 0.360901
 texturePosY = 0.434211
 textureWeight = 0.0300752
-textureHeight = 0.0493421
-
-[SpriteManaRoofA]
-texture = 26
-texturePosX = 0.453008
-texturePosY = 0.434211
-textureWeight = 0.0281955
-textureHeight = 0.0493421
-
-[SpriteManaRoofB]
-texture = 26
-texturePosX = 0.483083
-texturePosY = 0.434211
-textureWeight = 0.0281955
-textureHeight = 0.0493421
-
-[SpriteManaRoofC]
-texture = 26
-texturePosX = 0.513158
-texturePosY = 0.434211
-textureWeight = 0.0281955
-textureHeight = 0.0493421
-
-[SpriteManaRoofD]
-texture = 26
-texturePosX = 0.543233
-texturePosY = 0.434211
-textureWeight = 0.0281955
 textureHeight = 0.0493421
 
 [SpriteManaWaterFallA]
