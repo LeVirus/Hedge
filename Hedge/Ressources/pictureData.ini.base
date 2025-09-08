@@ -4086,3 +4086,234 @@ texturePosX = 0.694503
 texturePosY = 0
 textureWeight = 0.268499
 textureHeight = 0.109589
+
+[SpriteDKMidBackJungleA]
+texture = 27
+texturePosX = 0.003
+texturePosY = 0.00613497
+textureWeight = 0.422
+textureHeight = 0.386503
+
+[SpriteDKDonkeyA]
+texture = 27
+texturePosX = 0.428667
+texturePosY = 0.00766871
+textureWeight = 0.0983333
+textureHeight = 0.0582822
+
+[SpriteDKPathSandA]
+texture = 27
+texturePosX = 0.431667
+texturePosY = 0.0843558
+textureWeight = 0.05
+textureHeight = 0.041411
+
+[SpriteDKPathSandB]
+texture = 27
+texturePosX = 0.481667
+texturePosY = 0.0843558
+textureWeight = 0.05
+textureHeight = 0.041411
+
+[SpriteDKPathSandC]
+texture = 27
+texturePosX = 0.531667
+texturePosY = 0.0843558
+textureWeight = 0.05
+textureHeight = 0.041411
+
+[SpriteDKPathSandEndA]
+texture = 27
+texturePosX = 0.628333
+texturePosY = 0.0843558
+textureWeight = 0.05
+textureHeight = 0.041411
+
+[SpriteDKPathCavernA]
+texture = 27
+texturePosX = 0.68
+texturePosY = 0.0720859
+textureWeight = 0.05
+textureHeight = 0.0429448
+
+[SpriteDKPathCavernB]
+texture = 27
+texturePosX = 0.73
+texturePosY = 0.0720859
+textureWeight = 0.05
+textureHeight = 0.0429448
+
+[SpriteDKPathCavernC]
+texture = 27
+texturePosX = 0.78
+texturePosY = 0.0720859
+textureWeight = 0.05
+textureHeight = 0.0429448
+
+[SpriteDKPathCavernEndA]
+texture = 27
+texturePosX = 0.871667
+texturePosY = 0.0720859
+textureWeight = 0.05
+textureHeight = 0.0429448
+
+[SpriteDKPathCavernDownA]
+texture = 27
+texturePosX = 0.68
+texturePosY = 0.115031
+textureWeight = 0.05
+textureHeight = 0.0276074
+
+[SpriteDKPathCavernDownB]
+texture = 27
+texturePosX = 0.73
+texturePosY = 0.115031
+textureWeight = 0.05
+textureHeight = 0.0276074
+
+[SpriteDKPathCavernDownC]
+texture = 27
+texturePosX = 0.78
+texturePosY = 0.115031
+textureWeight = 0.05
+textureHeight = 0.0276074
+
+[SpriteDKPathCavernDownEndA]
+texture = 27
+texturePosX = 0.871667
+texturePosY = 0.115031
+textureWeight = 0.05
+textureHeight = 0.0276074
+
+[SpriteDKPathKrankyA]
+texture = 27
+texturePosX = 0.436667
+texturePosY = 0.156442
+textureWeight = 0.05
+textureHeight = 0.0460123
+
+[SpriteDKPathKrankyB]
+texture = 27
+texturePosX = 0.486667
+texturePosY = 0.156442
+textureWeight = 0.05
+textureHeight = 0.0460123
+
+[SpriteDKPathKrankyC]
+texture = 27
+texturePosX = 0.536667
+texturePosY = 0.156442
+textureWeight = 0.05
+textureHeight = 0.0460123
+
+[SpriteDKPathKrankyEndA]
+texture = 27
+texturePosX = 0.786667
+texturePosY = 0.156442
+textureWeight = 0.0616667
+textureHeight = 0.0460123
+
+[SpriteDKPathTempleA]
+texture = 27
+texturePosX = 0.445
+texturePosY = 0.29908
+textureWeight = 0.07
+textureHeight = 0.0644172
+
+[SpriteDKPathTempleB]
+texture = 27
+texturePosX = 0.515
+texturePosY = 0.29908
+textureWeight = 0.07
+textureHeight = 0.0644172
+
+[SpriteDKPathTempleC]
+texture = 27
+texturePosX = 0.585
+texturePosY = 0.29908
+textureWeight = 0.07
+textureHeight = 0.0644172
+
+[SpriteDKPathStoneA]
+texture = 27
+texturePosX = 0.698333
+texturePosY = 0.29908
+textureWeight = 0.07
+textureHeight = 0.0644172
+
+[SpriteDKPathStoneB]
+texture = 27
+texturePosX = 0.768333
+texturePosY = 0.29908
+textureWeight = 0.07
+textureHeight = 0.0644172
+
+[SpriteDKPathStoneC]
+texture = 27
+texturePosX = 0.838333
+texturePosY = 0.29908
+textureWeight = 0.07
+textureHeight = 0.0644172
+
+[SpriteDKBarrelBonesA]
+texture = 27
+texturePosX = 0.44
+texturePosY = 0.372699
+textureWeight = 0.085
+textureHeight = 0.133436
+
+[SpriteDKBarrelA]
+texture = 27
+texturePosX = 0.545
+texturePosY = 0.429448
+textureWeight = 0.05
+textureHeight = 0.0582822
+
+[SpriteDKBarrelB]
+texture = 27
+texturePosX = 0.603333
+texturePosY = 0.429448
+textureWeight = 0.05
+textureHeight = 0.0582822
+
+[SpriteDKRockPlatformA]
+texture = 27
+texturePosX = 0.666667
+texturePosY = 0.432515
+textureWeight = 0.075
+textureHeight = 0.0720859
+
+[SpriteDKRockPlatformAA]
+texture = 27
+texturePosX = 0.755
+texturePosY = 0.437117
+textureWeight = 0.0833333
+textureHeight = 0.047546
+
+[SpriteDKPannelBananaA]
+texture = 27
+texturePosX = 0.556667
+texturePosY = 0.529141
+textureWeight = 0.0866667
+textureHeight = 0.0904908
+
+[SpriteDKPannelSimpleA]
+texture = 27
+texturePosX = 0.665
+texturePosY = 0.558282
+textureWeight = 0.0516667
+textureHeight = 0.0567485
+
+[SpriteDKPannelSimpleB]
+texture = 27
+texturePosX = 0.728333
+texturePosY = 0.558282
+textureWeight = 0.0516667
+textureHeight = 0.0567485
+
+[SpriteDKBackSkyA]
+texture = 27
+texturePosX = 0.1
+texturePosY = 0.392638
+textureWeight = 0.326667
+textureHeight = 0.338957

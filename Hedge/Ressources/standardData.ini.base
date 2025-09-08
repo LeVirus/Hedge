@@ -156,6 +156,65 @@ Sound = Message.wav
 IdPicture = Hedge Pannel
 AssociateSprite = SpriteLog SpriteManaPannelA
 
+[MessageLogDKPannel]
+Sprite = SpriteDKPannelBananaA
+SpriteWeightGame = 0.5
+SpriteHeightGame = 1.4
+Sound = Message.wav
+IdPicture = Hedge Donkey
+AssociateSprite = SpriteLog SpriteDKPannelBananaA
+
+[MessageLogDKDonkey]
+Sprite = SpriteDKDonkeyA
+SpriteWeightGame = 0.5
+SpriteHeightGame = 1.4
+Sound = Message.wav
+IdPicture = Hedge Donkey
+AssociateSprite = SpriteLog SpriteDKDonkeyA
+
+
+[GroundDKBarrelBones]
+Sprite = SpriteDKBarrelBonesA
+SpriteWeightGame = 1.0
+SpriteHeightGame = 2.2
+traversable = false
+
+[GroundDKBarrelA]
+Sprite = SpriteDKBarrelA
+SpriteWeightGame = 0.9
+SpriteHeightGame = 1.5
+traversable = false
+
+[GroundDKBarrelB]
+Sprite = SpriteDKBarrelB
+SpriteWeightGame = 0.9
+SpriteHeightGame = 1.5
+traversable = false
+
+[GroundDKRockPlatformA]
+Sprite = SpriteDKRockPlatformA
+SpriteWeightGame = 1.5
+SpriteHeightGame = 1.0
+traversable = false
+
+[GroundDKRockPlatformB]
+Sprite = SpriteDKRockPlatformAA
+SpriteWeightGame = 1.5
+SpriteHeightGame = 1.0
+traversable = false
+
+[GroundDKPannelSimpleA]
+Sprite = SpriteDKPannelSimpleA
+SpriteWeightGame = 1.0
+SpriteHeightGame = 0.9
+traversable = false
+
+[GroundDKPannelSimpleB]
+Sprite = SpriteDKPannelSimpleB
+SpriteWeightGame = 1.0
+SpriteHeightGame = 0.9
+traversable = false
+
 
 [GroundManaCanon]
 Sprite = SpriteManaCanonA
@@ -255,6 +314,72 @@ Sprite = SpriteManaRoofDishDownA
 
 [WallManaRoofDownB]
 Sprite = SpriteManaRoofDishDownB
+
+[WallDKPathSandA]
+Sprite = SpriteDKPathSandA
+
+[WallDKPathSandB]
+Sprite = SpriteDKPathSandB
+
+[WallDKPathSandC]
+Sprite = SpriteDKPathSandC
+
+[WallDKPathSandEndA]
+Sprite = SpriteDKPathSandEndA
+
+[WallDKPathCavernA]
+Sprite = SpriteDKPathCavernA
+
+[WallDKPathCavernB]
+Sprite = SpriteDKPathCavernB
+
+[WallDKPathCavernC]
+Sprite = SpriteDKPathCavernC
+
+[WallDKPathCavernEndA]
+Sprite = SpriteDKPathCavernEndA
+
+[WallDKPathCavernDownA]
+Sprite = SpriteDKPathCavernDownA
+
+[WallDKPathCavernDownB]
+Sprite = SpriteDKPathCavernDownB
+
+[WallDKPathCavernDownC]
+Sprite = SpriteDKPathCavernDownC
+
+[WallDKPathCavernDownEndA]
+Sprite = SpriteDKPathCavernDownEndA
+
+[WallDKPathKrankyA]
+Sprite = SpriteDKPathKrankyA
+
+[WallDKPathKrankyB]
+Sprite = SpriteDKPathKrankyB
+
+[WallDKPathKrankyC]
+Sprite = SpriteDKPathKrankyC
+
+[WallDKPathKrankyEndA]
+Sprite = SpriteDKPathKrankyEndA
+
+[WallDKPathTempleA]
+Sprite = SpriteDKPathTempleA
+
+[WallDKPathTempleB]
+Sprite = SpriteDKPathTempleB
+
+[WallDKPathTempleC]
+Sprite = SpriteDKPathTempleC
+
+[WallDKPathStoneA]
+Sprite = SpriteDKPathStoneA
+
+[WallDKPathStoneB]
+Sprite = SpriteDKPathStoneB
+
+[WallDKPathStoneC]
+Sprite = SpriteDKPathStoneC
 
 [WallElecA]
 Sprite = SpriteWallB SpriteWallA
