@@ -59,6 +59,7 @@ private:
     void updatePlayerSprites(uint32_t playerEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp, TimerComponent &timerComp);
     void updateVehicleGroundSprites(PlayerConfComponent &playerComp, VehicleComponent &vehicleComp);
     void updateVisibleShotSprite(uint32_t shotEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp, TimerComponent &timerComp, GeneralCollisionComponent &genComp);
+    EnemySpriteType_e getEnemySpriteType(EnemyAttackPhase_e phase, float degreeAngle);
 private:
     std::vector<uint32_t> m_memMultiSpritesWallEntities, m_vectBarrelsEntitiesToDelete;
     uint32_t m_defaultInterval = 0.8 / FPS_VALUE, m_memTeleportAnimEntity;
@@ -67,9 +68,8 @@ private:
     MainEngine *m_refMainEngine;
 };
 
-EnemySpriteType_e getEnemySpriteType(EnemyAttackPhase_e phase);
 mapEnemySprite_t::const_reverse_iterator findMapLastElement(const mapEnemySprite_t &map,
                                                             EnemySpriteType_e key);
 void updateTriangleVisionFromPosition(VisionComponent &visionComp, MapCoordComponent &mapComp,
                                       MoveableComponent &movComp);
-void updateEnemyAttackSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp);
+void updateEnemyAttackSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp, float degreeAngle);

@@ -285,7 +285,8 @@ enum class EnemySpriteElementType_e
 {
     STATIC_LEFT,
     STATIC_RIGHT,
-    ATTACK,
+    ATTACK_LEFT,
+    ATTACK_RIGHT,
     DYING,
     TOUCHED
 };
@@ -295,7 +296,8 @@ enum class EnemySpriteType_e
 {
     STATIC_LEFT,
     STATIC_RIGHT,
-    ATTACK,
+    ATTACK_LEFT,
+    ATTACK_RIGHT,
     DYING,
     TOUCHED,
     TOTAL_SPRITE

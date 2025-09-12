@@ -352,7 +352,8 @@ void VisionSystem::updateEnemySprites(uint32_t enemyEntity,
     else if(enemyConfComp.m_behaviourMode == EnemyBehaviourMode_e::ATTACK &&
             enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOT)
     {
-        updateEnemyAttackSprite(enemyConfComp, timerComp);
+        MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
+        updateEnemyAttackSprite(enemyConfComp, timerComp, moveComp->m_currentDegreeMoveDirection);
     }
     else if(enemyConfComp.m_displayMode == EnemyDisplayMode_e::NORMAL)
     {
@@ -395,8 +396,8 @@ void VisionSystem::updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, Ti
     else
     {
         // FPS STUFF TO MODIFY
-        // MoveableComponent *enemyMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
-        mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(getEnemySpriteType(enemyConfComp.m_attackPhase));
+        MoveableComponent *enemyMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
+        mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(getEnemySpriteType(enemyConfComp.m_attackPhase, enemyMoveComp->m_degreeOrientation));
         //if sprite outside
         if(enemyConfComp.m_currentSprite < it->second.first ||
                 enemyConfComp.m_currentSprite > it->second.second)
@@ -420,7 +421,7 @@ void VisionSystem::updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, Ti
 }
 
 //===========================================================================
-EnemySpriteType_e getEnemySpriteType(EnemyAttackPhase_e phase)
+EnemySpriteType_e VisionSystem::getEnemySpriteType(EnemyAttackPhase_e phase, float degreeAngle)
 {
     switch(phase)
     {
@@ -429,7 +430,9 @@ EnemySpriteType_e getEnemySpriteType(EnemyAttackPhase_e phase)
     case EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT:
         return EnemySpriteType_e::STATIC_RIGHT;
     case EnemyAttackPhase_e::SHOOT:
-        return EnemySpriteType_e::ATTACK;
+    {
+        return (std::cos(getRadiantAngle(degreeAngle)) < 0) ? EnemySpriteType_e::ATTACK_LEFT : EnemySpriteType_e::ATTACK_RIGHT;
+    }
     case EnemyAttackPhase_e::SHOOTED:
         return EnemySpriteType_e::TOUCHED;
     case EnemyAttackPhase_e::TOTAL:
@@ -439,10 +442,20 @@ EnemySpriteType_e getEnemySpriteType(EnemyAttackPhase_e phase)
 }
 
 //===========================================================================
-void updateEnemyAttackSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp)
+void updateEnemyAttackSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp, float degreeAngle)
 {
+    EnemySpriteType_e spriteType;
+    //if no attack right sprite
+    if(enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::ATTACK_RIGHT) == enemyConfComp.m_mapSpriteAssociate.end())
+    {
+        spriteType = EnemySpriteType_e::ATTACK_LEFT;
+    }
+    else
+    {
+        spriteType = (std::cos(getRadiantAngle(degreeAngle)) < 0) ? EnemySpriteType_e::ATTACK_LEFT : EnemySpriteType_e::ATTACK_RIGHT;
+    }
     //first element
-    mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::ATTACK);
+    mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(spriteType);
     //if last animation
     if(enemyConfComp.m_currentSprite == it->second.second)
     {
@@ -460,7 +473,7 @@ void updateEnemyAttackSprite(EnemyConfComponent &enemyConfComp, TimerComponent &
     //if sprite is not ATTACK Go to First atack sprite
     else
     {
-        enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::ATTACK)->second.first;
+        enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(spriteType)->second.first;
         timerComp.m_cycleCountC = 0;
     }
 }

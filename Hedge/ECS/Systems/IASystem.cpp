@@ -281,8 +281,8 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         if(++timerComp->m_cycleCountB >= timerComp->m_timeIntervalOptional)
         {
             treatStaticEnemy(enemyConfComp, *moveComp, enemyEntity, distancePlayer);
-            timerComp->m_cycleCountB = 0;
-            enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::ATTACK)->second.first;
+            timerComp->m_cycleCountB = 0;            
+            enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::ATTACK_LEFT)->second.first;
         }
         return;
     }

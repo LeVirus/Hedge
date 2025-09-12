@@ -1707,7 +1707,12 @@ void LevelManager::loadEnemyData()
         m_enemyData[vectINISections[i]].m_cycleNumberBehaviour = std::stof(*val) / FPS_VALUE;
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_LEFT, m_enemyData[vectINISections[i]]);
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::STATIC_RIGHT, m_enemyData[vectINISections[i]]);
-        loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::ATTACK, m_enemyData[vectINISections[i]]);
+        loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::ATTACK_LEFT, m_enemyData[vectINISections[i]]);
+        val = m_ini.getValue(vectINISections[i], "AttackSpriteRight");
+        if(val)
+        {
+            loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::ATTACK_RIGHT, m_enemyData[vectINISections[i]]);
+        }
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::DYING, m_enemyData[vectINISections[i]]);
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::TOUCHED, m_enemyData[vectINISections[i]]);
     }
@@ -1926,8 +1931,7 @@ PairStrPairFloat_t LevelManager::loadPreviewWeaponData(const std::string &iniObj
 }
 
 //===================================================================
-void LevelManager::loadEnemySprites(const std::string &sectionName,
-                                    EnemySpriteElementType_e spriteTypeEnum, EnemyData &enemyData)
+void LevelManager::loadEnemySprites(const std::string &sectionName, EnemySpriteElementType_e spriteTypeEnum, EnemyData &enemyData)
 {
     std::vector<uint16_t> *vectPtr = nullptr;
     std::string spriteType;
@@ -1941,9 +1945,13 @@ void LevelManager::loadEnemySprites(const std::string &sectionName,
         spriteType = "StaticSpriteRight";
         vectPtr = &enemyData.m_staticRightSprites;
         break;
-    case EnemySpriteElementType_e::ATTACK:
+    case EnemySpriteElementType_e::ATTACK_LEFT:
         spriteType = "AttackSprite";
-        vectPtr = &enemyData.m_attackSprites;
+        vectPtr = &enemyData.m_attackLeftSprites;
+        break;
+    case EnemySpriteElementType_e::ATTACK_RIGHT:
+        spriteType = "AttackSpriteRight";
+        vectPtr = &enemyData.m_attackRightSprites;
         break;
     case EnemySpriteElementType_e::DYING:
         spriteType = "DyingSprite";

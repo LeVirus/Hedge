@@ -2521,7 +2521,12 @@ void MainEngine::loadEnemySprites(const std::vector<SpriteData> &vectSprite, con
     insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                               enemiesData.m_staticRightSprites, EnemySpriteType_e::STATIC_RIGHT);
     insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                              enemiesData.m_attackSprites, EnemySpriteType_e::ATTACK);
+                              enemiesData.m_attackLeftSprites, EnemySpriteType_e::ATTACK_LEFT);
+    if(!enemiesData.m_attackRightSprites.empty())
+    {
+        insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
+                                  enemiesData.m_attackRightSprites, EnemySpriteType_e::ATTACK_RIGHT);
+    }
     insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                               enemiesData.m_dyingSprites, EnemySpriteType_e::DYING);
     insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
