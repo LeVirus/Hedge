@@ -5214,6 +5214,64 @@ texturePosY = 0.731507
 textureWeight = 0.0634249
 textureHeight = 0.123288
 
+[SpriteDKGreenKremLeftA]
+texture = 28
+texturePosX = 0.219873
+texturePosY = 0.0863014
+textureWeight = 0.0528541
+textureHeight = 0.0561644
+
+[SpriteDKGreenKremLeftB]
+texture = 28
+texturePosX = 0.27907
+texturePosY = 0.0863014
+textureWeight = 0.0528541
+textureHeight = 0.0561644
+
+[SpriteDKGreenKremLeftC]
+texture = 28
+texturePosX = 0.338267
+texturePosY = 0.0863014
+textureWeight = 0.0528541
+textureHeight = 0.0561644
+
+[SpriteDKGreenKremLeftD]
+texture = 28
+texturePosX = 0.397464
+texturePosY = 0.0863014
+textureWeight = 0.0528541
+textureHeight = 0.0561644
+
+[SpriteDKGreenKremLeftE]
+texture = 28
+texturePosX = 0.456661
+texturePosY = 0.0863014
+textureWeight = 0.0528541
+textureHeight = 0.0561644
+
+[SpriteDKGreenKremLeftF]
+texture = 28
+texturePosX = 0.515858
+texturePosY = 0.0863014
+textureWeight = 0.0528541
+textureHeight = 0.0561644
+
+[SpriteDKGreenKremLeftG]
+texture = 28
+texturePosX = 0.575055
+texturePosY = 0.0863014
+textureWeight = 0.0528541
+textureHeight = 0.0561644
+
+[SpriteDKGreenKremLeftH]
+texture = 28
+texturePosX = 0.634252
+texturePosY = 0.0863014
+textureWeight = 0.0528541
+textureHeight = 0.0561644
+
+
+
 [SpriteDKVulturLeftA]
 texture = 28
 texturePosX = 0.00739958
@@ -5290,59 +5348,3 @@ texturePosX = 0.65222
 texturePosY = 0.869863
 textureWeight = 0.0634249
 textureHeight = 0.123288
-
-[SpriteDKGreenKremLeftA]
-texture = 28
-texturePosX = 0.219873
-texturePosY = 0.0863014
-textureWeight = 0.0528541
-textureHeight = 0.0561644
-
-[SpriteDKGreenKremLeftB]
-texture = 28
-texturePosX = 0.27907
-texturePosY = 0.0863014
-textureWeight = 0.0528541
-textureHeight = 0.0561644
-
-[SpriteDKGreenKremLeftC]
-texture = 28
-texturePosX = 0.338267
-texturePosY = 0.0863014
-textureWeight = 0.0528541
-textureHeight = 0.0561644
-
-[SpriteDKGreenKremLeftD]
-texture = 28
-texturePosX = 0.397464
-texturePosY = 0.0863014
-textureWeight = 0.0528541
-textureHeight = 0.0561644
-
-[SpriteDKGreenKremLeftE]
-texture = 28
-texturePosX = 0.456661
-texturePosY = 0.0863014
-textureWeight = 0.0528541
-textureHeight = 0.0561644
-
-[SpriteDKGreenKremLeftF]
-texture = 28
-texturePosX = 0.515858
-texturePosY = 0.0863014
-textureWeight = 0.0528541
-textureHeight = 0.0561644
-
-[SpriteDKGreenKremLeftG]
-texture = 28
-texturePosX = 0.575055
-texturePosY = 0.0863014
-textureWeight = 0.0528541
-textureHeight = 0.0561644
-
-[SpriteDKGreenKremLeftH]
-texture = 28
-texturePosX = 0.634252
-texturePosY = 0.0863014
-textureWeight = 0.0528541
-textureHeight = 0.0561644
