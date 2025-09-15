@@ -2,10 +2,16 @@
 When jump on traversable wall, eject lateral some time
 
 ))
-Background issue ground is Background
+Enemy attack frozen a while after shoot
+
+))
+Some enemy does not attack when behaviour should
 
 ============================================================================================================
 ============================================================================================================
+
+))
+Background issue ground is Background====================OOK
 
 ))
 Log change appearence after trigger.====================OK

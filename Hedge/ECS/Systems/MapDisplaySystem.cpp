@@ -89,12 +89,12 @@ void MapDisplaySystem::execSystem()
     PairFloat_t centerScreen = getCenterScreen(mapCompPlayer->m_absoluteMapPositionPX, min, max);
     getMapDisplayLimit(centerScreen, min, max);
     confVertexBackground();
-    confVertexGround(centerScreen);
+    // confVertexGround(centerScreen);
     confVertexMiddle(centerScreen);
     drawBackground();
     drawMiddle();
     drawMiniMap(centerScreen, min, max);
-    drawGround();
+    // drawGround();
 }
 
 //===================================================================
