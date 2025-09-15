@@ -5130,90 +5130,6 @@ texturePosY = 0.657534
 textureWeight = 0.05074
 textureHeight = 0.0575342
 
-[SpriteDKVulturRightA]
-texture = 28
-texturePosX = 0.00739958
-texturePosY = 0.731507
-textureWeight = 0.0634249
-textureHeight = 0.123288
-
-[SpriteDKVulturRightB]
-texture = 28
-texturePosX = 0.0718816
-texturePosY = 0.731507
-textureWeight = 0.0634249
-textureHeight = 0.123288
-
-[SpriteDKVulturRightC]
-texture = 28
-texturePosX = 0.136364
-texturePosY = 0.731507
-textureWeight = 0.0634249
-textureHeight = 0.123288
-
-[SpriteDKVulturRightD]
-texture = 28
-texturePosX = 0.200846
-texturePosY = 0.731507
-textureWeight = 0.0634249
-textureHeight = 0.123288
-
-[SpriteDKVulturRightE]
-texture = 28
-texturePosX = 0.265328
-texturePosY = 0.731507
-textureWeight = 0.0634249
-textureHeight = 0.123288
-
-[SpriteDKVulturRightF]
-texture = 28
-texturePosX = 0.32981
-texturePosY = 0.731507
-textureWeight = 0.0634249
-textureHeight = 0.123288
-
-[SpriteDKVulturRightG]
-texture = 28
-texturePosX = 0.394292
-texturePosY = 0.731507
-textureWeight = 0.0634249
-textureHeight = 0.123288
-
-[SpriteDKVulturRightH]
-texture = 28
-texturePosX = 0.458774
-texturePosY = 0.731507
-textureWeight = 0.0634249
-textureHeight = 0.123288
-
-[SpriteDKVulturRightI]
-texture = 28
-texturePosX = 0.523256
-texturePosY = 0.731507
-textureWeight = 0.0634249
-textureHeight = 0.123288
-
-[SpriteDKVulturRightJ]
-texture = 28
-texturePosX = 0.587738
-texturePosY = 0.731507
-textureWeight = 0.0634249
-textureHeight = 0.123288
-
-[SpriteDKVulturRightK]
-texture = 28
-texturePosX = 0.65222
-texturePosY = 0.731507
-textureWeight = 0.0634249
-textureHeight = 0.123288
-
-[SpriteDKVulturRightL]
-texture = 28
-texturePosX = 0.716702
-texturePosY = 0.731507
-textureWeight = 0.0634249
-textureHeight = 0.123288
-
 [SpriteDKGreenKremLeftA]
 texture = 28
 texturePosX = 0.219873
@@ -5270,81 +5186,163 @@ texturePosY = 0.0863014
 textureWeight = 0.0528541
 textureHeight = 0.0561644
 
-
-
 [SpriteDKVulturLeftA]
 texture = 28
 texturePosX = 0.00739958
 texturePosY = 0.869863
-textureWeight = 0.0634249
+textureWeight = 0.0623679
 textureHeight = 0.123288
 
 [SpriteDKVulturLeftB]
 texture = 28
 texturePosX = 0.0718816
 texturePosY = 0.869863
-textureWeight = 0.0634249
+textureWeight = 0.0623679
 textureHeight = 0.123288
 
 [SpriteDKVulturLeftC]
 texture = 28
 texturePosX = 0.136364
 texturePosY = 0.869863
-textureWeight = 0.0634249
+textureWeight = 0.0623679
 textureHeight = 0.123288
 
 [SpriteDKVulturLeftD]
 texture = 28
 texturePosX = 0.200846
 texturePosY = 0.869863
-textureWeight = 0.0634249
+textureWeight = 0.0623679
 textureHeight = 0.123288
 
 [SpriteDKVulturLeftE]
 texture = 28
 texturePosX = 0.265328
 texturePosY = 0.869863
-textureWeight = 0.0634249
+textureWeight = 0.0623679
 textureHeight = 0.123288
 
 [SpriteDKVulturLeftF]
 texture = 28
 texturePosX = 0.32981
 texturePosY = 0.869863
-textureWeight = 0.0634249
+textureWeight = 0.0623679
 textureHeight = 0.123288
 
 [SpriteDKVulturLeftG]
 texture = 28
 texturePosX = 0.394292
 texturePosY = 0.869863
-textureWeight = 0.0634249
+textureWeight = 0.0623679
 textureHeight = 0.123288
 
 [SpriteDKVulturLeftH]
 texture = 28
 texturePosX = 0.458774
 texturePosY = 0.869863
-textureWeight = 0.0634249
+textureWeight = 0.0623679
 textureHeight = 0.123288
 
 [SpriteDKVulturLeftI]
 texture = 28
 texturePosX = 0.523256
 texturePosY = 0.869863
-textureWeight = 0.0634249
+textureWeight = 0.0623679
 textureHeight = 0.123288
 
 [SpriteDKVulturLeftJ]
 texture = 28
 texturePosX = 0.587738
 texturePosY = 0.869863
-textureWeight = 0.0634249
+textureWeight = 0.0623679
 textureHeight = 0.123288
 
 [SpriteDKVulturLeftK]
 texture = 28
 texturePosX = 0.65222
 texturePosY = 0.869863
+textureWeight = 0.0623679
+textureHeight = 0.123288
+
+[SpriteDKVulturRightA]
+texture = 28
+texturePosX = 0
+texturePosY = 0.731507
+textureWeight = 0.0634249
+textureHeight = 0.123288
+
+[SpriteDKVulturRightB]
+texture = 28
+texturePosX = 0.064482
+texturePosY = 0.731507
+textureWeight = 0.0634249
+textureHeight = 0.123288
+
+[SpriteDKVulturRightC]
+texture = 28
+texturePosX = 0.128964
+texturePosY = 0.731507
+textureWeight = 0.0634249
+textureHeight = 0.123288
+
+[SpriteDKVulturRightD]
+texture = 28
+texturePosX = 0.193446
+texturePosY = 0.731507
+textureWeight = 0.0634249
+textureHeight = 0.123288
+
+[SpriteDKVulturRightE]
+texture = 28
+texturePosX = 0.257928
+texturePosY = 0.731507
+textureWeight = 0.0634249
+textureHeight = 0.123288
+
+[SpriteDKVulturRightF]
+texture = 28
+texturePosX = 0.32241
+texturePosY = 0.731507
+textureWeight = 0.0634249
+textureHeight = 0.123288
+
+[SpriteDKVulturRightG]
+texture = 28
+texturePosX = 0.386892
+texturePosY = 0.731507
+textureWeight = 0.0634249
+textureHeight = 0.123288
+
+[SpriteDKVulturRightH]
+texture = 28
+texturePosX = 0.451374
+texturePosY = 0.731507
+textureWeight = 0.0634249
+textureHeight = 0.123288
+
+[SpriteDKVulturRightI]
+texture = 28
+texturePosX = 0.515856
+texturePosY = 0.731507
+textureWeight = 0.0634249
+textureHeight = 0.123288
+
+[SpriteDKVulturRightJ]
+texture = 28
+texturePosX = 0.580338
+texturePosY = 0.731507
+textureWeight = 0.0634249
+textureHeight = 0.123288
+
+[SpriteDKVulturRightK]
+texture = 28
+texturePosX = 0.64482
+texturePosY = 0.731507
+textureWeight = 0.0634249
+textureHeight = 0.123288
+
+[SpriteDKVulturRightL]
+texture = 28
+texturePosX = 0.709302
+texturePosY = 0.731507
 textureWeight = 0.0634249
 textureHeight = 0.123288
