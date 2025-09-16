@@ -557,7 +557,7 @@ DeathSound = DeathRobot.wav
 FrozenOnAttack = false
 Type = 0
 ShootingMode = 4
-TimeBehaviourCycle = 4
+TimeBehaviourCycle = 1
 
 [EnemyManaBolet]
 StaticSpriteLeft = SpriteManaBoletD SpriteManaBoletE SpriteManaBoletF
