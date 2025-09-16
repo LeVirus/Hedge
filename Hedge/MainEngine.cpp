@@ -1748,7 +1748,7 @@ std::pair<bool, uint32_t> MainEngine::createEnemy(const LevelManager &levelManag
         moveComp->m_degreeOrientation = left ? 180.0f : 0.0f;
         enemyComp->m_attackPhase = left ? EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT : EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT;
     }
-    timerComponent->m_timeIntervalOptional = enemyData.m_cycleNumberBehaviour;
+    timerComponent->m_timeIntervalOptional = (enemyData.m_cycleNumberBehaviour * 2) / 3;
     ++m_currentLevelEnemiesNumber;
     return {exit, numEntity};
 }

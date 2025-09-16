@@ -498,6 +498,7 @@ Life = 20
 Velocity = 0.5
 MeleeDamage = 33
 Damage = 25
+MeleeOnly = true
 SpriteWeightGame = 1.2 ; value in %
 SpriteHeightGame = 1.5
 traversable = false
@@ -531,7 +532,7 @@ DeathSound = DeathRobot.wav
 FrozenOnAttack = false
 Type = 3
 ShootingMode = 4
-TimeBehaviourCycle = 4
+TimeBehaviourCycle = 1
 
 
 [EnemyManaLapin]
@@ -650,7 +651,7 @@ DeathSound = DeathRobot.wav
 FrozenOnAttack = false
 Type = 4
 ShootingMode = 4
-TimeBehaviourCycle = 4
+TimeBehaviourCycle = 2
 
 [EnemyDKVulture]
 StaticSpriteLeft = SpriteDKVulturLeftK SpriteDKVulturLeftJ SpriteDKVulturLeftI SpriteDKVulturLeftH SpriteDKVulturLeftG SpriteDKVulturLeftF SpriteDKVulturLeftE SpriteDKVulturLeftD SpriteDKVulturLeftC SpriteDKVulturLeftB SpriteDKVulturLeftA
