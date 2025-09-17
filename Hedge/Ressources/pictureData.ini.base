@@ -5393,8 +5393,8 @@ textureHeight = 0.275362
 texture = 29
 texturePosX = 0.712871
 texturePosY = 0.281159
-textureWeight = 0.0438472
-textureHeight = 0.162319
+textureWeight = 0.0448472
+textureHeight = 0.163319
 
 [SpriteConsoleB]
 texture = 29

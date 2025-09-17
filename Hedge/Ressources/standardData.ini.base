@@ -188,44 +188,44 @@ traversable = false
 
 [GroundScreen]
 Sprite = SpriteScreenHedgeB
-SpriteWeightGame = 1.0
-SpriteHeightGame = 1.0
+SpriteWeightGame = 0.52
+SpriteHeightGame = 1.6
 traversable = false
 
 [GroundSnes]
 Sprite = SpriteConsoleAA
-SpriteWeightGame = 1.0
-SpriteHeightGame = 1.0
+SpriteWeightGame = 0.5
+SpriteHeightGame = 0.5
 traversable = false
 
 [GroundNES]
 Sprite = SpriteConsoleB
-SpriteWeightGame = 1.0
-SpriteHeightGame = 1.0
+SpriteWeightGame = 0.5
+SpriteHeightGame = 0.5
 traversable = false
 
 [GroundSNESFull]
 Sprite = SpriteConsoleFull
-SpriteWeightGame = 1.5
-SpriteHeightGame = 1.3
+SpriteWeightGame = 1.0
+SpriteHeightGame = 0.8
 traversable = false
 
 [GroundCartridge]
 Sprite = SpriteCartridges
-SpriteWeightGame = 1.5
-SpriteHeightGame = 1.3
+SpriteWeightGame = 0.35
+SpriteHeightGame = 0.95
 traversable = false
 
 [GroundNintendo]
 Sprite = SpriteNintendoSymbol
-SpriteWeightGame = 1.5
-SpriteHeightGame = 1.3
+SpriteWeightGame = 0.5
+SpriteHeightGame = 0.4
 traversable = false
 
 [GroundPadSnes]
 Sprite = SpritePad
-SpriteWeightGame = 1.5
-SpriteHeightGame = 1.3
+SpriteWeightGame = 0.375
+SpriteHeightGame = 0.325
 traversable = false
 
 [GroundDKBarrelBones]
