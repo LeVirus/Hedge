@@ -1,8 +1,8 @@
 #player.png ==> 0 Global.png ==> 1  FontTexture.png ==> 2 EnemyDemon.png ==> 3 GeneralSprites.png ==> 4 EnemyMarine.png ==> 5 Stars.jpg ==> 6 Simetra_green.png ==> 7 BossArachnotron.png ==> 8 BossCyberDemon.png ==> 9
 #EnemyBaronOfHell.png ==> 10 EnemyCacodemon.png ==> 11 EnemyDemonClaw.png ==> 12 EnemyZombieSergeant.png ==> 13  MenuFilled.png ==> 14 Font.png ==> 15  TitleMenu.png ==> 16 MenuLeft.png ==> 17  MenuRightLeft.png ==> 18 
-#NouvText.png ==> 19 BackroomText.png ==> 20   TreesFree.png ==> 21 walltest.jpg ==> 22 Moto.png ==> 23 CharMod.png ==> 24 FF6LVL.png ==> 25 ManaGen.png ==> 26  DonkeyLVL.png ==> 27  Enemies.png ==> 28
+#NouvText.png ==> 19 BackroomText.png ==> 20   TreesFree.png ==> 21 walltest.jpg ==> 22 Moto.png ==> 23 CharMod.png ==> 24 FF6LVL.png ==> 25 ManaGen.png ==> 26  DonkeyLVL.png ==> 27  Enemies.png ==> 28  TextHedge.png ==> 29
 [PathToTexture]
-textures = player.png Global.png FontTexture.png EnemyDemon.png GeneralSprites.png EnemyMarine.png Stars.jpg Simetra_green.png BossArachnotron.png BossCyberDemon.png EnemyBaronOfHell.png EnemyCacodemon.png EnemyDemonClaw.png EnemyZombieSergeant.png MenuFilled.png Font.png TitleMenu.png MenuLeft.png MenuRightLeft.png NouvText.png BackroomText.png TreesFree.png walltest.jpg Moto.png CharMod.png FF6LVL.png ManaGen.png DonkeyLVL.png Enemies.png 
+textures = player.png Global.png FontTexture.png EnemyDemon.png GeneralSprites.png EnemyMarine.png Stars.jpg Simetra_green.png BossArachnotron.png BossCyberDemon.png EnemyBaronOfHell.png EnemyCacodemon.png EnemyDemonClaw.png EnemyZombieSergeant.png MenuFilled.png Font.png TitleMenu.png MenuLeft.png MenuRightLeft.png NouvText.png BackroomText.png TreesFree.png walltest.jpg Moto.png CharMod.png FF6LVL.png ManaGen.png DonkeyLVL.png Enemies.png TextHedge.png
 
  #4335 405  4522 599
 [SpriteLog]
@@ -5346,3 +5346,102 @@ texturePosX = 0.709302
 texturePosY = 0.731507
 textureWeight = 0.0634249
 textureHeight = 0.123288
+
+[SpriteScreenMegamanC]
+texture = 29
+texturePosX = 0
+texturePosY = 0
+textureWeight = 0.19802
+textureHeight = 0.272464
+
+[SpriteScreenMegamanB]
+texture = 29
+texturePosX = 0.199434
+texturePosY = 0
+textureWeight = 0.239038
+textureHeight = 0.272464
+
+[SpriteScreenMegamanA]
+texture = 29
+texturePosX = 0.439887
+texturePosY = 0
+textureWeight = 0.1471
+textureHeight = 0.272464
+
+[SpriteScreenMetroidC]
+texture = 29
+texturePosX = 0
+texturePosY = 0.275362
+textureWeight = 0.23338
+textureHeight = 0.275362
+
+[SpriteScreenMetroidB]
+texture = 29
+texturePosX = 0.234795
+texturePosY = 0.275362
+textureWeight = 0.202263
+textureHeight = 0.275362
+
+[SpriteScreenMetroidA]
+texture = 29
+texturePosX = 0.438472
+texturePosY = 0.275362
+textureWeight = 0.216407
+textureHeight = 0.275362
+
+[SpriteScreenHedgeB]
+texture = 29
+texturePosX = 0.712871
+texturePosY = 0.281159
+textureWeight = 0.0438472
+textureHeight = 0.162319
+
+[SpriteConsoleB]
+texture = 29
+texturePosX = 0.200849
+texturePosY = 0.576812
+textureWeight = 0.157001
+textureHeight = 0.24058
+
+[SpritePad]
+texture = 29
+texturePosX = 0.377652
+texturePosY = 0.565217
+textureWeight = 0.118812
+textureHeight = 0.110145
+
+[SpriteNintendoSymbol]
+texture = 29
+texturePosX = 0.506365
+texturePosY = 0.591304
+textureWeight = 0.137199
+textureHeight = 0.197101
+
+[SpriteCartridges]
+texture = 29
+texturePosX = 0.660537
+texturePosY = 0.573913
+textureWeight = 0.0622348
+textureHeight = 0.255072
+
+[SpriteConsoleFull]
+texture = 29
+texturePosX = 0.804809
+texturePosY = 0.591304
+textureWeight = 0.189533
+textureHeight = 0.388406
+
+
+[SpriteConsoleAA]
+texture = 29
+texturePosX = 0.00141443
+texturePosY = 0.55942
+textureWeight = 0.18529
+textureHeight = 0.24058
+
+[SpriteScreenHedgeA]
+texture = 29
+texturePosX = 0.817539
+texturePosY = 0.313043
+textureWeight = 0.0594059
+textureHeight = 0.17971
