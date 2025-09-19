@@ -35,7 +35,7 @@ SpriteWeightGame = 0.4
 SpriteHeightGame = 1.4
 Sound = Message.wav
 IdPicture = Hedge Manuwaza
-AssociateSprite = SpriteLog SpriteTreeA
+AssociateSprite = SpriteHedgeHead SpriteTreeA
 
 [MessageLogLocke]
 Sprite = SpriteFFVILockeA
@@ -59,6 +59,10 @@ Time = 1 1 1
 
 [WallScreenMetroid]
 Sprite = SpriteScreenMetroidA SpriteScreenMetroidB SpriteScreenMetroidC
+Time = 1 1 1
+
+[WallScreenArnihs]
+Sprite = SpriteArnihsA SpriteArnihsB SpriteArnihsC
 Time = 1 1 1
 
 [WallFFVIToitStairDownA]
@@ -301,6 +305,18 @@ SpriteWeightGame = 0.6
 SpriteHeightGame = 0.8
 traversable = false
 
+[WallMetalA]
+Sprite = SpriteWallMetalCol
+
+[WallMetalB]
+Sprite = SpriteMetalGroundA
+
+[WallMetalC]
+Sprite = SpriteMetalGroundB
+
+[WallMetalLight]
+Sprite = SpriteWallLight
+
 [WallManaWood]
 Sprite = SpriteManaPlatformA
 
@@ -436,9 +452,13 @@ Sprite = SpriteDKPathStoneB
 [WallDKPathStoneC]
 Sprite = SpriteDKPathStoneC
 
+[WallDown]
+Sprite = SpriteWallGoDown
+traversable = true
+
 [WallElecA]
-Sprite = SpriteWallB SpriteWallA
-Time = 1.0 2.5
+Sprite = SpriteWallElecOn SpriteWallElecOff
+Time = 1.0 1.5
 Elec = 1 0
 
 [WallPick]
@@ -446,15 +466,20 @@ Sprite = SpriteGigerGroundA
 Elec = 1
 
 [WallElecArk]
-Sprite = SpriteTreeC SpriteInvisibleTeleport
+Sprite = SpriteWallElecOn SpriteInvisibleTeleport
 Time = 1.0 2.5
 Elec = 1 0
 Appear = 1 0
 
 [WallDisapear]
-Sprite = SpriteTreeB SpriteInvisible
-Time = 1.0 2.5
+Sprite = SpriteWallLight SpriteInvisible
+Time = 1.5 1.5
 Appear = 1 0
+
+[WallDisapearA]
+Sprite = SpriteInvisible SpriteWallLight
+Time = 1.5 1.5
+Appear = 0 1
 
 [DoorVertical]
 Sprite = SpriteMetalDoor
@@ -507,7 +532,7 @@ Velocity = 0.5
 MeleeDamage = 33
 Damage = 25
 SpriteWeightGame = 1.1 ; value in %
-SpriteHeightGame = 0.6
+SpriteHeightGame = 1.4
 traversable = false
 DetectBehaviourSound = BigRoar.wav
 AttackSound = LazerShot2.wav
@@ -531,7 +556,7 @@ Velocity = 0.5
 MeleeDamage = 33
 Damage = 25
 SpriteWeightGame = 1.1 ; value in %
-SpriteHeightGame = 0.7
+SpriteHeightGame = 1.4
 traversable = false
 DetectBehaviourSound = BigRoar.wav
 AttackSound = LazerShot2.wav
@@ -1212,12 +1237,23 @@ Cycles = 1.0
 MaxPop = 4
 
 [GroundGeneratorAcidFall]
-Sprite = SpriteLittleStorage
-SpriteWeightGame = 0.4
-SpriteHeightGame = 0.8
+Sprite = SpriteLazerUp
+SpriteWeightGame = 1.0
+SpriteHeightGame = 1.5
 traversable = false
 ShootID = VisibleShootDemonC
 Direction = north
+Cycles = 2.5
+Damage = 5
+MaxPop = 4
+
+[GroundGeneratorDown]
+Sprite = SpriteLazerDown
+SpriteWeightGame = 1.0
+SpriteHeightGame = 1.5
+traversable = false
+ShootID = VisibleShootDemonC
+Direction = south
 Cycles = 2.5
 Damage = 5
 MaxPop = 4

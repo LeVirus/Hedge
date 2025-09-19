@@ -1,6 +1,12 @@
 ))
 When jump on traversable wall, eject lateral some time
 
+))
+Middle background should display to bottom of level
+
+))
+Non traversable element should be not traversable
+
 ============================================================================================================
 ============================================================================================================
 
