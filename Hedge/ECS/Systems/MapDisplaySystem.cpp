@@ -352,7 +352,7 @@ void MapDisplaySystem::confVertexMiddle(const PairFloat_t &centerScreenPos)
 {
     PositionVertexComponent *posComp = Ecsm_t::instance().getComponent<PositionVertexComponent, Components_e::POSITION_VERTEX_COMPONENT>(*m_middle);
     assert(posComp);
-    float groundGLy = (centerScreenPos.second * MAP_LOCAL_SIZE_GL / (Level::getSize().second * LEVEL_TILE_SIZE_PX)), groundDownPos = groundGLy - 1.8f;
+    float groundGLy = (centerScreenPos.second * MAP_LOCAL_SIZE_GL / (Level::getSize().second * LEVEL_TILE_SIZE_PX)), groundDownPos = groundGLy - 2.0f;
 
     posComp->m_vertex[0].second = groundGLy;
     posComp->m_vertex[1].second = groundGLy;
