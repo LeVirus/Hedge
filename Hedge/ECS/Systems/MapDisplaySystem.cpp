@@ -89,12 +89,10 @@ void MapDisplaySystem::execSystem()
     PairFloat_t centerScreen = getCenterScreen(mapCompPlayer->m_absoluteMapPositionPX, min, max);
     getMapDisplayLimit(centerScreen, min, max);
     confVertexBackground();
-    // confVertexGround(centerScreen);
     confVertexMiddle(centerScreen);
     drawBackground();
     drawMiddle();
     drawMiniMap(centerScreen, min, max);
-    // drawGround();
 }
 
 //===================================================================
@@ -391,7 +389,6 @@ void MapDisplaySystem::updateBackgroundLateralPos()
         {
             m_middlePosLateral = -1.0f + std::fmod(m_middlePosLateral, 1.00f);
         }
-
         //GROUND
         m_groundPosLateral += (m_memPreviousPos - mapComp->m_absoluteMapPositionPX.first) / m_localLevelSizePX;
         if(m_groundPosLateral <= -1.00f)
@@ -459,7 +456,7 @@ void MapDisplaySystem::drawGround()
 void MapDisplaySystem::getMapDisplayLimit(const PairFloat_t &playerPos, PairUI_t &min, PairUI_t &max)
 {
     assert(playerPos.first >= 0.0f || playerPos.second >= 0.0f);
-    float correctedLevelSize = m_localLevelSizePX + LEVEL_TILE_SIZE_PX;
+    float correctedLevelSize = m_localLevelSizePX;
     //getBound
     PairFloat_t posMax = {playerPos.first + correctedLevelSize, playerPos.second + correctedLevelSize},
         posMin = {playerPos.first - correctedLevelSize, playerPos.second - correctedLevelSize};
