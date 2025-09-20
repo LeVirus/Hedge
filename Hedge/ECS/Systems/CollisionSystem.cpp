@@ -1484,7 +1484,18 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
             }
             if(gravityComp->m_onGround)
             {
-                m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
+                if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+                {
+                    m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
+                }
+                else
+                {
+                    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                    if(playerComp->m_associatedVehicle && args.entityNumA == *playerComp->m_associatedVehicle)
+                    {
+                        m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
+                    }
+                }
             }
         }
         else
@@ -1630,10 +1641,25 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
                 addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
                 return;
             }
-            if(gravityComp->m_onGround && args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+            if(gravityComp->m_onGround)
             {
-                m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
+                if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+                {
+                    m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
+                }
+                else
+                {
+                    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                    if(playerComp->m_associatedVehicle && args.entityNumA == *playerComp->m_associatedVehicle)
+                    {
+                        m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
+                    }
+                }
             }
+            // if(gravityComp->m_onGround && args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+            // {
+            //     m_refMainEngine->memPlayerCurrentWallOnGround(args.entityNumB);
+            // }
         }
         else if(!YChange && ((down && diffX > 0.0f) || (!down && diffX < 0.0f)))
         {
