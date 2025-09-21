@@ -3869,6 +3869,7 @@ void MainEngine::linkSystemsToPhysicalEngine()
     iaSystem->linkMainEngine(this);
     coll->linkMainEngine(this);
     visionSystem->linkMainEngine(this);
+    gravSystem->linkMainEngine(this);
     m_physicalEngine.linkSystems(input, coll, iaSystem, gravSystem, platformSystem);
 }
 

@@ -1,4 +1,6 @@
 #include "GravitySystem.hpp"
+#include "MainEngine.hpp"
+#include "Level.hpp"
 #include <ECS/Components/GravityComponent.hpp>
 #include <ECS/Components/MapCoordComponent.hpp>
 #include <alias.hpp>
@@ -46,6 +48,7 @@ void GravitySystem::execSystem()
             continue;
         }
         mapComp->m_absoluteMapPositionPX.second += gravComp->m_gravityCohef;
+        m_mainEngine->addEntityToZone(*it, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
         gravComp->m_fall = true;
     }
 
