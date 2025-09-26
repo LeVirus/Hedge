@@ -51,10 +51,19 @@ bool checkCircleCircleCollision(const PairFloat_t &circleCenterA, const float ra
 //===================================================================
 bool checkRectRectCollision(const PairFloat_t &rectOriginA, const PairFloat_t &rectSizeA, const PairFloat_t &rectOriginB, const PairFloat_t &rectSizeB)
 {
+    return !(rectOriginA.first + rectSizeA.first <= rectOriginB.first ||
+            rectOriginB.first + rectSizeB.first <= rectOriginA.first ||
+            rectOriginA.second + rectSizeA.second <= rectOriginB.second ||
+            rectOriginB.second + rectSizeB.second <= rectOriginA.second);
+}
+
+//===================================================================
+bool checkRectRectSegmentCollision(const PairFloat_t &rectOriginA, const PairFloat_t &rectSizeA, const PairFloat_t &rectOriginB, const PairFloat_t &rectSizeB)
+{
     return !(rectOriginA.first + rectSizeA.first < rectOriginB.first ||
-            rectOriginB.first + rectSizeB.first < rectOriginA.first ||
-            rectOriginA.second + rectSizeA.second < rectOriginB.second ||
-            rectOriginB.second + rectSizeB.second < rectOriginA.second);
+             rectOriginB.first + rectSizeB.first < rectOriginA.first ||
+             rectOriginA.second + rectSizeA.second < rectOriginB.second ||
+             rectOriginB.second + rectSizeB.second < rectOriginA.second);
 }
 
 //===================================================================
@@ -65,7 +74,7 @@ bool checkSegmentRectCollision(const PairFloat_t &lineFirstPoint, const PairFloa
     float maxX = std::max(lineFirstPoint.first, lineSecondPoint.first);
     float minY = std::min(lineFirstPoint.second, lineSecondPoint.second);
     float maxY = std::max(lineFirstPoint.second, lineSecondPoint.second);
-    if(!checkRectRectCollision(rectOrigin, rectSize, {minX, minY}, {maxX - minX, maxY - minY}))
+    if(!checkRectRectSegmentCollision(rectOrigin, rectSize, {minX, minY}, {maxX - minX, maxY - minY}))
     {
         return false;
     }

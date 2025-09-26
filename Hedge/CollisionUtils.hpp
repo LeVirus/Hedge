@@ -40,6 +40,11 @@ bool checkRectRectCollision(const PairFloat_t &rectOriginA,
                             const PairFloat_t &rectOriginB,
                             const PairFloat_t &rectSizeB);
 
+bool checkRectRectSegmentCollision(const PairFloat_t &rectOriginA,
+                            const PairFloat_t &rectSizeA,
+                            const PairFloat_t &rectOriginB,
+                            const PairFloat_t &rectSizeB);
+
 bool checkSegmentRectCollision(const PairFloat_t &lineFirstPoint,
                                const PairFloat_t &lineSecondPoint,
                                const PairFloat_t &rectOrigin,
