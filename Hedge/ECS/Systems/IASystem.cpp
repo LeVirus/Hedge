@@ -29,8 +29,6 @@ IASystem::IASystem()
     addComponentsToSystem(Components_e::ENEMY_CONF_COMPONENT, 1);
 }
 
-
-
 //===================================================================
 void IASystem::execSystem()
 {
@@ -203,6 +201,7 @@ void IASystem::treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool gren
             if(++timerComp->m_cycleCountB < weaponComp->m_grenadeData.m_cycleTime)
             {
                 moveElementFromAngle(ammoMoveComp->m_velocity, getRadiantAngle(ammoMoveComp->m_degreeOrientation), ammoMapComp->m_absoluteMapPositionPX);
+                m_mainEngine->addEntityToZone(stdAmmo[i], *getLevelCoord(ammoMapComp->m_absoluteMapPositionPX));
             }
         }
         else
@@ -210,6 +209,7 @@ void IASystem::treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool gren
             SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(stdAmmo[i]);
             segmentComp->m_points.first = ammoMapComp->m_absoluteMapPositionPX;
             moveElementFromAngle(ammoMoveComp->m_velocity, getRadiantAngle(ammoMoveComp->m_degreeOrientation), ammoMapComp->m_absoluteMapPositionPX);
+            m_mainEngine->addEntityToZone(stdAmmo[i], *getLevelCoord(ammoMapComp->m_absoluteMapPositionPX));
             segmentComp->m_points.second = ammoMapComp->m_absoluteMapPositionPX;
             //if tank check collision down of shot picture
             if(tank)

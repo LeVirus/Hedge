@@ -1236,7 +1236,7 @@ Direction = north
 Cycles = 1.0
 MaxPop = 4
 
-[GroundGeneratorAcidFall]
+[GroundGeneratorAcidFallB]
 Sprite = SpriteLazerUp
 SpriteWeightGame = 1.0
 SpriteHeightGame = 1.5
@@ -1247,6 +1247,17 @@ Cycles = 2.5
 Damage = 5
 MaxPop = 4
 
+[GroundGeneratorAcidFall]
+Sprite = SpriteLazerUp
+SpriteWeightGame = 1.0
+SpriteHeightGame = 1.5
+traversable = false
+ShootID = VisibleShootDemonC
+Direction = north
+Cycles = 1.5
+Damage = 5
+MaxPop = 4
+
 [GroundGeneratorDown]
 Sprite = SpriteLazerDown
 SpriteWeightGame = 1.0
@@ -1254,7 +1265,29 @@ SpriteHeightGame = 1.5
 traversable = false
 ShootID = VisibleShootDemonC
 Direction = south
-Cycles = 2.5
+Cycles = 1.5
+Damage = 5
+MaxPop = 4
+
+[GroundGeneratorRight]
+Sprite = SpriteShootGeneratorRight
+SpriteWeightGame = 1.0
+SpriteHeightGame = 1.5
+traversable = false
+ShootID = VisibleShootDemonC
+Direction = east
+Cycles = 1.5
+Damage = 5
+MaxPop = 4
+
+[GroundGeneratorLeft]
+Sprite = SpriteShootGeneratorLeft
+SpriteWeightGame = 1.0
+SpriteHeightGame = 1.5
+traversable = false
+ShootID = VisibleShootDemonC
+Direction = west
+Cycles = 1.5
 Damage = 5
 MaxPop = 4
 

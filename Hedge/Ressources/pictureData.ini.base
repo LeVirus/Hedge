@@ -5517,3 +5517,17 @@ texturePosX = 0.356
 texturePosY = 0
 textureWeight = 0.538
 textureHeight = 0.31125
+
+[SpriteShootGeneratorRight]
+texture = 2
+texturePosX = 0.002
+texturePosY = 0.12625
+textureWeight = 0.05
+textureHeight = 0.0625
+
+[SpriteShootGeneratorLeft]
+texture = 2
+texturePosX = 0.0546667
+texturePosY = 0.12625
+textureWeight = 0.05
+textureHeight = 0.0625
