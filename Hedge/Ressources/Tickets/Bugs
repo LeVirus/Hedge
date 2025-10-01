@@ -5,28 +5,31 @@ Non traversable element should be not traversable
 Enemies or player are ejected of wall if scratch
 
 ))
-On bike if move over 2 opposite stair first up second down ==> lock
-
-))
 If on bike and explode player invisible and falling down
 
 ))
 If reload after death always shoot
 
 ))
-Jump set one jump by push
+Collision
 
 ))
-Collision
+Game crash after ending last level
+
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 
 ))
 On moveable wall go up on speed 2 player stay stuck
 
 ))
-Game crash after ending last level
+On bike if move over 2 opposite stair first up second down ==> lock
 
 ============================================================================================================
 ============================================================================================================
+
+))
+Jump set one jump by push==================OK
 
 ))
 Lateral moveable wall does not move player some times================OK

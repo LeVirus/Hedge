@@ -144,6 +144,10 @@ void InputSystem::treatPlayerInput()
             m_keyEspapePressed = false;
         }
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+        if(checkPlayerKeyTriggered(ControlKey_e::JUMP, GLFW_RELEASE))
+        {
+            playerComp->m_jumpPush = false;
+        }
         if(Level::getDialogMode() || playerComp->m_dialogPass)
         {
             treatDialogInput();
@@ -214,9 +218,10 @@ void InputSystem::treatPlayerInput()
                 playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
             }
         }
-        if(!playerComp->m_dialogPass && checkPlayerKeyTriggered(ControlKey_e::JUMP))
+        if(!playerComp->m_dialogPass && !playerComp->m_jumpPush && checkPlayerKeyTriggered(ControlKey_e::JUMP))
         {
-            if(playerComp->m_associatedVehicle || (!gravityComp->m_jump && gravityComp->m_onGround))
+            playerComp->m_jumpPush = true;
+            if(playerComp->m_associatedVehicle || (!gravityComp->m_jump && gravityComp->m_memOnGround/*m_onGround*/))
             {
                 if(checkPlayerKeyTriggered(ControlKey_e::LOOK_DOWN))
                 {
