@@ -1880,18 +1880,6 @@ void LevelManager::loadUtilsData()
     //Load visual weapons (changing)
     PairStrPairFloat_t pair;
     m_weaponsPreviewData.reserve(6);
-    //FIST
-    val = m_ini.getValue("GraphicUtils", "FistIcon");
-    assert(val);
-    m_spriteFistName = *val;
-    pair.first = *val;
-    val = m_ini.getValue("GraphicUtils", "SpriteWeightFist");
-    assert(val);
-    pair.second.first = std::stof(*val) / 2;
-    val = m_ini.getValue("GraphicUtils", "SpriteHeightFist");
-    assert(val);
-    pair.second.second = std::stof(*val) / 2;
-    m_weaponsPreviewData.emplace_back(pair);
     //GUN
     val = m_ini.getValue("GraphicUtils", "GunIcon");
     assert(val);

@@ -669,7 +669,7 @@ void MainEngine::playerAttack(uint32_t playerEntity, PlayerConfComponent &player
         float degreeAim = getDegreeAngleFromAim(playerComp.m_currentAim, gravComp->m_onGround, playerComp.m_currentDirectionRight);
         confPlayerVisibleShoot((*currentWeapon.m_visibleShootEntities), {point.first, point.second + rectComp->m_size.second / 3}, degreeAim);
         //Unlimited ammo for simple gun
-        if(weaponConf->m_currentWeapon == 1)
+        if(weaponConf->m_currentWeapon == 0)
         {
             return;
         }
@@ -3440,18 +3440,15 @@ void MainEngine::confWeaponsPreviewEntities()
         switch(i)
         {
         case 0:
-            spriteCursorA->m_spriteData = m_memPreviewFistIcon;
-            break;
-        case 1:
             spriteCursorA->m_spriteData = m_memPreviewGunIcon;
             break;
-        case 2:
+        case 1:
             spriteCursorA->m_spriteData = m_memPreviewMachineGunIcon;
             break;
-        case 3:
+        case 2:
             spriteCursorA->m_spriteData = m_memPreviewPlasmaRifleIcon;
             break;
-        case 4:
+        case 3:
             spriteCursorA->m_spriteData = m_memPreviewBazookaIcon;
             break;
         default:
@@ -3479,7 +3476,6 @@ void MainEngine::loadStaticSpriteEntities(const LevelManager &levelManager)
     uint16_t pannelSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getPannelSpriteName()),
             lifeIconSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getLifeIconSpriteName()),
             ammoIconSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getAmmoIconSpriteName()),
-            fistIconSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getFistIconSpriteName()),
             gunIconSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getGunIconSpriteName()),
             plasmaRifleIconSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getPlasmaRifleIconSpriteName()),
             machineGunIconSpriteId = *levelManager.getPictureData().getIdentifier(levelManager.getMachineGunIconSpriteName()),
@@ -3497,7 +3493,6 @@ void MainEngine::loadStaticSpriteEntities(const LevelManager &levelManager)
     m_memLifeIcon = &levelManager.getPictureData().getSpriteData()[lifeIconSpriteId];
     m_memAmmoIcon = &levelManager.getPictureData().getSpriteData()[ammoIconSpriteId];
 
-    m_memPreviewFistIcon = &levelManager.getPictureData().getSpriteData()[fistIconSpriteId];
     m_memPreviewGunIcon = &levelManager.getPictureData().getSpriteData()[gunIconSpriteId];
     m_memPreviewPlasmaRifleIcon = &levelManager.getPictureData().getSpriteData()[plasmaRifleIconSpriteId];
     m_memPreviewMachineGunIcon = &levelManager.getPictureData().getSpriteData()[machineGunIconSpriteId];

@@ -14,10 +14,7 @@ RightLeftMenuSprite = SpriteBackgroundRightLeftMenu
 PannelSprite = SpritePannel
 LifeIconSprite = SpriteLifeIcon
 AmmoIconSprite = SpriteAmmoIcon
-FistIcon = SpriteFAA
 GunIcon = SpriteGSt
-SpriteWeightFist = 0.4
-SpriteHeightFist = 0.4
 SpriteWeightGun = 0.4
 SpriteHeightGun = 0.4
 PlasmaRifleID = ObjectPlasmaRifle
@@ -970,27 +967,11 @@ SoundEffect = GunShot.wav
 DamageZoneRay = 530.0
 MoveTime = 0.5
 
-[WeaponFist]
-WeaponName = Fist
-Possess = true
-BaseAmmo = 1
-Order = 0
-StaticSprite = SpriteFS
-AttackSprite = SpriteFAA SpriteFAB SpriteFAC
-SpriteWeightGame = 0.5 0.5 0.5 0.5
-SpriteHeightGame = 0.6 0.6 0.6 0.5 
-AnimationLatency = 10
-MaxAmmo = 0
-Damage = 1
-AttackType = 0
-AnimationType = 0
-LastAnimNum = 1
-
 [WeaponGun]
 WeaponName = Gun
 Possess = true
 BaseAmmo = 20
-Order = 1
+Order = 0
 StaticSprite = SpriteGSt
 AttackSprite = SpriteGSh SpriteGAA SpriteGAB
 SpriteWeightGame = 0.4 0.4 0.4 0.4
@@ -1007,7 +988,7 @@ SoundEffect = GunShot.wav
 
 [WeaponMachineGun]
 WeaponName = Machine Gun
-Order = 2
+Order = 1
 BaseAmmo = 25
 ShootSpritesID = VisibleShootGun
 StaticSprite = SpriteMGSt 
@@ -1027,7 +1008,7 @@ SoundEffect = MachineGunShoot.wav
 
 [WeaponPlasmaRifle]
 WeaponName = Pasma Rifle
-Order = 3
+Order = 2
 StaticSprite = SpritePRS 
 AttackSprite = SpritePRAA SpritePRAB SpritePRR
 SpriteWeightGame = 0.5 0.5 0.5 0.5 
@@ -1044,7 +1025,7 @@ SoundEffect = LazerShot.wav
 
 [WeaponBazooka]
 WeaponName = Bazooka
-Order = 4
+Order = 3
 BaseAmmo = 1
 StaticSprite = SpriteBSt 
 AttackSprite = SpriteBAA SpriteBAB SpriteBAC SpriteBAD
