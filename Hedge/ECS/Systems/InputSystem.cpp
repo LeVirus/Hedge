@@ -592,6 +592,11 @@ bool InputSystem::checkPlayerKeyTriggered(ControlKey_e key, int state)
     {
         if(glfwGetKey(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == state && glfwGetMouseButton(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == state)
         {
+            //If release check both gamepad and keyboard
+            if(state == GLFW_RELEASE && !checkStandardButtonGamepadKeyStatus(m_mapGamepadCurrentAssociatedKey[key].m_keyID, state))
+            {
+                return false;
+            }
             return true;
         }
     }
