@@ -1,7 +1,4 @@
 ))
-Non traversable element should be not traversable
-
-))
 Enemies or player are ejected of wall if scratch
 
 ))
@@ -24,6 +21,9 @@ If on bike and explode player invisible and falling down===================??
 
 ============================================================================================================
 ============================================================================================================
+
+))
+Non traversable element should be not traversable==================OK
 
 ))
 Remove fist attack=================OK

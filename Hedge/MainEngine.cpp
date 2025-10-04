@@ -2835,7 +2835,7 @@ uint32_t MainEngine::createGeneratorEntity()
     vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
     vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
     vect[Components_e::MAP_COORD_COMPONENT] = 1;
-    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     vect[Components_e::GENERATOR_COMPONENT] = 1;
     vect[Components_e::TIMER_COMPONENT] = 1;
@@ -2900,7 +2900,7 @@ uint32_t MainEngine::createSimpleSpriteEntity()
 }
 
 //===================================================================
-uint32_t MainEngine::createStaticEntity()
+uint32_t MainEngine::createStaticEntity(bool circle)
 {
     std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
     vect.fill(0);
@@ -2908,7 +2908,14 @@ uint32_t MainEngine::createStaticEntity()
     vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
     vect[Components_e::MAP_COORD_COMPONENT] = 1;
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
-    vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    if(circle)
+    {
+        vect[Components_e::CIRCLE_COLLISION_COMPONENT] = 1;
+    }
+    else
+    {
+        vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
+    }
     return Ecsm_t::instance().addEntity(vect);
 }
 
@@ -3559,7 +3566,7 @@ bool MainEngine::loadExitElement(const LevelManager &levelManager,
     }
     const SpriteData &memSpriteData = levelManager.getPictureData().
             getSpriteData()[exit.m_numSprite];
-    uint32_t entityNum = createStaticEntity();
+    uint32_t entityNum = createStaticEntity(true);
     confBaseComponent(entityNum, memSpriteData, exit.m_TileGamePosition[0],
             CollisionShape_e::CIRCLE_C, CollisionTag_e::EXIT_CT);
     CircleCollisionComponent *circleColl = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
@@ -3710,14 +3717,19 @@ std::optional<uint32_t> MainEngine::createStaticElementEntity(LevelStaticElement
     else if(iterationNum >= staticElementData.m_TileGamePosition.size())
     {
         confBaseComponent(entityNum, memSpriteData, {}, CollisionShape_e::CIRCLE_C, tag);
+        CircleCollisionComponent *circleComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
+        assert(circleComp);
+        circleComp->m_ray = staticElementData.m_inGameSpriteSize.first * LEVEL_THIRD_TILE_SIZE_PX;
     }
     else
     {
-        confBaseComponent(entityNum, memSpriteData, staticElementData.m_TileGamePosition[iterationNum], CollisionShape_e::CIRCLE_C, tag, staticElementData.m_inGameSpriteSize);
+        CollisionShape_e col = CollisionShape_e::RECTANGLE_C;
+        if(tag == CollisionTag_e::OBJECT_CT)
+        {
+            col = CollisionShape_e::CIRCLE_C;
+        }
+        confBaseComponent(entityNum, memSpriteData, staticElementData.m_TileGamePosition[iterationNum], col, tag, staticElementData.m_inGameSpriteSize);
     }
-    CircleCollisionComponent *circleComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
-    assert(circleComp);
-    circleComp->m_ray = staticElementData.m_inGameSpriteSize.first * LEVEL_THIRD_TILE_SIZE_PX;
     Level::addElementCase(*spriteComp, mapComp->m_coord, LevelCaseType_e::EMPTY_LC, entityNum);
     m_physicalEngine.addEntityToZone(entityNum, mapComp->m_coord);
     return entityNum;

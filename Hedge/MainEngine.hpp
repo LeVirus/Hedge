@@ -355,7 +355,7 @@ private:
     uint32_t createWriteEntity();
     uint32_t createVisibleShotEntity(bool tank = false);
     uint32_t createSimpleSpriteEntity();
-    uint32_t createStaticEntity();
+    uint32_t createStaticEntity(bool circle = false);
     uint32_t createVehiculeEntity();
     uint32_t createObjectEntity();
     uint32_t createDisplayTeleportEntity();
