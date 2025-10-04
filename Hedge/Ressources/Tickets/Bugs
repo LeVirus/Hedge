@@ -1,7 +1,4 @@
 ))
-Enemies or player are ejected of wall if scratch
-
-))
 Collision
 
 ----------------------------------------------------------------------------------------
@@ -21,6 +18,9 @@ If on bike and explode player invisible and falling down===================??
 
 ============================================================================================================
 ============================================================================================================
+
+))
+Enemies or player are ejected of wall if scratch====================OK
 
 ))
 Non traversable element should be not traversable==================OK

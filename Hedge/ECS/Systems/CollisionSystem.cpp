@@ -588,7 +588,6 @@ bool CollisionSystem::treatCollision(uint32_t entityNumA, uint32_t entityNumB, G
     return true;
 }
 
-//Detect map only
 //===================================================================
 void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
 {
@@ -659,7 +658,10 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                         return;
                     }
                 }
-                collisionRectRectEject(args);
+                if(args.tagCompB.m_tagA != CollisionTag_e::PLAYER_CT)
+                {
+                    collisionRectRectEject(args);
+                }
             }
             if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
             {
