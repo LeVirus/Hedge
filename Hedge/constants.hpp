@@ -29,12 +29,12 @@ enum class ControlKey_e
     AIM_DIAG_UP,
     AIM_DIAG_DOWN,
     MOVE_LEFT,
-    MOVE_RIGHT,
+    MOVE_RIGHT,//5
     JUMP,
     ACTION,
     SHOOT,
     GRENADE,
-    PREVIOUS_WEAPON,
+    PREVIOUS_WEAPON,//10
     NEXT_WEAPON,
     TOTAL
 };

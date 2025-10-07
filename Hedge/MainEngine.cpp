@@ -272,13 +272,15 @@ void MainEngine::treatSoundVehiclePlayer(PlayerConfComponent &playerComp)
 void MainEngine::initLevel(uint32_t levelNum, LevelState_e levelState)
 {
     bool beginLevel = isLoadFromLevelBegin(m_currentLevelState);
+    PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    assert(playerConf);
+    playerConf->m_vehicleEject = false;
+    playerConf->m_playerShoot = false;
+    playerConf->m_shootLock = true;
     if(beginLevel)
     {
-        PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-        assert(playerConf);
         m_memCheckpointLevelState = std::nullopt;
         playerConf->m_currentCheckpoint->first = 0;
-        playerConf->m_vehicleEject = false;
         if(levelState == LevelState_e::NEW_GAME)
         {
             m_graphicEngine.updateSaveNum(levelNum, m_currentSave, 0, "", true);

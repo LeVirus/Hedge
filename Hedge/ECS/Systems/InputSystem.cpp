@@ -606,16 +606,41 @@ bool InputSystem::checkPlayerKeyTriggered(ControlKey_e key, int state)
         if(m_mapGamepadCurrentAssociatedKey[key].m_standardButton)
         {
             bool res = m_gamepadButtonsKeyPressed[m_mapGamepadCurrentAssociatedKey[key].m_keyID];
-            if(state == GLFW_RELEASE && !res)
+            if(state == GLFW_RELEASE)
             {
-                return false;
+                //QUICK FIX
+                if(key == ControlKey_e::SHOOT)
+                {
+                    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                    playerComp->m_shootLock = false;
+                }
+                if(!res)
+                {
+                    return false;
+                }
             }
             else if(state == GLFW_PRESS && res)
             {
                 return false;
             }
-            if(checkStandardButtonGamepadKeyStatus(m_mapGamepadCurrentAssociatedKey[key].m_keyID, state))
+            bool checkStatus = checkStandardButtonGamepadKeyStatus(m_mapGamepadCurrentAssociatedKey[key].m_keyID, state);
+            //QUICK FIX
+            if(key == ControlKey_e::SHOOT && state == GLFW_PRESS && !checkStatus)
             {
+                PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                playerComp->m_shootLock = false;
+            }
+            if(checkStatus)
+            {
+                //QUICK FIX
+                if(key == ControlKey_e::SHOOT && state == GLFW_PRESS)
+                {
+                    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+                    if(playerComp->m_shootLock)
+                    {
+                        return false;
+                    }
+                }
                 return true;
             }
         }

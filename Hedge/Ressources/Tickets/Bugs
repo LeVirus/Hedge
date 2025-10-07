@@ -5,10 +5,13 @@ Collision
 If movbeable wall scratch eject wall
 
 ))
-If reload after death always shoot=====================??
+Enemies or player are ejected of wall if scratch====================
 
 ))
-Enemies or player are ejected of wall if scratch====================
+Enemies killed before checkpoint reappear dead after reload
+
+))
+On pad sometime command are locked in menu
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
@@ -26,6 +29,9 @@ If on bike and explode player invisible and falling down===================??
 ============================================================================================================
 ============================================================================================================
 
+
+))
+If reload after death always shoot=====================OK Quickfix
 
 ))
 Non traversable element should be not traversable==================OK
