@@ -144,7 +144,7 @@ void InputSystem::treatPlayerInput()
             m_keyEspapePressed = false;
         }
         PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-        if(checkPlayerKeyTriggered(ControlKey_e::JUMP, GLFW_RELEASE))
+        if(!checkPlayerKeyTriggered(ControlKey_e::JUMP))
         {
             playerComp->m_jumpPush = false;
         }
@@ -218,7 +218,8 @@ void InputSystem::treatPlayerInput()
                 playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
             }
         }
-        if(!playerComp->m_dialogPass && !playerComp->m_jumpPush && checkPlayerKeyTriggered(ControlKey_e::JUMP))
+        bool jump = checkPlayerKeyTriggered(ControlKey_e::JUMP);
+        if(!playerComp->m_dialogPass && !playerComp->m_jumpPush && jump)
         {
             playerComp->m_jumpPush = true;
             if(playerComp->m_associatedVehicle || (!gravityComp->m_jump && gravityComp->m_memOnGround/*m_onGround*/))
@@ -269,7 +270,7 @@ void InputSystem::treatPlayerInput()
         {
             m_mainEngine->playerThrowGrenade();
         }
-        else if(checkPlayerKeyTriggered(ControlKey_e::GRENADE, GLFW_RELEASE))
+        else if(!checkPlayerKeyTriggered(ControlKey_e::GRENADE))
         {
             playerComp->m_grenadeThrow = false;
         }
@@ -351,7 +352,7 @@ void InputSystem::treatDialogInput()
     {
         playerComp->m_dialogPass = true;
     }
-    else if(playerComp->m_dialogPass && (checkPlayerKeyTriggered(ControlKey_e::JUMP, GLFW_RELEASE)))
+    else if(playerComp->m_dialogPass && (!checkPlayerKeyTriggered(ControlKey_e::JUMP)))
     {
         playerComp->m_dialogPass = false;
     }
@@ -574,58 +575,30 @@ std::optional<double> InputSystem::getXMouseMotion()
 }
 
 //===================================================================
-bool InputSystem::checkPlayerKeyTriggered(ControlKey_e key, int state)
+bool InputSystem::checkPlayerKeyTriggered(ControlKey_e key)
 {
     //KEYBOARD
-    if(state == GLFW_PRESS)
+    if(glfwGetKey(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == GLFW_PRESS)
     {
-        if(glfwGetKey(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == state)
-        {
-            return true;
-        }
-        if(glfwGetMouseButton(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == state)
-        {
-            return true;
-        }
+        return true;
     }
-    else
+    if(glfwGetMouseButton(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == GLFW_PRESS)
     {
-        if(glfwGetKey(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == state && glfwGetMouseButton(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == state)
-        {
-            //If release check both gamepad and keyboard
-            if(state == GLFW_RELEASE && !checkStandardButtonGamepadKeyStatus(m_mapGamepadCurrentAssociatedKey[key].m_keyID, state))
-            {
-                return false;
-            }
-            return true;
-        }
+        return true;
+    }
+
+    if(glfwGetKey(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == GLFW_PRESS && glfwGetMouseButton(m_window, m_mapKeyboardCurrentAssociatedKey[key].m_key) == GLFW_PRESS)
+    {
+        return true;
     }
     //GAMEPAD
     if(!m_mapGamepadID.empty())
     {
         if(m_mapGamepadCurrentAssociatedKey[key].m_standardButton)
         {
-            bool res = m_gamepadButtonsKeyPressed[m_mapGamepadCurrentAssociatedKey[key].m_keyID];
-            if(state == GLFW_RELEASE)
-            {
-                //QUICK FIX
-                if(key == ControlKey_e::SHOOT)
-                {
-                    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-                    playerComp->m_shootLock = false;
-                }
-                if(!res)
-                {
-                    return false;
-                }
-            }
-            else if(state == GLFW_PRESS && res)
-            {
-                return false;
-            }
-            bool checkStatus = checkStandardButtonGamepadKeyStatus(m_mapGamepadCurrentAssociatedKey[key].m_keyID, state);
+            bool checkStatus = checkStandardButtonGamepadKeyStatus(m_mapGamepadCurrentAssociatedKey[key].m_keyID, GLFW_PRESS);
             //QUICK FIX
-            if(key == ControlKey_e::SHOOT && state == GLFW_PRESS && !checkStatus)
+            if(key == ControlKey_e::SHOOT && !checkStatus)
             {
                 PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
                 playerComp->m_shootLock = false;
@@ -633,7 +606,7 @@ bool InputSystem::checkPlayerKeyTriggered(ControlKey_e key, int state)
             if(checkStatus)
             {
                 //QUICK FIX
-                if(key == ControlKey_e::SHOOT && state == GLFW_PRESS)
+                if(key == ControlKey_e::SHOOT)
                 {
                     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
                     if(playerComp->m_shootLock)
@@ -648,11 +621,7 @@ bool InputSystem::checkPlayerKeyTriggered(ControlKey_e key, int state)
         {
             assert(m_mapGamepadCurrentAssociatedKey[key].m_axisPos);
             bool res = checkAxisGamepadKeyStatus(m_mapGamepadCurrentAssociatedKey[key].m_keyID, *m_mapGamepadCurrentAssociatedKey[key].m_axisPos);
-            if(state == GLFW_RELEASE && !res)
-            {
-                return true;
-            }
-            else if(state == GLFW_PRESS && res)
+            if(res)
             {
                 return true;
             }
