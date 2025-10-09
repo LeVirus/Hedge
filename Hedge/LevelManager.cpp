@@ -2635,7 +2635,11 @@ void LevelManager::saveEnemiesDataGameProgress(const std::vector<MemCheckpointEn
     std::string strPos, strDead, strObjectPickedUp, strLife, strTmp;
     for(uint32_t i = 0; i < enemiesData.size(); ++i)
     {
-        strTmp = enemiesData[i].m_dead ? "1" : "0";
+        if(enemiesData[i].m_dead)
+        {
+            continue;
+        }
+        strTmp = "0";
         strDead += strTmp + " ";
         strTmp = enemiesData[i].m_objectPickedUp ? "1" : "0";
         strObjectPickedUp += strTmp + " ";
@@ -2817,7 +2821,6 @@ std::unique_ptr<MemCheckpointElementsState> LevelManager::loadCheckpointDataSave
     val = m_ini.getValue("Checkpoint", "Direction");
     assert(val);
     direction = static_cast<Direction_e>(std::stoi(*val));
-
     val = m_ini.getValue("Checkpoint", "EnemiesKilled");
     assert(val);
     enemiesKilled = std::stoi(*val);
@@ -2921,8 +2924,11 @@ std::vector<MemCheckpointEnemiesState> LevelManager::loadEnemiesDataGameProgress
     assert(vectDead.size() == vectLife.size());
     for(uint32_t i = 0; i < vectDead.size(); ++i)
     {
-        vectData.emplace_back(MemCheckpointEnemiesState{0, vectLife[i], vectDead[i],
-                                                        vectObject[i], vectPairPos[i]});
+        if(!vectDead[i])
+        {
+            vectData.emplace_back(MemCheckpointEnemiesState{0, vectLife[i], vectDead[i],
+                                                            vectObject[i], vectPairPos[i]});
+        }
     }
     return vectData;
 }

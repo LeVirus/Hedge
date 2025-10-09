@@ -7,14 +7,11 @@ If movbeable wall scratch eject wall
 ))
 Enemies or player are ejected of wall if scratch====================
 
-))
-Enemies killed before checkpoint reappear dead after reload
+----------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------
 
 ))
 On pad sometime command are locked in menu
-
-----------------------------------------------------------------------------------------
-----------------------------------------------------------------------------------------
 
 ))
 On moveable wall go up on speed 2 player stay stuck
@@ -29,6 +26,8 @@ If on bike and explode player invisible and falling down===================??
 ============================================================================================================
 ============================================================================================================
 
+))
+Enemies killed before checkpoint reappear dead after reload================OK
 
 ))
 If reload after death always shoot=====================OK Quickfix
