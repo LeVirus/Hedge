@@ -1,12 +1,6 @@
 ))
 Collision
 
-))
-If movbeable wall scratch eject wall
-
-))
-Enemies or player are ejected of wall if scratch====================
-
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
 
@@ -14,17 +8,24 @@ Enemies or player are ejected of wall if scratch====================
 On pad sometime command are locked in menu
 
 ))
+If on bike and explode player invisible and falling down===================??
+
+========================================================AVOID BY LEVEL-DESIGN
+
+))
+If movbeable wall scratch eject wall
+
+))
 On moveable wall go up on speed 2 player stay stuck
 
 ))
 On bike if move over 2 opposite stair first up second down ==> lock
 
+============================================================================================================
+============================================================================================================
 
 ))
-If on bike and explode player invisible and falling down===================??
-
-============================================================================================================
-============================================================================================================
+Enemies or player are ejected of wall if scratch====================OK
 
 ))
 Enemies killed before checkpoint reappear dead after reload================OK

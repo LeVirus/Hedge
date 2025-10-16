@@ -597,7 +597,6 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
     {
         return;
     }
-    bool collision = false;
     RectangleCollisionComponent *rectCompA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA);
     assert(rectCompA);
     switch(args.tagCompB.m_shape)
@@ -636,7 +635,6 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         {
             return;
         }
-        collision = true;
         if((args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT))
         {
             if(!(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT && (args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompB.m_tagA == CollisionTag_e::VEHICULE_CT)))
@@ -702,7 +700,6 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         {
             return;
         }
-        collision = true;
         if(args.tagCompB.m_tagA == CollisionTag_e::OBJECT_CT)
         {
             treatPlayerPickObject(args);
@@ -738,7 +735,6 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         assert(triangleCompB);
         if(checkRectRectCollision(args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size, args.mapCompB.m_absoluteMapPositionPX, triangleCompB->m_size))
         {
-            collision = true;
             if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
             {
                 collisionRectTriangleEject(args, true);
@@ -752,7 +748,6 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         assert(triangleCompB);
         if(checkRectRectCollision(args.mapCompA.m_absoluteMapPositionPX, rectCompA->m_size, args.mapCompB.m_absoluteMapPositionPX, triangleCompB->m_size))
         {
-            collision = true;
             if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT)
             {
                 collisionRectTriangleEject(args, false);
@@ -760,10 +755,6 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         }
     }
     break;
-    }
-    if(collision)
-    {
-        mapSystem->addDiscoveredEntity(args.entityNumB, *getLevelCoord(args.mapCompB.m_absoluteMapPositionPX));
     }
 }
 
