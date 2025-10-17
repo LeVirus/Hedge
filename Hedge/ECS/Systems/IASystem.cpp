@@ -298,11 +298,20 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         else
         {
             PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+            MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
             if(!playerComp->m_invulnerable)
             {
                 CollisionSystem *collSystem = Ecsm_t::instance().getSystem<CollisionSystem>(static_cast<uint32_t>(Systems_e::COLLISION_SYSTEM));
                 EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntity);
                 collSystem->treatPlayerTakeDamage(*enemyComp->m_meleeAttackDamage);
+            }
+            if(right && enemyMapComp.m_absoluteMapPositionPX.first > playerMapComp->m_absoluteMapPositionPX.first)
+            {
+                enemyMapComp.m_absoluteMapPositionPX.first += moveComp->m_velocity;
+            }
+            else if(!right && enemyMapComp.m_absoluteMapPositionPX.first < playerMapComp->m_absoluteMapPositionPX.first)
+            {
+                enemyMapComp.m_absoluteMapPositionPX.first -= moveComp->m_velocity;
             }
         }
         EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntity);
