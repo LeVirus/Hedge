@@ -291,7 +291,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
     {
         loop = true;
         bool right = (moveComp->m_degreeOrientation <= 0.1f);
-        if(checkEnemyPlayerDistance(m_playerEntity, enemyEntity))
+        if(checkEnemyPlayerDistance(m_playerEntity, enemyEntity, distancePlayer))
         {
             enemyMapComp.m_absoluteMapPositionPX.first += right ? moveComp->m_velocity : -moveComp->m_velocity;
         }
@@ -416,7 +416,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
 }
 
 //===================================================================
-bool checkEnemyPlayerDistance(uint32_t playerEntity, uint32_t enemyEntity)
+bool checkEnemyPlayerDistance(uint32_t playerEntity, uint32_t enemyEntity, float distance)
 {
     MapCoordComponent *mapPlayerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerEntity);
     RectangleCollisionComponent *playerComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(playerEntity);
@@ -424,6 +424,10 @@ bool checkEnemyPlayerDistance(uint32_t playerEntity, uint32_t enemyEntity)
     RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(enemyEntity);
     float dist = (rectComp->m_size.first + playerComp->m_size.first) / 2 + 5,
         lateralDist = std::abs((mapPlayerComp->m_absoluteMapPositionPX.first + playerComp->m_size.first / 2) - (enemyMapComp->m_absoluteMapPositionPX.first + rectComp->m_size.first / 2));
+    if(distance != 0 && distance > dist)
+    {
+        return true;
+    }
     // return true if enemy don't touch player
     return lateralDist > dist;
 }

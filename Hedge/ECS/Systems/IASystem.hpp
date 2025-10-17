@@ -57,4 +57,4 @@ private:
     std::optional<std::set<uint32_t>> m_vectGeneratorEntities;
 };
 
-bool checkEnemyPlayerDistance(uint32_t playerEntity, uint32_t enemyEntity);
+bool checkEnemyPlayerDistance(uint32_t playerEntity, uint32_t enemyEntity, float distance = 0);
