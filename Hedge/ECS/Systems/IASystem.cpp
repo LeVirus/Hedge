@@ -291,7 +291,20 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
     {
         loop = true;
         bool right = (moveComp->m_degreeOrientation <= 0.1f);
-        enemyMapComp.m_absoluteMapPositionPX.first += right ? moveComp->m_velocity : -moveComp->m_velocity;
+        if(checkEnemyPlayerDistance(m_playerEntity, enemyEntity))
+        {
+            enemyMapComp.m_absoluteMapPositionPX.first += right ? moveComp->m_velocity : -moveComp->m_velocity;
+        }
+        else
+        {
+            PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+            if(!playerComp->m_invulnerable)
+            {
+                CollisionSystem *collSystem = Ecsm_t::instance().getSystem<CollisionSystem>(static_cast<uint32_t>(Systems_e::COLLISION_SYSTEM));
+                EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntity);
+                collSystem->treatPlayerTakeDamage(*enemyComp->m_meleeAttackDamage);
+            }
+        }
         EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntity);
         if(wave)
         {
@@ -387,12 +400,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
     //CONTINUING PHASE
     else if(enemyConfComp.m_attackPhase != EnemyAttackPhase_e::SHOOT)
     {
-        MapCoordComponent *mapPlayerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
-        RectangleCollisionComponent *playerComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(m_playerEntity);
-        RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(enemyEntity);
-        float dist = (rectComp->m_size.first + playerComp->m_size.first) / 2 + 5,
-            lateralDist = std::abs((mapPlayerComp->m_absoluteMapPositionPX.first + playerComp->m_size.first / 2) - (enemyMapComp.m_absoluteMapPositionPX.first + rectComp->m_size.first / 2));
-        if(loop || lateralDist < dist)
+        if(loop || !checkEnemyPlayerDistance(m_playerEntity, enemyEntity))
         {
             return;
         }
@@ -405,6 +413,19 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
             m_mainEngine->addEntityToZone(enemyEntity, mapComp->m_coord);
         }
     }
+}
+
+//===================================================================
+bool checkEnemyPlayerDistance(uint32_t playerEntity, uint32_t enemyEntity)
+{
+    MapCoordComponent *mapPlayerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerEntity);
+    RectangleCollisionComponent *playerComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(playerEntity);
+    MapCoordComponent *enemyMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
+    RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(enemyEntity);
+    float dist = (rectComp->m_size.first + playerComp->m_size.first) / 2 + 5,
+        lateralDist = std::abs((mapPlayerComp->m_absoluteMapPositionPX.first + playerComp->m_size.first / 2) - (enemyMapComp->m_absoluteMapPositionPX.first + rectComp->m_size.first / 2));
+    // return true if enemy don't touch player
+    return lateralDist > dist;
 }
 
 //===================================================================
