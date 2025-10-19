@@ -134,6 +134,8 @@ void GraphicEngine::setTransition(bool gamePaused, bool redTransition)
     }
     for(uint32_t i = 0; i < transitionTotal; ++i)
     {
+        //Fix Bug GLGW Which lock joypas button
+        Ecsm_t::instance().getSystem<InputSystem>(static_cast<uint32_t>(Systems_e::INPUT_SYSTEM))->getGamepadInputs();
         preDisplay();
         mainDisplay(gamePaused);
         m_colorSystem->setTransition(i, transitionTotal);
@@ -146,6 +148,8 @@ void GraphicEngine::unsetTransition(bool gamePaused, bool unsetRedTransition)
 {
     for(uint32_t i = m_transitionFrameNumber; i > 0; --i)
     {
+        //Fix Bug GLGW Which lock joypas button
+        Ecsm_t::instance().getSystem<InputSystem>(static_cast<uint32_t>(Systems_e::INPUT_SYSTEM))->getGamepadInputs();
         preDisplay();
         mainDisplay(gamePaused);
         m_colorSystem->setTransition(i, m_transitionFrameNumber);

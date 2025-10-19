@@ -120,13 +120,13 @@ public:
     static void removeGamepad(int gamepadID);
     static void addGamepad(int gamepadID);
     static void scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
+    void getGamepadInputs();
 private:
     void treatDiagUpAim(PlayerConfComponent &playerComp);
     void gamepadUpdate();
     bool checkStandardButtonGamepadKeyStatus(uint32_t key, uint32_t status);
     bool checkAxisGamepadKeyStatus(uint32_t key, bool positive);
     void setUsedComponents();
-    void getGamepadInputs();
     void treatPlayerInput();
     void treatDialogInput();
     void treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp, MapCoordComponent &mapComp, MoveableComponent &moveComp, uint32_t playerEntity);
