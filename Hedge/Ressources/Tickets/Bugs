@@ -5,13 +5,13 @@ Collision
 ----------------------------------------------------------------------------------------
 
 ))
-On pad sometime command are locked in menu
+Left shoot appear too left
 
 ))
 If on bike and explode player invisible and falling down===================??
 
 ))
-Left shoot appear too left
+On pad sometime command are locked in menu---------------------------~~
 
 ========================================================AVOID BY LEVEL-DESIGN
 
@@ -19,13 +19,14 @@ Left shoot appear too left
 If movbeable wall scratch eject wall
 
 ))
-On moveable wall go up on speed 2 player stay stuck
+On bike if move over 2 opposite stair first up second down ==> lock ---------------------~~
+
+============================================================================================================
+============================================================================================================
+
 
 ))
-On bike if move over 2 opposite stair first up second down ==> lock
-
-============================================================================================================
-============================================================================================================
+On moveable wall go up on speed 2 player stay stuck====================OK
 
 ))
 Enemies or player are ejected of wall if scratch====================OK
