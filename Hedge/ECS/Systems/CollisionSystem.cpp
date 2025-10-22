@@ -93,6 +93,7 @@ void CollisionSystem::execSystem()
             }
         }
         m_memCrush.clear();
+        m_mapMemCrushPos.clear();
         if(tagCompA->m_tagA == CollisionTag_e::ENEMY_CT)
         {
             if(checkEnemyRemoveCollisionMask(*it))
@@ -1395,7 +1396,7 @@ void CollisionSystem::collisionCircleRectEject(CollisionArgs &args, float circle
             gravityComp->m_memOnGround = false;
         }
     }
-    collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
+    collisionEject(*mapComp, diffX, diffY, crushMode);
     addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
 }
 
@@ -1403,9 +1404,10 @@ void CollisionSystem::collisionCircleRectEject(CollisionArgs &args, float circle
 void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
 {
     bool lockY = false;
+    PlayerConfComponent *playerComp = nullptr;
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
     {
-        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(args.entityNumA);
+        playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(args.entityNumA);
         if(playerComp->m_associatedVehicle)
         {
             return;
@@ -1564,8 +1566,38 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
 
         }
     }
-    collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
+    if(crushMode)
+    {
+        m_mapMemCrushPos.insert({args.entityNumA, mapComp->m_absoluteMapPositionPX});
+    }
+    collisionEject(*mapComp, diffX, diffY, crushMode);
+    if(crushMode)
+    {
+        treatCrushCase(mapComp, playerComp, {diffX, diffY}, args.entityNumA);
+    }
     addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
+}
+
+//===================================================================
+void CollisionSystem::treatCrushCase(MapCoordComponent *mapComp, PlayerConfComponent * playerComp, const PairFloat_t &pairDiff, uint32_t entity)
+{
+    std::get<2>(m_memCrush.back()) = (pairDiff.second > 0.0f) ? Direction_e::SOUTH : Direction_e::NORTH;
+    Direction_e dirA = std::get<2>(m_memCrush.back()), dirB;
+    for(uint32_t i = 0; i < m_memCrush.size() - 1; ++i)
+    {
+        dirB = std::get<2>(m_memCrush[i]);
+        //if 2 wall crush reset init pos
+        if((dirA == Direction_e::NORTH && dirB == Direction_e::SOUTH) || (dirB == Direction_e::NORTH && dirA == Direction_e::SOUTH) ||
+            (dirA == Direction_e::EAST && dirB == Direction_e::WEST) || (dirB == Direction_e::WEST && dirA == Direction_e::EAST))
+        {
+            // mapComp->m_absoluteMapPositionPX.second = m_mapMemCrushPos[entity].second;
+            mapComp->m_absoluteMapPositionPX = m_mapMemCrushPos[entity];
+            if(playerComp)
+            {
+                playerComp->m_frozen = true;
+            }
+        }
+    }
 }
 
 //===================================================================
@@ -1731,7 +1763,7 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down)
             gravityComp->m_memOnGround = false;
         }
     }
-    collisionEject(*mapComp, diffX, diffY, limitEjectY, limitEjectX, crushMode);
+    collisionEject(*mapComp, diffX, diffY, crushMode);
     addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
 }
 
@@ -1915,7 +1947,7 @@ float CollisionSystem::getRectRectEject(const EjectRectRectArgs &args, bool &lim
 }
 
 //===================================================================
-void CollisionSystem::collisionEject(MapCoordComponent &mapComp, float diffX, float diffY, bool limitEjectY, bool limitEjectX, bool crushCase)
+void CollisionSystem::collisionEject(MapCoordComponent &mapComp, float diffX, float diffY, bool crushCase)
 {
     float minEject = std::min(std::abs(diffY), std::abs(diffX));
     if(minEject >= LEVEL_TILE_SIZE_PX)
@@ -1926,21 +1958,27 @@ void CollisionSystem::collisionEject(MapCoordComponent &mapComp, float diffX, fl
     {
         m_memCrush.push_back({{EPSILON_FLOAT, EPSILON_FLOAT}, false, {}, {}});
     }
-    if(!limitEjectX && (limitEjectY || std::abs(diffY) < std::abs(diffX)))
+    if(std::abs(diffY) < std::abs(diffX))
     {
         if(crushCase)
         {
             std::get<0>(m_memCrush.back()).second = diffY;
         }
-        mapComp.m_absoluteMapPositionPX.second += diffY;
+        if(std::abs(diffY) < 15.0f)
+        {
+            mapComp.m_absoluteMapPositionPX.second += diffY;
+        }
     }
-    else if(!limitEjectY && (limitEjectX || std::abs(diffY) > std::abs(diffX)))
+    else if(std::abs(diffY) > std::abs(diffX))
     {
         if(crushCase)
         {
             std::get<0>(m_memCrush.back()).first = diffX;
         }
-        mapComp.m_absoluteMapPositionPX.first += diffX;
+        if(std::abs(diffX) < 15.0f)
+        {
+            mapComp.m_absoluteMapPositionPX.first += diffX;
+        }
     }
 }
 

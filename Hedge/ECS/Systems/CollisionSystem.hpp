@@ -89,6 +89,7 @@ private:
                                   float circleRay, const RectangleCollisionComponent &rectCollB, bool visibleShotFirstEject = false);
     void collisionRectRectEject(CollisionArgs &args);
     void collisionRectTriangleEject(CollisionArgs &args, bool down);
+    void treatCrushCase(MapCoordComponent *mapComp, PlayerConfComponent *playerComp, const PairFloat_t &pairDiff, uint32_t entity);
     void updateVehicleSpriteType(bool stairDown);
     float getVerticalCircleRectEject(const EjectCircleYArgs &args, bool &limitEject, bool visibleShot);
     float getHorizontalCircleRectEject(const EjectCircleXArgs &args, bool &limitEject, bool visibleShot);
@@ -101,7 +102,7 @@ private:
 //                                     const CircleCollisionComponent &circleCollA,
 //                                     const SegmentCollisionComponent &segmCollB);
     void collisionEject(MapCoordComponent &mapComp, float diffX, float diffY,
-                        bool limitEjectY = false, bool limitEjectX = false, bool crushCase = false);
+                        bool crushCase = false);
     //Components accessors
     CircleCollisionComponent &getCircleComponent(uint32_t entityNum);
     RectangleCollisionComponent &getRectangleComponent(uint32_t entityNum);
@@ -123,6 +124,7 @@ private:
     std::unique_ptr<ZoneLevelColl> m_zoneLevel;
     uint32_t m_playerEntity;
     std::multimap<CollisionTag_e, CollisionTag_e> m_tagArray;
+    std::map<uint32_t, PairFloat_t> m_mapMemCrushPos;
     std::pair<std::optional<uint32_t>, float> m_memDistCurrentBulletColl;
     //first bullet second target
     std::vector<PairUI_t> m_vectMemShots;
