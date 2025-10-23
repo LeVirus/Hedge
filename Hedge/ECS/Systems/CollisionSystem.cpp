@@ -1595,6 +1595,8 @@ void CollisionSystem::treatCrushCase(MapCoordComponent *mapComp, PlayerConfCompo
             if(playerComp)
             {
                 playerComp->m_frozen = true;
+                GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(entity);
+                gravComp->m_jump = false;
                 playerComp->m_insideWall = true;
             }
         }
