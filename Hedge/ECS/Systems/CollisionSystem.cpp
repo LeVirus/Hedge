@@ -55,6 +55,7 @@ void CollisionSystem::execSystem()
     m_memGround = tagCompA->m_memOnGround;
     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerComp);
+    playerComp->m_insideWall = false;
     if(playerComp->m_associatedVehicle)
     {
         VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerComp->m_associatedVehicle);
@@ -1590,11 +1591,11 @@ void CollisionSystem::treatCrushCase(MapCoordComponent *mapComp, PlayerConfCompo
         if((dirA == Direction_e::NORTH && dirB == Direction_e::SOUTH) || (dirB == Direction_e::NORTH && dirA == Direction_e::SOUTH) ||
             (dirA == Direction_e::EAST && dirB == Direction_e::WEST) || (dirB == Direction_e::WEST && dirA == Direction_e::EAST))
         {
-            // mapComp->m_absoluteMapPositionPX.second = m_mapMemCrushPos[entity].second;
             mapComp->m_absoluteMapPositionPX = m_mapMemCrushPos[entity];
             if(playerComp)
             {
                 playerComp->m_frozen = true;
+                playerComp->m_insideWall = true;
             }
         }
     }
@@ -1933,7 +1934,7 @@ float CollisionSystem::getRectRectEject(const EjectRectRectArgs &args, bool &lim
 {
     float diffYA = EPSILON_FLOAT;
     //EJECT UP
-    if((args.elementASecondPosY < args.elementBSecondPosY || args.elementAPosY < args.elementBPosY) && args.elementASecondPosY > args.elementBPosY)
+    if(args.elementASecondPosY < args.elementBSecondPosY && args.elementASecondPosY > args.elementBPosY)
     {
         diffYA -= (args.elementASecondPosY - args.elementBPosY);
     }
@@ -1958,7 +1959,7 @@ void CollisionSystem::collisionEject(MapCoordComponent &mapComp, float diffX, fl
     {
         m_memCrush.push_back({{EPSILON_FLOAT, EPSILON_FLOAT}, false, {}, {}});
     }
-    if(std::abs(diffY) < std::abs(diffX))
+    if(std::abs(diffY) < std::abs(diffX) || diffY > 15.0f)
     {
         if(crushCase)
         {
@@ -1969,7 +1970,7 @@ void CollisionSystem::collisionEject(MapCoordComponent &mapComp, float diffX, fl
             mapComp.m_absoluteMapPositionPX.second += diffY;
         }
     }
-    else if(std::abs(diffY) > std::abs(diffX))
+    else
     {
         if(crushCase)
         {

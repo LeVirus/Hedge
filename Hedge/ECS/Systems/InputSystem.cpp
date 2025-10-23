@@ -114,6 +114,11 @@ void InputSystem::getGamepadInputs()
 //===================================================================
 void InputSystem::treatPlayerInput()
 {
+    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    if(playerComp->m_frozen)
+    {
+        return;
+    }
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
         getGamepadInputs();
@@ -143,7 +148,6 @@ void InputSystem::treatPlayerInput()
         {
             m_keyEspapePressed = false;
         }
-        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
         if(!checkPlayerKeyTriggered(ControlKey_e::JUMP))
         {
             playerComp->m_jumpPush = false;
