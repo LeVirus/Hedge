@@ -124,6 +124,7 @@ private:
     std::unique_ptr<ZoneLevelColl> m_zoneLevel;
     uint32_t m_playerEntity;
     std::multimap<CollisionTag_e, CollisionTag_e> m_tagArray;
+    //3 == moveable
     std::map<uint32_t, PairFloat_t> m_mapMemCrushPos;
     std::pair<std::optional<uint32_t>, float> m_memDistCurrentBulletColl;
     //first bullet second target
@@ -133,7 +134,7 @@ private:
     //3 if moveable wall current direction
     std::vector<std::tuple<PairFloat_t, bool, Direction_e, std::optional<Direction_e>>> m_memCrush;
     MainEngine *m_refMainEngine;
-    bool m_playerJumpDown = false, m_memPlayerJumpDown = false, m_memGround = false;
+    bool m_playerJumpDown = false, m_memPlayerJumpDown = false, m_memGround = false, m_memMoveableWallCrush;
 };
 
 void destroyShot(uint32_t entity);

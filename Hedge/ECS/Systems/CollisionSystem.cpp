@@ -67,6 +67,7 @@ void CollisionSystem::execSystem()
     }
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it, ++i)
     {
+        m_memMoveableWallCrush = false;
         SegmentCollisionComponent *segmentCompA = nullptr;
         GeneralCollisionComponent *tagCompA = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*it);
         assert(tagCompA);
@@ -1448,6 +1449,7 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     //if moveable wall and go up
     if(moveB && moveB->m_directionMove[moveB->m_currentPhase].first == Direction_e::NORTH)
     {
+        m_memMoveableWallCrush = true;
         MoveableComponent *moveableB = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(args.entityNumB);
         if(std::abs(diffX) < std::abs(diffY) && std::abs(diffY) == moveableB->m_velocity)
         {
@@ -1564,7 +1566,6 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
                 MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(args.entityNumA);
                 moveComp->m_degreeOrientation = up ? 90.0f : 270.0f;
             }
-
         }
     }
     if(crushMode)
@@ -1572,7 +1573,7 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
         m_mapMemCrushPos.insert({args.entityNumA, mapComp->m_absoluteMapPositionPX});
     }
     collisionEject(*mapComp, diffX, diffY, crushMode);
-    if(crushMode)
+    if(m_memMoveableWallCrush && crushMode)
     {
         treatCrushCase(mapComp, playerComp, {diffX, diffY}, args.entityNumA);
     }
@@ -1588,10 +1589,20 @@ void CollisionSystem::treatCrushCase(MapCoordComponent *mapComp, PlayerConfCompo
     {
         dirB = std::get<2>(m_memCrush[i]);
         //if 2 wall crush reset init pos
-        if((dirA == Direction_e::NORTH && dirB == Direction_e::SOUTH) || (dirB == Direction_e::NORTH && dirA == Direction_e::SOUTH) ||
-            (dirA == Direction_e::EAST && dirB == Direction_e::WEST) || (dirB == Direction_e::WEST && dirA == Direction_e::EAST))
+        if((dirA == Direction_e::NORTH && dirB == Direction_e::SOUTH) || (dirB == Direction_e::NORTH && dirA == Direction_e::SOUTH))
         {
-            mapComp->m_absoluteMapPositionPX = m_mapMemCrushPos[entity];
+            mapComp->m_absoluteMapPositionPX.second = m_mapMemCrushPos[entity].second;
+            if(playerComp)
+            {
+                playerComp->m_frozen = true;
+                GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(entity);
+                gravComp->m_jump = false;
+                playerComp->m_insideWall = true;
+            }
+        }
+        else if((dirA == Direction_e::EAST && dirB == Direction_e::WEST) || (dirB == Direction_e::WEST && dirA == Direction_e::EAST))
+        {
+            mapComp->m_absoluteMapPositionPX.first = m_mapMemCrushPos[entity].first;
             if(playerComp)
             {
                 playerComp->m_frozen = true;
@@ -1961,7 +1972,7 @@ void CollisionSystem::collisionEject(MapCoordComponent &mapComp, float diffX, fl
     {
         m_memCrush.push_back({{EPSILON_FLOAT, EPSILON_FLOAT}, false, {}, {}});
     }
-    if(std::abs(diffY) < std::abs(diffX) || diffY > 15.0f)
+    if(std::abs(diffY) < std::abs(diffX))
     {
         if(crushCase)
         {
