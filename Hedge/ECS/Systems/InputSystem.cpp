@@ -115,12 +115,26 @@ void InputSystem::getGamepadInputs()
 void InputSystem::treatPlayerInput()
 {
     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-    if(playerComp->m_frozen)
-    {
-        return;
-    }
     for(std::set<uint32_t>::iterator it = m_usedEntities.begin(); it != m_usedEntities.end(); ++it)
     {
+        if((!m_keyEspapePressed && glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) ||
+            checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_START, GLFW_PRESS))
+        {
+            m_keyEspapePressed = true;
+            playerComp->m_menuMode = playerComp->m_firstMenu ? MenuMode_e::TITLE : MenuMode_e::BASE;
+            m_mainEngine->setMenuEntries(*playerComp);
+            m_mainEngine->setUnsetPaused();
+            playerComp->m_infoWriteData = {false, {"", 0}};
+        }
+        if(m_mainEngine->isGamePaused())
+        {
+            treatMenu();
+            continue;
+        }
+        if(playerComp->m_frozen)
+        {
+            return;
+        }
         getGamepadInputs();
         if(!m_F12Pressed && glfwGetKey(m_window, GLFW_KEY_F12) == GLFW_PRESS)
         {
@@ -138,11 +152,6 @@ void InputSystem::treatPlayerInput()
         if(m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_A] && !checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_A, GLFW_PRESS))
         {
             m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_A] = false;
-        }
-        if(m_mainEngine->isGamePaused())
-        {
-            treatMenu();
-            continue;
         }
         if(glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_RELEASE)
         {
@@ -277,15 +286,6 @@ void InputSystem::treatPlayerInput()
         else if(!checkPlayerKeyTriggered(ControlKey_e::GRENADE))
         {
             playerComp->m_grenadeThrow = false;
-        }
-        if((!m_keyEspapePressed && glfwGetKey(m_window, GLFW_KEY_ESCAPE) == GLFW_PRESS) ||
-                checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_START, GLFW_PRESS))
-        {
-            m_keyEspapePressed = true;
-            playerComp->m_menuMode = playerComp->m_firstMenu ? MenuMode_e::TITLE : MenuMode_e::BASE;
-            m_mainEngine->setMenuEntries(*playerComp);
-            m_mainEngine->setUnsetPaused();
-            playerComp->m_infoWriteData = {false, {"", 0}};
         }
         if(!weaponComp->m_weaponChange && !weaponComp->m_timerShootActive)
         {
