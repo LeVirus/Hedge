@@ -76,7 +76,7 @@ struct PlayerConfComponent : public ECS::Component
     MoveOrientation_e m_previousMove = MoveOrientation_e::FORWARD;
     MapPlayerSprite_t m_mapSpriteAssociate;
     PlayerSpriteElementType_e m_spriteType = PlayerSpriteElementType_e::STAY_RIGHT;
-    bool m_currentDirectionRight = true, m_jumpDown = false, m_dialogPass = false, m_grenadeThrow = false, m_jumpPush = false, m_shootLock;
+    bool m_currentDirectionRight = true, m_jumpDown = false, m_dialogPass = false, m_grenadeThrow = false, m_jumpPush = false, m_shootLock, m_lockLogRelease;
     std::array<bool, static_cast<uint32_t>(PlayerAimDirection_e::TOTAL)> m_currentAim;
     virtual ~PlayerConfComponent() = default;
 };

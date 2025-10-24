@@ -22,6 +22,9 @@ On bike if move over 2 opposite stair first up second down ==> lock ------------
 ============================================================================================================
 
 ))
+On log if A already pressed, message display full=========================OK
+
+))
 If movbeable wall scratch eject wall=========================OK
 	--Still eject on moveable lateral---OK
 

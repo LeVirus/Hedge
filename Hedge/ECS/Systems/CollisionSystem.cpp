@@ -719,6 +719,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
             {
                 PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
                 assert(playerComp);
+                playerComp->m_lockLogRelease = true;
                 logComp->m_activated = true;
                 playerComp->m_infoWriteData = {true, {logComp->m_message, args.entityNumB}};
                 TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(playerComp->m_memEntityAssociated);

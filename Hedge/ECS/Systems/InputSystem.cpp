@@ -352,6 +352,17 @@ void InputSystem::treatDialogInput()
 {
     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerComp);
+    if(playerComp->m_lockLogRelease)
+    {
+        if(!checkPlayerKeyTriggered(ControlKey_e::JUMP))
+        {
+            playerComp->m_lockLogRelease = false;
+        }
+        else
+        {
+            return;
+        }
+    }
     if(!playerComp->m_dialogPass && (checkPlayerKeyTriggered(ControlKey_e::JUMP)))
     {
         playerComp->m_dialogPass = true;
