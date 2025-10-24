@@ -1447,13 +1447,16 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
 
     MoveableWallConfComponent *moveB = Ecsm_t::instance().getComponent<MoveableWallConfComponent, Components_e::MOVEABLE_WALL_CONF_COMPONENT>(args.entityNumB);
     //if moveable wall and go up
-    if(moveB && moveB->m_directionMove[moveB->m_currentPhase].first == Direction_e::NORTH)
+    if(moveB)
     {
         m_memMoveableWallCrush = true;
-        MoveableComponent *moveableB = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(args.entityNumB);
-        if(std::abs(diffX) < std::abs(diffY) && std::abs(diffY) == moveableB->m_velocity)
+        if(moveB->m_directionMove[moveB->m_currentPhase].first == Direction_e::NORTH)
         {
-            return;
+            MoveableComponent *moveableB = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(args.entityNumB);
+            if(std::abs(diffX) < std::abs(diffY) && std::abs(diffY) == moveableB->m_velocity)
+            {
+                return;
+            }
         }
     }
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)

@@ -16,14 +16,14 @@ Left shoot appear too left
 ========================================================AVOID BY LEVEL-DESIGN
 
 ))
-If movbeable wall scratch eject wall=========================OK
-
-))
 On bike if move over 2 opposite stair first up second down ==> lock ---------------------~~
 
 ============================================================================================================
 ============================================================================================================
 
+))
+If movbeable wall scratch eject wall=========================OK
+	--Still eject on moveable lateral---OK
 
 ))
 On moveable wall go up on speed 2 player stay stuck====================OK
