@@ -390,8 +390,6 @@ void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
             playerComp->m_associatedVehicle = std::nullopt;
             GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(*playerComp->m_associatedVehicle);
             assert(gravComp);
-            GravityComponent *gravPlayerComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
-            assert(gravPlayerComp);
             gravComp->m_freeze = false;
             gravComp->m_exitVehicle = true;
         }
@@ -915,8 +913,6 @@ void CollisionSystem::treatVisibleShot(CollisionArgs &args, bool collision)
     PairUI_t levelSize = Level::getSize();
     float maxLimitX = levelSize.first * LEVEL_TILE_SIZE_PX - LEVEL_TWO_THIRD_TILE_SIZE_PX,
             maxLimitY = levelSize.second * LEVEL_TILE_SIZE_PX - LEVEL_TWO_THIRD_TILE_SIZE_PX;
-
-
     //limit level case
     if(args.mapCompA.m_absoluteMapPositionPX.first >= maxLimitX)
     {

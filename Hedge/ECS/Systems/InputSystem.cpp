@@ -161,7 +161,7 @@ void InputSystem::treatPlayerInput()
         {
             TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
             assert(timerComp);
-            if(++timerComp->m_cycleCountE > 100)
+            if(++timerComp->m_cycleCountE > 80)
             {
                 playerComp->m_invulnerable = false;
             }
