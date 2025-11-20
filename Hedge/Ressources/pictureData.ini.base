@@ -1,8 +1,9 @@
 #player.png ==> 0 Global.png ==> 1  Texture.png ==> 2 EnemyDemon.png ==> 3 GeneralSprites.png ==> 4 EnemyMarine.png ==> 5 Stars.jpg ==> 6 Simetra_green.png ==> 7 BossArachnotron.png ==> 8 BossCyberDemon.png ==> 9
 #EnemyBaronOfHell.png ==> 10 EnemyCacodemon.png ==> 11 EnemyDemonClaw.png ==> 12 EnemyZombieSergeant.png ==> 13  MenuFilled.png ==> 14 Font.png ==> 15  TitleMenu.png ==> 16 MenuLeft.png ==> 17  MenuRightLeft.png ==> 18 
 #NouvText.png ==> 19 BackroomText.png ==> 20   TreesFree.png ==> 21 walltest.jpg ==> 22 Moto.png ==> 23 CharMod.png ==> 24 FF6LVL.png ==> 25 ManaGen.png ==> 26  DonkeyLVL.png ==> 27  Enemies.png ==> 28  TextHedge.png ==> 29
+#Hedge.png ==> 30
 [PathToTexture]
-textures = player.png Global.png Texture.png EnemyDemon.png GeneralSprites.png EnemyMarine.png Stars.jpg Simetra_green.png BossArachnotron.png BossCyberDemon.png EnemyBaronOfHell.png EnemyCacodemon.png EnemyDemonClaw.png EnemyZombieSergeant.png MenuFilled.png Font.png TitleMenu.png MenuLeft.png MenuRightLeft.png NouvText.png BackroomText.png TreesFree.png walltest.jpg Moto.png CharMod.png FF6LVL.png ManaGen.png DonkeyLVL.png Enemies.png TextHedge.png
+textures = player.png Global.png Texture.png EnemyDemon.png GeneralSprites.png EnemyMarine.png Stars.jpg Simetra_green.png BossArachnotron.png BossCyberDemon.png EnemyBaronOfHell.png EnemyCacodemon.png EnemyDemonClaw.png EnemyZombieSergeant.png MenuFilled.png Font.png TitleMenu.png MenuLeft.png MenuRightLeft.png NouvText.png BackroomText.png TreesFree.png walltest.jpg Moto.png CharMod.png FF6LVL.png ManaGen.png DonkeyLVL.png Enemies.png TextHedge.png Hedge.png
 
  #4335 405  4522 599
 [SpriteLog]
@@ -5531,3 +5532,875 @@ texturePosX = 0.0546667
 texturePosY = 0.12625
 textureWeight = 0.05
 textureHeight = 0.0625
+
+
+[SpriteHedgeRunRightA]
+texture = 30
+texturePosX = 0
+texturePosY = 0.0004329
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunRightB]
+texture = 30
+texturePosX = 0.07
+texturePosY = 0.0004329
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunRightC]
+texture = 30
+texturePosX = 0.14
+texturePosY = 0.0004329
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunRightD]
+texture = 30
+texturePosX = 0.21
+texturePosY = 0.0004329
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunLeftA]
+texture = 30
+texturePosX = 0.28
+texturePosY = 0.0004329
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunLeftB]
+texture = 30
+texturePosX = 0.35
+texturePosY = 0.0004329
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunLeftC]
+texture = 30
+texturePosX = 0.42
+texturePosY = 0.0004329
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunLeftD]
+texture = 30
+texturePosX = 0.49
+texturePosY = 0.0004329
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootRightA]
+texture = 30
+texturePosX = 0
+texturePosY = 0.0943723
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootRightB]
+texture = 30
+texturePosX = 0.07
+texturePosY = 0.0943723
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootRightC]
+texture = 30
+texturePosX = 0.14
+texturePosY = 0.0943723
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootRightD]
+texture = 30
+texturePosX = 0.21
+texturePosY = 0.0943723
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootLeftA]
+texture = 30
+texturePosX = 0.28
+texturePosY = 0.0943723
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootLeftB]
+texture = 30
+texturePosX = 0.35
+texturePosY = 0.0943723
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootLeftC]
+texture = 30
+texturePosX = 0.42
+texturePosY = 0.0943723
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootLeftD]
+texture = 30
+texturePosX = 0.49
+texturePosY = 0.0943723
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootRightSmokeA]
+texture = 30
+texturePosX = 0
+texturePosY = 0.277706
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootRightSmokeB]
+texture = 30
+texturePosX = 0.07
+texturePosY = 0.277706
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootRightSmokeC]
+texture = 30
+texturePosX = 0.14
+texturePosY = 0.277706
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootRightSmokeD]
+texture = 30
+texturePosX = 0.21
+texturePosY = 0.277706
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootLeftSmokeA]
+texture = 30
+texturePosX = 0.28
+texturePosY = 0.277706
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootLeftSmokeB]
+texture = 30
+texturePosX = 0.35
+texturePosY = 0.277706
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootLeftSmokeC]
+texture = 30
+texturePosX = 0.42
+texturePosY = 0.277706
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootLeftSmokeD]
+texture = 30
+texturePosX = 0.49
+texturePosY = 0.277706
+textureWeight = 0.07
+textureHeight = 0.084632
+
+
+
+
+[SpriteHedgeRunShootNorthRightA]
+texture = 30
+texturePosX = 0
+texturePosY = 0.182251
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootDownRightA]
+texture = 30
+texturePosX = 0.07
+texturePosY = 0.182251
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootUpRightA]
+texture = 30
+texturePosX = 0.14
+texturePosY = 0.182251
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootDownRightB]
+texture = 30
+texturePosX = 0.21
+texturePosY = 0.182251
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootNorthRightB]
+texture = 30
+texturePosX = 0.28
+texturePosY = 0.182251
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootUpRightB]
+texture = 30
+texturePosX = 0.35
+texturePosY = 0.182251
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootDownRightC]
+texture = 30
+texturePosX = 0.42
+texturePosY = 0.182251
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootNorthRightC]
+texture = 30
+texturePosX = 0.49
+texturePosY = 0.182251
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootUpRightC]
+texture = 30
+texturePosX = 0.56
+texturePosY = 0.182251
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootDownRightD]
+texture = 30
+texturePosX = 0.63
+texturePosY = 0.182251
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootNorthRightD]
+texture = 30
+texturePosX = 0.7
+texturePosY = 0.182251
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootUpRightD]
+texture = 30
+texturePosX = 0.77
+texturePosY = 0.182251
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeNorthRightA]
+texture = 30
+texturePosX = 0.308182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeDownRightA]
+texture = 30
+texturePosX = 0.378182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeUpRightA]
+texture = 30
+texturePosX = 0.448182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeDownRightB]
+texture = 30
+texturePosX = 0.518182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeNorthRightB]
+texture = 30
+texturePosX = 0.588182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeUpRightB]
+texture = 30
+texturePosX = 0.658182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeDownRightC]
+texture = 30
+texturePosX = 0.728182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeNorthRightC]
+texture = 30
+texturePosX = 0.798182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeUpRightC]
+texture = 30
+texturePosX = 0.868182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeDownRightD]
+texture = 30
+texturePosX = 0.938182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeNorthRightD]
+texture = 30
+texturePosX = 1.00818
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeUpRightD]
+texture = 30
+texturePosX = 1.07818
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootUpLeftA]
+texture = 30
+texturePosX = 0.308182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootNorthLeftA]
+texture = 30
+texturePosX = 0.378182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootDownLeftA]
+texture = 30
+texturePosX = 0.448182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootUpLeftB]
+texture = 30
+texturePosX = 0.518182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootNorthLeftB]
+texture = 30
+texturePosX = 0.588182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootDownLeftB]
+texture = 30
+texturePosX = 0.658182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootUpLeftC]
+texture = 30
+texturePosX = 0.728182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootNorthLeftC]
+texture = 30
+texturePosX = 0.798182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootDownLeftC]
+texture = 30
+texturePosX = 0.868182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootUpLeftD]
+texture = 30
+texturePosX = 0.938182
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootDownLeftD]
+texture = 30
+texturePosX = 1.00818
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootNorthLeftD]
+texture = 30
+texturePosX = 1.07818
+texturePosY = 0.0004329
+textureWeight = 0.0710909
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeUpLeftA]
+texture = 30
+texturePosX = 0
+texturePosY = 0.731818
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeNorthLeftA]
+texture = 30
+texturePosX = 0.07
+texturePosY = 0.731818
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeDownLeftA]
+texture = 30
+texturePosX = 0.14
+texturePosY = 0.731818
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeUpLeftB]
+texture = 30
+texturePosX = 0.21
+texturePosY = 0.731818
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeNorthLeftB]
+texture = 30
+texturePosX = 0.28
+texturePosY = 0.731818
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeDownLeftB]
+texture = 30
+texturePosX = 0.35
+texturePosY = 0.731818
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeUpLeftC]
+texture = 30
+texturePosX = 0.42
+texturePosY = 0.731818
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeNorthLeftC]
+texture = 30
+texturePosX = 0.49
+texturePosY = 0.731818
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeDownLeftC]
+texture = 30
+texturePosX = 0.56
+texturePosY = 0.731818
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeUpLeftD]
+texture = 30
+texturePosX = 0.63
+texturePosY = 0.731818
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeDownLeftD]
+texture = 30
+texturePosX = 0.7
+texturePosY = 0.731818
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeRunShootSmokeNorthLeftD]
+texture = 30
+texturePosX = 0.77
+texturePosY = 0.731818
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootDownRight]
+texture = 30
+texturePosX = 0
+texturePosY = 0.462121
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootRight]
+texture = 30
+texturePosX = 0.07
+texturePosY = 0.462121
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootNorthRight]
+texture = 30
+texturePosX = 0.14
+texturePosY = 0.462121
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootUpRight]
+texture = 30
+texturePosX = 0.21
+texturePosY = 0.462121
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootSouthRight]
+texture = 30
+texturePosX = 0.28
+texturePosY = 0.462121
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootDownRight]
+texture = 30
+texturePosX = 0.35
+texturePosY = 0.462121
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootRight]
+texture = 30
+texturePosX = 0.42
+texturePosY = 0.462121
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootNorthRight]
+texture = 30
+texturePosX = 0.49
+texturePosY = 0.462121
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootUpRight]
+texture = 30
+texturePosX = 0.56
+texturePosY = 0.462121
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootSmokeDownRight]
+texture = 30
+texturePosX = 0
+texturePosY = 0.550433
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootSmokeRight]
+texture = 30
+texturePosX = 0.07
+texturePosY = 0.550433
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootSmokeNorthRight]
+texture = 30
+texturePosX = 0.14
+texturePosY = 0.550433
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootSmokeUpRight]
+texture = 30
+texturePosX = 0.21
+texturePosY = 0.550433
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootSmokeSouthRight]
+texture = 30
+texturePosX = 0.28
+texturePosY = 0.550433
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootSmokeDownRight]
+texture = 30
+texturePosX = 0.35
+texturePosY = 0.550433
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootSmokeRight]
+texture = 30
+texturePosX = 0.42
+texturePosY = 0.550433
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootSmokeNorthRight]
+texture = 30
+texturePosX = 0.49
+texturePosY = 0.550433
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootSmokeUpRight]
+texture = 30
+texturePosX = 0.56
+texturePosY = 0.550433
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootUpLeft]
+texture = 30
+texturePosX = 0
+texturePosY = 0.825974
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootNorthLeft]
+texture = 30
+texturePosX = 0.07
+texturePosY = 0.825974
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootLeft]
+texture = 30
+texturePosX = 0.14
+texturePosY = 0.825974
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootDownLeft]
+texture = 30
+texturePosX = 0.21
+texturePosY = 0.825974
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootSouthLeft]
+texture = 30
+texturePosX = 0.28
+texturePosY = 0.825974
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootUpLeft]
+texture = 30
+texturePosX = 0.35
+texturePosY = 0.825974
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootNorthLeft]
+texture = 30
+texturePosX = 0.42
+texturePosY = 0.825974
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootLeft]
+texture = 30
+texturePosX = 0.49
+texturePosY = 0.825974
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootDownLeft]
+texture = 30
+texturePosX = 0.56
+texturePosY = 0.825974
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootSmokeUpLeft]
+texture = 30
+texturePosX = 0
+texturePosY = 0.915152
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootSmokeNorthLeft]
+texture = 30
+texturePosX = 0.07
+texturePosY = 0.915152
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootSmokeLeft]
+texture = 30
+texturePosX = 0.14
+texturePosY = 0.915152
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootSmokeDownLeft]
+texture = 30
+texturePosX = 0.21
+texturePosY = 0.915152
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpShootSmokeSouthLeft]
+texture = 30
+texturePosX = 0.28
+texturePosY = 0.915152
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootSmokeUpLeft]
+texture = 30
+texturePosX = 0.35
+texturePosY = 0.915152
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootSmokeNorthLeft]
+texture = 30
+texturePosX = 0.42
+texturePosY = 0.915152
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootSmokeLeft]
+texture = 30
+texturePosX = 0.49
+texturePosY = 0.915152
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeStaticShootSmokeDownLeft]
+texture = 30
+texturePosX = 0.56
+texturePosY = 0.915152
+textureWeight = 0.07
+textureHeight = 0.084632
+
+[SpriteHedgeJumpLeftA]
+texture = 30
+texturePosX = 0.641273
+texturePosY = 0.462121
+textureWeight = 0.0690909
+textureHeight = 0.084632
+
+[SpriteHedgeJumpLeftB]
+texture = 30
+texturePosX = 0.710364
+texturePosY = 0.462121
+textureWeight = 0.0690909
+textureHeight = 0.084632
+
+[SpriteHedgeJumpRightB]
+texture = 30
+texturePosX = 0.779455
+texturePosY = 0.462121
+textureWeight = 0.0690909
+textureHeight = 0.084632
+
+[SpriteHedgeJumpRightA]
+texture = 30
+texturePosX = 0.848546
+texturePosY = 0.462121
+textureWeight = 0.0690909
+textureHeight = 0.084632
+
+[SpriteHedgeStaticRightA]
+texture = 30
+texturePosX = 0.641273
+texturePosY = 0.550433
+textureWeight = 0.0690909
+textureHeight = 0.084632
+
+[SpriteHedgeStaticRightB]
+texture = 30
+texturePosX = 0.710364
+texturePosY = 0.550433
+textureWeight = 0.0690909
+textureHeight = 0.084632
+
+[SpriteHedgeStaticRightC]
+texture = 30
+texturePosX = 0.779455
+texturePosY = 0.550433
+textureWeight = 0.0690909
+textureHeight = 0.084632
+
+[SpriteHedgeStaticRightD]
+texture = 30
+texturePosX = 0.848546
+texturePosY = 0.550433
+textureWeight = 0.0690909
+textureHeight = 0.084632
+
+[SpriteHedgeStaticLeftA]
+texture = 30
+texturePosX = 0.602545
+texturePosY = 0.277706
+textureWeight = 0.06
+textureHeight = 0.084632
+
+[SpriteHedgeStaticLeftB]
+texture = 30
+texturePosX = 0.671636
+texturePosY = 0.277706
+textureWeight = 0.06
+textureHeight = 0.084632
+
+[SpriteHedgeStaticLeftC]
+texture = 30
+texturePosX = 0.740727
+texturePosY = 0.277706
+textureWeight = 0.06
+textureHeight = 0.084632
+
+[SpriteHedgeStaticLeftD]
+texture = 30
+texturePosX = 0.809818
+texturePosY = 0.277706
+textureWeight = 0.06
+textureHeight = 0.084632
+
+[SpriteHedgeDamageRightA]
+texture = 30
+texturePosX = 0.609818
+texturePosY = 0.0943723
+textureWeight = 0.0707273
+textureHeight = 0.084632
+
+[SpriteHedgeDamageRightB]
+texture = 30
+texturePosX = 0.679818
+texturePosY = 0.0943723
+textureWeight = 0.0707273
+textureHeight = 0.084632
+
+[SpriteHedgeDamageLeftA]
+texture = 30
+texturePosX = 0.749818
+texturePosY = 0.0943723
+textureWeight = 0.0707273
+textureHeight = 0.084632
+
+[SpriteHedgeDamageLeftB]
+texture = 30
+texturePosX = 0.819818
+texturePosY = 0.0943723
+textureWeight = 0.0707273
+textureHeight = 0.084632
