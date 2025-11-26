@@ -1590,8 +1590,8 @@ void LevelManager::loadPlayerDate()
     loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::STAY_LEFT);
     loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_LEFT);
     loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::DAMAGE_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_RUN_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_RUN_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_RIGHT);
 }
 
 //===================================================================
@@ -1979,9 +1979,21 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
         vectPtr = &m_playerData.m_runRightSprites;
         break;
     case PlayerSpriteElementType_e::SHOOT_UP_LOOK_RIGHT:
-        spriteType = "ShootUpRight";
+        spriteType = "ShootUpLookRight";
         vectPtr = &m_playerData.m_shootUpLookRightSprites;
         break;
+
+
+    case PlayerSpriteElementType_e::SHOOT_UP_RIGHT:///
+        spriteType = "ShootUpRight";
+        vectPtr = &m_playerData.m_shootUpRightSprites;
+        break;
+    case PlayerSpriteElementType_e::SHOOT_DOWN_RIGHT:///
+        spriteType = "ShootDownRight";
+        vectPtr = &m_playerData.m_shootDownRightSprites;
+        break;
+
+
     case PlayerSpriteElementType_e::SHOOT_RIGHT:
         spriteType = "ShootRight";
         vectPtr = &m_playerData.m_shootRightSprites;
@@ -2003,9 +2015,20 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
         vectPtr = &m_playerData.m_runLeftSprites;
         break;
     case PlayerSpriteElementType_e::SHOOT_UP_LOOK_LEFT:
-        spriteType = "ShootUpLeft";
+        spriteType = "ShootUpLookLeft";
         vectPtr = &m_playerData.m_shootUpLookLeftSprites;
         break;
+
+    case PlayerSpriteElementType_e::SHOOT_UP_LEFT:///
+        spriteType = "ShootUpLeft";
+        vectPtr = &m_playerData.m_shootUpLeftSprites;
+        break;
+    case PlayerSpriteElementType_e::SHOOT_DOWN_LEFT:///
+        spriteType = "ShootDownLeft";
+        vectPtr = &m_playerData.m_shootDownLeftSprites;
+        break;
+
+
     case PlayerSpriteElementType_e::SHOOT_LEFT:
         spriteType = "ShootLeft";
         vectPtr = &m_playerData.m_shootLeftSprites;
@@ -2022,13 +2045,85 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
         spriteType = "DamageLeft";
         vectPtr = &m_playerData.m_damageLeftSprites;
         break;
-    case PlayerSpriteElementType_e::SHOOT_RUN_LEFT:
+    case PlayerSpriteElementType_e::RUN_SHOOT_LEFT:
         spriteType = "PlayerRunShootLeft";
-        vectPtr = &m_playerData.m_shootRunLeft;
+        vectPtr = &m_playerData.m_runShootLeft;
         break;
-    case PlayerSpriteElementType_e::SHOOT_RUN_RIGHT:
+
+    case PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_LEFT:///
+        spriteType = "RunShootUpLookLeft";
+        vectPtr = &m_playerData.m_jumpShootUpLookLeft;
+        break;
+    case PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT:///
+        spriteType = "RunShootUpLeft";
+        vectPtr = &m_playerData.m_runShootUpLeft;
+        break;
+    case PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT:///
+        spriteType = "RunShootDownLeft";
+        vectPtr = &m_playerData.m_runShootDownLeft;
+        break;
+
+
+    case PlayerSpriteElementType_e::RUN_SHOOT_RIGHT:
         spriteType = "PlayerRunShootRight";
-        vectPtr = &m_playerData.m_shootRunRight;
+        vectPtr = &m_playerData.m_runShootRight;
+        break;
+
+
+    case PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_RIGHT:///
+        spriteType = "RunShootUpLookRight";
+        vectPtr = &m_playerData.m_runShootUpLookRight;
+        break;
+    case PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT:///
+        spriteType = "RunShootUpRight";
+        vectPtr = &m_playerData.m_runShootUpRight;
+        break;
+    case PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT:///
+        spriteType = "RunShootDownRight";
+        vectPtr = &m_playerData.m_runShootDownRight;
+        break;
+
+
+    case PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_RIGHT:///
+        spriteType = "JumpShootUpLookRight";
+        vectPtr = &m_playerData.m_jumpShootUpLookRight;
+        break;
+    case PlayerSpriteElementType_e::JUMP_SHOOT_UP_RIGHT:///
+        spriteType = "JumpShootUpRight";
+        vectPtr = &m_playerData.m_jumpShootUpRight;
+        break;
+    case PlayerSpriteElementType_e::JUMP_SHOOT_RIGHT:///
+        spriteType = "JumpShootRight";
+        vectPtr = &m_playerData.m_jumpShootRight;
+        break;
+    case PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_RIGHT:///
+        spriteType = "JumpShootDownRight";
+        vectPtr = &m_playerData.m_jumpShootDownRight;
+        break;
+    case PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_RIGHT:///
+        spriteType = "JumpShootDownLookRight";
+        vectPtr = &m_playerData.m_jumpShootDownLookRight;
+        break;
+
+    case PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_LEFT:///
+        spriteType = "JumpShootUpLookLeft";
+        vectPtr = &m_playerData.m_jumpShootUpLookLeft;
+        break;
+    case PlayerSpriteElementType_e::JUMP_SHOOT_UP_LEFT:///
+        spriteType = "JumpShootUpLeft";
+        vectPtr = &m_playerData.m_jumpShootUpLeft;
+        break;
+    case PlayerSpriteElementType_e::JUMP_SHOOT_LEFT:///
+        spriteType = "JumpShootLeft";
+        vectPtr = &m_playerData.m_jumpShootLeft;
+        break;
+    case PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LEFT:///
+        spriteType = "JumpShootDownLeft";
+        vectPtr = &m_playerData.m_jumpShootDownLeft;
+        break;
+    case PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_LEFT:///
+        spriteType = "JumpShootDownLookLeft";
+        vectPtr = &m_playerData.m_jumpShootDownLookLeft;
         break;
     }
     assert(vectPtr);

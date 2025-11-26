@@ -78,9 +78,14 @@ struct ElementRaycast
 
 struct PlayerData
 {
-    std::vector<uint16_t> m_runRightSprites, m_runLeftSprites, m_shootUpLookRightSprites,
-        m_shootUpLookLeftSprites, m_shootRightSprites, m_shootLeftSprites,
-        m_stayRightSprites, m_stayLeftSprites, m_jumpRightSprites, m_jumpLeftSprites, m_damageRightSprites, m_damageLeftSprites, m_shootRunRight, m_shootRunLeft;
+    std::vector<uint16_t> m_runRightSprites, m_runLeftSprites, m_shootUpLookRightSprites, m_shootUpRightSprites, m_shootDownRightSprites,
+        m_shootUpLookLeftSprites, m_shootUpLeftSprites, m_shootDownLeftSprites, m_shootRightSprites, m_shootLeftSprites,
+        m_stayRightSprites, m_stayLeftSprites, m_jumpRightSprites, m_jumpLeftSprites, m_damageRightSprites, m_damageLeftSprites,
+        m_runShootRight, m_runShootUpRight, m_runShootDownRight, m_runShootUpLookRight,
+        m_runShootLeft, m_runShootUpLeft, m_runShootDownLeft, m_runShootUpLookLeft,
+        m_jumpShootUpRight, m_jumpShootRight, m_jumpShootDownRight, m_jumpShootDownLookRight,
+        m_jumpShootUpLookRight,
+        m_jumpShootUpLookLeft, m_jumpShootUpLeft, m_jumpShootLeft, m_jumpShootDownLeft, m_jumpShootDownLookLeft;
 
     //In Game sprite size in % relative to a tile
     PairDouble_t m_inGameSpriteSize;

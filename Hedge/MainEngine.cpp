@@ -2586,9 +2586,9 @@ void MainEngine::loadPlayerSprites(const std::vector<SpriteData> &vectSprite, co
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                                playerData.m_damageLeftSprites, PlayerSpriteElementType_e::DAMAGE_LEFT);
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                               playerData.m_shootRunLeft, PlayerSpriteElementType_e::SHOOT_RUN_LEFT);
+                               playerData.m_runShootLeft, PlayerSpriteElementType_e::RUN_SHOOT_LEFT);
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                               playerData.m_shootRunRight, PlayerSpriteElementType_e::SHOOT_RUN_RIGHT);
+                               playerData.m_runShootRight, PlayerSpriteElementType_e::RUN_SHOOT_RIGHT);
     // if(playerComp.m_visibleShot)
     // {
     //     loadVisibleShotData(vectSprite, enemyComp.m_visibleAmmo, enemiesData.m_visibleShootID, visibleShot);

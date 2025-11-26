@@ -318,19 +318,19 @@ void InputSystem::treatPlayerInput()
             //If run
             if(checkPlayerKeyTriggered(ControlKey_e::MOVE_RIGHT))
             {
-                if(playerComp->m_spriteType != PlayerSpriteElementType_e::SHOOT_RUN_RIGHT)
+                if(playerComp->m_spriteType != PlayerSpriteElementType_e::RUN_SHOOT_RIGHT)
                 {
                     playerComp->m_memPreviousSprite = playerComp->m_countAnimationCycle;
                 }
-                playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RUN_RIGHT;
+                playerComp->m_spriteType = PlayerSpriteElementType_e::RUN_SHOOT_RIGHT;
             }
             else if(checkPlayerKeyTriggered(ControlKey_e::MOVE_LEFT))
             {
-                if(playerComp->m_spriteType != PlayerSpriteElementType_e::SHOOT_RUN_LEFT)
+                if(playerComp->m_spriteType != PlayerSpriteElementType_e::RUN_SHOOT_LEFT)
                 {
                     playerComp->m_memPreviousSprite = playerComp->m_countAnimationCycle;
                 }
-                playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RUN_LEFT;
+                playerComp->m_spriteType = PlayerSpriteElementType_e::RUN_SHOOT_LEFT;
             }
             //else if not run
             else if(playerComp->m_currentDirectionRight)
@@ -412,7 +412,7 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
         if(!currentShot)
         {
-            if(playerComp.m_spriteType == PlayerSpriteElementType_e::SHOOT_RUN_RIGHT)
+            if(playerComp.m_spriteType == PlayerSpriteElementType_e::RUN_SHOOT_RIGHT)
             {
                 playerComp.m_memPreviousSprite = playerComp.m_countAnimationCycle;
             }
@@ -440,7 +440,7 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
         if(!currentShot)
         {
-            if(playerComp.m_spriteType == PlayerSpriteElementType_e::SHOOT_RUN_LEFT)
+            if(playerComp.m_spriteType == PlayerSpriteElementType_e::RUN_SHOOT_LEFT)
             {
                 playerComp.m_memPreviousSprite = playerComp.m_countAnimationCycle;
             }
