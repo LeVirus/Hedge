@@ -11,6 +11,7 @@ struct MapCoordComponent;
 struct TimerComponent;
 class MainEngine;
 struct WeaponComponent;
+struct GravityComponent;
 enum class InputType_e;
 
 //pair const uint8_t* :: buttons, const float* :: axis
@@ -122,6 +123,8 @@ public:
     static void scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
     void getGamepadInputs();
 private:
+    void treatPlayerJumpAnimation(PlayerConfComponent *playerComp, GravityComponent *gravityComp);
+    void treatPlayerShootAnimation(PlayerConfComponent *playerComp);
     void treatDiagUpAim(PlayerConfComponent &playerComp);
     void gamepadUpdate();
     bool checkStandardButtonGamepadKeyStatus(uint32_t key, uint32_t status);
@@ -213,7 +216,6 @@ private:
     static bool m_windowFocus;
     static MapGamepadInputData_t m_mapGamepadID;
 };
-
 
 void decrementMenuPosition(PlayerConfComponent &playerConf, uint32_t maxIndex);
 void incrementMenuPosition(PlayerConfComponent &playerConf, uint32_t maxIndex);

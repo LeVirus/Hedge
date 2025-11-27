@@ -1592,6 +1592,31 @@ void LevelManager::loadPlayerDate()
     loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::DAMAGE_LEFT);
     loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_LEFT);
     loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_RIGHT);
+
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_UP_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_DOWN_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_UP_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_DOWN_LEFT);
+
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT);
+
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT);
+
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_UP_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_RIGHT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_RIGHT);
+
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_UP_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LEFT);
+    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_LEFT);
 }
 
 //===================================================================
@@ -1983,7 +2008,6 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
         vectPtr = &m_playerData.m_shootUpLookRightSprites;
         break;
 
-
     case PlayerSpriteElementType_e::SHOOT_UP_RIGHT:///
         spriteType = "ShootUpRight";
         vectPtr = &m_playerData.m_shootUpRightSprites;
@@ -1992,7 +2016,6 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
         spriteType = "ShootDownRight";
         vectPtr = &m_playerData.m_shootDownRightSprites;
         break;
-
 
     case PlayerSpriteElementType_e::SHOOT_RIGHT:
         spriteType = "ShootRight";
@@ -2028,7 +2051,6 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
         vectPtr = &m_playerData.m_shootDownLeftSprites;
         break;
 
-
     case PlayerSpriteElementType_e::SHOOT_LEFT:
         spriteType = "ShootLeft";
         vectPtr = &m_playerData.m_shootLeftSprites;
@@ -2063,12 +2085,10 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
         vectPtr = &m_playerData.m_runShootDownLeft;
         break;
 
-
     case PlayerSpriteElementType_e::RUN_SHOOT_RIGHT:
         spriteType = "PlayerRunShootRight";
         vectPtr = &m_playerData.m_runShootRight;
         break;
-
 
     case PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_RIGHT:///
         spriteType = "RunShootUpLookRight";

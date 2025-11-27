@@ -211,59 +211,7 @@ void InputSystem::treatPlayerInput()
         treatPlayerMoveAndOrientation(*playerComp, *mapComp, *moveComp, *it);
         GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(*it);
         assert(gravityComp);
-        if(!gravityComp->m_memOnGround)
-        {
-            if(playerComp->m_currentDirectionRight)
-            {
-                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_RIGHT;
-            }
-            else
-            {
-                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
-            }
-        }
-        bool jump = checkPlayerKeyTriggered(ControlKey_e::JUMP);
-        if(!playerComp->m_dialogPass && !playerComp->m_jumpPush && jump)
-        {
-            playerComp->m_jumpPush = true;
-            if(playerComp->m_associatedVehicle || (!gravityComp->m_jump && gravityComp->m_memOnGround/*m_onGround*/))
-            {
-                if(checkPlayerKeyTriggered(ControlKey_e::LOOK_DOWN))
-                {
-                    playerComp->m_jumpDown = true;
-                }
-                else if(playerComp->m_associatedVehicle && checkPlayerKeyTriggered(ControlKey_e::LOOK_UP))
-                {
-                    gravityComp->m_exitVehicle = true;
-                    gravityComp->m_jump = true;
-                }
-                //JUMP CLASSIC
-                else
-                {
-                    if(playerComp->m_associatedVehicle)
-                    {
-                        gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(*playerComp->m_associatedVehicle);
-                        assert(gravityComp);
-                    }
-                    if(!playerComp->m_vehicleEject)
-                    {
-                        gravityComp->m_jump = true;
-                    }
-                    gravityComp->m_onGround = false;
-                    gravityComp->m_memOnGround = false;
-                    if(playerComp->m_currentDirectionRight)
-                    {
-                        playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_RIGHT;
-                    }
-                    else
-                    {
-                        playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
-                    }
-                    //reinit sprite
-                    playerComp->m_currentSprite = 0;
-                }
-            }
-        }
+        treatPlayerJumpAnimation(playerComp, gravityComp);
         if(playerComp->m_vehicleEject && !gravityComp->m_exitVehicle && !checkPlayerKeyTriggered(ControlKey_e::JUMP) && gravityComp->m_onGround)
         {
             playerComp->m_vehicleEject = false;
@@ -313,37 +261,105 @@ void InputSystem::treatPlayerInput()
                 playerComp->m_playerShoot = false;
             }
         }
-        if(checkPlayerKeyTriggered(ControlKey_e::SHOOT) && (playerComp->m_spriteType != PlayerSpriteElementType_e::DAMAGE_LEFT && playerComp->m_spriteType != PlayerSpriteElementType_e::DAMAGE_RIGHT))
-        {
-            //If run
-            if(checkPlayerKeyTriggered(ControlKey_e::MOVE_RIGHT))
-            {
-                if(playerComp->m_spriteType != PlayerSpriteElementType_e::RUN_SHOOT_RIGHT)
-                {
-                    playerComp->m_memPreviousSprite = playerComp->m_countAnimationCycle;
-                }
-                playerComp->m_spriteType = PlayerSpriteElementType_e::RUN_SHOOT_RIGHT;
-            }
-            else if(checkPlayerKeyTriggered(ControlKey_e::MOVE_LEFT))
-            {
-                if(playerComp->m_spriteType != PlayerSpriteElementType_e::RUN_SHOOT_LEFT)
-                {
-                    playerComp->m_memPreviousSprite = playerComp->m_countAnimationCycle;
-                }
-                playerComp->m_spriteType = PlayerSpriteElementType_e::RUN_SHOOT_LEFT;
-            }
-            //else if not run
-            else if(playerComp->m_currentDirectionRight)
-            {
-                playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;
-            }
-            else
-            {
-                playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_LEFT;
-            }
-        }
+        treatPlayerShootAnimation(playerComp);
         m_scrollUp = false;
         m_scrollDown = false;
+    }
+}
+
+
+//===================================================================
+void InputSystem::treatPlayerJumpAnimation(PlayerConfComponent *playerComp, GravityComponent *gravityComp)
+{
+    if(!gravityComp->m_memOnGround)
+    {
+        if(playerComp->m_currentDirectionRight)
+        {
+            playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_RIGHT;
+        }
+        else
+        {
+            playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
+        }
+    }
+    if(!playerComp->m_dialogPass && !playerComp->m_jumpPush && checkPlayerKeyTriggered(ControlKey_e::JUMP))
+    {
+        playerComp->m_jumpPush = true;
+        if(playerComp->m_associatedVehicle || (!gravityComp->m_jump && gravityComp->m_memOnGround/*m_onGround*/))
+        {
+            if(checkPlayerKeyTriggered(ControlKey_e::LOOK_DOWN))
+            {
+                playerComp->m_jumpDown = true;
+            }
+            else if(playerComp->m_associatedVehicle && checkPlayerKeyTriggered(ControlKey_e::LOOK_UP))
+            {
+                gravityComp->m_exitVehicle = true;
+                gravityComp->m_jump = true;
+            }
+            //JUMP CLASSIC
+            else
+            {
+                if(playerComp->m_associatedVehicle)
+                {
+                    gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(*playerComp->m_associatedVehicle);
+                    assert(gravityComp);
+                }
+                if(!playerComp->m_vehicleEject)
+                {
+                    gravityComp->m_jump = true;
+                }
+                gravityComp->m_onGround = false;
+                gravityComp->m_memOnGround = false;
+                if(playerComp->m_currentDirectionRight)
+                {
+                    playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_RIGHT;
+                }
+                else
+                {
+                    playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
+                }
+                //reinit sprite
+                playerComp->m_currentSprite = 0;
+            }
+        }
+    }
+}
+
+//===================================================================
+void InputSystem::treatPlayerShootAnimation(PlayerConfComponent *playerComp)
+{
+    if(checkPlayerKeyTriggered(ControlKey_e::SHOOT) && (playerComp->m_spriteType != PlayerSpriteElementType_e::DAMAGE_LEFT && playerComp->m_spriteType != PlayerSpriteElementType_e::DAMAGE_RIGHT))
+    {
+        //If run
+        if(checkPlayerKeyTriggered(ControlKey_e::MOVE_RIGHT))
+        {
+            if(playerComp->m_spriteType != PlayerSpriteElementType_e::RUN_SHOOT_RIGHT)
+            {
+                playerComp->m_memPreviousSprite = playerComp->m_countAnimationCycle;
+            }
+            if(playerComp->m_spriteType != PlayerSpriteElementType_e::RUN_SHOOT_RIGHT)
+            {
+
+            }
+            playerComp->m_spriteType = PlayerSpriteElementType_e::RUN_SHOOT_RIGHT;
+        }
+        else if(checkPlayerKeyTriggered(ControlKey_e::MOVE_LEFT))
+        {
+            if(playerComp->m_spriteType != PlayerSpriteElementType_e::RUN_SHOOT_LEFT)
+            {
+                playerComp->m_memPreviousSprite = playerComp->m_countAnimationCycle;
+            }
+            playerComp->m_spriteType = PlayerSpriteElementType_e::RUN_SHOOT_LEFT;
+        }
+        //else if not run
+        else if(playerComp->m_currentDirectionRight)
+        {
+            playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;
+        }
+        else
+        {
+            playerComp->m_spriteType = PlayerSpriteElementType_e::SHOOT_LEFT;
+        }
     }
 }
 
@@ -517,13 +533,13 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         {
             playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
             //OOOK TMP
-            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;
+            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_UP_RIGHT;
         }
         else
         {
             playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
             //OOOK TMP
-            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_LEFT;
+            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_UP_LEFT;
         }
     }
     //TMP LOOK MID DOWN
@@ -534,13 +550,13 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         {
             playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
             //OOOK TMP
-            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_RIGHT;
+            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_DOWN_RIGHT;
         }
         else
         {
             playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
             //OOOK TMP
-            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_LEFT;
+            playerComp.m_spriteType = PlayerSpriteElementType_e::SHOOT_DOWN_LEFT;
         }
     }
 }
