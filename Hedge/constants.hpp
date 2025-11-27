@@ -305,7 +305,7 @@ enum class EnemySpriteType_e
 
 enum class PlayerSpriteElementType_e
 {
-    RUN_RIGHT,
+    RUN_RIGHT = 0,
 
     SHOOT_UP_LOOK_RIGHT,
     SHOOT_UP_RIGHT,
@@ -346,7 +346,35 @@ enum class PlayerSpriteElementType_e
     JUMP_SHOOT_UP_LEFT, // 30
     JUMP_SHOOT_LEFT,
     JUMP_SHOOT_DOWN_LEFT,
-    JUMP_SHOOT_DOWN_LOOK_LEFT // 33
+    JUMP_SHOOT_DOWN_LOOK_LEFT,
+
+    AIM_UP_LOOK_RIGHT,
+    AIM_UP_RIGHT, // 35
+    AIM_DOWN_RIGHT,
+
+    AIM_UP_LOOK_LEFT,
+    AIM_UP_LEFT,
+    AIM_DOWN_LEFT,
+
+    RUN_AIM_UP_LOOK_RIGHT, // 40
+    RUN_AIM_UP_RIGHT,
+    RUN_AIM_DOWN_RIGHT,
+
+    RUN_AIM_UP_LOOK_LEFT,
+    RUN_AIM_UP_LEFT,
+    RUN_AIM_DOWN_LEFT, //45
+
+    JUMP_AIM_UP_LOOK_RIGHT,
+    JUMP_AIM_UP_RIGHT,
+    JUMP_AIM_DOWN_RIGHT,
+    JUMP_AIM_DOWN_LOOK_RIGHT,
+
+    JUMP_AIM_UP_LOOK_LEFT, // 50
+    JUMP_AIM_UP_LEFT,
+    JUMP_AIM_DOWN_LEFT,
+    JUMP_AIM_DOWN_LOOK_LEFT, // 53
+    TOTAL
+
 };
 
 enum class VehicleSpriteType_e

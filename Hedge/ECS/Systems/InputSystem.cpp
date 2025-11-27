@@ -337,7 +337,7 @@ void InputSystem::treatPlayerShootAnimation(PlayerConfComponent *playerComp)
             {
                 playerComp->m_memPreviousSprite = playerComp->m_countAnimationCycle;
             }
-            if(playerComp->m_spriteType != PlayerSpriteElementType_e::RUN_SHOOT_RIGHT)
+            if(playerComp->m_spriteType == PlayerSpriteElementType_e::RUN_SHOOT_RIGHT)
             {
 
             }

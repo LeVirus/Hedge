@@ -1578,45 +1578,10 @@ void LevelManager::loadPlayerDate()
     std::optional<bool> resBool = toBool(*val);
     assert(resBool);
     m_playerData.m_frozenOnAttack = *resBool;
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_UP_LOOK_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::STAY_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::DAMAGE_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_UP_LOOK_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::STAY_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::DAMAGE_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_RIGHT);
-
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_UP_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_DOWN_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_UP_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::SHOOT_DOWN_LEFT);
-
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT);
-
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT);
-
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_UP_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_RIGHT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_RIGHT);
-
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_UP_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LEFT);
-    loadPlayerSprites(vectINISections[0], PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_LEFT);
+    for(uint32_t i = 0; i < static_cast<uint32_t>(PlayerSpriteElementType_e::TOTAL); ++i)
+    {
+        loadPlayerSprites(vectINISections[0], static_cast<PlayerSpriteElementType_e>(i));
+    }
 }
 
 //===================================================================
@@ -2144,6 +2109,98 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
     case PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_LEFT:///
         spriteType = "JumpShootDownLookLeft";
         vectPtr = &m_playerData.m_jumpShootDownLookLeft;
+        break;
+
+
+    case PlayerSpriteElementType_e::RUN_AIM_UP_LOOK_RIGHT:///
+        spriteType = "RunAimUpLookRight";
+        vectPtr = &m_playerData.m_runAimUpLookRight;
+        break;
+    case PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT:///
+        spriteType = "RunAimUpRight";
+        vectPtr = &m_playerData.m_runAimUpRight;
+        break;
+    case PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT:///
+        spriteType = "RunAimDownRight";
+        vectPtr = &m_playerData.m_runAimDownRight;
+        break;
+
+
+    case PlayerSpriteElementType_e::JUMP_AIM_UP_LOOK_RIGHT:///
+        spriteType = "JumpAimUpLookRight";
+        vectPtr = &m_playerData.m_jumpAimUpLookRight;
+        break;
+    case PlayerSpriteElementType_e::JUMP_AIM_UP_RIGHT:///
+        spriteType = "JumpAimUpRight";
+        vectPtr = &m_playerData.m_jumpAimUpRight;
+        break;
+    case PlayerSpriteElementType_e::JUMP_AIM_DOWN_RIGHT:///
+        spriteType = "JumpAimDownRight";
+        vectPtr = &m_playerData.m_jumpAimDownRight;
+        break;
+    case PlayerSpriteElementType_e::JUMP_AIM_DOWN_LOOK_RIGHT:///
+        spriteType = "JumpAimDownLookRight";
+        vectPtr = &m_playerData.m_jumpAimDownLookRight;
+        break;
+
+    case PlayerSpriteElementType_e::JUMP_AIM_UP_LOOK_LEFT:///
+        spriteType = "JumpAimUpLookLeft";
+        vectPtr = &m_playerData.m_jumpAimUpLookLeft;
+        break;
+    case PlayerSpriteElementType_e::JUMP_AIM_UP_LEFT:///
+        spriteType = "JumpAimUpLeft";
+        vectPtr = &m_playerData.m_jumpAimUpLeft;
+        break;
+    case PlayerSpriteElementType_e::JUMP_AIM_DOWN_LEFT:///
+        spriteType = "JumpAimDownLeft";
+        vectPtr = &m_playerData.m_jumpAimDownLeft;
+        break;
+    case PlayerSpriteElementType_e::JUMP_AIM_DOWN_LOOK_LEFT:///
+        spriteType = "JumpAimDownLookLeft";
+        vectPtr = &m_playerData.m_jumpAimDownLookLeft;
+        break;
+
+
+    case PlayerSpriteElementType_e::RUN_AIM_UP_LOOK_LEFT:///
+        spriteType = "RunAimUpLookLeft";
+        vectPtr = &m_playerData.m_jumpAimUpLookLeft;
+        break;
+    case PlayerSpriteElementType_e::RUN_AIM_UP_LEFT:///
+        spriteType = "RunAimUpLeft";
+        vectPtr = &m_playerData.m_runAimUpLeft;
+        break;
+    case PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT:///
+        spriteType = "RunAimDownLeft";
+        vectPtr = &m_playerData.m_runAimDownLeft;
+        break;
+
+
+    case PlayerSpriteElementType_e::AIM_UP_LEFT:///
+        spriteType = "AimUpLeft";
+        vectPtr = &m_playerData.m_aimUpLeft;
+        break;
+    case PlayerSpriteElementType_e::AIM_DOWN_LEFT:///
+        spriteType = "AimDownLeft";
+        vectPtr = &m_playerData.m_aimDownLeft;
+        break;
+
+    case PlayerSpriteElementType_e::AIM_UP_LOOK_RIGHT:
+        spriteType = "AimUpLookRight";
+        vectPtr = &m_playerData.m_aimUpLookRight;
+        break;
+
+    case PlayerSpriteElementType_e::AIM_UP_RIGHT:///
+        spriteType = "AimUpRight";
+        vectPtr = &m_playerData.m_aimUpRight;
+        break;
+    case PlayerSpriteElementType_e::AIM_DOWN_RIGHT:///
+        spriteType = "AimDownRight";
+        vectPtr = &m_playerData.m_aimDownRight;
+        break;
+
+    case PlayerSpriteElementType_e::AIM_UP_LOOK_LEFT:
+        spriteType = "AimUpLookLeft";
+        vectPtr = &m_playerData.m_aimUpLookLeft;
         break;
     }
     assert(vectPtr);
