@@ -33,7 +33,67 @@ struct GamepadInputState
     std::optional<bool> m_axisPos;
 };
 
-inline const std::map<ControlKey_e, MouseKeyboardInputState> MAP_KEYBOARD_DEFAULT_KEY = {
+inline const std::map<PlayerSpriteElementType_e, PlayerSpriteElementType_e> MAP_PLAYER_ANIM_AIM_SHOOT =
+{
+    {PlayerSpriteElementType_e::AIM_UP_LOOK_RIGHT, PlayerSpriteElementType_e::SHOOT_UP_LOOK_RIGHT},
+    {PlayerSpriteElementType_e::AIM_UP_RIGHT, PlayerSpriteElementType_e::SHOOT_UP_RIGHT},
+    {PlayerSpriteElementType_e::AIM_DOWN_RIGHT, PlayerSpriteElementType_e::SHOOT_DOWN_RIGHT},
+    {PlayerSpriteElementType_e::AIM_UP_LOOK_LEFT, PlayerSpriteElementType_e::SHOOT_UP_LOOK_LEFT},
+    {PlayerSpriteElementType_e::AIM_UP_LEFT, PlayerSpriteElementType_e::SHOOT_UP_LEFT},
+    {PlayerSpriteElementType_e::AIM_DOWN_LEFT, PlayerSpriteElementType_e::SHOOT_DOWN_LEFT},
+    {PlayerSpriteElementType_e::RUN_AIM_UP_LOOK_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_RIGHT},
+    {PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT},
+    {PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT},
+    {PlayerSpriteElementType_e::RUN_AIM_UP_LOOK_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_LEFT},
+    {PlayerSpriteElementType_e::RUN_AIM_UP_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT},
+    {PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT},
+    {PlayerSpriteElementType_e::JUMP_AIM_UP_LOOK_RIGHT, PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_RIGHT},
+    {PlayerSpriteElementType_e::JUMP_AIM_UP_RIGHT, PlayerSpriteElementType_e::JUMP_SHOOT_UP_RIGHT},
+    {PlayerSpriteElementType_e::JUMP_AIM_DOWN_RIGHT, PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_RIGHT},
+    {PlayerSpriteElementType_e::JUMP_AIM_DOWN_LOOK_RIGHT, PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_RIGHT},
+    {PlayerSpriteElementType_e::JUMP_AIM_UP_LOOK_LEFT, PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_LEFT},
+    {PlayerSpriteElementType_e::JUMP_AIM_UP_LEFT, PlayerSpriteElementType_e::JUMP_SHOOT_UP_LEFT},
+    {PlayerSpriteElementType_e::JUMP_AIM_DOWN_LEFT, PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LEFT},
+    {PlayerSpriteElementType_e::JUMP_AIM_DOWN_LOOK_LEFT, PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_LEFT},
+    {PlayerSpriteElementType_e::STAY_RIGHT, PlayerSpriteElementType_e::SHOOT_RIGHT},
+    {PlayerSpriteElementType_e::STAY_LEFT, PlayerSpriteElementType_e::SHOOT_LEFT},
+    {PlayerSpriteElementType_e::RUN_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_RIGHT},
+    {PlayerSpriteElementType_e::RUN_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_LEFT},
+    {PlayerSpriteElementType_e::SHOOT_RIGHT, PlayerSpriteElementType_e::SHOOT_RIGHT},
+
+    {PlayerSpriteElementType_e::SHOOT_UP_LOOK_RIGHT, PlayerSpriteElementType_e::SHOOT_UP_LOOK_RIGHT},
+    {PlayerSpriteElementType_e::SHOOT_UP_RIGHT, PlayerSpriteElementType_e::SHOOT_UP_RIGHT},
+    {PlayerSpriteElementType_e::SHOOT_DOWN_RIGHT, PlayerSpriteElementType_e::SHOOT_DOWN_RIGHT},
+    {PlayerSpriteElementType_e::JUMP_RIGHT, PlayerSpriteElementType_e::JUMP_SHOOT_RIGHT},
+    // {PlayerSpriteElementType_e::DAMAGE_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_LEFT},
+    {PlayerSpriteElementType_e::SHOOT_UP_LOOK_LEFT, PlayerSpriteElementType_e::SHOOT_UP_LOOK_LEFT},
+    {PlayerSpriteElementType_e::SHOOT_UP_LEFT, PlayerSpriteElementType_e::SHOOT_UP_LEFT},
+    {PlayerSpriteElementType_e::SHOOT_LEFT, PlayerSpriteElementType_e::SHOOT_LEFT},
+    {PlayerSpriteElementType_e::SHOOT_DOWN_LEFT, PlayerSpriteElementType_e::SHOOT_DOWN_LEFT},
+    {PlayerSpriteElementType_e::JUMP_LEFT, PlayerSpriteElementType_e::JUMP_SHOOT_LEFT},
+    // {PlayerSpriteElementType_e::DAMAGE_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT},
+    {PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_RIGHT, PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_RIGHT},
+    {PlayerSpriteElementType_e::JUMP_SHOOT_UP_RIGHT, PlayerSpriteElementType_e::JUMP_SHOOT_UP_RIGHT},
+    {PlayerSpriteElementType_e::JUMP_SHOOT_RIGHT, PlayerSpriteElementType_e::JUMP_SHOOT_RIGHT},
+    {PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_RIGHT, PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_RIGHT},
+    {PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_RIGHT, PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_RIGHT},
+    {PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_LEFT, PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_LEFT},
+    {PlayerSpriteElementType_e::JUMP_SHOOT_UP_LEFT, PlayerSpriteElementType_e::JUMP_SHOOT_UP_LEFT},
+    {PlayerSpriteElementType_e::JUMP_SHOOT_LEFT, PlayerSpriteElementType_e::JUMP_SHOOT_LEFT},
+    {PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LEFT, PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LEFT},
+    {PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_LEFT, PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_LEFT}
+};
+
+inline const std::map<ControlKey_e, MouseKeyboardInputState> MAP_KEYBOARD_DEFAULT_KEY =
+    {
     {ControlKey_e::LOOK_UP, {true, GLFW_KEY_UP}},
     {ControlKey_e::LOOK_DOWN, {true, GLFW_KEY_DOWN}},
     {ControlKey_e::AIM_DIAG_UP, {true, GLFW_KEY_Q}},
@@ -48,7 +108,8 @@ inline const std::map<ControlKey_e, MouseKeyboardInputState> MAP_KEYBOARD_DEFAUL
     {ControlKey_e::NEXT_WEAPON, {true, GLFW_KEY_R}}
 };
 
-inline const std::map<ControlKey_e, GamepadInputState> MAP_GAMEPAD_DEFAULT_KEY= {
+inline const std::map<ControlKey_e, GamepadInputState> MAP_GAMEPAD_DEFAULT_KEY =
+    {
     {ControlKey_e::LOOK_UP, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, true}},
     {ControlKey_e::LOOK_DOWN, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_Y, false}},
     {ControlKey_e::AIM_DIAG_UP, GamepadInputState{false, GLFW_GAMEPAD_AXIS_LEFT_X, false}},
