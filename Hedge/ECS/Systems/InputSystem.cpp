@@ -285,7 +285,7 @@ void InputSystem::treatPlayerJumpAnimation(PlayerConfComponent *playerComp, Grav
     if(!playerComp->m_dialogPass && !playerComp->m_jumpPush && checkPlayerKeyTriggered(ControlKey_e::JUMP))
     {
         playerComp->m_jumpPush = true;
-        if(playerComp->m_associatedVehicle || (!gravityComp->m_jump && gravityComp->m_memOnGround/*m_onGround*/))
+        if(playerComp->m_associatedVehicle || (!gravityComp->m_jump && gravityComp->m_memOnGround))
         {
             if(checkPlayerKeyTriggered(ControlKey_e::LOOK_DOWN))
             {
@@ -431,7 +431,7 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
         // if(!currentShot)
         {
-            if(playerComp.m_spriteType == PlayerSpriteElementType_e::RUN_SHOOT_RIGHT)
+            if(playerComp.m_spriteType == PlayerSpriteElementType_e::RUN_SHOOT_RIGHT && !currentShot)
             {
                 playerComp.m_memPreviousSprite = playerComp.m_countAnimationCycle;
             }
@@ -459,7 +459,7 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         velocity = getCurrentVelocity(playerComp.m_associatedVehicle, moveComp);
         // if(!currentShot)
         {
-            if(playerComp.m_spriteType == PlayerSpriteElementType_e::RUN_SHOOT_LEFT)
+            if(playerComp.m_spriteType == PlayerSpriteElementType_e::RUN_SHOOT_LEFT && !currentShot)
             {
                 playerComp.m_memPreviousSprite = playerComp.m_countAnimationCycle;
             }
@@ -576,13 +576,12 @@ void InputSystem::treatDiagUpAim(PlayerConfComponent &playerComp)
 {
     playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::UP)] = true;
     if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)])
-    {
-        //OOOOK TMP
-        playerComp.m_spriteType = PlayerSpriteElementType_e::AIM_UP_RIGHT;
+    {   
+        playerComp.m_spriteType = playerComp.m_inMovement ? PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT : PlayerSpriteElementType_e::AIM_UP_RIGHT;
     }
     else if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)])
     {
-        playerComp.m_spriteType = PlayerSpriteElementType_e::AIM_UP_LEFT;
+        playerComp.m_spriteType = playerComp.m_inMovement ? PlayerSpriteElementType_e::RUN_AIM_UP_LEFT : PlayerSpriteElementType_e::AIM_UP_LEFT;
     }
     else
     {
