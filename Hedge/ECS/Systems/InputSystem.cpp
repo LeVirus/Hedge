@@ -271,17 +271,7 @@ void InputSystem::treatPlayerInput()
 //===================================================================
 void InputSystem::treatPlayerJumpAnimation(PlayerConfComponent *playerComp, GravityComponent *gravityComp)
 {
-    if(!gravityComp->m_memOnGround)
-    {
-        if(playerComp->m_currentDirectionRight)
-        {
-            playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_RIGHT;
-        }
-        else
-        {
-            playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
-        }
-    }
+    //JUMP PRESSED
     if(!playerComp->m_dialogPass && !playerComp->m_jumpPush && checkPlayerKeyTriggered(ControlKey_e::JUMP))
     {
         playerComp->m_jumpPush = true;
@@ -320,6 +310,58 @@ void InputSystem::treatPlayerJumpAnimation(PlayerConfComponent *playerComp, Grav
                 }
                 //reinit sprite
                 playerComp->m_currentSprite = 0;
+            }
+        }
+    }
+    //ANIMATION IN THE AIR
+    if(!gravityComp->m_memOnGround)
+    {
+        bool down = checkPlayerKeyTriggered(ControlKey_e::LOOK_DOWN), up = checkPlayerKeyTriggered(ControlKey_e::LOOK_UP), aimDiagUp = checkPlayerKeyTriggered(ControlKey_e::AIM_DIAG_UP),
+            aimDiagDown = checkPlayerKeyTriggered(ControlKey_e::AIM_DIAG_DOWN);
+        if(playerComp->m_currentDirectionRight)
+        {
+            if(down)
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_AIM_DOWN_LOOK_RIGHT;
+            }
+            else if(up)
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_AIM_UP_LOOK_RIGHT;
+            }
+            else if(aimDiagUp)
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_AIM_UP_RIGHT;
+            }
+            else if(aimDiagDown)
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_AIM_DOWN_RIGHT;
+            }
+            else
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_RIGHT;
+            }
+        }
+        else
+        {
+            if(down)
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_AIM_DOWN_LOOK_LEFT;
+            }
+            else if(up)
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_AIM_UP_LOOK_LEFT;
+            }
+            else if(aimDiagUp)
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_AIM_UP_LEFT;
+            }
+            else if(aimDiagDown)
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_AIM_DOWN_LEFT;
+            }
+            else
+            {
+                playerComp->m_spriteType = PlayerSpriteElementType_e::JUMP_LEFT;
             }
         }
     }
