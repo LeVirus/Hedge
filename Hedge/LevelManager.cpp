@@ -2039,7 +2039,7 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
 
     case PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_LEFT:///
         spriteType = "RunShootUpLookLeft";
-        vectPtr = &m_playerData.m_jumpShootUpLookLeft;
+        vectPtr = &m_playerData.m_runShootUpLookLeft;
         break;
     case PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT:///
         spriteType = "RunShootUpLeft";
@@ -2163,7 +2163,7 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
 
     case PlayerSpriteElementType_e::RUN_AIM_UP_LOOK_LEFT:///
         spriteType = "RunAimUpLookLeft";
-        vectPtr = &m_playerData.m_jumpAimUpLookLeft;
+        vectPtr = &m_playerData.m_runAimUpLookLeft;
         break;
     case PlayerSpriteElementType_e::RUN_AIM_UP_LEFT:///
         spriteType = "RunAimUpLeft";
@@ -2201,6 +2201,8 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
     case PlayerSpriteElementType_e::AIM_UP_LOOK_LEFT:
         spriteType = "AimUpLookLeft";
         vectPtr = &m_playerData.m_aimUpLookLeft;
+        break;
+    case PlayerSpriteElementType_e::TOTAL:
         break;
     }
     assert(vectPtr);

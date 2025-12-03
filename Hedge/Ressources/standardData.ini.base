@@ -492,7 +492,6 @@ SpriteWeightGame = 0.4
 SpriteHeightGame = 0.8
 
 [PlayerAAAA]
-
 RunAimUpRight = SpriteHedgeRunShootSmokeUpRightA SpriteHedgeRunShootSmokeUpRightB SpriteHedgeRunShootSmokeUpRightC SpriteHedgeRunShootSmokeUpRightD
 RunAimUpLeft = SpriteHedgeRunShootSmokeUpLeftA SpriteHedgeRunShootSmokeUpLeftB SpriteHedgeRunShootSmokeUpLeftC SpriteHedgeRunShootSmokeUpLeftD
 RunAimDownRight = SpriteHedgeRunShootSmokeDownRightA SpriteHedgeRunShootSmokeDownRightB SpriteHedgeRunShootSmokeDownRightC SpriteHedgeRunShootSmokeDownRightD
