@@ -81,13 +81,13 @@ struct PlayerData
     std::vector<uint16_t> m_runRightSprites, m_runLeftSprites, m_shootUpLookRightSprites, m_shootUpRightSprites, m_shootDownRightSprites,
         m_shootUpLookLeftSprites, m_shootUpLeftSprites, m_shootDownLeftSprites, m_shootRightSprites, m_shootLeftSprites,
         m_stayRightSprites, m_stayLeftSprites, m_jumpRightSprites, m_jumpLeftSprites, m_damageRightSprites, m_damageLeftSprites,
-        m_runShootRight, m_runShootUpRight, m_runShootDownRight, m_runShootUpLookRight,
-        m_runShootLeft, m_runShootUpLeft, m_runShootDownLeft, m_runShootUpLookLeft,
+        m_runShootRight, m_runShootUpRight, m_runShootDownRight,
+        m_runShootLeft, m_runShootUpLeft, m_runShootDownLeft,
         m_jumpShootUpRight, m_jumpShootRight, m_jumpShootDownRight, m_jumpShootDownLookRight,
         m_jumpShootUpLookRight,
         m_jumpShootUpLookLeft, m_jumpShootUpLeft, m_jumpShootLeft, m_jumpShootDownLeft, m_jumpShootDownLookLeft,
 
-        m_runAimUpRight, m_runAimUpLeft, m_runAimDownRight, m_runAimDownLeft, m_runAimUpLookLeft, m_runAimUpLookRight,
+        m_runAimUpRight, m_runAimUpLeft, m_runAimDownRight, m_runAimDownLeft,
         m_aimDownRight, m_aimDownLeft, m_aimUpLookRight, m_aimUpLookLeft, m_aimUpRight, m_aimUpLeft,
         m_jumpAimDownRight, m_jumpAimDownLeft, m_jumpAimUpLookRight, m_jumpAimUpLookLeft, m_jumpAimUpRight, m_jumpAimUpLeft,
         m_jumpAimDownLookRight, m_jumpAimDownLookLeft;

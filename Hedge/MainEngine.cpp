@@ -2600,13 +2600,9 @@ void MainEngine::loadPlayerSprites(const std::vector<SpriteData> &vectSprite, co
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                                playerData.m_shootDownLeftSprites, PlayerSpriteElementType_e::SHOOT_DOWN_LEFT);
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                               playerData.m_runShootUpLookRight, PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_RIGHT);
-    insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                                playerData.m_runShootUpRight, PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT);
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                                playerData.m_runShootDownRight, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT);
-    insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                               playerData.m_runShootUpLookLeft, PlayerSpriteElementType_e::RUN_SHOOT_UP_LOOK_LEFT);
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                                playerData.m_runShootUpLeft, PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT);
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
@@ -2647,13 +2643,9 @@ void MainEngine::loadPlayerSprites(const std::vector<SpriteData> &vectSprite, co
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                                playerData.m_aimDownLeft, PlayerSpriteElementType_e::AIM_DOWN_LEFT);
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                               playerData.m_runAimUpLookRight, PlayerSpriteElementType_e::RUN_AIM_UP_LOOK_RIGHT);
-    insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                                playerData.m_runAimUpRight, PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT);
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                                playerData.m_runAimDownRight, PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT);
-    insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
-                               playerData.m_runAimUpLookLeft, PlayerSpriteElementType_e::RUN_AIM_UP_LOOK_LEFT);
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                                playerData.m_runAimUpLeft, PlayerSpriteElementType_e::RUN_AIM_UP_LEFT);
     insertPlayerSpriteFromType(vectSprite, playerComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,

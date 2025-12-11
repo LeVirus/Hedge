@@ -326,12 +326,10 @@ enum class PlayerSpriteElementType_e
     JUMP_LEFT,
     DAMAGE_LEFT, // 15
 
-    RUN_SHOOT_UP_LOOK_RIGHT,
     RUN_SHOOT_UP_RIGHT,
     RUN_SHOOT_RIGHT,
     RUN_SHOOT_DOWN_RIGHT,
 
-    RUN_SHOOT_UP_LOOK_LEFT, // 20
     RUN_SHOOT_UP_LEFT,
     RUN_SHOOT_LEFT,
     RUN_SHOOT_DOWN_LEFT,
@@ -356,11 +354,9 @@ enum class PlayerSpriteElementType_e
     AIM_UP_LEFT,
     AIM_DOWN_LEFT,
 
-    RUN_AIM_UP_LOOK_RIGHT, // 40
     RUN_AIM_UP_RIGHT,
     RUN_AIM_DOWN_RIGHT,
 
-    RUN_AIM_UP_LOOK_LEFT,
     RUN_AIM_UP_LEFT,
     RUN_AIM_DOWN_LEFT, //45
 
