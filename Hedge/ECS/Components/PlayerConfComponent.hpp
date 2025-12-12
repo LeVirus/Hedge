@@ -58,6 +58,19 @@ struct PlayerConfComponent : public ECS::Component
             m_life -= damage;
         }
     }
+    PlayerSpriteElementType_e getCurrentSpriteType()const
+    {
+        return m_spriteType;
+    }
+    PlayerSpriteElementType_e getPreviousSpriteType()const
+    {
+        return m_previousSpriteType;
+    }
+    void updateSpriteType(PlayerSpriteElementType_e type)
+    {
+        m_previousSpriteType = m_spriteType;
+        m_spriteType = type;
+    }
     bool m_playerShoot = false, m_takeDamage = false, m_damageAnim = false, m_inMovement = false, m_inputModified, m_firstMenu = true, m_invulnerable = false,
     m_pickItem = false, m_crush = false, m_frozen = false, m_insideWall = false, m_keyboardInputMenuMode = true, m_vehicleEject = false;//eject to prevent loop exit/enter vehicle
     std::pair<bool, std::pair<std::string, uint32_t>> m_infoWriteData = {false, {"", 0}};
@@ -75,8 +88,9 @@ struct PlayerConfComponent : public ECS::Component
     MapMode_e m_mapMode = MapMode_e::NONE;
     MoveOrientation_e m_previousMove = MoveOrientation_e::FORWARD;
     MapPlayerSprite_t m_mapSpriteAssociate;
-    PlayerSpriteElementType_e m_spriteType = PlayerSpriteElementType_e::STAY_RIGHT;
     bool m_currentDirectionRight = true, m_jumpDown = false, m_dialogPass = false, m_grenadeThrow = false, m_jumpPush = false, m_shootLock, m_lockLogRelease;
     std::array<bool, static_cast<uint32_t>(PlayerAimDirection_e::TOTAL)> m_currentAim;
     virtual ~PlayerConfComponent() = default;
+private:
+    PlayerSpriteElementType_e m_spriteType = PlayerSpriteElementType_e::STAY_RIGHT, m_previousSpriteType;
 };

@@ -222,7 +222,7 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
     {
         return;
     }
-    MapPlayerSprite_t::const_iterator it = playerConfComp->m_mapSpriteAssociate.find(playerConfComp->m_spriteType);
+    MapPlayerSprite_t::const_iterator it = playerConfComp->m_mapSpriteAssociate.find(playerConfComp->getCurrentSpriteType());
     if(playerConfComp->m_memPreviousSprite)
     {
         playerConfComp->m_currentSprite = it->second.first + *playerConfComp->m_memPreviousSprite;
@@ -244,7 +244,7 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
             {
                 playerConfComp->m_currentSprite = it->second.first;
                 playerConfComp->m_countAnimationCycle = 0;
-                if(playerConfComp->m_spriteType == PlayerSpriteElementType_e::JUMP_RIGHT || playerConfComp->m_spriteType == PlayerSpriteElementType_e::JUMP_LEFT)
+                if(playerConfComp->getCurrentSpriteType() == PlayerSpriteElementType_e::JUMP_RIGHT || playerConfComp->getCurrentSpriteType() == PlayerSpriteElementType_e::JUMP_LEFT)
                 {
                     ++playerConfComp->m_currentSprite;
                 }

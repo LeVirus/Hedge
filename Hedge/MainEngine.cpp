@@ -2070,7 +2070,14 @@ void MainEngine::playerThrowGrenade()
             continue;
         }
         //OOOOOK TMP
-        playerConf->m_spriteType = playerConf->m_currentDirectionRight ? PlayerSpriteElementType_e::SHOOT_RIGHT : PlayerSpriteElementType_e::SHOOT_LEFT;
+        if(playerConf->m_currentDirectionRight)
+        {
+            playerConf->updateSpriteType(PlayerSpriteElementType_e::SHOOT_RIGHT);
+        }
+        else
+        {
+            playerConf->updateSpriteType(PlayerSpriteElementType_e::SHOOT_LEFT);
+        }
         collComp->m_active = true;
         GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(grenadeEntity);
         assert(gravityComp);
