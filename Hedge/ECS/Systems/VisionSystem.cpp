@@ -230,13 +230,22 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
     }
     else
     {
-        //if sprite outside
+        //if sprite outside ==> change sprite type
         if(playerConfComp->m_currentSprite < it->second.first ||
             playerConfComp->m_currentSprite > it->second.second)
         {
             playerConfComp->m_currentSprite = it->second.first;
-            timerComp.m_cycleCountD = 0;
-            playerConfComp->m_countAnimationCycle = 0;
+            if(!getPreviousCycleCount({playerConfComp->getCurrentSpriteType(), playerConfComp->getPreviousSpriteType()}))
+            {
+                timerComp.m_cycleCountD = 0;
+                playerConfComp->m_countAnimationCycle = 0;
+            }
+            //Mem previous cycle count for run anim
+            else
+            {
+                playerConfComp->m_currentSprite += playerConfComp->m_countAnimationCycle;
+                ++++timerComp.m_cycleCountD;
+            }
         }
         else if(++timerComp.m_cycleCountD > playerConfComp->m_standardSpriteInterval)
         {
@@ -269,6 +278,25 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
         updateVehicleSprites(*playerConfComp->m_associatedVehicle, *vehicleComp);
     }
 }
+
+//===========================================================================
+bool getPreviousCycleCount(const std::pair<PlayerSpriteElementType_e, PlayerSpriteElementType_e> &playerSpriteType)
+{
+    MultiMapAssociatedPlayerSpriteType_t::const_iterator it = MAP_PLAYER_PREVIOUS_SPRITE_ASSOCIATED.find(playerSpriteType.first);
+    if(it != MAP_PLAYER_PREVIOUS_SPRITE_ASSOCIATED.end())
+    {
+        do
+        {
+            if(it->second == playerSpriteType.second)
+            {
+                return true;
+            }
+            ++it;
+        }while(it != MAP_PLAYER_PREVIOUS_SPRITE_ASSOCIATED.end() && it->first == playerSpriteType.first);
+    }
+    return false;
+}
+
 
 //===========================================================================
 void VisionSystem::updateVehicleGroundSprites(PlayerConfComponent &playerComp, VehicleComponent &vehicleComp)

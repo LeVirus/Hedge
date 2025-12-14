@@ -20,7 +20,7 @@ struct TimerComponent;
 class MainEngine;
 
 using mapEnemySprite_t = std::map<EnemySpriteType_e, PairUI_t>;
-
+using MultiMapAssociatedPlayerSpriteType_t = std::multimap<PlayerSpriteElementType_e, PlayerSpriteElementType_e>;
 class VisionSystem : public ECS::System<Components_e::TOTAL_COMPONENTS>
 {
 public:
@@ -68,6 +68,83 @@ private:
     MainEngine *m_refMainEngine;
 };
 
+
+bool getPreviousCycleCount(const std::pair<PlayerSpriteElementType_e, PlayerSpriteElementType_e> &playerSpriteType);
+
+const inline MultiMapAssociatedPlayerSpriteType_t MAP_PLAYER_PREVIOUS_SPRITE_ASSOCIATED =
+{
+    {PlayerSpriteElementType_e::RUN_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT},
+    {PlayerSpriteElementType_e::RUN_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_RIGHT},
+    {PlayerSpriteElementType_e::RUN_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT},
+    {PlayerSpriteElementType_e::RUN_RIGHT, PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT},
+    {PlayerSpriteElementType_e::RUN_RIGHT, PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT},
+
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT, PlayerSpriteElementType_e::RUN_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT, PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT, PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT},
+
+    {PlayerSpriteElementType_e::RUN_SHOOT_RIGHT, PlayerSpriteElementType_e::RUN_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_RIGHT, PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_RIGHT, PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT},
+
+    {PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT, PlayerSpriteElementType_e::RUN_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT, PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT, PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT},
+
+    {PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT, PlayerSpriteElementType_e::RUN_RIGHT},
+    {PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_RIGHT},
+    {PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT},
+    {PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT},
+    {PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT, PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT},
+
+    {PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT, PlayerSpriteElementType_e::RUN_RIGHT},
+    {PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_RIGHT},
+    {PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT},
+    {PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT, PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT},
+    {PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT, PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT},
+
+    {PlayerSpriteElementType_e::RUN_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT},
+    {PlayerSpriteElementType_e::RUN_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_LEFT},
+    {PlayerSpriteElementType_e::RUN_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT},
+    {PlayerSpriteElementType_e::RUN_LEFT, PlayerSpriteElementType_e::RUN_AIM_UP_LEFT},
+    {PlayerSpriteElementType_e::RUN_LEFT, PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT},
+
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT, PlayerSpriteElementType_e::RUN_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT, PlayerSpriteElementType_e::RUN_AIM_UP_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT, PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT},
+
+    {PlayerSpriteElementType_e::RUN_SHOOT_LEFT, PlayerSpriteElementType_e::RUN_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_LEFT, PlayerSpriteElementType_e::RUN_AIM_UP_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_LEFT, PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT},
+
+    {PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT, PlayerSpriteElementType_e::RUN_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT, PlayerSpriteElementType_e::RUN_AIM_UP_LEFT},
+    {PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT, PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT},
+
+    {PlayerSpriteElementType_e::RUN_AIM_UP_LEFT, PlayerSpriteElementType_e::RUN_LEFT},
+    {PlayerSpriteElementType_e::RUN_AIM_UP_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_LEFT},
+    {PlayerSpriteElementType_e::RUN_AIM_UP_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT},
+    {PlayerSpriteElementType_e::RUN_AIM_UP_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT},
+    {PlayerSpriteElementType_e::RUN_AIM_UP_LEFT, PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT},
+
+    {PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT, PlayerSpriteElementType_e::RUN_LEFT},
+    {PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_LEFT},
+    {PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT},
+    {PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT, PlayerSpriteElementType_e::RUN_AIM_UP_LEFT},
+    {PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT, PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT}
+};
 mapEnemySprite_t::const_reverse_iterator findMapLastElement(const mapEnemySprite_t &map,
                                                             EnemySpriteType_e key);
 void updateTriangleVisionFromPosition(VisionComponent &visionComp, MapCoordComponent &mapComp,

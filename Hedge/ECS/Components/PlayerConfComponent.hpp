@@ -58,11 +58,11 @@ struct PlayerConfComponent : public ECS::Component
             m_life -= damage;
         }
     }
-    PlayerSpriteElementType_e getCurrentSpriteType()const
+    inline PlayerSpriteElementType_e getCurrentSpriteType()const
     {
         return m_spriteType;
     }
-    PlayerSpriteElementType_e getPreviousSpriteType()const
+    inline PlayerSpriteElementType_e getPreviousSpriteType()const
     {
         return m_previousSpriteType;
     }
@@ -92,5 +92,5 @@ struct PlayerConfComponent : public ECS::Component
     std::array<bool, static_cast<uint32_t>(PlayerAimDirection_e::TOTAL)> m_currentAim;
     virtual ~PlayerConfComponent() = default;
 private:
-    PlayerSpriteElementType_e m_spriteType = PlayerSpriteElementType_e::STAY_RIGHT, m_previousSpriteType;
+    PlayerSpriteElementType_e m_spriteType = PlayerSpriteElementType_e::STAY_RIGHT, m_previousSpriteType = PlayerSpriteElementType_e::STAY_RIGHT;
 };
