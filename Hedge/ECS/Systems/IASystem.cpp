@@ -549,6 +549,7 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     assert(segmentComp);
     mapComp->m_absoluteMapPositionPX = currentPoint;
     segmentComp->m_points.first = currentPoint;
+    confShotAnim(currentPoint);
     m_mainEngine->addEntityToZone(visibleShots[currentShot], mapComp->m_coord);
     moveElementFromAngle(LEVEL_HALF_TILE_SIZE_PX, getRadiantAngle(degreeAngle), mapComp->m_absoluteMapPositionPX);
     segmentComp->m_points.second = mapComp->m_absoluteMapPositionPX;
@@ -572,6 +573,27 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
             segmentCompB->m_points.second.second += 50;
         }
     }
+}
+
+//===================================================================
+void IASystem::confShotAnim(const PairFloat_t &currentPoint)
+{
+    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    uint32_t shotAnimEntity = playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::SHOT_ANIM)];
+    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(shotAnimEntity);
+    assert(timerComp);
+    SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(shotAnimEntity);
+    assert(spriteComp);
+    MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(shotAnimEntity);
+    GeneralCollisionComponent *genCollComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(shotAnimEntity);
+    MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(shotAnimEntity);
+    mapComp->m_absoluteMapPositionPX = currentPoint;
+    assert(genCollComp);
+    assert(memSpriteComp);
+    memSpriteComp->m_current = 0;
+    spriteComp->m_spriteData = memSpriteComp->m_vectSpriteData[0];
+    timerComp->m_cycleCountA = 0;
+    genCollComp->m_active = true;
 }
 
 //===================================================================

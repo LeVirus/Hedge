@@ -1969,6 +1969,33 @@ void MainEngine::createPlayerAmmoEntities(PlayerConfComponent &playerConf, Colli
 }
 
 //===================================================================
+void MainEngine::confPlayerShotAnimEntity(PlayerConfComponent &playerConf, const std::vector<uint16_t> &vectShotAnim, const std::vector<SpriteData> &vectSprite)
+{
+    uint32_t shotAnimEntity = createShotAnimEntity();
+    playerConf.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::SHOT_ANIM)] = shotAnimEntity;
+
+    SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(shotAnimEntity);
+    MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(shotAnimEntity);
+    assert(spriteComp);
+    assert(memSpriteComp);
+    TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(shotAnimEntity);
+    timerComp->m_timeIntervalOptional = 3;
+    // spriteComp->m_displaySize = {it->second.second[0].m_GLSize.first, it->second.second[0].m_GLSize.second};
+    memSpriteComp->m_vectSpriteData.reserve(vectShotAnim.size());
+    for(uint32_t l = 0; l < vectShotAnim.size(); ++l)
+    {
+        memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[vectShotAnim[l]]);
+    }
+    spriteComp->m_spriteData = memSpriteComp->m_vectSpriteData[0];
+    spriteComp->m_displaySize = {0.2f, 0.2f};
+    GeneralCollisionComponent *genCollComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(shotAnimEntity);
+    assert(genCollComp);
+    genCollComp->m_active = false;
+    genCollComp->m_tagA = CollisionTag_e::GHOST_CT;
+    genCollComp->m_shape = CollisionShape_e::SEGMENT_C;
+}
+
+//===================================================================
 void MainEngine::confAmmoEntities(std::vector<uint32_t> &ammoEntities, CollisionTag_e collTag, bool visibleShot,
                                   uint32_t damage, float shotVelocity, std::optional<float> damageRay, bool grenade, bool tank)
 {
@@ -2564,6 +2591,7 @@ void insertEnemySpriteFromType(const std::vector<SpriteData> &vectSprite, mapEne
 void MainEngine::loadPlayerSprites(const std::vector<SpriteData> &vectSprite, const PlayerData &playerData, uint32_t numEntity,
                                    PlayerConfComponent &playerComp)
 {
+    confPlayerShotAnimEntity(playerComp, playerData.m_shotAnim, vectSprite);
     MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(numEntity);
     assert(memSpriteComp);
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(numEntity);
@@ -2838,6 +2866,21 @@ uint32_t MainEngine::createWeaponEntity()
     vect[Components_e::TIMER_COMPONENT] = 1;
     vect[Components_e::WEAPON_COMPONENT] = 1;
     vect[Components_e::AUDIO_COMPONENT] = 1;
+    return Ecsm_t::instance().addEntity(vect);
+}
+
+//===================================================================
+uint32_t MainEngine::createShotAnimEntity()
+{
+    std::array<uint32_t, Components_e::TOTAL_COMPONENTS> vect;
+    vect.fill(0);
+    vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
+    vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
+    vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
+    vect[Components_e::MEM_POSITIONS_VERTEX_COMPONENT] = 1;
+    vect[Components_e::TIMER_COMPONENT] = 1;
+    vect[Components_e::MAP_COORD_COMPONENT] = 1;
+    vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     return Ecsm_t::instance().addEntity(vect);
 }
 

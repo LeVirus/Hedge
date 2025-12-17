@@ -328,6 +328,7 @@ private:
                                 LevelStaticElementType_e elementType, const LevelManager &levelManager);
     bool loadExitElement(const LevelManager &levelManager, const StaticLevelElementData &exit);
     void createPlayerAmmoEntities(PlayerConfComponent &playerConf, CollisionTag_e collTag);
+    void confPlayerShotAnimEntity(PlayerConfComponent &playerConf, const std::vector<uint16_t> &vectShotAnim, const std::vector<SpriteData> &vectSprite);
     void confAmmoEntities(std::vector<uint32_t> &ammoEntities, CollisionTag_e collTag,
                           bool visibleShot, uint32_t damage, float shotVelocity = 0,
                           std::optional<float> damageRay = std::nullopt, bool grenade = false, bool tank = false);
@@ -348,6 +349,7 @@ private:
     void loadGrenadesData(const LevelManager &levelManager, WeaponComponent &weaponConf, AudioComponent &audioComp);
     uint32_t createBackgroundEntity(bool color);
     uint32_t createWeaponEntity();
+    uint32_t createShotAnimEntity();
     uint32_t createWallEntity(bool multiSprite, CollisionShape_e collShape, bool moveable = false);
     uint32_t createDoorEntity();
     uint32_t createEnemyEntity(TypeEnemy_e type);

@@ -1582,6 +1582,7 @@ void LevelManager::loadPlayerDate()
     {
         loadPlayerSprites(vectINISections[0], static_cast<PlayerSpriteElementType_e>(i));
     }
+    loadPlayerShotAnimSprites(vectINISections[0]);
 }
 
 //===================================================================
@@ -2202,6 +2203,25 @@ void LevelManager::loadPlayerSprites(const std::string &sectionName, PlayerSprit
         optIdentifier = m_pictureData.getIdentifier(results[i]);
         assert(optIdentifier);
         vectPtr->emplace_back(*optIdentifier);
+    }
+}
+
+//======================================================
+void LevelManager::loadPlayerShotAnimSprites(const std::string &sectionName)
+{
+    std::optional<std::string> val = m_ini.getValue(sectionName, "ShotAnim");
+    assert(val);
+    std::string sprites = *val;
+    assert((!sprites.empty()) && "Player sprites cannot be loaded.");
+    std::istringstream iss(sprites);
+    vectStr_t results(std::istream_iterator<std::string>{iss}, std::istream_iterator<std::string>());
+    m_playerData.m_shotAnim.reserve(results.size());
+    std::optional<uint16_t> optIdentifier;
+    for(uint32_t i = 0; i < results.size(); ++i)
+    {
+        optIdentifier = m_pictureData.getIdentifier(results[i]);
+        assert(optIdentifier);
+        m_playerData.m_shotAnim.emplace_back(*optIdentifier);
     }
 }
 

@@ -57,6 +57,7 @@ private:
                             TimerComponent &timerComp, EnemyConfComponent &enemyConfComp);
     void updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, TimerComponent &timerComp, uint32_t enemyEntity);
     void updatePlayerSprites(uint32_t playerEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp, TimerComponent &timerComp);
+    void updateShotAnimSprite(PlayerConfComponent *playerConfComp);
     void updateVehicleGroundSprites(PlayerConfComponent &playerComp, VehicleComponent &vehicleComp);
     void updateVisibleShotSprite(uint32_t shotEntity, MemSpriteDataComponent &memSpriteComp, SpriteTextureComponent &spriteComp, TimerComponent &timerComp, GeneralCollisionComponent &genComp);
     EnemySpriteType_e getEnemySpriteType(EnemyAttackPhase_e phase, float degreeAngle);

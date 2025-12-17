@@ -90,7 +90,7 @@ struct PlayerData
         m_runAimUpRight, m_runAimUpLeft, m_runAimDownRight, m_runAimDownLeft,
         m_aimDownRight, m_aimDownLeft, m_aimUpLookRight, m_aimUpLookLeft, m_aimUpRight, m_aimUpLeft,
         m_jumpAimDownRight, m_jumpAimDownLeft, m_jumpAimUpLookRight, m_jumpAimUpLookLeft, m_jumpAimUpRight, m_jumpAimUpLeft,
-        m_jumpAimDownLookRight, m_jumpAimDownLookLeft;
+        m_jumpAimDownLookRight, m_jumpAimDownLookLeft, m_shotAnim;
 
     //In Game sprite size in % relative to a tile
     PairDouble_t m_inGameSpriteSize;

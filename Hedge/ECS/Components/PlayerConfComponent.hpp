@@ -35,6 +35,7 @@ enum class PlayerEntities_e
     MENU_LEFT_BACKGROUND,
     MENU_RIGHT_LEFT_BACKGROUND,
     MENU_SELECTED_LINE,
+    SHOT_ANIM,
     TOTAL
 };
 
@@ -76,7 +77,7 @@ struct PlayerConfComponent : public ECS::Component
     std::pair<bool, std::pair<std::string, uint32_t>> m_infoWriteData = {false, {"", 0}};
     std::set<uint32_t> m_card;
     uint32_t m_currentCursorPos = 0, m_currentSelectedSaveFile, m_life = 100, m_currentCustomLevelCusorMenu, m_levelToLoad, m_velocityInertie = 0, m_memEntityAssociated, m_currentSprite,
-        m_countAnimationCycle, m_standardSpriteInterval = 0.2 / FPS_VALUE;
+        m_currentShotAnimSprite, m_countAnimationCycle, m_standardSpriteInterval = 0.2 / FPS_VALUE;
     std::optional<uint32_t> m_memPreviousSprite = {};
     std::array<uint32_t, static_cast<uint32_t>(PlayerEntities_e::TOTAL)> m_vectEntities;
     //display only weapons when changing weapons

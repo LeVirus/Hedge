@@ -244,7 +244,7 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
             else
             {
                 playerConfComp->m_currentSprite += playerConfComp->m_countAnimationCycle;
-                ++++timerComp.m_cycleCountD;
+                ++timerComp.m_cycleCountD;
             }
         }
         else if(++timerComp.m_cycleCountD > playerConfComp->m_standardSpriteInterval)
@@ -267,6 +267,7 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
         }
     }
     spriteComp.m_spriteData = memSpriteComp.m_vectSpriteData[static_cast<uint32_t>(playerConfComp->m_currentSprite)];
+    updateShotAnimSprite(playerConfComp);
     if(playerConfComp->m_associatedVehicle)
     {
         VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerConfComp->m_associatedVehicle);
@@ -276,6 +277,32 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
             updateVehicleGroundSprites(*playerConfComp, *vehicleComp);
         }
         updateVehicleSprites(*playerConfComp->m_associatedVehicle, *vehicleComp);
+    }
+}
+
+//===========================================================================
+void VisionSystem::updateShotAnimSprite(PlayerConfComponent *playerConfComp)
+{
+    uint32_t shotAnimEntity = playerConfComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::SHOT_ANIM)];
+    GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(shotAnimEntity);
+    if(collComp->m_active)
+    {
+        TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(shotAnimEntity);
+        if(++timerComp->m_cycleCountA > *timerComp->m_timeIntervalOptional)
+        {
+            MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(shotAnimEntity);
+            if(++memSpriteComp->m_current < memSpriteComp->m_vectSpriteData.size())
+            {
+                SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(shotAnimEntity);
+                spriteComp->m_spriteData = memSpriteComp->m_vectSpriteData[memSpriteComp->m_current];
+                timerComp->m_cycleCountA = 0;
+            }
+            else
+            {
+                //Stop anim
+                collComp->m_active = false;
+            }
+        }
     }
 }
 

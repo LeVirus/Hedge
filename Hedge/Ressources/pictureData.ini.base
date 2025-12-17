@@ -6414,3 +6414,17 @@ texturePosX = 0.77
 texturePosY = 0.366883
 textureWeight = 0.07
 textureHeight = 0.084632
+
+[SpriteHedgeShotAnimA]
+texture = 30
+texturePosX = 0.572727
+texturePosY = 0.0344156
+textureWeight = 0.00836364
+textureHeight = 0.00995671
+
+[SpriteHedgeShotAnimB]
+texture = 30
+texturePosX = 0.581454
+texturePosY = 0.0344156
+textureWeight = 0.00836364
+textureHeight = 0.00995671

@@ -398,6 +398,7 @@ private:
     void loadEnemySprites(const std::string &sectionName,
                           EnemySpriteElementType_e spriteTypeEnum, EnemyData &enemyData);
     void loadPlayerSprites(const std::string &sectionName, PlayerSpriteElementType_e spriteTypeEnum);
+    void loadPlayerShotAnimSprites(const std::string &sectionName);
     void deleteWall(const PairUI_t &coord);
     bool loadPositionExit();
     std::vector<uint16_t> getVectSpriteNum(const std::string_view section, const std::string_view param);
