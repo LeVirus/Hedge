@@ -576,6 +576,12 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
 }
 
 //===================================================================
+PairFloat_t IASystem::getShootPoint()
+{
+
+}
+
+//===================================================================
 void IASystem::confShotAnim(const PairFloat_t &currentPoint)
 {
     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
