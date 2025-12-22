@@ -35,7 +35,7 @@ public:
     }
     void updateGeneratorEntities();
 private:
-    PairFloat_t getShootPoint();
+    PairFloat_t getShootPoint(const PairFloat_t &basePoint);
     void confShotAnim(const PairFloat_t &currentPoint);
     void confEnemiesGenerator(uint32_t generatorEntity, const PairFloat_t &point);
     void treatGenerator();

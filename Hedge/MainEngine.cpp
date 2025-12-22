@@ -1973,7 +1973,6 @@ void MainEngine::confPlayerShotAnimEntity(PlayerConfComponent &playerConf, const
 {
     uint32_t shotAnimEntity = createShotAnimEntity();
     playerConf.m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::SHOT_ANIM)] = shotAnimEntity;
-
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(shotAnimEntity);
     MemSpriteDataComponent *memSpriteComp = Ecsm_t::instance().getComponent<MemSpriteDataComponent, Components_e::MEM_SPRITE_DATA_COMPONENT>(shotAnimEntity);
     assert(spriteComp);
@@ -3201,7 +3200,7 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     map->m_absoluteMapPositionPX = getAbsolutePosition(map->m_coord);
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
     assert(spriteComp);
-    spriteComp->m_displaySize = {playerData.m_inGameSpriteSize.first * 1.5f , playerData.m_inGameSpriteSize.first * 1.5f};
+    spriteComp->m_displaySize = {playerData.m_inGameSpriteSize.first * 1.5f , playerData.m_inGameSpriteSize.second * 1.0f};
     rectColl->m_size = {playerData.m_inGameSpriteSize.first * LEVEL_TILE_SIZE_PX, playerData.m_inGameSpriteSize.second * LEVEL_TILE_SIZE_PX};
     tagColl->m_tagA = CollisionTag_e::PLAYER_CT;
     tagColl->m_shape = CollisionShape_e::RECTANGLE_C;

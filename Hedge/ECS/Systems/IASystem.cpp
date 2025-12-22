@@ -548,8 +548,9 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(visibleShots[currentShot]);
     assert(segmentComp);
     mapComp->m_absoluteMapPositionPX = currentPoint;
+    mapComp->m_absoluteMapPositionPX = getShootPoint(currentPoint);
     segmentComp->m_points.first = currentPoint;
-    confShotAnim(currentPoint);
+    confShotAnim(mapComp->m_absoluteMapPositionPX);
     m_mainEngine->addEntityToZone(visibleShots[currentShot], mapComp->m_coord);
     moveElementFromAngle(LEVEL_HALF_TILE_SIZE_PX, getRadiantAngle(degreeAngle), mapComp->m_absoluteMapPositionPX);
     segmentComp->m_points.second = mapComp->m_absoluteMapPositionPX;
@@ -576,9 +577,63 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
 }
 
 //===================================================================
-PairFloat_t IASystem::getShootPoint()
+PairFloat_t IASystem::getShootPoint(const PairFloat_t &basePoint)
 {
-
+    PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+    switch (playerComp->getCurrentSpriteType())
+    {
+    case PlayerSpriteElementType_e::AIM_UP_LOOK_LEFT:
+    case PlayerSpriteElementType_e::SHOOT_UP_LOOK_LEFT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::AIM_UP_LOOK_RIGHT:
+    case PlayerSpriteElementType_e::SHOOT_UP_LOOK_RIGHT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::SHOOT_UP_RIGHT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::SHOOT_RIGHT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::SHOOT_DOWN_RIGHT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::SHOOT_UP_LEFT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::SHOOT_LEFT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::SHOOT_DOWN_LEFT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::RUN_SHOOT_UP_RIGHT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::RUN_SHOOT_RIGHT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::RUN_SHOOT_DOWN_RIGHT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::RUN_SHOOT_UP_LEFT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::RUN_SHOOT_LEFT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::RUN_SHOOT_DOWN_LEFT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_RIGHT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::JUMP_SHOOT_UP_RIGHT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_RIGHT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_RIGHT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::JUMP_SHOOT_UP_LOOK_LEFT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::JUMP_SHOOT_UP_LEFT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::JUMP_SHOOT_LEFT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LEFT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    case PlayerSpriteElementType_e::JUMP_SHOOT_DOWN_LOOK_LEFT:
+        return {basePoint.first + 2.0f, basePoint.second - 10.0f};
+    default:
+        break;
+    }
+    return basePoint;
 }
 
 //===================================================================
