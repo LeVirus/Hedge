@@ -561,7 +561,7 @@ Life = 200
 Velocity = 0.6
 MeleeDamage = 33
 SpriteWeightGame = 0.9
-SpriteHeightGame = 1.4
+SpriteHeightGame = 1.6
 FrozenOnAttack = false
 
 [EnemyFF6Ghost]

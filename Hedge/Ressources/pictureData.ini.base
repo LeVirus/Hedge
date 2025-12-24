@@ -6003,35 +6003,35 @@ textureHeight = 0.084632
 texture = 30
 texturePosX = 0
 texturePosY = 0.825974
-textureWeight = 0.06
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeJumpShootNorthLeft]
 texture = 30
 texturePosX = 0.07
 texturePosY = 0.825974
-textureWeight = 0.06
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeJumpShootLeft]
 texture = 30
 texturePosX = 0.14
 texturePosY = 0.825974
-textureWeight = 0.06
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeJumpShootDownLeft]
 texture = 30
 texturePosX = 0.21
 texturePosY = 0.825974
-textureWeight = 0.06
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeJumpShootSouthLeft]
 texture = 30
 texturePosX = 0.28
 texturePosY = 0.825974
-textureWeight = 0.06
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeStaticShootUpLeft]
@@ -6066,35 +6066,35 @@ textureHeight = 0.084632
 texture = 30
 texturePosX = 0
 texturePosY = 0.915152
-textureWeight = 0.06
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeJumpShootSmokeNorthLeft]
 texture = 30
 texturePosX = 0.07
 texturePosY = 0.915152
-textureWeight = 0.06
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeJumpShootSmokeLeft]
 texture = 30
 texturePosX = 0.14
 texturePosY = 0.915152
-textureWeight = 0.06
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeJumpShootSmokeDownLeft]
 texture = 30
 texturePosX = 0.21
 texturePosY = 0.915152
-textureWeight = 0.06
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeJumpShootSmokeSouthLeft]
 texture = 30
 texturePosX = 0.28
 texturePosY = 0.915152
-textureWeight = 0.06
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeStaticShootSmokeUpLeft]
@@ -6129,28 +6129,28 @@ textureHeight = 0.084632
 texture = 30
 texturePosX = 0.641273
 texturePosY = 0.462121
-textureWeight = 0.0690909
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeJumpLeftB]
 texture = 30
 texturePosX = 0.710364
 texturePosY = 0.462121
-textureWeight = 0.0690909
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeJumpRightB]
 texture = 30
 texturePosX = 0.779455
 texturePosY = 0.462121
-textureWeight = 0.0690909
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeJumpRightA]
 texture = 30
 texturePosX = 0.848546
 texturePosY = 0.462121
-textureWeight = 0.0690909
+textureWeight = 0.07
 textureHeight = 0.084632
 
 [SpriteHedgeStaticRightA]
