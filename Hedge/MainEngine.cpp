@@ -1986,7 +1986,7 @@ void MainEngine::confPlayerShotAnimEntity(PlayerConfComponent &playerConf, const
         memSpriteComp->m_vectSpriteData.emplace_back(&vectSprite[vectShotAnim[l]]);
     }
     spriteComp->m_spriteData = memSpriteComp->m_vectSpriteData[0];
-    spriteComp->m_displaySize = {0.2f, 0.2f};
+    spriteComp->m_displaySize = {0.4f, 0.4f};
     GeneralCollisionComponent *genCollComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(shotAnimEntity);
     assert(genCollComp);
     genCollComp->m_active = false;

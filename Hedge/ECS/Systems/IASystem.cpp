@@ -547,7 +547,6 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     mapComp->m_coord = *coord;
     SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(visibleShots[currentShot]);
     assert(segmentComp);
-    mapComp->m_absoluteMapPositionPX = currentPoint;
     mapComp->m_absoluteMapPositionPX = getShootPoint(currentPoint);
     segmentComp->m_points.first = currentPoint;
     confShotAnim(mapComp->m_absoluteMapPositionPX);
