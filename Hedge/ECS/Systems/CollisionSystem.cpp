@@ -628,6 +628,10 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                 }
             }
         }
+        if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+        {
+            mapPosA.first += rectCompA->m_offset.first;
+        }
         if(!checkRectRectCollision(mapPosA, rectCompA->m_size, args.mapCompB.m_absoluteMapPositionPX, rectCompB->m_size))
         {
             return;
@@ -1422,7 +1426,7 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     assert(rectCollA);
     assert(rectCollB);
     assert(mapComp);
-    float elementAPosX = args.mapCompA.m_absoluteMapPositionPX.first;
+    float elementAPosX = args.mapCompA.m_absoluteMapPositionPX.first + rectCollA->m_offset.first;
     float elementAPosY = args.mapCompA.m_absoluteMapPositionPX.second;
     float elementASecondPosX = elementAPosX + rectCollA->m_size.first;
     float elementASecondPosY = elementAPosY + rectCollA->m_size.second;

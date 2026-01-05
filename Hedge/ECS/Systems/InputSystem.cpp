@@ -437,6 +437,7 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
     float velocity;
     playerComp.m_inMovement = false;
     playerComp.m_currentAim.fill(false);
+    RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(playerEntity);
     if(checkPlayerKeyTriggered(ControlKey_e::MOVE_RIGHT))
     {
         playerComp.m_inMovement = true;
@@ -464,6 +465,7 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
             }
         }
         playerComp.m_currentDirectionRight = true;
+        rectComp->m_offset.first = 0.0f;
     }
     else if(checkPlayerKeyTriggered(ControlKey_e::MOVE_LEFT))
     {
@@ -492,6 +494,7 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
             }
         }
         playerComp.m_currentDirectionRight = false;
+        rectComp->m_offset.first = 7.0f;// modif offset while looking left
     }
     else
     {
