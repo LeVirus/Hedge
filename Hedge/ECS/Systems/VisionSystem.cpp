@@ -6,6 +6,7 @@
 #include <PhysicalEngine.hpp>
 #include <math.h>
 #include <alias.hpp>
+#include <ECS/Systems/IASystem.hpp>
 #include <ECS/Components/PositionVertexComponent.hpp>
 #include <ECS/Components/MapCoordComponent.hpp>
 #include <ECS/Components/GeneralCollisionComponent.hpp>
@@ -267,7 +268,7 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
         }
     }
     spriteComp.m_spriteData = memSpriteComp.m_vectSpriteData[static_cast<uint32_t>(playerConfComp->m_currentSprite)];
-    updateShotAnimSprite(playerConfComp);
+    updateShotAnimSprite(playerConfComp, playerEntity);
     if(playerConfComp->m_associatedVehicle)
     {
         VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(*playerConfComp->m_associatedVehicle);
@@ -281,7 +282,7 @@ void VisionSystem::updatePlayerSprites(uint32_t playerEntity, MemSpriteDataCompo
 }
 
 //===========================================================================
-void VisionSystem::updateShotAnimSprite(PlayerConfComponent *playerConfComp)
+void VisionSystem::updateShotAnimSprite(PlayerConfComponent *playerConfComp, uint32_t playerEntity)
 {
     uint32_t shotAnimEntity = playerConfComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::SHOT_ANIM)];
     GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(shotAnimEntity);
@@ -303,6 +304,9 @@ void VisionSystem::updateShotAnimSprite(PlayerConfComponent *playerConfComp)
                 collComp->m_active = false;
             }
         }
+        MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerEntity);
+        MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(shotAnimEntity);
+        mapComp->m_absoluteMapPositionPX = Ecsm_t::instance().getSystem<IASystem>(static_cast<uint32_t>(Systems_e::IA_SYSTEM))->getShootPoint(playerMapComp->m_absoluteMapPositionPX);
     }
 }
 

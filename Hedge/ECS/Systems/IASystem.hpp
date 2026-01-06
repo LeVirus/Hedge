@@ -34,8 +34,8 @@ public:
         m_refVehicleAmmo.push_back(vect);
     }
     void updateGeneratorEntities();
-private:
     PairFloat_t getShootPoint(const PairFloat_t &basePoint);
+private:
     void confShotAnim(const PairFloat_t &currentPoint);
     void confEnemiesGenerator(uint32_t generatorEntity, const PairFloat_t &point);
     void treatGenerator();
