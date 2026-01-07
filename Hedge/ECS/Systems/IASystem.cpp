@@ -557,8 +557,15 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(visibleShots[currentShot]);
     assert(segmentComp);
     segmentComp->m_points.first = currentPoint;
-    mapComp->m_absoluteMapPositionPX = getShootPoint(currentPoint);
-    confShotAnim(mapComp->m_absoluteMapPositionPX);
+    if(genComp->m_tagA == CollisionTag_e::BULLET_PLAYER_CT)
+    {
+        mapComp->m_absoluteMapPositionPX = getShootPoint(currentPoint);
+        confShotAnim(mapComp->m_absoluteMapPositionPX);
+    }
+    else
+    {
+        mapComp->m_absoluteMapPositionPX = currentPoint;
+    }
     m_mainEngine->addEntityToZone(visibleShots[currentShot], mapComp->m_coord);
     moveElementFromAngle(LEVEL_HALF_TILE_SIZE_PX, getRadiantAngle(degreeAngle), mapComp->m_absoluteMapPositionPX);
     segmentComp->m_points.second = mapComp->m_absoluteMapPositionPX;
