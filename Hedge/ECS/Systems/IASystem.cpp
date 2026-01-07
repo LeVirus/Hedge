@@ -522,6 +522,7 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
             break;
         }
     }
+    assert(genComp);
     PairFloat_t currentPoint;
     if(genComp->m_tagA == CollisionTag_e::BULLET_PLAYER_CT)
     {
@@ -551,21 +552,31 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     TimerComponent *ammoTimeComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(visibleShots[currentShot]);
     genComp->m_active = true;
     ammoTimeComp->m_cycleCountA = 0;
-    std::optional<PairUI_t> coord = getLevelCoord(currentPoint);
-    assert(coord);
-    mapComp->m_coord = *coord;
     SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(visibleShots[currentShot]);
     assert(segmentComp);
-    segmentComp->m_points.first = currentPoint;
     if(genComp->m_tagA == CollisionTag_e::BULLET_PLAYER_CT)
     {
-        mapComp->m_absoluteMapPositionPX = getShootPoint(currentPoint);
+        MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
+        mapComp->m_absoluteMapPositionPX = getShootPoint(playerMapComp->m_absoluteMapPositionPX);
         confShotAnim(mapComp->m_absoluteMapPositionPX);
+        PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+        //Fix vertical shot offset
+        if(playerComp->getCurrentSpriteType() == PlayerSpriteElementType_e::AIM_UP_LOOK_LEFT || playerComp->getCurrentSpriteType() == PlayerSpriteElementType_e::AIM_UP_LOOK_RIGHT ||
+            playerComp->getCurrentSpriteType() == PlayerSpriteElementType_e::JUMP_AIM_UP_LOOK_RIGHT || playerComp->getCurrentSpriteType() == PlayerSpriteElementType_e::JUMP_AIM_UP_LOOK_LEFT ||
+            playerComp->getCurrentSpriteType() == PlayerSpriteElementType_e::JUMP_AIM_DOWN_LOOK_RIGHT || playerComp->getCurrentSpriteType() == PlayerSpriteElementType_e::JUMP_AIM_DOWN_LOOK_LEFT)
+        {
+            mapComp->m_absoluteMapPositionPX.first += 3.0f;
+        }
+        segmentComp->m_points.first = mapComp->m_absoluteMapPositionPX;
     }
     else
     {
+        segmentComp->m_points.first = currentPoint;
         mapComp->m_absoluteMapPositionPX = currentPoint;
     }
+    std::optional<PairUI_t> coord = getLevelCoord(mapComp->m_absoluteMapPositionPX);
+    assert(coord);
+    mapComp->m_coord = *coord;
     m_mainEngine->addEntityToZone(visibleShots[currentShot], mapComp->m_coord);
     moveElementFromAngle(LEVEL_HALF_TILE_SIZE_PX, getRadiantAngle(degreeAngle), mapComp->m_absoluteMapPositionPX);
     segmentComp->m_points.second = mapComp->m_absoluteMapPositionPX;
