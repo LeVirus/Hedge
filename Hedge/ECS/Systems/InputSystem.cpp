@@ -529,81 +529,85 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
         mapVehicleComp->m_coord = playerMapComp->m_coord;
         m_mainEngine->addEntityToZone(*playerComp.m_associatedVehicle, *getLevelCoord(mapVehicleComp->m_absoluteMapPositionPX));
     }
+    bool upPressed = checkPlayerKeyTriggered(ControlKey_e::LOOK_UP), downPressed = checkPlayerKeyTriggered(ControlKey_e::LOOK_DOWN);
     //TMP LOOK UP
-    if(checkPlayerKeyTriggered(ControlKey_e::LOOK_UP))
+    if(upPressed || checkPlayerKeyTriggered(ControlKey_e::AIM_DIAG_UP))
     {
-        treatDiagUpAim(playerComp);
+        treatDiagUpAim(playerComp, upPressed ? ControlKey_e::LOOK_UP : ControlKey_e::AIM_DIAG_UP);
     }
     //TMP LOOK DOWN
-    else if(checkPlayerKeyTriggered(ControlKey_e::LOOK_DOWN))
+    else if(downPressed || checkPlayerKeyTriggered(ControlKey_e::AIM_DIAG_DOWN))
     {
-        treatDiagdownAim(playerComp);
+        treatDiagdownAim(playerComp, downPressed ? ControlKey_e::LOOK_DOWN : ControlKey_e::AIM_DIAG_DOWN);
     }
 }
 
 //===================================================================
-void InputSystem::treatDiagUpAim(PlayerConfComponent &playerComp)
+void InputSystem::treatDiagUpAim(PlayerConfComponent &playerComp, ControlKey_e key)
 {
     playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::UP)] = true;
     if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)])
     {
-        if(playerComp.m_inMovement)
-        {
-            playerComp.updateSpriteType(PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT);
-        }
-        else
-        {
-            playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_UP_RIGHT);
-        }
+        playerComp.updateSpriteType(PlayerSpriteElementType_e::RUN_AIM_UP_RIGHT);
     }
     else if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)])
     {
-        if(playerComp.m_inMovement)
-        {
-            playerComp.updateSpriteType(PlayerSpriteElementType_e::RUN_AIM_UP_LEFT);
-        }
-        else
-        {
-            playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_UP_LEFT);
-        }
+        playerComp.updateSpriteType(PlayerSpriteElementType_e::RUN_AIM_UP_LEFT);
     }
     else
     {
         if(playerComp.m_currentDirectionRight)
         {
-            playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_UP_LOOK_RIGHT);
+            if(key == ControlKey_e::AIM_DIAG_UP)
+            {
+                playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_UP_RIGHT);
+            }
+            else
+            {
+                playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_UP_LOOK_RIGHT);
+            }
         }
         else
         {
-            playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_UP_LOOK_LEFT);
+            if(key == ControlKey_e::AIM_DIAG_UP)
+            {
+                playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_UP_LEFT);
+            }
+            else
+            {
+                playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_UP_LOOK_LEFT);
+            }
         }
     }
 }
 
 //===================================================================
-void InputSystem::treatDiagdownAim(PlayerConfComponent &playerComp)
+void InputSystem::treatDiagdownAim(PlayerConfComponent &playerComp, ControlKey_e key)
 {
     playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::DOWN)] = true;
     if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)])
     {
-        if(playerComp.m_inMovement)
-        {
-            playerComp.updateSpriteType(PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT);
-        }
-        else
-        {
-            playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_DOWN_RIGHT);
-        }
+        playerComp.updateSpriteType(PlayerSpriteElementType_e::RUN_AIM_DOWN_RIGHT);
     }
     else if(playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)])
     {
-        if(playerComp.m_inMovement)
+        playerComp.updateSpriteType(PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT);
+    }
+    else
+    {
+        if(playerComp.m_currentDirectionRight)
         {
-            playerComp.updateSpriteType(PlayerSpriteElementType_e::RUN_AIM_DOWN_LEFT);
+            if(key == ControlKey_e::AIM_DIAG_DOWN)
+            {
+                playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_DOWN_RIGHT);
+            }
         }
         else
         {
-            playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_DOWN_LEFT);
+            if(key == ControlKey_e::AIM_DIAG_DOWN)
+            {
+                playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_DOWN_LEFT);
+            }
         }
     }
 }

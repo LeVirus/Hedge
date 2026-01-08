@@ -215,7 +215,6 @@ void StaticDisplaySystem::treatCurrentEndDialogPlayer(PlayerConfComponent &playe
         GravityComponent *gravComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(m_playerEntity);
         assert(gravComp);
         playerComp.m_infoWriteData.first = false;
-        gravComp->m_jump = false;
         timerComp->m_timeIntervalOptional = {};
         Level::setDialogMode(false);
         m_dialogMessage.clear();

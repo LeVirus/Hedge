@@ -182,8 +182,8 @@ public:
 private:
     void treatPlayerJumpAnimation(PlayerConfComponent *playerComp, GravityComponent *gravityComp);
     void treatPlayerShootAnimation(PlayerConfComponent *playerComp);
-    void treatDiagUpAim(PlayerConfComponent &playerComp);
-    void treatDiagdownAim(PlayerConfComponent &playerComp);
+    void treatDiagUpAim(PlayerConfComponent &playerComp, ControlKey_e key);
+    void treatDiagdownAim(PlayerConfComponent &playerComp, ControlKey_e key);
     void gamepadUpdate();
     bool checkStandardButtonGamepadKeyStatus(uint32_t key, uint32_t status);
     bool checkAxisGamepadKeyStatus(uint32_t key, bool positive);
