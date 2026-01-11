@@ -5442,9 +5442,9 @@ textureHeight = 0.24058
 
 [SpriteScreenHedgeA]
 texture = 29
-texturePosX = 0.817539
-texturePosY = 0.313043
-textureWeight = 0.0594059
+texturePosX = 0.785539
+texturePosY = 0.288043
+textureWeight = 0.1244059
 textureHeight = 0.17971
 
 [SpriteLazerUp]

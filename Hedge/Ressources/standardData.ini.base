@@ -183,8 +183,8 @@ AssociateSprite = SpriteLog SpriteDKDonkeyA
 
 [GroundScreenDisplay]
 Sprite = SpriteScreenHedgeA
-SpriteWeightGame = 1.62
-SpriteHeightGame = 3.2
+SpriteWeightGame = 3.22
+SpriteHeightGame = 3.1
 traversable = false
 
 [GroundScreen]
@@ -592,7 +592,7 @@ StaticSpriteLeft = SpriteFF6SoldierH SpriteFF6SoldierI SpriteFF6SoldierJ
 StaticSpriteRight = SpriteFF6SoldierA SpriteFF6SoldierB SpriteFF6SoldierC
 AttackSprite = SpriteFF6SoldierD SpriteFF6SoldierE
 AttackSpriteRight = SpriteFF6SoldierF SpriteFF6SoldierG
-DyingSprite = SpriteFF6SoldierDeathA SpriteFF6SoldierDeathB SpriteFF6SoldierDeathFA
+DyingSprite = SpriteShotDestructA SpriteShotDestructB SpriteShotDestructC
 Touched = SpriteFF6SoldierDeathA
 ShootSpritesID = VisibleShootDemonD
 ShotVelocity = 3
