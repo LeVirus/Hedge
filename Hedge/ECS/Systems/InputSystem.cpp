@@ -560,6 +560,7 @@ void InputSystem::treatDiagUpAim(PlayerConfComponent &playerComp, ControlKey_e k
         {
             if(key == ControlKey_e::AIM_DIAG_UP)
             {
+                playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
                 playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_UP_RIGHT);
             }
             else
@@ -571,6 +572,7 @@ void InputSystem::treatDiagUpAim(PlayerConfComponent &playerComp, ControlKey_e k
         {
             if(key == ControlKey_e::AIM_DIAG_UP)
             {
+                playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
                 playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_UP_LEFT);
             }
             else
@@ -599,6 +601,7 @@ void InputSystem::treatDiagdownAim(PlayerConfComponent &playerComp, ControlKey_e
         {
             if(key == ControlKey_e::AIM_DIAG_DOWN)
             {
+                playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::RIGHT)] = true;
                 playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_DOWN_RIGHT);
             }
         }
@@ -606,6 +609,7 @@ void InputSystem::treatDiagdownAim(PlayerConfComponent &playerComp, ControlKey_e
         {
             if(key == ControlKey_e::AIM_DIAG_DOWN)
             {
+                playerComp.m_currentAim[static_cast<uint32_t>(PlayerAimDirection_e::LEFT)] = true;
                 playerComp.updateSpriteType(PlayerSpriteElementType_e::AIM_DOWN_LEFT);
             }
         }
