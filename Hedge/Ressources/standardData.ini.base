@@ -458,6 +458,11 @@ Sprite = SpriteWallElecOn SpriteWallElecOff
 Time = 1.0 1.5
 Elec = 1 0
 
+[WallElecB]
+Sprite = SpriteWallElecOff SpriteWallElecOn
+Time = 1.0 1.5
+Elec = 0 1
+
 [WallPick]
 Sprite = SpriteGigerGroundA
 Elec = 1

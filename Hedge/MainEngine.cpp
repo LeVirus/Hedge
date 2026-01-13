@@ -1598,8 +1598,9 @@ void MainEngine::confBaseWallData(uint32_t wallEntity, const SpriteData &memSpri
     {
         if(!wallData.m_elec.empty())
         {
+            WallMultiSpriteComponent *moveWallConfComp = Ecsm_t::instance().getComponent<WallMultiSpriteComponent, Components_e::WALL_MULTI_SPRITE_CONF_COMPONENT>(wallEntity);
             GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(wallEntity);
-            assert(collComp);
+            moveWallConfComp->m_damage = 100;
             collComp->m_tagA = CollisionTag_e::ELECTRIC_WALL_CT;
         }
     }
