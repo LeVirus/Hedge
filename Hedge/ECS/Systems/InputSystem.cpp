@@ -466,7 +466,6 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
             }
         }
         playerComp.m_currentDirectionRight = true;
-        rectComp->m_offset.first = 0.0f;
     }
     else if(checkPlayerKeyTriggered(ControlKey_e::MOVE_LEFT))
     {
@@ -495,7 +494,6 @@ void InputSystem::treatPlayerMoveAndOrientation(PlayerConfComponent &playerComp,
             }
         }
         playerComp.m_currentDirectionRight = false;
-        rectComp->m_offset.first = 7.0f;// modif offset while looking left
     }
     else
     {
