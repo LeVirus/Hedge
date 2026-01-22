@@ -1298,7 +1298,8 @@ void MainEngine::loadGameProgressCheckpoint()
     assert(moveComp);
     assert(pos);
     assert(playerConf);
-    mapComp->m_absoluteMapPositionPX = getCenteredAbsolutePosition(m_memCheckpointLevelState->m_playerPos);
+    assert(m_memCheckpointLevelState->m_playerPos.second != 0);
+    mapComp->m_absoluteMapPositionPX = getCenteredAbsolutePosition({m_memCheckpointLevelState->m_playerPos.first, m_memCheckpointLevelState->m_playerPos.second - 1});
     moveComp->m_degreeOrientation = getDegreeAngleFromDirection(m_memCheckpointLevelState->m_direction);
     m_memStaticEntitiesDeletedFromCheckpoint = m_currentEntitiesDelete;
     updatePlayerArrow(*moveComp, *pos);
