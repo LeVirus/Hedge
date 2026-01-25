@@ -205,10 +205,15 @@ PairFloat_t getCenteredAbsolutePosition(const PairUI_t &coord)
 //===================================================================
 std::optional<PairUI_t> getLevelCoord(const PairFloat_t &position)
 {
-    if(position.first < 0.0f || position.second < 0.0f)
+    PairFloat_t tmp = position;
+    if(position.first < 0.0f)
     {
-        return {};
+        tmp.first = 0.0f;
     }
-    return {{static_cast<uint32_t>(position.first / LEVEL_TILE_SIZE_PX),
-                static_cast<uint32_t>(position.second / LEVEL_TILE_SIZE_PX)}};
+    if(position.second < 0.0f)
+    {
+        tmp.second = 0.0f;
+    }
+    return {{static_cast<uint32_t>(tmp.first / LEVEL_TILE_SIZE_PX),
+                static_cast<uint32_t>(tmp.second / LEVEL_TILE_SIZE_PX)}};
 }

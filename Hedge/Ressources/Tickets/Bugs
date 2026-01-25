@@ -3,9 +3,6 @@
 On end up stair, block on last stair
 
 ))
-If go limit Lateral level falling down
-
-))
 Jump coll offset check
 
 ))
@@ -34,6 +31,9 @@ On bike if move over 2 opposite stair first up second down ==> lock ------------
 
 ============================================================================================================
 ============================================================================================================
+
+))
+If go limit Lateral level falling down===================OK
 
 ))
 Checkpoint collision issue===================OK
