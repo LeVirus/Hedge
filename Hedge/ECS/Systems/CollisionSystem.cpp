@@ -1452,7 +1452,11 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     //eject X
     diffX = getRectRectEject({elementAPosY, elementAPosX, elementASecondPosX,
                               elementBPosY, elementBPosX, elementBSecondPosX});
-
+    //Priorise Y on limit case
+    if(diffY < 0.0f && diffY > -3.0f)
+    {
+        diffX = 10000.0f;
+    }
     MoveableWallConfComponent *moveB = Ecsm_t::instance().getComponent<MoveableWallConfComponent, Components_e::MOVEABLE_WALL_CONF_COMPONENT>(args.entityNumB);
     //if moveable wall and go up
     if(moveB)

@@ -1,6 +1,8 @@
+))
+Modif end level coll box
 
 ))
-On end up stair, block on last stair
+Jump on stair from wall issue
 
 ))
 Jump coll offset check
@@ -31,6 +33,9 @@ On bike if move over 2 opposite stair first up second down ==> lock ------------
 
 ============================================================================================================
 ============================================================================================================
+
+))
+On end up stair, block on last stair=================OK
 
 ))
 If go limit Lateral level falling down===================OK
