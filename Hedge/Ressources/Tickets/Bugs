@@ -1,7 +1,4 @@
 ))
-Modif end level coll box
-
-))
 Jump on stair from wall issue
 
 ))
@@ -33,6 +30,9 @@ On bike if move over 2 opposite stair first up second down ==> lock ------------
 
 ============================================================================================================
 ============================================================================================================
+
+))
+Modif end level coll box=======================OK
 
 ))
 On end up stair, block on last stair=================OK

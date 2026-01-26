@@ -3697,7 +3697,7 @@ bool MainEngine::loadExitElement(const LevelManager &levelManager,
             CollisionShape_e::CIRCLE_C, CollisionTag_e::EXIT_CT);
     CircleCollisionComponent *circleColl = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
     assert(circleColl);
-    circleColl->m_ray = 5.0f;
+    circleColl->m_ray = 15.0f;
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
     assert(spriteComp);
