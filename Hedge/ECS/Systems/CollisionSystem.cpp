@@ -1500,12 +1500,6 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
         {
             gravityComp->m_onGround = true;
             gravityComp->m_memOnGround = true;
-            if(std::abs(diffY) > std::abs(diffX))
-            {
-                gravityComp->m_fall = true;
-                gravityComp->m_onGround = false;
-                gravityComp->m_memOnGround = false;
-            }
             if(gravityComp->m_onGround)
             {
                 if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
@@ -1658,14 +1652,19 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down,
     GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
     assert(gravityComp);
     //if player touch ground
-    if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT || (args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && !gravityComp->m_jump))
+    if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT ||
+        (args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && (!gravityComp->m_jump || (gravityComp->m_jump && gravityComp->m_down))))
     {
         //if y change is lower than Y
-         bool YChange = (std::abs(diffY) < std::abs(diffX));
+        bool YChange = (std::abs(diffY) < std::abs(diffX)) || (std::abs(diffY) < 0.0f && std::abs(diffY) >= -5.0f);
         if(YChange && diffY < 0)
         {
             gravityComp->m_onGround = true;
             gravityComp->m_memOnGround = true;
+            if(gravityComp->m_down)
+            {
+                gravityComp->m_down = false;
+            }
             if(gravityComp->m_fall)
             {
                 if(std::abs(std::abs(diffY) - std::abs(diffX)) >= 1.0f)
@@ -1701,10 +1700,17 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down,
                 addEntityToZone(args.entityNumA, *getLevelCoord(args.mapCompA.m_absoluteMapPositionPX));
                 return;
             }
-            else if(!down && elementASecondPosX < elementBSecondPosX)
+            else if(!down)
             {
-                args.mapCompA.m_absoluteMapPositionPX.second = (elementBSecondPosY - (rectCollA->m_size.second + offset.second)) - std::fmod(elementASecondPosX, LEVEL_TILE_SIZE_PX);
-                addEntityToZone(args.entityNumA, *getLevelCoord(args.mapCompA.m_absoluteMapPositionPX));
+                if(elementASecondPosX < elementBSecondPosX)
+                {
+                    args.mapCompA.m_absoluteMapPositionPX.second = (elementBSecondPosY - (rectCollA->m_size.second + offset.second)) - std::fmod(elementASecondPosX, LEVEL_TILE_SIZE_PX);
+                    addEntityToZone(args.entityNumA, *getLevelCoord(args.mapCompA.m_absoluteMapPositionPX));
+                }
+                else if(elementASecondPosX >= elementBSecondPosX)
+                {
+                    args.mapCompA.m_absoluteMapPositionPX.second = elementBPosY - (rectCollA->m_size.second + offset.second);
+                }
                 return;
             }
             if(gravityComp->m_onGround)
@@ -1740,18 +1746,18 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down,
                 gravityComp->m_onGround = false;
                 gravityComp->m_fall = true;
             }
-            if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && std::abs(diffX) < 31.0f)
-            {
-                VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
-                assert(vehicleComp);
-                PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-                assert(playerComp);
-                if(args.entityNumA != *playerComp->m_associatedVehicle)
-                {
-                    return;
-                }
-                updateVehicleSpriteType(down);
-            }
+            // if(args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT && std::abs(diffX) < 31.0f)
+            // {
+            //     VehicleComponent *vehicleComp = Ecsm_t::instance().getComponent<VehicleComponent, Components_e::VEHICLE_COMPONENT>(args.entityNumA);
+            //     assert(vehicleComp);
+            //     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
+            //     assert(playerComp);
+            //     if(args.entityNumA != *playerComp->m_associatedVehicle)
+            //     {
+            //         return;
+            //     }
+            //     updateVehicleSpriteType(down);
+            // }
             if(down && diffX > 0.0f && elementAPosX > elementBPosX)
             {
                 gravityComp->m_onGround = true;
@@ -1762,9 +1768,16 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down,
             }
             else if(!down && elementASecondPosX < elementBSecondPosX)
             {
+                if(elementASecondPosX < elementBSecondPosX)
+                {
+                    args.mapCompA.m_absoluteMapPositionPX.second = (elementBSecondPosY - (rectCollA->m_size.second + offset.second)) - std::fmod(elementASecondPosX, LEVEL_TILE_SIZE_PX);
+                }
+                else if(elementASecondPosX >= elementBSecondPosX)
+                {
+                    args.mapCompA.m_absoluteMapPositionPX.second = elementBPosY - (rectCollA->m_size.second + offset.second);
+                }
                 gravityComp->m_onGround = true;
                 gravityComp->m_memOnGround = true;
-                args.mapCompA.m_absoluteMapPositionPX.second = (elementBSecondPosY - (rectCollA->m_size.second + offset.second)) - std::fmod(elementASecondPosX, LEVEL_TILE_SIZE_PX);
                 addEntityToZone(args.entityNumA, *getLevelCoord(args.mapCompA.m_absoluteMapPositionPX));
                 return;
             }

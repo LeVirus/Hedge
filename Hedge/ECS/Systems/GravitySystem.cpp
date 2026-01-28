@@ -29,10 +29,12 @@ void GravitySystem::execSystem()
             uint32_t half = gravComp->m_jumpStepMax / 2;
             if(gravComp->m_jumpStep <= gravComp->m_jumpStepMax / 2)
             {
+                gravComp->m_down = false;
                 mapComp->m_absoluteMapPositionPX.second -= half - gravComp->m_jumpStep;
             }
             else
             {
+                gravComp->m_down = true;
                 mapComp->m_absoluteMapPositionPX.second += gravComp->m_jumpStep - half;
             }
             if(++gravComp->m_jumpStep >= gravComp->m_jumpStepMax)
