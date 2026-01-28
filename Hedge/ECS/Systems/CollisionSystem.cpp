@@ -1626,6 +1626,11 @@ void CollisionSystem::treatCrushCase(MapCoordComponent *mapComp, PlayerConfCompo
 //===================================================================
 void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down, const PairFloat_t &offset)
 {
+    GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
+    if(!gravityComp)
+    {
+        return;
+    }
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(args.entityNumA);
     RectangleCollisionComponent *rectCollA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA);
     TriangleStairCollisionComponent *triangleCollB = Ecsm_t::instance().getComponent<TriangleStairCollisionComponent, Components_e::TRIANGLE_STAIR_COLLISION_COMPONENT>(args.entityNumB);
@@ -1649,8 +1654,6 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down,
     //eject X
     diffX = getRectRectEject({elementAPosY, elementAPosX, elementASecondPosX,
                               elementBPosY, elementBPosX, elementBSecondPosX});
-    GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
-    assert(gravityComp);
     //if player touch ground
     if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT || args.tagCompA.m_tagA == CollisionTag_e::VEHICULE_CT ||
         (args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT && (!gravityComp->m_jump || (gravityComp->m_jump && gravityComp->m_down))))
@@ -1786,8 +1789,6 @@ void CollisionSystem::collisionRectTriangleEject(CollisionArgs &args, bool down,
     }
     if(args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
-        GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(args.entityNumA);
-        assert(gravityComp);
         if(diffY < 0)
         {
             gravityComp->m_onGround = true;
