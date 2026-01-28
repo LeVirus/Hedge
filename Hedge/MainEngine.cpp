@@ -3126,6 +3126,11 @@ void MainEngine::confBaseComponent(uint32_t entityNum, const SpriteData &memSpri
         triangleStairColl->m_size = {LEVEL_TILE_SIZE_PX, LEVEL_TILE_SIZE_PX};
         triangleStairColl->m_upStair = false;
     }
+    else if(collisionShape == CollisionShape_e::CIRCLE_C)
+    {
+        CircleCollisionComponent *circleComp = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
+        circleComp->m_ray = LEVEL_HALF_TILE_SIZE_PX;
+    }
     tagComp->m_tagA = tag;
 }
 
@@ -3697,7 +3702,7 @@ bool MainEngine::loadExitElement(const LevelManager &levelManager,
             CollisionShape_e::CIRCLE_C, CollisionTag_e::EXIT_CT);
     CircleCollisionComponent *circleColl = Ecsm_t::instance().getComponent<CircleCollisionComponent, Components_e::CIRCLE_COLLISION_COMPONENT>(entityNum);
     assert(circleColl);
-    circleColl->m_ray = 15.0f;
+    circleColl->m_ray = LEVEL_HALF_TILE_SIZE_PX;
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
     assert(spriteComp);
