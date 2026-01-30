@@ -554,6 +554,7 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
     ammoTimeComp->m_cycleCountA = 0;
     SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(visibleShots[currentShot]);
     assert(segmentComp);
+    segmentComp->m_offset = {0.0f, 0.2f * LEVEL_TILE_SIZE_PX};
     if(genComp->m_tagA == CollisionTag_e::BULLET_PLAYER_CT)
     {
         MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
@@ -757,9 +758,12 @@ void IASystem::confNewVisibleShot(const std::vector<uint32_t> &visibleShots)
     ShotConfComponent *targetShotConfComp = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(visibleShots[targetIndex]);
     MoveableComponent *baseMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(visibleShots[baseIndex]);
     MoveableComponent *targetMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(visibleShots[targetIndex]);
-
+    SegmentCollisionComponent *baseSegmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(visibleShots[baseIndex]);
+    SegmentCollisionComponent *targetSegmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(visibleShots[targetIndex]);
     AudioComponent *audioCompTarget = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(visibleShots[targetIndex]);
     AudioComponent *audioCompBase = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(visibleShots[baseIndex]);
+
+    targetSegmentComp->m_offset = baseSegmentComp->m_offset;
     audioCompTarget->m_soundElements.push_back(SoundElement());
     audioCompTarget->m_soundElements[0]->m_toPlay = true;
     audioCompTarget->m_soundElements[0]->m_bufferALID = audioCompBase->m_soundElements[0]->m_bufferALID;    

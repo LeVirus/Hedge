@@ -1300,7 +1300,7 @@ bool CollisionSystem::treatSegmentRectColl(CollisionArgs &args, uint32_t numEnti
     assert(rectComp);
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(numEntityB);
     assert(mapComp);
-    if(checkSegmentRectCollision(segmentComp->m_points.first, segmentComp->m_points.second, mapComp->m_absoluteMapPositionPX, rectComp->m_size))
+    if(checkSegmentRectCollision(segmentComp->m_points.first + segmentComp->m_offset, segmentComp->m_points.second + segmentComp->m_offset, mapComp->m_absoluteMapPositionPX + rectComp->m_offset, rectComp->m_size))
     {
         GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(numEntityA);
         assert(collComp);
