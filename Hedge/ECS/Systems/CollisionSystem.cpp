@@ -1247,10 +1247,45 @@ bool CollisionSystem::checkCollisionFirstSegment(CollisionArgs &args, uint32_t n
         assert(mapComp);
         SegmentCollisionComponent *segmentComp = Ecsm_t::instance().getComponent<SegmentCollisionComponent, Components_e::SEGMENT_COLLISION_COMPONENT>(numEntityA);
         assert(segmentComp);
-        if(checkSegmentRectCollision(segmentComp->m_points.first, segmentComp->m_points.second, mapComp->m_absoluteMapPositionPX, triangleComp->m_size))
+
+        PairFloat_t originSegment = {std::min(segmentComp->m_points.first.first, segmentComp->m_points.second.first), std::min(segmentComp->m_points.first.second, segmentComp->m_points.second.second)},
+            sizeSegment = {std::abs(segmentComp->m_points.first.first - segmentComp->m_points.second.first), std::abs(segmentComp->m_points.first.second - segmentComp->m_points.second.second)};
+        if(checkShootRectRectCollision(originSegment, sizeSegment, mapComp->m_absoluteMapPositionPX, triangleComp->m_size))
         {
-            destroyShot(numEntityA);
-            collision = true;
+            if(triangleComp->m_upStair)
+            {
+                collision = checkSegmentSegmentCollision(segmentComp->m_points.first, segmentComp->m_points.second, mapComp->m_absoluteMapPositionPX + PairFloat_t{0.0f, triangleComp->m_size.second},
+                                                         mapComp->m_absoluteMapPositionPX + PairFloat_t{triangleComp->m_size.first, 0.0f});
+                if(!collision)
+                {
+                    collision = checkSegmentSegmentCollision(segmentComp->m_points.first, segmentComp->m_points.second, mapComp->m_absoluteMapPositionPX + PairFloat_t{triangleComp->m_size.first, 0.0f},
+                                                             mapComp->m_absoluteMapPositionPX + triangleComp->m_size);
+                    if(!collision)
+                    {
+                        collision = checkSegmentSegmentCollision(segmentComp->m_points.first, segmentComp->m_points.second, mapComp->m_absoluteMapPositionPX + triangleComp->m_size,
+                                                                 mapComp->m_absoluteMapPositionPX + PairFloat_t{0.0f, triangleComp->m_size.second});
+                    }
+                }
+            }
+            else
+            {
+                collision = checkSegmentSegmentCollision(segmentComp->m_points.first, segmentComp->m_points.second, mapComp->m_absoluteMapPositionPX,
+                                                         mapComp->m_absoluteMapPositionPX + triangleComp->m_size);
+                if(!collision)
+                {
+                    collision = checkSegmentSegmentCollision(segmentComp->m_points.first, segmentComp->m_points.second, mapComp->m_absoluteMapPositionPX + triangleComp->m_size,
+                                                             mapComp->m_absoluteMapPositionPX + PairFloat_t{0.0f, triangleComp->m_size.second});
+                    if(!collision)
+                    {
+                        collision = checkSegmentSegmentCollision(segmentComp->m_points.first, segmentComp->m_points.second, mapComp->m_absoluteMapPositionPX + PairFloat_t{0.0f, triangleComp->m_size.second},
+                                                                 mapComp->m_absoluteMapPositionPX);
+                    }
+                }
+            }
+            if(collision)
+            {
+                destroyShot(numEntityA);
+            }
         }
     }
     break;

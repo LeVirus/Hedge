@@ -58,6 +58,15 @@ bool checkRectRectCollision(const PairFloat_t &rectOriginA, const PairFloat_t &r
 }
 
 //===================================================================
+bool checkShootRectRectCollision(const PairFloat_t &rectOriginA, const PairFloat_t &rectSizeA, const PairFloat_t &rectOriginB, const PairFloat_t &rectSizeB)
+{
+    return !(rectOriginA.first + rectSizeA.first < rectOriginB.first ||
+             rectOriginB.first + rectSizeB.first < rectOriginA.first ||
+             rectOriginA.second + rectSizeA.second < rectOriginB.second ||
+             rectOriginB.second + rectSizeB.second < rectOriginA.second);
+}
+
+//===================================================================
 bool checkRectRectSegmentCollision(const PairFloat_t &rectOriginA, const PairFloat_t &rectSizeA, const PairFloat_t &rectOriginB, const PairFloat_t &rectSizeB)
 {
     return !(rectOriginA.first + rectSizeA.first < rectOriginB.first ||
