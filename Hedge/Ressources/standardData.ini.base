@@ -154,7 +154,7 @@ SpriteWeightGame = 0.5
 SpriteHeightGame = 1.4
 Sound = Message.wav
 IdPicture = Hedge Randy
-AssociateSprite = SpriteLog SpriteManaRandyA
+AssociateSprite = SpriteHedgeHead SpriteManaRandyA
 
 
 [MessageLogManaPannel]
@@ -163,7 +163,7 @@ SpriteWeightGame = 0.5
 SpriteHeightGame = 1.4
 Sound = Message.wav
 IdPicture = Hedge Pannel
-AssociateSprite = SpriteLog SpriteManaPannelA
+AssociateSprite = SpriteHedgeHead SpriteManaPannelA
 
 [MessageLogDKPannel]
 Sprite = SpriteDKPannelBananaA
@@ -171,15 +171,15 @@ SpriteWeightGame = 0.5
 SpriteHeightGame = 1.4
 Sound = Message.wav
 IdPicture = Hedge Donkey
-AssociateSprite = SpriteLog SpriteDKPannelBananaA
+AssociateSprite = SpriteHedgeHead SpriteDKPannelBananaA
 
 [MessageLogDKDonkey]
 Sprite = SpriteDKDonkeyA
-SpriteWeightGame = 0.5
+SpriteWeightGame = 1.5
 SpriteHeightGame = 1.4
 Sound = Message.wav
 IdPicture = Hedge Donkey
-AssociateSprite = SpriteLog SpriteDKDonkeyA
+AssociateSprite = SpriteHedgeHead SpriteDKDonkeyA
 
 [GroundScreenDisplay]
 Sprite = SpriteScreenHedgeA
@@ -385,6 +385,7 @@ Sprite = SpriteManaRoofDishDownB
 
 [WallDKPathSandA]
 Sprite = SpriteDKPathSandA
+StairUp = true
 
 [WallDKPathSandB]
 Sprite = SpriteDKPathSandB
@@ -394,6 +395,7 @@ Sprite = SpriteDKPathSandC
 
 [WallDKPathSandEndA]
 Sprite = SpriteDKPathSandEndA
+StairDown = true
 
 [WallDKPathCavernA]
 Sprite = SpriteDKPathCavernA
@@ -650,7 +652,7 @@ Touched = SpriteManaZabeilleI
 ShootSpritesID = VisibleShootDemonD
 ShotVelocity = 3
 Life = 10
-Velocity = 0.5
+Velocity = 1.5
 MeleeDamage = 33
 Damage = 25
 SpriteWeightGame = 0.5 ; value in %
@@ -779,7 +781,7 @@ DetectBehaviourSound = BigRoar.wav
 AttackSound = LazerShot2.wav
 DeathSound = DeathRobot.wav
 FrozenOnAttack = false
-Type = 4
+Type = 3
 ShootingMode = 4
 TimeBehaviourCycle = 2
 
@@ -793,7 +795,7 @@ ShootSpritesID = VisibleShootDemonD
 ShotVelocity = 3
 MeleeOnly = true
 Life = 10
-Velocity = 0.5
+Velocity = 2.5
 MeleeDamage = 33
 Damage = 25
 SpriteWeightGame = 1.2 ; value in %
@@ -814,11 +816,11 @@ AttackSprite = SpriteAAA SpriteAAB SpriteADA SpriteADB
 DyingSprite = SpriteADA SpriteADB SpriteADC SpriteADD SpriteADE SpriteADF
 Touched = SpriteADA
 ShootSpritesID = VisibleShootDemonD
-ShotVelocity = 3
-Life = 200
+ShotVelocity = 2
+Life = 2000
 Velocity = 0.5
 MeleeDamage = 33
-Damage = 25
+Damage = 5
 SpriteWeightGame = 2.1 ; value in %
 SpriteHeightGame = 1.6
 traversable = false
@@ -828,7 +830,7 @@ DeathSound = DeathRobot.wav
 FrozenOnAttack = false
 Type = 2
 ShootingMode = 4
-TimeBehaviourCycle = 4
+TimeBehaviourCycle = 14455
 
 [EnemyCyberDemon]
 StaticSpriteLeft = SpriteCDLA SpriteCDLB

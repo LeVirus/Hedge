@@ -67,7 +67,6 @@ void MapDisplaySystem::reinitMemLevelLimit()
 void MapDisplaySystem::execSystem()
 {
     MapCoordComponent *mapCompPlayer = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerNum);
-    PairFloat_t playerPos = mapCompPlayer->m_absoluteMapPositionPX;
     PairUI_t max = Level::getSize(), min = {0, 0};
     if(Level::getScrollingLock())
     {
@@ -368,7 +367,13 @@ void MapDisplaySystem::updateBackgroundLateralPos()
     assert(mapComp);
     if(!m_firstLoop && !m_freezeBackGround)
     {
+        bool lockMoveLeft = false;
         //BACKGROUND
+        if(m_memPreviousPos > mapComp->m_absoluteMapPositionPX.first && Level::getScrollingLock())
+        {
+            lockMoveLeft = true;
+            return;
+        }
         m_backgroundPosLateral += (m_memPreviousPos - mapComp->m_absoluteMapPositionPX.first) / (m_localLevelSizePX * 1.5f);
         if(m_backgroundPosLateral <= -1.00f)
         {

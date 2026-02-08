@@ -1627,6 +1627,10 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
 //===================================================================
 void CollisionSystem::treatCrushCase(MapCoordComponent *mapComp, PlayerConfComponent * playerComp, const PairFloat_t &pairDiff, uint32_t entity)
 {
+    if(m_memCrush.empty())
+    {
+        return;
+    }
     std::get<2>(m_memCrush.back()) = (pairDiff.second > 0.0f) ? Direction_e::SOUTH : Direction_e::NORTH;
     Direction_e dirA = std::get<2>(m_memCrush.back()), dirB;
     for(uint32_t i = 0; i < m_memCrush.size() - 1; ++i)
