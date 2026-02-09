@@ -367,11 +367,9 @@ void MapDisplaySystem::updateBackgroundLateralPos()
     assert(mapComp);
     if(!m_firstLoop && !m_freezeBackGround)
     {
-        bool lockMoveLeft = false;
         //BACKGROUND
         if(m_memPreviousPos > mapComp->m_absoluteMapPositionPX.first && Level::getScrollingLock())
         {
-            lockMoveLeft = true;
             return;
         }
         m_backgroundPosLateral += (m_memPreviousPos - mapComp->m_absoluteMapPositionPX.first) / (m_localLevelSizePX * 1.5f);

@@ -769,8 +769,8 @@ DyingSprite = SpriteDKAbeilleDeathA SpriteDKAbeilleDeathB SpriteDKAbeilleDeathC
 Touched = SpriteDKAbeilleDeathA
 ShootSpritesID = VisibleShootDemonD
 ShotVelocity = 3
-Life = 50
-Velocity = 0.5
+Life = 5000
+Velocity = 1.5
 MeleeDamage = 33
 Damage = 25
 MeleeOnly = true
@@ -782,6 +782,31 @@ AttackSound = LazerShot2.wav
 DeathSound = DeathRobot.wav
 FrozenOnAttack = false
 Type = 3
+ShootingMode = 4
+TimeBehaviourCycle = 2
+
+
+[EnemyDKAbeilleVertical]
+StaticSpriteLeft = SpriteDKAbeilleE SpriteDKAbeilleF SpriteDKAbeilleG SpriteDKAbeilleH
+StaticSpriteRight = SpriteDKAbeilleA SpriteDKAbeilleB SpriteDKAbeilleC SpriteDKAbeilleD
+AttackSprite = SpriteDKAbeilleH
+DyingSprite = SpriteDKAbeilleDeathA SpriteDKAbeilleDeathB SpriteDKAbeilleDeathC
+Touched = SpriteDKAbeilleDeathA
+ShootSpritesID = VisibleShootDemonD
+ShotVelocity = 3
+Life = 5000
+Velocity = 1.5
+MeleeDamage = 33
+Damage = 25
+MeleeOnly = true
+SpriteWeightGame = 1.1 ; value in %
+SpriteHeightGame = 0.9
+traversable = false
+DetectBehaviourSound = BigRoar.wav
+AttackSound = LazerShot2.wav
+DeathSound = DeathRobot.wav
+FrozenOnAttack = false
+Type = 4
 ShootingMode = 4
 TimeBehaviourCycle = 2
 
