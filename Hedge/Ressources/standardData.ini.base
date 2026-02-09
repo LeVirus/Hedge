@@ -1297,6 +1297,17 @@ Direction = north
 Cycles = 1.0
 MaxPop = 4
 
+[GroundGeneratorDKCroc]
+Sprite = SpriteDKBarrelBonesA
+SpriteWeightGame = 0.8
+SpriteHeightGame = 1.6
+traversable = false
+EnemyID = EnemyDKCroc
+Direction = north
+Cycles = 2.0
+MaxPop = 4
+
+
 [GroundGeneratorAcidFallB]
 Sprite = SpriteLazerUp
 SpriteWeightGame = 1.0

@@ -1,8 +1,11 @@
 ))
-Jump coll offset check
+If jump on traversable platform eject on solid adjacent wall
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
+
+))
+Jump coll offset check
 
 ))
 Shake on up left stair in tank
