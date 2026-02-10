@@ -1,6 +1,9 @@
 ))
 If jump on traversable platform eject on solid adjacent wall
 
+))
+Generator have to unactive if out of screen
+
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
 

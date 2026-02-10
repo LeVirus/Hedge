@@ -328,6 +328,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         {
             enemyComp->m_attackPhase = right ? EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT : EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
         }
+        enemyMapComp.m_coord = *getLevelCoord(enemyMapComp.m_absoluteMapPositionPX);
         m_mainEngine->addEntityToZone(enemyEntity, enemyMapComp.m_coord);
         if(enemyComp->m_meleeOnly)
         {
