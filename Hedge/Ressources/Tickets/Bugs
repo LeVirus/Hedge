@@ -1,9 +1,6 @@
 ))
 If jump on traversable platform eject on solid adjacent wall
 
-))
-Generator have to unactive if out of screen
-
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
 
@@ -30,6 +27,9 @@ On bike if move over 2 opposite stair first up second down ==> lock ------------
 
 ============================================================================================================
 ============================================================================================================
+
+))
+Generator have to unactive if out of screen======================OK
 
 ))
 Some enemies with lateral move travers walls.=========================OK
