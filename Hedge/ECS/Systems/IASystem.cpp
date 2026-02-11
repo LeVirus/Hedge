@@ -158,7 +158,7 @@ void IASystem::treatGenerator()
                 MapCoordComponent *playerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
                 if(getDistance(playerComp->m_absoluteMapPositionPX, mapComp->m_absoluteMapPositionPX) < 302.0f)
                 {
-                    confEnemiesGenerator(*it, mapComp->m_absoluteMapPositionPX);
+                    confEnemiesGenerator(*it, {mapComp->m_absoluteMapPositionPX.first, mapComp->m_absoluteMapPositionPX.second + 30.0f});
                 }
             }
             else

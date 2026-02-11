@@ -6428,3 +6428,10 @@ texturePosX = 0.581454
 texturePosY = 0.0344156
 textureWeight = 0.00836364
 textureHeight = 0.00995671
+
+[SpriteHedgeDKTempleBackA]
+texture = 2
+texturePosX = 0.001
+texturePosY = 0.3125
+textureWeight = 0.383667
+textureHeight = 0.42875
