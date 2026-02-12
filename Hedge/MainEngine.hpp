@@ -435,6 +435,7 @@ private:
     std::optional<MemCheckpointElementsState> m_memCheckpointData;
     MemSoundElement m_memSoundElements;
     std::string m_bossMusic;
+    std::optional<PairUI_t> m_bossZoneCoord;
 };
 
 float getShootVehicleAim(const VehicleComponent &vehicle);

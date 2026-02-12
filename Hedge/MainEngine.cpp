@@ -1230,6 +1230,7 @@ void MainEngine::loadExistingCustomLevel(const std::vector<std::string> &customL
 //===================================================================
 void MainEngine::loadLevel(const LevelManager &levelManager)
 {
+    m_bossZoneCoord = {};
     m_memWallPos.clear();
     m_physicalEngine.clearVectObjectToDelete();
     m_physicalEngine.clearVectBarrelsDestruct();
@@ -1299,6 +1300,10 @@ void MainEngine::loadGameProgressCheckpoint()
     assert(pos);
     assert(playerConf);
     assert(m_memCheckpointLevelState->m_playerPos.second != 0);
+    if(m_bossZoneCoord && m_bossZoneCoord->first <= m_memCheckpointLevelState->m_playerPos.first)
+    {
+        playBossMusic();
+    }
     mapComp->m_absoluteMapPositionPX = getCenteredAbsolutePosition({m_memCheckpointLevelState->m_playerPos.first, m_memCheckpointLevelState->m_playerPos.second - 1});
     moveComp->m_degreeOrientation = getDegreeAngleFromDirection(m_memCheckpointLevelState->m_direction);
     m_memStaticEntitiesDeletedFromCheckpoint = m_currentEntitiesDelete;
@@ -1851,12 +1856,14 @@ void MainEngine::loadBossZoneEntitie(const LevelManager &levelManager)
     else
     {
         m_bossMusic.clear();
+        m_bossZoneCoord = std::nullopt;
     }
     const std::optional<PairUI_t> &container = levelManager.getBossZoneData();
     if(!container)
     {
         return;
     }
+    m_bossZoneCoord = *container;
     initStdCollisionCase(createSecretEntity(), *container, CollisionTag_e::BOSS_ZONE_CT);
 }
 
