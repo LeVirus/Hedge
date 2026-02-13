@@ -2812,11 +2812,7 @@ void LevelManager::saveEnemiesDataGameProgress(const std::vector<MemCheckpointEn
     std::string strPos, strDead, strObjectPickedUp, strLife, strTmp;
     for(uint32_t i = 0; i < enemiesData.size(); ++i)
     {
-        if(enemiesData[i].m_dead)
-        {
-            continue;
-        }
-        strTmp = "0";
+        strTmp = (enemiesData[i].m_dead) ? "1" : "0";
         strDead += strTmp + " ";
         strTmp = enemiesData[i].m_objectPickedUp ? "1" : "0";
         strObjectPickedUp += strTmp + " ";
@@ -3101,11 +3097,8 @@ std::vector<MemCheckpointEnemiesState> LevelManager::loadEnemiesDataGameProgress
     assert(vectDead.size() == vectLife.size());
     for(uint32_t i = 0; i < vectDead.size(); ++i)
     {
-        if(!vectDead[i])
-        {
-            vectData.emplace_back(MemCheckpointEnemiesState{0, vectLife[i], vectDead[i],
-                                                            vectObject[i], vectPairPos[i]});
-        }
+        vectData.emplace_back(MemCheckpointEnemiesState{0, vectLife[i], vectDead[i],
+                                                        vectObject[i], vectPairPos[i]});
     }
     return vectData;
 }

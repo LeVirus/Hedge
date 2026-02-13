@@ -362,22 +362,11 @@ void MainEngine::saveEnemiesCheckpoint()
     {
         EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(m_memEnemiesStateFromCheckpoint[i].m_entityNum);
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_memEnemiesStateFromCheckpoint[i].m_entityNum);
-        assert(enemyComp);
-        assert(mapComp);
-        m_memEnemiesStateFromCheckpoint[i].m_dead = (enemyComp->m_behaviourMode == EnemyBehaviourMode_e::DEAD ||
-                                                     enemyComp->m_behaviourMode == EnemyBehaviourMode_e::DYING);
-        m_memEnemiesStateFromCheckpoint[i].m_enemyPos = mapComp->m_absoluteMapPositionPX;
+        m_memEnemiesStateFromCheckpoint[i].m_dead = enemyComp ? (enemyComp->m_behaviourMode == EnemyBehaviourMode_e::DEAD ||
+                                                     enemyComp->m_behaviourMode == EnemyBehaviourMode_e::DYING) : true;
+        m_memEnemiesStateFromCheckpoint[i].m_enemyPos = mapComp ? mapComp->m_absoluteMapPositionPX : PairFloat_t{0.0f, 0.0f};
         m_memEnemiesStateFromCheckpoint[i].m_objectPickedUp = false;
-        m_memEnemiesStateFromCheckpoint[i].m_life = enemyComp->m_life;
-        if(enemyComp->m_dropedObjectEntity)
-        {
-            //check if entity still exists
-            GeneralCollisionComponent *genConf = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(*enemyComp->m_dropedObjectEntity);
-            if(!genConf)
-            {
-                m_memEnemiesStateFromCheckpoint[i].m_objectPickedUp = true;
-            }
-        }
+        m_memEnemiesStateFromCheckpoint[i].m_life = enemyComp ? enemyComp->m_life : 0;
     }
 }
 
@@ -1439,6 +1428,11 @@ bool MainEngine::loadEnemiesEntities(const LevelManager &levelManager)
                 getSpriteData()[it->second.m_staticLeftSprites[0]];
         for(uint32_t j = 0; j < it->second.m_TileGamePosition.size(); ++j)
         {
+            if(loadFromCheckpoint && m_memEnemiesStateFromCheckpoint[m_currentLevelEnemiesNumber].m_dead)
+            {
+                ++m_currentLevelEnemiesNumber;
+                continue;
+            }
             exit |= createEnemy(levelManager, memSpriteData, it->second, loadFromCheckpoint, j, currentSoundElements, it->second.m_inGameSpriteSize).first;
         }
     }
