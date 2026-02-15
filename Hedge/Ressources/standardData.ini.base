@@ -762,7 +762,7 @@ DeathSound = DeathRobot.wav
 FrozenOnAttack = false
 Type = 1
 ShootingMode = 4
-TimeBehaviourCycle = 4
+TimeBehaviourCycle = 1
 
 [EnemyDKCroc]
 StaticSpriteLeft =  SpriteDKCrocLeftA SpriteDKCrocLeftB SpriteDKCrocLeftC SpriteDKCrocLeftD SpriteDKCrocLeftE SpriteDKCrocLeftF

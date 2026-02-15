@@ -257,12 +257,6 @@ void IASystem::updateEnemyDirection(EnemyConfComponent &enemyConfComp, MoveableC
         playerComp->m_associatedVehicle ? *playerComp->m_associatedVehicle : m_playerEntity);
     point = {playerMapComp->m_absoluteMapPositionPX.first + rectComp->m_size.first / 2, playerMapComp->m_absoluteMapPositionPX.second + rectComp->m_size.second / 2};
     moveComp.m_degreeOrientation = getTrigoAngle(enemyMapComp.m_absoluteMapPositionPX, point);
-    if(enemyConfComp.m_type == TypeEnemy_e::FLYING)
-    {
-        moveComp.m_currentDegreeMoveDirection = std::abs(std::rand()) % 360;
-        // moveComp.m_degreeOrientation = moveComp.m_currentDegreeMoveDirection;
-        return;
-    }
     if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT)
     {
         moveComp.m_degreeOrientation += 90.0f;
@@ -361,11 +355,12 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         enemyConfComp.m_previousMove = {EnemyAttackPhase_e::TOTAL, EnemyAttackPhase_e::TOTAL};
     }
     //CHANGING PHASE
-    if(enemyConfComp.m_stuck || ++timerComp->m_cycleCountB >= timerComp->m_timeIntervalOptional)
+    if(enemyConfComp.m_stuck || ++timerComp->m_cycleCountB >= *timerComp->m_timeIntervalOptional)
     {
         timerComp->m_cycleCountB = 0;
         if(enemyConfComp.m_countTillLastAttack > 3 && (!enemyConfComp.m_meleeOnly || distancePlayer < 32.0f))
         {
+            enemyConfComp.m_countTillLastAttack = 0;
             enemyConfComp.m_attackPhase = EnemyAttackPhase_e::SHOOT;
             enemyConfComp.m_stuck = false;
             updateEnemyDirection(enemyConfComp, *moveComp, enemyMapComp);
@@ -378,6 +373,10 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
             {
                 ++enemyConfComp.m_countTillLastAttack;
                 return;
+            }
+            if(enemyConfComp.m_type == TypeEnemy_e::FLYING)
+            {
+                moveComp->m_currentDegreeMoveDirection = std::abs(std::rand()) % 360;
             }
             enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
         }
