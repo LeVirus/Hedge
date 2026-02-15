@@ -255,7 +255,7 @@ void IASystem::updateEnemyDirection(EnemyConfComponent &enemyConfComp, MoveableC
     //Check if vehicle associated
     RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(
         playerComp->m_associatedVehicle ? *playerComp->m_associatedVehicle : m_playerEntity);
-    point = {playerMapComp->m_absoluteMapPositionPX.first + rectComp->m_size.first / 2, playerMapComp->m_absoluteMapPositionPX.second + rectComp->m_size.second / 2};
+    point = {playerMapComp->m_absoluteMapPositionPX.first + rectComp->m_size.first, playerMapComp->m_absoluteMapPositionPX.second + rectComp->m_size.second};
     moveComp.m_degreeOrientation = getTrigoAngle(enemyMapComp.m_absoluteMapPositionPX, point);
     if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT)
     {
