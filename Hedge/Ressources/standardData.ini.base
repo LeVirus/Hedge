@@ -40,7 +40,7 @@ SpriteWeightGame = 0.5
 SpriteHeightGame = 1.4
 Sound = Message.wav
 IdPicture = Hedge Locke
-AssociateSprite = SpriteLog SpriteFFVILockeHeadA
+AssociateSprite = SpriteHedgeHead SpriteFFVILockeHeadA
 
 [MessageLogKefka]
 Sprite = SpriteFFVIKefkaA
@@ -48,7 +48,7 @@ SpriteWeightGame = 0.5
 SpriteHeightGame = 1.4
 Sound = Message.wav
 IdPicture = Hedge Kefka
-AssociateSprite = SpriteLog SpriteFFVIKefkaA
+AssociateSprite = SpriteHedgeHead SpriteFFVIKefkaA
 
 [WallScreenMegaman]
 Sprite = SpriteScreenMegamanA SpriteScreenMegamanB SpriteScreenMegamanC
@@ -592,7 +592,7 @@ DeathSound = DeathRobot.wav
 FrozenOnAttack = false
 Type = 0
 ShootingMode = 4
-TimeBehaviourCycle = 4
+TimeBehaviourCycle = 1
 
 [EnemyFF6Soldier]
 StaticSpriteLeft = SpriteFF6SoldierH SpriteFF6SoldierI SpriteFF6SoldierJ
@@ -616,7 +616,7 @@ DeathSound = DeathRobot.wav
 FrozenOnAttack = false
 Type = 0
 ShootingMode = 4
-TimeBehaviourCycle = 4
+TimeBehaviourCycle = 1
 
 [EnemyDKGreenKrem]
 StaticSpriteLeft = SpriteDKGreenKremLeftH SpriteDKGreenKremLeftG SpriteDKGreenKremLeftF SpriteDKGreenKremLeftE SpriteDKGreenKremLeftD SpriteDKGreenKremLeftC SpriteDKGreenKremLeftB SpriteDKGreenKremLeftA 
@@ -739,7 +739,7 @@ DeathSound = DeathRobot.wav
 FrozenOnAttack = false
 Type = 0
 ShootingMode = 4
-TimeBehaviourCycle = 4
+TimeBehaviourCycle = 1
 
 [EnemyManaThanatos]
 StaticSpriteLeft = SpriteManaThanatosA SpriteManaThanatosB SpriteManaThanatosC
@@ -882,7 +882,7 @@ DeathSound = DeathRobot.wav
 FrozenOnAttack = false
 Type = 2
 ShootingMode = 4
-TimeBehaviourCycle = 14455
+TimeBehaviourCycle = 1
 
 [EnemyCyberDemon]
 StaticSpriteLeft = SpriteCDLA SpriteCDLB
@@ -1345,6 +1345,15 @@ Direction = south
 Cycles = 2.0
 MaxPop = 4
 
+[GroundGeneratorFFVIGohst]
+Sprite = SpriteFFVITonneauA
+SpriteWeightGame = 0.8
+SpriteHeightGame = 1.6
+traversable = false
+EnemyID = EnemyFF6Ghost
+Direction = south
+Cycles = 2.0
+MaxPop = 4
 
 [GroundGeneratorAcidFallB]
 Sprite = SpriteLazerUp

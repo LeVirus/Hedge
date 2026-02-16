@@ -283,6 +283,7 @@ void CollisionSystem::treatLimitLevel(uint32_t entityNum, CollisionTag_e tag)
     RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(entityNum);
     assert(rectComp);
     PairUI_t limitLevel = Level::getSize();
+    GravityComponent *gravityComp = Ecsm_t::instance().getComponent<GravityComponent, Components_e::GRAVITY_COMPONENT>(entityNum);
     if(tag == CollisionTag_e::PLAYER_CT)
     {
         uint32_t minLevelX = Ecsm_t::instance().getSystem<MapDisplaySystem>(static_cast<uint32_t>(Systems_e::MAP_DISPLAY_SYSTEM))->getMinLevelLock();
@@ -290,6 +291,7 @@ void CollisionSystem::treatLimitLevel(uint32_t entityNum, CollisionTag_e tag)
         {
             mapComp->m_absoluteMapPositionPX.first = minLevelX;
         }
+        gravityComp->m_limitYPlayer = false;
     }
     if(mapComp->m_absoluteMapPositionPX.first < 0.0f)
     {
@@ -297,7 +299,8 @@ void CollisionSystem::treatLimitLevel(uint32_t entityNum, CollisionTag_e tag)
     }
     else if(mapComp->m_absoluteMapPositionPX.first + rectComp->m_size.first > (limitLevel.first * LEVEL_TILE_SIZE_PX))
     {
-        mapComp->m_absoluteMapPositionPX.first = limitLevel.first * LEVEL_TILE_SIZE_PX - rectComp->m_size.first ;
+        mapComp->m_absoluteMapPositionPX.first = limitLevel.first * LEVEL_TILE_SIZE_PX - rectComp->m_size.first;
+        gravityComp->m_limitYPlayer = true;
     }
     if(mapComp->m_absoluteMapPositionPX.second < 0.0f)
     {
@@ -1531,7 +1534,7 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
         }
         //if y change is lower than Y
         bool YChange = (std::abs(diffY) < std::abs(diffX));
-        if(YChange && diffY < 0)
+        if((YChange && diffY < 0) || gravityComp->m_limitYPlayer)
         {
             gravityComp->m_onGround = true;
             gravityComp->m_memOnGround = true;
