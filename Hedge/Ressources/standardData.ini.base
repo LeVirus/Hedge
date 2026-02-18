@@ -26,6 +26,15 @@ Sprite = SpriteAnimTeleportA SpriteAnimTeleportB
 SpriteWeightGame = 1.1
 SpriteHeightGame = 1.8
 
+[MessageLogInvisibleK]
+Sprite = SpriteInvisible
+SpriteWeightGame = 0.4
+SpriteHeightGame = 1.4
+Sound = Message.wav
+IdPicture = Hedge Kefka
+AssociateSprite = SpriteHedgeHead SpriteFFVIKefkaA
+
+
 [MessageLogA]
 Sprite = SpriteLog
 SpriteWeightGame = 0.4
@@ -1043,6 +1052,31 @@ AttackSound = GunShot.wav
 DeathSound = Death4.wav
 FrozenOnAttack = true
 TimeBehaviourCycle = 0.6
+
+[EnemyBossKefka]
+StaticSpriteLeft = SpriteHedgeFFVIKefkaA 
+StaticSpriteRight = SpriteHedgeFFVIKefkaA
+AttackSprite = SpriteHedgeFFVIKefkaA
+ShootSpritesID = VisibleShootDemonC
+DyingSprite = SpriteShotDestructA SpriteShotDestructB SpriteShotDestructC
+Touched = SpriteHedgeFFVIKefkaA
+Life = 250
+Type = 1
+Velocity = 0.5
+MeleeDamage = 20
+Damage = 35
+SpriteWeightGame = 3.5 ; value in %
+SpriteHeightGame = 3.5
+traversable = false
+DetectBehaviourSound = Roar3.wav
+AttackSound = GunShot.wav
+MeleeOnly = false
+DeathSound = Death4.wav
+FrozenOnAttack = false
+ShootingMode = 4
+TimeBehaviourCycle = 0.4
+ShotVelocity = 4
+
 
 [EnemyBossBall]
 StaticSpriteLeft = SpriteBossBall 

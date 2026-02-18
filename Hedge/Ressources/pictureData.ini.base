@@ -6435,3 +6435,10 @@ texturePosX = 0.001
 texturePosY = 0.3125
 textureWeight = 0.383667
 textureHeight = 0.42875
+
+[SpriteHedgeFFVIKefkaA]
+texture = 2
+texturePosX = 0.422667
+texturePosY = 0.35
+textureWeight = 0.168667
+textureHeight = 0.31625
