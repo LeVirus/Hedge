@@ -3,9 +3,22 @@ If jump on traversable platform eject on solid adjacent wall
 
 ))
 Change sounds for enemies death and player die
+Edit Music loop
 
 ))
-First rocket shot does not explode while touch enemy
+First rocket shot does not explode while touch enemy some times
+
+))
+Arachnid does not touch player with his shoot
+
+))
+Mana mushrooms display issue when look left
+
+))
+Bush and tonnel does not touch ground
+
+))
+If new game  no reset weapons and life
 
 ----------------------------------------------------------------------------------------
 ----------------------------------------------------------------------------------------
