@@ -255,7 +255,8 @@ void IASystem::updateEnemyDirection(EnemyConfComponent &enemyConfComp, MoveableC
     //Check if vehicle associated
     RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(
         playerComp->m_associatedVehicle ? *playerComp->m_associatedVehicle : m_playerEntity);
-    point = {playerMapComp->m_absoluteMapPositionPX.first + rectComp->m_size.first, playerMapComp->m_absoluteMapPositionPX.second + rectComp->m_size.second};
+    point = {playerMapComp->m_absoluteMapPositionPX.first + rectComp->m_offset.first /*+ rectComp->m_size.first*/,
+             playerMapComp->m_absoluteMapPositionPX.second + rectComp->m_offset.second /*+ rectComp->m_size.second*/};
     moveComp.m_degreeOrientation = getTrigoAngle(enemyMapComp.m_absoluteMapPositionPX, point);
     if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT)
     {
@@ -278,8 +279,9 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
     {
         if(++timerComp->m_cycleCountB >= timerComp->m_timeIntervalOptional)
         {
-            treatStaticEnemy(enemyConfComp, *moveComp, enemyEntity, distancePlayer);
-            timerComp->m_cycleCountB = 0;            
+            updateEnemyDirection(enemyConfComp, *moveComp, enemyMapComp);
+            enemyShoot(enemyConfComp, *moveComp, enemyMapComp, distancePlayer);
+            timerComp->m_cycleCountB = 0;
             enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::ATTACK_LEFT)->second.first;
         }
         return;

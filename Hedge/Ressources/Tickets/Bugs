@@ -9,9 +9,6 @@ Edit Music loop
 First rocket shot does not explode while touch enemy some times
 
 ))
-Arachnid does not touch player with his shoot
-
-))
 Mana mushrooms display issue when look left
 
 ))
@@ -46,6 +43,9 @@ On bike if move over 2 opposite stair first up second down ==> lock ------------
 
 ============================================================================================================
 ============================================================================================================
+
+))
+Arachnid does not touch player with his shoot====================OK
 
 ))
 Enemies shot too up from player=====================OK
