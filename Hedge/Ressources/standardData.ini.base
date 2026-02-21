@@ -37,7 +37,7 @@ AssociateSprite = SpriteHedgeHead SpriteFFVIKefkaA
 
 [MessageLogA]
 Sprite = SpriteLog
-SpriteWeightGame = 0.4
+SpriteWeightGame = 0.7
 SpriteHeightGame = 1.4
 Sound = Message.wav
 IdPicture = Hedge Manuwaza
@@ -168,16 +168,16 @@ AssociateSprite = SpriteHedgeHead SpriteManaRandyA
 
 [MessageLogManaPannel]
 Sprite = SpriteManaPannelA
-SpriteWeightGame = 0.5
-SpriteHeightGame = 1.4
+SpriteWeightGame = 0.8
+SpriteHeightGame = 1.35
 Sound = Message.wav
 IdPicture = Hedge Pannel
 AssociateSprite = SpriteHedgeHead SpriteManaPannelA
 
 [MessageLogDKPannel]
 Sprite = SpriteDKPannelBananaA
-SpriteWeightGame = 0.5
-SpriteHeightGame = 1.4
+SpriteWeightGame = 0.7
+SpriteHeightGame = 1.35
 Sound = Message.wav
 IdPicture = Hedge Donkey
 AssociateSprite = SpriteHedgeHead SpriteDKPannelBananaA
@@ -246,14 +246,14 @@ traversable = false
 
 [GroundDKBarrelA]
 Sprite = SpriteDKBarrelA
-SpriteWeightGame = 0.9
-SpriteHeightGame = 1.5
+SpriteWeightGame = 0.7
+SpriteHeightGame = 1.05
 traversable = false
 
 [GroundDKBarrelB]
 Sprite = SpriteDKBarrelB
-SpriteWeightGame = 0.9
-SpriteHeightGame = 1.5
+SpriteWeightGame = 0.7
+SpriteHeightGame = 1.05
 traversable = false
 
 [GroundDKRockPlatformA]
@@ -271,13 +271,13 @@ traversable = false
 [GroundDKPannelSimpleA]
 Sprite = SpriteDKPannelSimpleA
 SpriteWeightGame = 1.0
-SpriteHeightGame = 0.9
+SpriteHeightGame = 1.0
 traversable = false
 
 [GroundDKPannelSimpleB]
 Sprite = SpriteDKPannelSimpleB
 SpriteWeightGame = 1.0
-SpriteHeightGame = 0.9
+SpriteHeightGame = 1.0
 traversable = false
 
 
@@ -290,25 +290,25 @@ traversable = false
 [GroundManaTree]
 Sprite = SpriteManaTreeA
 SpriteWeightGame = 0.5
-SpriteHeightGame = 1.5
+SpriteHeightGame = 2.0
 traversable = false
 
 [GroundManaMenhir]
 Sprite = SpriteManaMenhirA
 SpriteWeightGame = 0.4
-SpriteHeightGame = 1.0
+SpriteHeightGame = 1.2
 traversable = false
 
 [GroundManaBushA]
 Sprite = SpriteManaBushA
-SpriteWeightGame = 0.6
-SpriteHeightGame = 0.8
+SpriteWeightGame = 0.7
+SpriteHeightGame = 1.0
 traversable = false
 
 [GroundManaBushB]
 Sprite = SpriteManaBushB
-SpriteWeightGame = 0.6
-SpriteHeightGame = 0.8
+SpriteWeightGame = 0.7
+SpriteHeightGame = 1.0
 traversable = false
 
 [WallMetalA]
@@ -1371,8 +1371,8 @@ MaxPop = 4
 
 [GroundGeneratorManaLapin]
 Sprite = SpriteManaBushA
-SpriteWeightGame = 0.8
-SpriteHeightGame = 1.6
+SpriteWeightGame = 0.7
+SpriteHeightGame = 1.0
 traversable = false
 EnemyID = EnemyManaLapin
 Direction = south
@@ -1381,8 +1381,8 @@ MaxPop = 4
 
 [GroundGeneratorFFVIGohst]
 Sprite = SpriteFFVITonneauA
-SpriteWeightGame = 0.8
-SpriteHeightGame = 1.6
+SpriteWeightGame = 0.5
+SpriteHeightGame = 1.0
 traversable = false
 EnemyID = EnemyFF6Ghost
 Direction = south
@@ -1494,26 +1494,26 @@ traversable = true
 
 [GroundFFVIMecaA]
 Sprite = SpriteFFVIMecaA
-SpriteWeightGame = 2.2
-SpriteHeightGame = 1.5
+SpriteWeightGame = 2.5
+SpriteHeightGame = 2.0
 traversable = false
 
 [GroundFFVIMecaSteam]
 Sprite = SpriteFFVIMecaSteamA
-SpriteWeightGame = 2.2
-SpriteHeightGame = 1.5
+SpriteWeightGame = 2.5
+SpriteHeightGame = 2.0
 traversable = false
 
 [GroundFFVIBarrel]
 Sprite = SpriteFFVITonneauA
 SpriteWeightGame = 0.5
-SpriteHeightGame = 0.9
+SpriteHeightGame = 1.0
 traversable = false
 
 [GroundFFVICheminee]
 Sprite = SpriteFFVIChemineeA
-SpriteWeightGame = 0.6
-SpriteHeightGame = 1.5
+SpriteWeightGame = 0.5
+SpriteHeightGame = 1.0
 traversable = false
 
 [GroundFFVIPannelA]
