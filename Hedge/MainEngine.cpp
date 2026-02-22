@@ -222,10 +222,11 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
             return {m_currentLevelState, {}, customLevel};
         }
         //Player dead
-        else if(!playerConf->m_life)
+        else if(playerConf->m_life == 0)
         {
             playerConf->m_playerShoot = false;
             playerConf->m_infoWriteData = {false, {"", 0}};
+            playerConf->updateSpriteType(playerConf->m_currentDirectionRight ? PlayerSpriteElementType_e::DAMAGE_RIGHT : PlayerSpriteElementType_e::DAMAGE_LEFT);
             AudioComponent *audioComp = Ecsm_t::instance().getComponent<AudioComponent, Components_e::AUDIO_COMPONENT>(m_playerEntity);
             assert(audioComp);
             //play death sound
