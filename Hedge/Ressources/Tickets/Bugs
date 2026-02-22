@@ -9,9 +9,6 @@ Edit Music loop
 When player die actual animation continue
 
 ))
-Virer l'ecran "Appuyez sur entrer pour continuer"
-
-))
 Regler armes==================~~
 
 ----------------------------------------------------------------------------------------
@@ -40,6 +37,9 @@ On bike if move over 2 opposite stair first up second down ==> lock ------------
 
 ============================================================================================================
 ============================================================================================================
+
+))
+Virer l'ecran "Appuyez sur entrer pour continuer"======================OK
 
 ))
 If new game  no reset weapons and life END GAME?====================OK
