@@ -82,10 +82,6 @@ void StaticDisplaySystem::execSystem()
         assert(timerCompPlay);
         WeaponComponent *weaponCompA = Ecsm_t::instance().getComponent<WeaponComponent, Components_e::WEAPON_COMPONENT>(playerComp->m_vectEntities[static_cast<uint32_t>(PlayerEntities_e::WEAPON)]);
         drawWeaponsPreviewPlayer(*playerComp, *weaponCompA);
-        if(++timerCompPlay->m_cycleCountC >= playerComp->m_standardSpriteInterval * 3)
-        {
-            weaponCompA->m_weaponChange = false;
-        }
     }
 }
 

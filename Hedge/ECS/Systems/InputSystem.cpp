@@ -235,6 +235,10 @@ void InputSystem::treatPlayerInput()
             m_mainEngine->setUnsetPaused();
             playerComp->m_infoWriteData = {false, {"", 0}};
         }
+        if(!checkPlayerKeyTriggered(ControlKey_e::PREVIOUS_WEAPON) && !checkPlayerKeyTriggered(ControlKey_e::NEXT_WEAPON))
+        {
+            weaponComp->m_weaponChange = false;
+        }
         if(!weaponComp->m_weaponChange && !weaponComp->m_timerShootActive)
         {
             TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(m_playerEntity);
