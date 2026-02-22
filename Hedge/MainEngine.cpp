@@ -213,6 +213,7 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
             savePlayerGear(true);
             m_graphicEngine.setTransition(m_gamePaused);
             displayTransitionMenu();
+            m_playerMemGear = false;
             if(!m_graphicEngine.epilogueEmpty())
             {
                 displayTransitionMenu(MenuMode_e::LEVEL_EPILOGUE);
@@ -496,7 +497,6 @@ void MainEngine::loadPlayerGear(bool beginLevel)
     weaponConf->m_currentWeapon = playerConf.m_currentWeapon;
     weaponConf->m_previousWeapon = playerConf.m_previousWeapon;
     playerConfComp->m_life = playerConf.m_life;
-
     StaticDisplaySystem *staticDisplay = Ecsm_t::instance().getSystem<StaticDisplaySystem>(static_cast<uint32_t>(Systems_e::STATIC_DISPLAY_SYSTEM));
     assert(staticDisplay);
     //update FPS weapon sprite
