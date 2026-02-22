@@ -275,6 +275,7 @@ public:
     void loadStaticSpriteEntities(const LevelManager &levelManager);
     void savePlayerGear(bool beginLevel);
     void unsetFirstLaunch();
+    uint32_t createDamageZoneEntity(uint32_t damage, CollisionTag_e tag, float ray = 10.0f, const std::string &soundFile = "");
 private:
     void treatSoundVehiclePlayer(PlayerConfComponent &playerComp);
     void treatBasicDirectionShoot(PlayerConfComponent &playerComp, WeaponData &currentWeapon, const PairFloat_t &point);
@@ -344,7 +345,6 @@ private:
                                                       const LevelManager &levelManager, bool enemyDrop = false);
     uint32_t confObjectEntity(const StaticLevelElementData &objectData);
     uint32_t createMeleeAttackEntity(bool sound = false);
-    uint32_t createDamageZoneEntity(uint32_t damage, CollisionTag_e tag, float ray = 10.0f, const std::string &soundFile = "");
     uint32_t loadWeaponsEntity(const LevelManager &levelManager);
     void loadGrenadesData(const LevelManager &levelManager, WeaponComponent &weaponConf, AudioComponent &audioComp);
     uint32_t createBackgroundEntity(bool color);

@@ -6,9 +6,6 @@ Change sounds for enemies death and player die
 Edit Music loop
 
 ))
-First rocket shot does not explode while touch enemy some times
-
-))
 If new game  no reset weapons and life END GAME?
 
 ))
@@ -40,6 +37,9 @@ On bike if move over 2 opposite stair first up second down ==> lock ------------
 
 ============================================================================================================
 ============================================================================================================
+
+))
+First rocket shot does not explode while touch enemy some times==================OK
 
 ))
 Bush and tonnel does not touch ground========================OK

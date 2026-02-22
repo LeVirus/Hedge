@@ -808,6 +808,8 @@ bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args)
                 {
                     if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
                     {
+                        EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(args.entityNumB);
+                        assert(enemyComp);
                         treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage);
                     }
                 }
@@ -856,6 +858,8 @@ bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args)
                 if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
                 {
                     activeSound(args.entityNumA);
+                    EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(args.entityNumB);
+                    assert(enemyComp);
                     treatEnemyTakeDamage(args.entityNumB, shotConfComp->m_damage);
                     return false;
                 }
@@ -947,11 +951,6 @@ void CollisionSystem::treatVisibleShot(CollisionArgs &args, bool collision)
     {
         shotConfComp->m_destructPhase = true;
         return;
-    }
-
-    if(shotConfComp->m_damageCircleRayData)
-    {
-        setDamageCircle(*shotConfComp->m_damageCircleRayData, true, args.entityNumA);
     }
     if(collision)
     {
@@ -1320,6 +1319,7 @@ bool CollisionSystem::checkCollisionFirstSegment(CollisionArgs &args, uint32_t n
                 collision = treatSegmentRectColl(args, numEntityA, numEntityB, segmentCompB);
             }
         }
+        EnemyConfComponent *eneComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(numEntityB);
     }
     break;
     }

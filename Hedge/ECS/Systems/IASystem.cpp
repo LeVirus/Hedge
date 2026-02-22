@@ -787,4 +787,10 @@ void IASystem::confNewVisibleShot(const std::vector<uint32_t> &visibleShots)
     targetShotConfComp->m_spriteTotal = baseShotConfComp->m_spriteTotal;
     float maxWidth = EPSILON_FLOAT;
     targetShotConfComp->m_ejectExplosionRay = maxWidth * LEVEL_HALF_TILE_SIZE_PX;
+    if(baseShotConfComp->m_damageCircleRayData)
+    {
+        ShotConfComponent *damageRay = Ecsm_t::instance().getComponent<ShotConfComponent, Components_e::SHOT_CONF_COMPONENT>(*baseShotConfComp->m_damageCircleRayData);
+        targetShotConfComp->m_damageCircleRayData = m_mainEngine->createDamageZoneEntity(damageRay->m_damage, CollisionTag_e::BULLET_PLAYER_CT, LEVEL_TILE_SIZE_PX);
+    }
+
 }
