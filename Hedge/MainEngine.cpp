@@ -213,7 +213,11 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
             savePlayerGear(true);
             m_graphicEngine.setTransition(m_gamePaused);
             displayTransitionMenu();
-            m_playerMemGear = false;
+            //QUICKFIX if last level don't mem player gear
+            if(levelNum == 8)
+            {
+                m_playerMemGear = false;
+            }
             if(!m_graphicEngine.epilogueEmpty())
             {
                 displayTransitionMenu(MenuMode_e::LEVEL_EPILOGUE);
