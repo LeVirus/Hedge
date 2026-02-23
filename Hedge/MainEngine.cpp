@@ -1429,8 +1429,7 @@ bool MainEngine::loadEnemiesEntities(const LevelManager &levelManager)
         currentSoundElements[0] = loadSound(it->second.m_detectBehaviourSoundFile);
         currentSoundElements[1] = loadSound(it->second.m_attackSoundFile);
         currentSoundElements[2] = loadSound(it->second.m_deathSoundFile);
-        const SpriteData &memSpriteData = levelManager.getPictureData().
-                getSpriteData()[it->second.m_staticLeftSprites[0]];
+        const SpriteData &memSpriteData = levelManager.getPictureData().getSpriteData()[it->second.m_staticLeftSprites[0]];
         for(uint32_t j = 0; j < it->second.m_TileGamePosition.size(); ++j)
         {
             if(loadFromCheckpoint && m_memEnemiesStateFromCheckpoint[m_currentLevelEnemiesNumber].m_dead)

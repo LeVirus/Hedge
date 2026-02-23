@@ -627,6 +627,30 @@ Type = 0
 ShootingMode = 4
 TimeBehaviourCycle = 1
 
+[EnemyDKGreenKremLeft]
+StaticSpriteLeft = SpriteDKGreenKremLeftH SpriteDKGreenKremLeftG SpriteDKGreenKremLeftF SpriteDKGreenKremLeftE SpriteDKGreenKremLeftD SpriteDKGreenKremLeftC SpriteDKGreenKremLeftB SpriteDKGreenKremLeftA 
+StaticSpriteRight = SpriteDKGreenKremRightA SpriteDKGreenKremRightB SpriteDKGreenKremRightC SpriteDKGreenKremRightD SpriteDKGreenKremRightE SpriteDKGreenKremRightF SpriteDKGreenKremRightG SpriteDKGreenKremRightH 
+AttackSprite = SpriteDKGreenKremRightA
+DyingSprite = SpriteDKGreenKremDeathA SpriteDKGreenKremDeathB SpriteDKGreenKremDeathC
+Touched = SpriteDKGreenKremDeathA
+ShootSpritesID = VisibleShootDemonD
+ShotVelocity = 3
+Life = 5
+Velocity = 1.0
+MeleeDamage = 33
+Damage = 25
+MeleeOnly = true
+SpriteWeightGame = 1.2 ; value in %
+SpriteHeightGame = 1.5
+traversable = false
+DetectBehaviourSound = BigRoar.wav
+AttackSound = LazerShot2.wav
+DeathSound = DeathRobot.wav
+FrozenOnAttack = false
+Type = 6
+ShootingMode = 4
+TimeBehaviourCycle = 4
+
 [EnemyDKGreenKrem]
 StaticSpriteLeft = SpriteDKGreenKremLeftH SpriteDKGreenKremLeftG SpriteDKGreenKremLeftF SpriteDKGreenKremLeftE SpriteDKGreenKremLeftD SpriteDKGreenKremLeftC SpriteDKGreenKremLeftB SpriteDKGreenKremLeftA 
 StaticSpriteRight = SpriteDKGreenKremRightA SpriteDKGreenKremRightB SpriteDKGreenKremRightC SpriteDKGreenKremRightD SpriteDKGreenKremRightE SpriteDKGreenKremRightF SpriteDKGreenKremRightG SpriteDKGreenKremRightH 
@@ -772,6 +796,31 @@ FrozenOnAttack = false
 Type = 1
 ShootingMode = 4
 TimeBehaviourCycle = 1
+
+[EnemyDKCrocLeft]
+StaticSpriteLeft =  SpriteDKCrocLeftA SpriteDKCrocLeftB SpriteDKCrocLeftC SpriteDKCrocLeftD SpriteDKCrocLeftE SpriteDKCrocLeftF
+StaticSpriteRight = SpriteDKCrocRightA SpriteDKCrocRightB SpriteDKCrocRightC SpriteDKCrocRightD SpriteDKCrocRightE SpriteDKCrocRightF
+AttackSprite = SpriteDKCrocDeathA SpriteDKCrocDeathB
+DyingSprite = SpriteDKCrocDeathA SpriteDKCrocDeathB
+Touched = SpriteDKCrocDeathA
+ShootSpritesID = VisibleShootDemonD
+ShotVelocity = 3
+Life = 7
+Velocity = 0.8
+MeleeDamage = 33
+Damage = 25
+MeleeOnly = true
+SpriteWeightGame = 1.4 ; value in %
+SpriteHeightGame = 1.0
+traversable = false
+DetectBehaviourSound = BigRoar.wav
+AttackSound = LazerShot2.wav
+DeathSound = DeathRobot.wav
+FrozenOnAttack = false
+Type = 6
+ShootingMode = 4
+TimeBehaviourCycle = 4
+
 
 [EnemyDKCroc]
 StaticSpriteLeft =  SpriteDKCrocLeftA SpriteDKCrocLeftB SpriteDKCrocLeftC SpriteDKCrocLeftD SpriteDKCrocLeftE SpriteDKCrocLeftF
@@ -1357,6 +1406,17 @@ EnemyID = EnemyDemon
 Direction = north
 Cycles = 1.0
 MaxPop = 4
+
+[GroundGeneratorDKCrocLeft]
+Sprite = SpriteDKBarrelBonesA
+SpriteWeightGame = 0.8
+SpriteHeightGame = 1.6
+traversable = false
+EnemyID = EnemyDKCrocLeft
+Direction = north
+Cycles = 2.0
+MaxPop = 4
+
 
 [GroundGeneratorDKCroc]
 Sprite = SpriteDKBarrelBonesA
