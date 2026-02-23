@@ -210,6 +210,7 @@ LevelState MainEngine::mainLoop(uint32_t levelNum, LevelState_e levelState, bool
             //end level
             playerConf->m_inMovement = false;
             playerConf->m_infoWriteData = {false, {"", 0}};
+            playerConf->updateSpriteType(playerConf->m_currentDirectionRight ? PlayerSpriteElementType_e::STAY_RIGHT : PlayerSpriteElementType_e::STAY_LEFT);
             savePlayerGear(true);
             m_graphicEngine.setTransition(m_gamePaused);
             displayTransitionMenu();
