@@ -1495,6 +1495,10 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     {
         diffX = 10000.0f;
     }
+    if(args.tagCompB.m_tagA == CollisionTag_e::TRAVERSABLE_WALL_CT)
+    {
+        diffX = 10000.0f;
+    }
     MoveableWallConfComponent *moveB = Ecsm_t::instance().getComponent<MoveableWallConfComponent, Components_e::MOVEABLE_WALL_CONF_COMPONENT>(args.entityNumB);
     //if moveable wall and go up
     if(moveB)
