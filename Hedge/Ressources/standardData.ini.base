@@ -627,6 +627,31 @@ Type = 0
 ShootingMode = 4
 TimeBehaviourCycle = 1
 
+[EnemyDKGreenKremLeftJump]
+StaticSpriteLeft = SpriteDKGreenKremLeftH SpriteDKGreenKremLeftG SpriteDKGreenKremLeftF SpriteDKGreenKremLeftE SpriteDKGreenKremLeftD SpriteDKGreenKremLeftC SpriteDKGreenKremLeftB SpriteDKGreenKremLeftA 
+StaticSpriteRight = SpriteDKGreenKremRightA SpriteDKGreenKremRightB SpriteDKGreenKremRightC SpriteDKGreenKremRightD SpriteDKGreenKremRightE SpriteDKGreenKremRightF SpriteDKGreenKremRightG SpriteDKGreenKremRightH 
+AttackSprite = SpriteDKGreenKremRightA
+DyingSprite = SpriteDKGreenKremDeathA SpriteDKGreenKremDeathB SpriteDKGreenKremDeathC
+Touched = SpriteDKGreenKremDeathA
+ShootSpritesID = VisibleShootDemonD
+ShotVelocity = 3
+Life = 5
+Velocity = 1.0
+MeleeDamage = 33
+Damage = 25
+MeleeOnly = true
+SpriteWeightGame = 1.2 ; value in %
+SpriteHeightGame = 1.5
+traversable = false
+DetectBehaviourSound = BigRoar.wav
+AttackSound = LazerShot2.wav
+DeathSound = DKKrem.flac
+FrozenOnAttack = false
+Type = 7
+ShootingMode = 4
+TimeBehaviourCycle = 4
+
+
 [EnemyDKGreenKremLeft]
 StaticSpriteLeft = SpriteDKGreenKremLeftH SpriteDKGreenKremLeftG SpriteDKGreenKremLeftF SpriteDKGreenKremLeftE SpriteDKGreenKremLeftD SpriteDKGreenKremLeftC SpriteDKGreenKremLeftB SpriteDKGreenKremLeftA 
 StaticSpriteRight = SpriteDKGreenKremRightA SpriteDKGreenKremRightB SpriteDKGreenKremRightC SpriteDKGreenKremRightD SpriteDKGreenKremRightE SpriteDKGreenKremRightF SpriteDKGreenKremRightG SpriteDKGreenKremRightH 
@@ -899,7 +924,7 @@ TimeBehaviourCycle = 2
 StaticSpriteLeft = SpriteDKVulturLeftK SpriteDKVulturLeftJ SpriteDKVulturLeftI SpriteDKVulturLeftH SpriteDKVulturLeftG SpriteDKVulturLeftF SpriteDKVulturLeftE SpriteDKVulturLeftD SpriteDKVulturLeftC SpriteDKVulturLeftB SpriteDKVulturLeftA
 StaticSpriteRight = SpriteDKVulturRightA SpriteDKVulturRightB SpriteDKVulturRightC SpriteDKVulturRightD SpriteDKVulturRightE SpriteDKVulturRightF SpriteDKVulturRightG SpriteDKVulturRightH SpriteDKVulturRightI SpriteDKVulturRightJ SpriteDKVulturRightK
 AttackSprite = SpriteDKVulturRightL
-DyingSprite = SpriteDKVulturRightL
+DyingSprite = SpriteDKVulturRightL SpriteDKVulturRightL 
 Touched = SpriteDKVulturRightL
 ShootSpritesID = VisibleShootDemonD
 ShotVelocity = 3
