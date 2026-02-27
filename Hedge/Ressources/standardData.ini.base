@@ -40,8 +40,8 @@ Sprite = SpriteLog
 SpriteWeightGame = 0.7
 SpriteHeightGame = 1.4
 Sound = Message.wav
-IdPicture = Hedge Manuwaza
-AssociateSprite = SpriteHedgeHead SpriteTreeA
+IdPicture = Hedge Manu
+AssociateSprite = SpriteHedgeHead SpriteHedgeManu
 
 [MessageLogLocke]
 Sprite = SpriteFFVILockeA
@@ -922,7 +922,7 @@ TimeBehaviourCycle = 4
 [EnemyArachnotron]
 StaticSpriteLeft = SpriteALA SpriteALB
 StaticSpriteRight = SpriteARA SpriteARB
-AttackSprite = SpriteAAA SpriteAAB SpriteADA SpriteADB
+AttackSprite = SpriteAAA SpriteAAA SpriteAAB SpriteAAB
 DyingSprite = SpriteADA SpriteADB SpriteADC SpriteADD SpriteADE SpriteADF
 Touched = SpriteADA
 ShootSpritesID = VisibleShootDemonD
