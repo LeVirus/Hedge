@@ -6447,3 +6447,38 @@ texturePosX = 0.759333
 texturePosY = 0.3475
 textureWeight = 0.0653333
 textureHeight = 0.13
+
+[SpriteManaHouseA]
+texture = 26
+texturePosX = 0.571429
+texturePosY = 0.766447
+textureWeight = 0.0281955
+textureHeight = -0.608553
+
+[SpriteManaHouseB]
+texture = 26
+texturePosX = 0.601504
+texturePosY = 0.766447
+textureWeight = 0.0281955
+textureHeight = -0.608553
+
+[SpriteManaHouseC]
+texture = 26
+texturePosX = 0.631579
+texturePosY = 0.766447
+textureWeight = 0.0281955
+textureHeight = -0.608553
+
+[SpriteManaHouseD]
+texture = 26
+texturePosX = 0.661654
+texturePosY = 0.766447
+textureWeight = 0.0281955
+textureHeight = -0.608553
+
+[SpriteManaHouseE]
+texture = 26
+texturePosX = 0.691729
+texturePosY = 0.766447
+textureWeight = 0.0281955
+textureHeight = -0.608553
