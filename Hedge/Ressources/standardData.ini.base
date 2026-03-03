@@ -127,6 +127,36 @@ Sprite = SpriteFFVIMountainDC
 [WallFFVIF]
 Sprite = SpriteFFVIMountainDD
 
+[WallManaHouseA]
+Sprite = SpriteManaHouseA
+
+[WallManaHouseB]
+Sprite = SpriteManaHouseB
+
+[WallManaHouseC]
+Sprite = SpriteManaHouseC
+
+[WallManaHouseD]
+Sprite = SpriteManaHouseD
+
+[WallManaHouseE]
+Sprite = SpriteManaHouseE
+
+[WallManaHouseF]
+Sprite = SpriteManaHouseDA
+
+[WallManaHouseG]
+Sprite = SpriteManaHouseDB
+
+[WallManaHouseH]
+Sprite = SpriteManaHouseDC
+
+[WallManaHouseI]
+Sprite = SpriteManaHouseDD
+
+[WallManaHouseE]
+Sprite = SpriteManaHouseDE
+
 [WallBuildFFVID]
 Sprite = SpriteFFVIBuildD
 
