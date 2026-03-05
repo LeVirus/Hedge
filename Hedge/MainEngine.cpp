@@ -3217,8 +3217,8 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     SpriteTextureComponent *spriteComp = Ecsm_t::instance().getComponent<SpriteTextureComponent, Components_e::SPRITE_TEXTURE_COMPONENT>(entityNum);
     assert(spriteComp);
     spriteComp->m_displaySize = {playerData.m_inGameSpriteSize.first * 1.5f , playerData.m_inGameSpriteSize.second * 1.0f};
-    rectColl->m_size = {(playerData.m_inGameSpriteSize.first * LEVEL_TILE_SIZE_PX) / 2.0f, (playerData.m_inGameSpriteSize.second * LEVEL_TILE_SIZE_PX) / 2.0f};
-    rectColl->m_offset = {rectColl->m_size.first / 1.5f, rectColl->m_size.second};
+    rectColl->m_size = {(playerData.m_inGameSpriteSize.first * LEVEL_TILE_SIZE_PX), (playerData.m_inGameSpriteSize.second * LEVEL_TILE_SIZE_PX) / 2.0f};
+    rectColl->m_offset = {rectColl->m_size.first / 6.0f, rectColl->m_size.second};
     tagColl->m_tagA = CollisionTag_e::PLAYER_CT;
     tagColl->m_shape = CollisionShape_e::RECTANGLE_C;
     confWriteEntities();
