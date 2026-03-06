@@ -1,9 +1,9 @@
 #player.png ==> 0 Global.png ==> 1  Texture.png ==> 2 EnemyDemon.png ==> 3 GeneralSprites.png ==> 4 EnemyMarine.png ==> 5 Stars.jpg ==> 6 Simetra_green.png ==> 7 BossArachnotron.png ==> 8 BossCyberDemon.png ==> 9
 #EnemyBaronOfHell.png ==> 10 EnemyCacodemon.png ==> 11 EnemyDemonClaw.png ==> 12 EnemyZombieSergeant.png ==> 13  MenuFilled.png ==> 14 Font.png ==> 15  TitleMenu.png ==> 16 MenuLeft.png ==> 17  MenuRightLeft.png ==> 18 
 #NouvText.png ==> 19 BackroomText.png ==> 20   TreesFree.png ==> 21 walltest.jpg ==> 22 Moto.png ==> 23 CharMod.png ==> 24 FF6LVL.png ==> 25 ManaGen.png ==> 26  DonkeyLVL.png ==> 27  Enemies.png ==> 28  TextHedge.png ==> 29
-#Hedge.png ==> 30
+#Hedge.png ==> 30 FonD.png ==> 31
 [PathToTexture]
-textures = player.png Global.png Texture.png EnemyDemon.png GeneralSprites.png EnemyMarine.png Stars.jpg Simetra_green.png BossArachnotron.png BossCyberDemon.png EnemyBaronOfHell.png EnemyCacodemon.png EnemyDemonClaw.png EnemyZombieSergeant.png MenuFilled.png Font.png TitleMenu.png MenuLeft.png MenuRightLeft.png NouvText.png BackroomText.png TreesFree.png walltest.jpg Moto.png CharMod.png FF6LVL.png ManaGen.png DonkeyLVL.png Enemies.png TextHedge.png Hedge.png
+textures = player.png Global.png Texture.png EnemyDemon.png GeneralSprites.png EnemyMarine.png Stars.jpg Simetra_green.png BossArachnotron.png BossCyberDemon.png EnemyBaronOfHell.png EnemyCacodemon.png EnemyDemonClaw.png EnemyZombieSergeant.png MenuFilled.png Font.png TitleMenu.png MenuLeft.png MenuRightLeft.png NouvText.png BackroomText.png TreesFree.png walltest.jpg Moto.png CharMod.png FF6LVL.png ManaGen.png DonkeyLVL.png Enemies.png TextHedge.png Hedge.png FonD.png
 
  #4335 405  4522 599
 [SpriteLog]
@@ -6517,3 +6517,10 @@ texturePosX = 0.691729
 texturePosY = 0.815789
 textureWeight = 0.0281955
 textureHeight = 0.0493421
+
+[SpriteTitleA]
+texture = 31
+texturePosX = 0
+texturePosY = 0
+textureWeight = 1
+textureHeight = 1

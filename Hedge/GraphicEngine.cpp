@@ -269,7 +269,7 @@ void GraphicEngine::fillTitleMenuWrite(WriteComponent &writeComp, MenuMode_e men
     switch (menuEntry)
     {
     case MenuMode_e::TITLE:
-        writeComp.m_vectMessage[0].second = "HEDGE";
+        writeComp.m_vectMessage[0].second = "";
         break;
     case MenuMode_e::BASE:
         writeComp.m_vectMessage[0].second = "MENU PRINCIPAL";

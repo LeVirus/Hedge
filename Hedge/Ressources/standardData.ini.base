@@ -8,7 +8,7 @@ TriggerSound = Trigger.flac
 
 [GraphicUtils]
 GenericMenuSprite = SpriteBackgroundGenericMenu
-TitleMenuSprite = SpriteBackgroundTitleMenu
+TitleMenuSprite = SpriteTitleA
 LeftMenuSprite = SpriteBackgroundLeftMenu
 RightLeftMenuSprite = SpriteBackgroundRightLeftMenu
 PannelSprite = SpritePannel
