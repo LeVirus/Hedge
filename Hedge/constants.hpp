@@ -558,7 +558,7 @@ inline const std::string TEXTURES_DIR_STR = "../../Hedge/Ressources/Textures/";
 inline const std::map<MenuMode_e, PairPairFloatStr_t> MAP_MENU_DATA =
 {
     {MenuMode_e::TITLE,
-     PairPairFloatStr_t{{-0.3f, 0.5f},
+     PairPairFloatStr_t{{-0.3f, 0.2f},
         "Nouveau Jeu\\Charger\\Affichage\\Son\\Commandes\\Niveaux Personalises\\Quitter"}},
     {MenuMode_e::BASE,
      PairPairFloatStr_t{{-0.4f, 0.5f},
@@ -574,7 +574,7 @@ inline const std::map<MenuMode_e, PairPairFloatStr_t> MAP_MENU_DATA =
     {MenuMode_e::DISPLAY,
      PairPairFloatStr_t{{-0.7f, 0.5f}, "Resolution\\Plein Ecran\\Retour\\Valider"}},
     {MenuMode_e::INPUT,
-     PairPairFloatStr_t{{-0.7f, 0.7f}, "Viser Haut\\Viser Bas\\Viser Diagonale Haut\\"
+     PairPairFloatStr_t{{-0.8f, 0.7f}, "Viser Haut\\Viser Bas\\Viser Diagonale Haut\\"
          "Viser Diagonale Bas\\Gauche\\Droite\\Sauter\\Action\\Tirer\\Grenade\\Arme Precedente\\Arme Suivante\\Par Defaut\\Retour\\Valider"}
     },
     {MenuMode_e::NEW_GAME,
