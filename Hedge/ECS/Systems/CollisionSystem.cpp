@@ -984,7 +984,7 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
             assert(mapComp);
             playerComp->m_checkpointReached = mapComp->m_coord;
             playerComp->m_currentCheckpoint = {checkpointComp->m_checkpointNumber, checkpointComp->m_direction};
-            writePlayerInfo("Checkpoint Reached");
+            writePlayerInfo("Point de controle");
         }
         m_vectEntitiesToDelete.push_back(args.entityNumB);
         return true;
