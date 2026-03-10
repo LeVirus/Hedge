@@ -372,7 +372,7 @@ void CollisionSystem::treatPlayerTakeDamage(uint32_t damage)
 {
     PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
     assert(playerComp);
-    if(playerComp->m_invulnerable)
+    if(playerComp->m_invulnerable && damage != 100)
     {
         return;
     }
