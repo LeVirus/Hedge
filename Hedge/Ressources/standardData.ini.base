@@ -1234,7 +1234,7 @@ LastAnimNum = 1
 SoundEffect = GunShot.wav
 
 [WeaponMachineGun]
-WeaponName = Machine Gun
+WeaponName = Sulfateuse
 Order = 1
 BaseAmmo = 25
 ShootSpritesID = VisibleShootGun
@@ -1254,7 +1254,7 @@ SoundEffect = MachineGunShoot.wav
 
 
 [WeaponPlasmaRifle]
-WeaponName = Pasma Rifle
+WeaponName = Fusil Plasma
 Order = 2
 StaticSprite = SpritePRS 
 AttackSprite = SpritePRAA SpritePRAB SpritePRR

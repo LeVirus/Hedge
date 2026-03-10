@@ -995,7 +995,6 @@ bool CollisionSystem::treatCollisionPlayer(CollisionArgs &args)
         assert(playerComp);
         Level::setScrollingLock(true);
         m_refMainEngine->playBossMusic();
-        writePlayerInfo("Warning");
         m_vectEntitiesToDelete.push_back(args.entityNumB);
         return true;
     }
@@ -1108,7 +1107,7 @@ void CollisionSystem::treatPlayerPickObject(CollisionArgs &args)
         {
             return;
         }
-        info = weaponComp->m_weaponsData[*objectComp->m_weaponID].m_weaponName + " Ammo";
+        info = + "Mun " + weaponComp->m_weaponsData[*objectComp->m_weaponID].m_weaponName ;
     }
         break;
     case ObjectType_e::WEAPON:
@@ -1133,7 +1132,7 @@ void CollisionSystem::treatPlayerPickObject(CollisionArgs &args)
         {
             playerComp->m_life = 100;
         }
-        info = "Heal";
+        info = "Soin";
         break;
     }
     case ObjectType_e::CARD:
