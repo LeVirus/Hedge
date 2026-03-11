@@ -551,7 +551,7 @@ inline const double WRITE_LETTER_GL_OFFSET = 0.01;
 inline const std::string RESSOURCES_DIR_STR = "../../Hedge/Ressources/";
 inline const std::string SHADER_DIR_STR = "../../Hedge/Ressources/Shader/";
 inline const std::string TEXTURES_DIR_STR = "../../Hedge/Ressources/Textures/";
-// inline const std::string RESSOURCES_DIR_STR = std::string(getenv("HOME")) + "/.local/share/Arnihs/";
+// inline const std::string RESSOURCES_DIR_STR = std::string(getenv("HOME")) + "/.local/share/Hedge/";
 // inline const std::string SHADER_DIR_STR = RESSOURCES_DIR_STR + "Shader/";
 // inline const std::string TEXTURES_DIR_STR = RESSOURCES_DIR_STR + "Textures/";
 
