@@ -2219,7 +2219,14 @@ void MainEngine::updateConfirmLoadingMenuInfo(PlayerConfComponent &playerComp)
     writeComp->m_vectMessage.reserve(4);
     if(playerComp.m_menuMode == MenuMode_e::INPUT)
     {
-        writeComp->m_upLeftPositionGL = {-0.6f, -0.7f};
+        if(!playerComp.m_firstMenu)
+        {
+            writeComp->m_upLeftPositionGL = {-0.6f, 0.7f};
+        }
+        else
+        {
+            writeComp->m_upLeftPositionGL = {-0.6f, -0.8f};
+        }
         writeComp->addTextLine({writeComp->m_upLeftPositionGL.first, ""});
         writeComp->m_vectMessage.back().second = playerComp.m_keyboardInputMenuMode ? "Souris Clavier\\Basculer Manette: G Ou RL" :
                                                                  "Manette\\Basculer Clavier : G Ou RL";
@@ -2236,13 +2243,13 @@ void MainEngine::updateConfirmLoadingMenuInfo(PlayerConfComponent &playerComp)
     {
         if(!playerComp.m_firstMenu)
         {
-            writeComp->m_upLeftPositionGL = {-0.8f, 0.5f};
+            writeComp->m_upLeftPositionGL = {-0.8f, 0.3f};
             writeComp->addTextLine({{}, "Toutes Progressions Depuis \\La Derniere Sauvegarde"});
             writeComp->addTextLine({{}, "Seront Perdues"});
         }
         else
         {
-            writeComp->m_upLeftPositionGL = {-0.8f, 0.5f};
+            writeComp->m_upLeftPositionGL = {-0.8f, 0.2f};
         }
         if(playerComp.m_menuMode == MenuMode_e::CONFIRM_LOADING_GAME_FORM)
         {

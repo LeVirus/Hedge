@@ -570,39 +570,39 @@ inline const std::map<MenuMode_e, PairPairFloatStr_t> MAP_MENU_DATA =
     {MenuMode_e::LEVEL_EPILOGUE,
      PairPairFloatStr_t{{-0.5f, 0.5f}, ""}},
     {MenuMode_e::SOUND,
-     PairPairFloatStr_t{{-0.7f, 0.5f}, "Volume Musique\\Volume Effets Sonores\\Retour"}},
+     PairPairFloatStr_t{{-0.7f, 0.2f}, "Volume Musique\\Volume Effets Sonores\\Retour"}},
     {MenuMode_e::DISPLAY,
-     PairPairFloatStr_t{{-0.7f, 0.5f}, "Resolution\\Plein Ecran\\Retour\\Valider"}},
+     PairPairFloatStr_t{{-0.7f, 0.2f}, "Resolution\\Plein Ecran\\Retour\\Valider"}},
     {MenuMode_e::INPUT,
-     PairPairFloatStr_t{{-0.8f, 0.7f}, "Viser Haut\\Viser Bas\\Viser Diagonale Haut\\"
+     PairPairFloatStr_t{{-0.8f, 0.4f}, "Viser Haut\\Viser Bas\\Viser Diagonale Haut\\"
          "Viser Diagonale Bas\\Gauche\\Droite\\Sauter\\Action\\Tirer\\Grenade\\Arme Precedente\\Arme Suivante\\Par Defaut\\Retour\\Valider"}
     },
     {MenuMode_e::NEW_GAME,
-     PairPairFloatStr_t{{-0.6f, 0.5f}, "Vide\\Vide\\Vide\\Retour"}
+     PairPairFloatStr_t{{-0.6f, 0.2f}, "Vide\\Vide\\Vide\\Retour"}
     },
     {MenuMode_e::LOAD_GAME,
-     PairPairFloatStr_t{{-0.6f, 0.5f}, "Vide\\Vide\\Vide\\Retour"}
+     PairPairFloatStr_t{{-0.6f, 0.2f}, "Vide\\Vide\\Vide\\Retour"}
     },
     {MenuMode_e::CONFIRM_QUIT_INPUT_FORM,
-     PairPairFloatStr_t{{-0.1f, 0.0f}, "Oui\\Non"}
+     PairPairFloatStr_t{{-0.1f, -0.2f}, "Oui\\Non"}
     },
     {MenuMode_e::CONFIRM_LOADING_GAME_FORM,
-     PairPairFloatStr_t{{-0.1f, 0.0f}, "Oui\\Non"}
+     PairPairFloatStr_t{{-0.1f, -0.2f}, "Oui\\Non"}
     },
     {MenuMode_e::CONFIRM_RESTART_LEVEL,
-     PairPairFloatStr_t{{-0.1f, 0.0f}, "Oui\\Non"}
+     PairPairFloatStr_t{{-0.1f, -0.2f}, "Oui\\Non"}
     },
     {MenuMode_e::CONFIRM_RESTART_FROM_LAST_CHECKPOINT,
-     PairPairFloatStr_t{{-0.1f, 0.0f}, "Oui\\Non"}
+     PairPairFloatStr_t{{-0.1f, -0.2f}, "Oui\\Non"}
     },
     {MenuMode_e::CONFIRM_QUIT_GAME,
-     PairPairFloatStr_t{{-0.1f, 0.0f}, "Oui\\Non"}
+     PairPairFloatStr_t{{-0.1f, -0.2f}, "Oui\\Non"}
     },
     {MenuMode_e::NEW_KEY,
      PairPairFloatStr_t{{-0.6f, 0.1f}, "Appuyer Sur Echap Pour Annuler\\Choisir un nouvelle entree pour l'action :\\"}
     },
     {MenuMode_e::LOAD_CUSTOM_LEVEL,
-     PairPairFloatStr_t{{-0.4f, 0.7f}, "1\\2\\3\\4\\5\\Precedant\\Suivant\\Retour"}
+     PairPairFloatStr_t{{-0.4f, 0.2f}, "1\\2\\3\\4\\5\\Precedant\\Suivant\\Retour"}
     }
 };
 inline const std::map<Shader_e, std::string> SHADER_ID_MAP
