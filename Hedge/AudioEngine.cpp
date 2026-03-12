@@ -23,11 +23,17 @@ AudioEngine::~AudioEngine()
 void AudioEngine::initOpenAL()
 {
     m_device = alcOpenDevice(nullptr);
-    assert(m_device);
-    m_context = alcCreateContext(m_device, nullptr);
-    assert(m_context);
-    ALCboolean res = alcMakeContextCurrent(m_context);
-    assert(res);
+    if(m_device)
+    {
+        std::cerr << "ERROR INITIALIZING OPENAL\n Error creating device\n";
+        return;
+    }    m_context = alcCreateContext(m_device, nullptr);
+    if(m_context)
+    {
+        std::cerr << "ERROR INITIALIZING OPENAL\n Error creating context\n";
+        return;
+    }
+    alcMakeContextCurrent(m_context);
     updateDevices();
 }
 

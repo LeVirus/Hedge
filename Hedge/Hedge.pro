@@ -5,8 +5,8 @@ CONFIG -= qt
 QMAKE_CXXFLAGS += -std=c++23
 QMAKE_CXXFLAGS_DEBUG += -Wall -Wextra -Wpedantic -Og
 INCLUDEPATH += includesLib
-LIBS += -I"includesLib/" -L"$$PWD/lib/"  -lglad -ldl -lglfw -lX11 -lXxf86vm -lXrandr \ #-L"$$PWD/lib/libglfw.so.3"
--pthread -lXi -lopenal -lsndfile
+LIBS += -L../Nietsneflow3d/lib  -lECS -lopengl32  ../Nietsneflow3d/lib/glad.dll ../Nietsneflow3d/lib/glfw3.dll -static  -lOpenAL32 \ # -ldl
+
 
 SOURCES += main.cpp \
     AudioEngine.cpp \
