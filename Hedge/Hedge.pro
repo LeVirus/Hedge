@@ -5,7 +5,7 @@ CONFIG -= qt
 QMAKE_CXXFLAGS += -std=c++23
 QMAKE_CXXFLAGS_DEBUG += -Wall -Wextra -Wpedantic -Og
 INCLUDEPATH += includesLib
-LIBS += -L../Nietsneflow3d/lib  -lECS -lopengl32  ../Nietsneflow3d/lib/glad.dll ../Nietsneflow3d/lib/glfw3.dll -static  -lOpenAL32 \ # -ldl
+LIBS += -L"../lib" ../lib/libglad.a ./OpenAL32.dll ../lib/glfw3.dll ../lib/opengl32.dll -lECS -static   #../lib/OpenAL32.dll \ # -ldl -lopengl32 -lglad
 
 
 SOURCES += main.cpp \
@@ -32,7 +32,8 @@ SOURCES += main.cpp \
     ECS/Systems/CollisionSystem.cpp \
     CollisionUtils.cpp \
     ECS/Systems/StaticDisplaySystem.cpp \
-    ZoneLevelColl.cpp
+    ZoneLevelColl.cpp \
+    glad.c
 
 HEADERS += \
     AudioEngine.hpp \
