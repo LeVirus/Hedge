@@ -1,11 +1,15 @@
+# Force _WIN32 pour glad.c (et évite conflits min/max si windows.h apparaît un jour)
+
+DEFINES *= NOMINMAX WIN32_LEAN_AND_MEAN _WIN32
+
 TEMPLATE = app
 CONFIG += console c++20
 CONFIG -= app_bundle
 CONFIG -= qt
-QMAKE_CXXFLAGS += -std=c++23
+QMAKE_CXXFLAGS += -std=c++23 -DAPIENTRY= -Wno-ignored-attributes
 QMAKE_CXXFLAGS_DEBUG += -Wall -Wextra -Wpedantic -Og
 INCLUDEPATH += includesLib
-LIBS += -L"../lib" ../lib/libglad.a ./OpenAL32.dll ../lib/glfw3.dll ../lib/opengl32.dll -lECS -static   #../lib/OpenAL32.dll \ # -ldl -lopengl32 -lglad
+LIBS += -L"../lib" ../lib/glad.dll ../lib/glfw3.dll ../lib/opengl32.dll  ../lib/libsndfile-1.dll ./OpenAL32.dll  -lECS -static   #../lib/OpenAL32.dll \ # -ldl -lopengl32 -lglad
 
 
 SOURCES += main.cpp \
@@ -32,8 +36,7 @@ SOURCES += main.cpp \
     ECS/Systems/CollisionSystem.cpp \
     CollisionUtils.cpp \
     ECS/Systems/StaticDisplaySystem.cpp \
-    ZoneLevelColl.cpp \
-    glad.c
+    ZoneLevelColl.cpp
 
 HEADERS += \
     AudioEngine.hpp \

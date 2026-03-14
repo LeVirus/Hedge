@@ -1,7 +1,7 @@
 #include <cassert>
 #include <filesystem>
 #include <fstream>
-#include <glad/glad.h>
+#include <OpenGLUtils/glheaders.hpp>
 #include <iostream>
 #include <sstream>
 #include "Shader.hpp"
