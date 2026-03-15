@@ -1,0 +1,24 @@
+INSTALLATION:
+
+--------WINDOWS
+
+Après avoir décompresser Hedge.zip, lancer le jeu via "Hedge.exe".
+Si le son ne fonctionne pas lancer l'utilitaire "oalinst.exe", puis relancer "Hedge.exe".
+
+--------LINUX
+
+Après avoir décompresser Hedge.tar.gz, 
+Ouvrir un terminal dans le dossier décompressé.
+Exécuter le script "install.sh" le mot de passe utilisateur sera demandé(sudo) pour l'installation.
+Une fois l'installation terminé, lancer Hedge directement depuis la barre de recherche du systeme en tapant "Hedge".
+
+
+Modifier les commandes:
+
+Dans le menu principal ou dans le menu pause, aller dans la sous-section "Commandes".
+Il est possible de configurer les commandes clavier et manettes.
+Pour basculer de l'un à l'autre appuyer sur la touche clavier 'G'.
+Ensuite il suffit de selectionner l'entrée désirée et de taper la touche voulue.
+Une fois la ou les touches modifiées, une confirmation sera demandé si vous quitter la sous section. 
+Il est également possible de selectionner l'entré "Valider" directement.
+
