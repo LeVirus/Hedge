@@ -907,9 +907,9 @@ void InputSystem::treatReleaseInputMenu()
     {
         m_keyRightPressed = false;
     }
-    if(m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_RIGHT] && !checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_DPAD_RIGHT, GLFW_PRESS))
+    if(m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_UP] && !checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_DPAD_UP, GLFW_PRESS))
     {
-        m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_RIGHT] = false;
+        m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_UP] = false;
     }
     //TOOGLE GAMEPAD KEYBOARD INPUT MENU
     if(m_keyKeyboardGPressed && glfwGetKey(m_window, GLFW_KEY_G) == GLFW_RELEASE)
@@ -976,7 +976,7 @@ void InputSystem::treatGeneralKeysMenu(PlayerConfComponent &playerComp)
         treatLeftPressedMenu(playerComp);
     }
     else if((!m_keyRightPressed && (glfwGetKey(m_window, GLFW_KEY_RIGHT) == GLFW_PRESS)) ||
-             (!m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_RIGHT] && checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_DPAD_RIGHT, GLFW_PRESS)))
+             (!m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_UP] && checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_DPAD_UP, GLFW_PRESS)))
     {
         treatRightPressedMenu(playerComp);
     }
@@ -1365,7 +1365,7 @@ void InputSystem::treatRightPressedMenu(PlayerConfComponent &playerComp)
         m_keyRightPressed = true;
         if(!m_mapGamepadID.empty())
         {
-            m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_RIGHT] = true;
+            m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_UP] = true;
         }
         DisplayMenuCursorPos_e displayCursorPos = static_cast<DisplayMenuCursorPos_e>(playerComp.m_currentCursorPos);
         if(displayCursorPos == DisplayMenuCursorPos_e::RESOLUTION_SETTING)
