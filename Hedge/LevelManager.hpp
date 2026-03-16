@@ -554,9 +554,9 @@ private:
         {"ButtonStart", {true, GLFW_GAMEPAD_BUTTON_START, {}}},
         {"ButtonGuide", {true, GLFW_GAMEPAD_BUTTON_GUIDE, {}}},
         {"ButtonLeftThumb", {true, GLFW_GAMEPAD_BUTTON_LEFT_THUMB, {}}},
-        {"ButtonRightThumb", {true, GLFW_GAMEPAD_BUTTON_DPAD_RIGHT, {}}},
+        {"ButtonRightThumb", {true, GLFW_GAMEPAD_BUTTON_DPAD_LEFT, {}}},
         {"ButtonUp", {true, GLFW_GAMEPAD_BUTTON_RIGHT_THUMB, {}}},
-        {"ButtonDown", {true, GLFW_GAMEPAD_BUTTON_DPAD_LEFT, {}}},
+        {"ButtonDown", {true, GLFW_GAMEPAD_BUTTON_DPAD_RIGHT, {}}},
         {"ButtonLeft", {true, GLFW_GAMEPAD_BUTTON_DPAD_DOWN, {}}},
         {"ButtonRight", {true, GLFW_GAMEPAD_BUTTON_DPAD_UP, {}}},
 
@@ -585,10 +585,10 @@ private:
         {GLFW_GAMEPAD_BUTTON_START, "ButtonStart"},
         {GLFW_GAMEPAD_BUTTON_GUIDE, "ButtonGuide"},
         {GLFW_GAMEPAD_BUTTON_LEFT_THUMB, "ButtonLeftThumb"},
-        {GLFW_GAMEPAD_BUTTON_DPAD_RIGHT, "ButtonRightThumb"},
+        {GLFW_GAMEPAD_BUTTON_DPAD_LEFT, "ButtonRightThumb"},
         {GLFW_GAMEPAD_BUTTON_RIGHT_THUMB, "ButtonUp"},
         {GLFW_GAMEPAD_BUTTON_DPAD_UP, "ButtonRight"},
-        {GLFW_GAMEPAD_BUTTON_DPAD_LEFT, "ButtonDown"},
+        {GLFW_GAMEPAD_BUTTON_DPAD_RIGHT, "ButtonDown"},
         {GLFW_GAMEPAD_BUTTON_DPAD_DOWN, "ButtonLeft"}
     };
 
