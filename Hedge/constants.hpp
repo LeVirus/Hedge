@@ -599,7 +599,7 @@ inline const std::map<MenuMode_e, PairPairFloatStr_t> MAP_MENU_DATA =
      PairPairFloatStr_t{{-0.1f, -0.2f}, "Oui\\Non"}
     },
     {MenuMode_e::NEW_KEY,
-     PairPairFloatStr_t{{-0.6f, 0.1f}, "Appuyer Sur Echap Pour Annuler\\Choisir un nouvelle entree pour l'action :\\"}
+     PairPairFloatStr_t{{-0.6f, 0.1f}, "Appuyer Sur Echap Pour Annuler\\Choisir un nouvelle entree pour l action :\\"}
     },
     {MenuMode_e::LOAD_CUSTOM_LEVEL,
      PairPairFloatStr_t{{-0.4f, 0.2f}, "1\\2\\3\\4\\5\\Precedant\\Suivant\\Retour"}
