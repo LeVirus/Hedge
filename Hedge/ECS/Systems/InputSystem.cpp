@@ -880,9 +880,9 @@ void InputSystem::treatReleaseInputMenu()
     {
         m_keyUpPressed = false;
     }
-    if(m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_UP] && !checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_DPAD_UP, GLFW_PRESS))
+    if(m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_RIGHT_THUMB] && !checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_RIGHT_THUMB, GLFW_PRESS))
     {
-        m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_UP] = false;
+        m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_RIGHT_THUMB] = false;
     }
     //DOWN
     if(m_keyDownPressed && glfwGetKey(m_window, GLFW_KEY_DOWN) == GLFW_RELEASE)
@@ -939,11 +939,11 @@ void InputSystem::treatGeneralKeysMenu(PlayerConfComponent &playerComp)
         maxMenuIndex = *menuSize;
     }
     if(!m_modeTransition && ((!m_keyUpPressed && glfwGetKey(m_window, GLFW_KEY_UP) == GLFW_PRESS) ||
-                             (!m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_UP] &&
-                              checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_DPAD_UP, GLFW_PRESS))))
+                             (!m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_RIGHT_THUMB] &&
+                              checkStandardButtonGamepadKeyStatus(GLFW_GAMEPAD_BUTTON_RIGHT_THUMB, GLFW_PRESS))))
     {
         m_keyUpPressed = true;
-        m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_UP] = true;
+        m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_RIGHT_THUMB] = true;
         decrementMenuPosition(playerComp, maxMenuIndex);
         if(playerComp.m_menuMode == MenuMode_e::BASE &&
                 static_cast<MainMenuCursorPos_e>(playerComp.m_currentCursorPos) ==
@@ -1070,9 +1070,9 @@ bool InputSystem::treatNewKey(PlayerConfComponent &playerComp)
                 {
                     m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_RIGHT_BUMPER] = true;
                 }
-                else if(it->first == GLFW_GAMEPAD_BUTTON_DPAD_UP)
+                else if(it->first == GLFW_GAMEPAD_BUTTON_RIGHT_THUMB)
                 {
-                    m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_DPAD_UP] = true;
+                    m_gamepadButtonsKeyPressed[GLFW_GAMEPAD_BUTTON_RIGHT_THUMB] = true;
                 }
                 else if(it->first == GLFW_GAMEPAD_BUTTON_DPAD_DOWN)
                 {
