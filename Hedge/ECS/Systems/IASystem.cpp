@@ -291,6 +291,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
     {
         loop = true;
         bool right = (moveComp->m_degreeOrientation <= 0.1f);
+        enemyConfComp.m_currentDirRight = right;
         if(checkEnemyPlayerDistance(m_playerEntity, enemyEntity, distancePlayer))
         {
             enemyMapComp.m_absoluteMapPositionPX.first += right ? moveComp->m_velocity : -moveComp->m_velocity;
@@ -384,6 +385,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
             MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
             enemyConfComp.m_attackPhase = (mapComp->m_absoluteMapPositionPX.first < playerMapComp->m_absoluteMapPositionPX.first) ? EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT :
                                               EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
+            enemyConfComp.m_currentDirRight = (enemyConfComp.m_attackPhase == EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT);
         }
         enemyConfComp.m_countTillLastAttack = (enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOT) ? 0 : ++enemyConfComp.m_countTillLastAttack;
         if(loop)
