@@ -271,7 +271,6 @@ public:
     void clearCheckpointData();
     void loadColorEntities();
     void loadPlayerEntity(const LevelManager &levelManager);
-//    void loadPlayerEntity(const LevelManager &levelManager);
     void loadStaticSpriteEntities(const LevelManager &levelManager);
     void savePlayerGear(bool beginLevel);
     void unsetFirstLaunch();
