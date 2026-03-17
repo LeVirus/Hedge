@@ -398,7 +398,7 @@ void VisionSystem::updateEnemySprites(uint32_t enemyEntity,
 {
     if(enemyConfComp.m_touched)
     {
-        if(enemyConfComp.m_frozenOnAttack)
+        if(enemyConfComp.m_life < 1000)
         {
             enemyConfComp.m_currentSprite =
                     enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::TOUCHED)->second.first;

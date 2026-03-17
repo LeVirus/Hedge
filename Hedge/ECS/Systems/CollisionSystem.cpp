@@ -339,9 +339,12 @@ void CollisionSystem::treatEnemyTakeDamage(uint32_t enemyEntityNum, uint32_t dam
     }
     enemyConfCompB->m_touched = true;
     enemyConfCompB->m_behaviourMode = EnemyBehaviourMode_e::ATTACK;
-    if(enemyConfCompB->m_frozenOnAttack)
+    if(enemyConfCompB->m_life < 1000)
     {
         timerComp->m_cycleCountC = 0;
+    }
+    if(enemyConfCompB->m_frozenOnAttack)
+    {
         timerComp->m_cycleCountB = 0;
         enemyConfCompB->m_attackPhase = EnemyAttackPhase_e::SHOOTED;
     }

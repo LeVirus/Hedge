@@ -6524,3 +6524,38 @@ texturePosX = 0
 texturePosY = 0
 textureWeight = 1
 textureHeight = 1
+
+[SpriteBossBallDestA]
+texture = 1
+texturePosX = 0.616667
+texturePosY = 0.678571
+textureWeight = 0.0322917
+textureHeight = 0.0267857
+
+[SpriteKefkaTouchedA]
+texture = 2
+texturePosX = 0.783333
+texturePosY = 0.60625
+textureWeight = 0.168667
+textureHeight = 0.31625
+
+[SpriteFF6SoldierTouchedA]
+texture = 28
+texturePosX = 0.124736
+texturePosY = 0.120548
+textureWeight = 0.0179704
+textureHeight = 0.0315068
+
+[SpriteDKGreenKremTouchedA]
+texture = 28
+texturePosX = 0.725159
+texturePosY = 0.167123
+textureWeight = 0.0433404
+textureHeight = 0.0657534
+
+[SpriteDKCrocTouchedA]
+texture = 28
+texturePosX = 0.584567
+texturePosY = 0.364384
+textureWeight = 0.0465116
+textureHeight = 0.0260274
