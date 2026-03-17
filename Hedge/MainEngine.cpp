@@ -3168,7 +3168,8 @@ void MainEngine::loadPlayerEntity(const LevelManager &levelManager)
     vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
     vect[Components_e::MEM_POSITIONS_VERTEX_COMPONENT] = 1;
     vect[Components_e::INPUT_COMPONENT] = 1;
-    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
+    //First wall coll , Second damage coll
+    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 2;
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     vect[Components_e::PLAYER_CONF_COMPONENT] = 1;
     vect[Components_e::TIMER_COMPONENT] = 1;
@@ -3194,8 +3195,11 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     MapCoordComponent *map = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(entityNum);
     MoveableComponent *move = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(entityNum);
     RectangleCollisionComponent *rectColl = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(entityNum);
+    RectangleCollisionComponent *rectCollDam = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(entityNum, 1);
     GeneralCollisionComponent *tagColl = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(entityNum);
     PlayerConfComponent *playerConf = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(entityNum);
+    assert(rectColl);
+    assert(rectCollDam);
     assert(pos);
     assert(map);
     assert(move);
@@ -3231,6 +3235,8 @@ void MainEngine::confPlayerEntity(const LevelManager &levelManager, uint32_t ent
     spriteComp->m_displaySize = {playerData.m_inGameSpriteSize.first * 1.5f , playerData.m_inGameSpriteSize.second * 1.0f};
     rectColl->m_size = {(playerData.m_inGameSpriteSize.first * LEVEL_TILE_SIZE_PX), (playerData.m_inGameSpriteSize.second * LEVEL_TILE_SIZE_PX) / 2.0f};
     rectColl->m_offset = {rectColl->m_size.first / 6.0f, rectColl->m_size.second};
+    rectCollDam->m_size = {(playerData.m_inGameSpriteSize.first * LEVEL_TILE_SIZE_PX) / 2.0f, (playerData.m_inGameSpriteSize.second * LEVEL_TILE_SIZE_PX) / 2.0f};
+    rectCollDam->m_offset = {rectCollDam->m_size.first / 2.0f, rectCollDam->m_size.second};
     tagColl->m_tagA = CollisionTag_e::PLAYER_CT;
     tagColl->m_shape = CollisionShape_e::RECTANGLE_C;
     confWriteEntities();
