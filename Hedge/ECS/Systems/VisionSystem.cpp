@@ -400,8 +400,23 @@ void VisionSystem::updateEnemySprites(uint32_t enemyEntity,
     {
         if(enemyConfComp.m_life < 1000)
         {
-            enemyConfComp.m_currentSprite =
-                    enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::TOUCHED)->second.first;
+            MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
+            if(enemyConfComp.m_currentDirRight)
+            {
+                mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::TOUCHED_RIGHT);
+                if(it != enemyConfComp.m_mapSpriteAssociate.end())
+                {
+                    enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::TOUCHED_RIGHT)->second.first;
+                }
+                else
+                {
+                    enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::TOUCHED)->second.first;
+                }
+            }
+            else
+            {
+                enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::TOUCHED)->second.first;
+            }
         }
         if(++timerComp.m_cycleCountC >= enemyConfComp.m_cycleNumberSpriteUpdate)
         {
@@ -457,6 +472,7 @@ void VisionSystem::updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, Ti
         // FPS STUFF TO MODIFY
         MoveableComponent *enemyMoveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
         mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(getEnemySpriteType(enemyConfComp.m_attackPhase, enemyMoveComp->m_degreeOrientation));
+        enemyConfComp.m_currentDirRight = it->first == EnemySpriteType_e::STATIC_RIGHT;
         //if sprite outside
         if(enemyConfComp.m_currentSprite < it->second.first ||
                 enemyConfComp.m_currentSprite > it->second.second)

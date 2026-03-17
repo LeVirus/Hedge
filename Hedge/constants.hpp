@@ -288,7 +288,8 @@ enum class EnemySpriteElementType_e
     ATTACK_LEFT,
     ATTACK_RIGHT,
     DYING,
-    TOUCHED
+    TOUCHED,
+    TOUCHED_RIGHT
 };
 
 
@@ -300,6 +301,7 @@ enum class EnemySpriteType_e
     ATTACK_RIGHT,
     DYING,
     TOUCHED,
+    TOUCHED_RIGHT,
     TOTAL_SPRITE
 };
 

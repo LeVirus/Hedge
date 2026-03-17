@@ -1706,6 +1706,11 @@ void LevelManager::loadEnemyData()
         }
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::DYING, m_enemyData[vectINISections[i]]);
         loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::TOUCHED, m_enemyData[vectINISections[i]]);
+        val = m_ini.getValue(vectINISections[i], "TouchedRight");
+        if(val)
+        {
+            loadEnemySprites(vectINISections[i], EnemySpriteElementType_e::TOUCHED_RIGHT, m_enemyData[vectINISections[i]]);
+        }
     }
 }
 
@@ -1940,6 +1945,11 @@ void LevelManager::loadEnemySprites(const std::string &sectionName, EnemySpriteE
         spriteType = "Touched";
         vectPtr = &enemyData.m_touched;
         break;
+    case EnemySpriteElementType_e::TOUCHED_RIGHT:
+        spriteType = "TouchedRight";
+        vectPtr = &enemyData.m_touchedRight;
+        break;
+
     }
     assert(vectPtr);
     std::optional<std::string> val = m_ini.getValue(sectionName, spriteType);
