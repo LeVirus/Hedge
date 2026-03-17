@@ -612,13 +612,6 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         if(args.tagCompB.m_tagA != CollisionTag_e::WALL_CT && args.tagCompB.m_tagA != CollisionTag_e::ELECTRIC_WALL_CT &&
             args.tagCompB.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT)
         {
-            if(args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
-            {
-
-            RectangleCollisionComponent *rectCompAA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
-
-            std::cerr << rectCompAA->m_size.first << " RECT 2 \n";
-            }
             rectCompA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA, 1);
         }
         pairMapPosA.first += rectCompA->m_offset.first;

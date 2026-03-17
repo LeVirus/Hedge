@@ -3128,6 +3128,11 @@ void MainEngine::confBaseComponent(uint32_t entityNum, const SpriteData &memSpri
         {
             rectComp->m_size = {LEVEL_TILE_SIZE_PX, LEVEL_TILE_SIZE_PX};
         }
+        else if(tag == CollisionTag_e::ENEMY_CT)
+        {
+            rectComp->m_size = {(inGameSpriteSize->first * LEVEL_TILE_SIZE_PX) / 2.0f, inGameSpriteSize->second * LEVEL_TILE_SIZE_PX};
+            rectComp->m_offset = {rectComp->m_size.first / 2.0f, 0.0f};
+        }
         else
         {
             assert(inGameSpriteSize);
