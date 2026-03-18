@@ -2961,7 +2961,7 @@ uint32_t MainEngine::createEnemyEntity(TypeEnemy_e type)
     vect[Components_e::POSITION_VERTEX_COMPONENT] = 1;
     vect[Components_e::SPRITE_TEXTURE_COMPONENT] = 1;
     vect[Components_e::MAP_COORD_COMPONENT] = 1;
-    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 1;
+    vect[Components_e::RECTANGLE_COLLISION_COMPONENT] = 2;
     vect[Components_e::GENERAL_COLLISION_COMPONENT] = 1;
     vect[Components_e::MEM_SPRITE_DATA_COMPONENT] = 1;
     vect[Components_e::ENEMY_CONF_COMPONENT] = 1;
@@ -3130,8 +3130,10 @@ void MainEngine::confBaseComponent(uint32_t entityNum, const SpriteData &memSpri
         }
         else if(tag == CollisionTag_e::ENEMY_CT)
         {
-            rectComp->m_size = {(inGameSpriteSize->first * LEVEL_TILE_SIZE_PX) / 2.0f, inGameSpriteSize->second * LEVEL_TILE_SIZE_PX};
-            rectComp->m_offset = {rectComp->m_size.first / 2.0f, 0.0f};
+            rectComp->m_size = {inGameSpriteSize->first * LEVEL_TILE_SIZE_PX, inGameSpriteSize->second * LEVEL_TILE_SIZE_PX};
+            RectangleCollisionComponent *rectCompDam = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(entityNum, 1);
+            rectCompDam->m_size = {(inGameSpriteSize->first * LEVEL_TILE_SIZE_PX) / 2.0f, inGameSpriteSize->second * LEVEL_TILE_SIZE_PX};
+            rectCompDam->m_offset = {rectCompDam->m_size.first / 3.0f, 0.0f};
         }
         else
         {

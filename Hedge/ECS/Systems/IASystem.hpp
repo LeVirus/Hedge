@@ -48,7 +48,7 @@ private:
     void treatVisibleShots(const std::vector<uint32_t> &stdAmmo, bool grenade = false, bool tank = false);
     void activeSound(uint32_t entityNum, uint32_t soundNum);
     void enemyShoot(EnemyConfComponent &enemyConfComp, MoveableComponent &moveComp, MapCoordComponent &enemyMapComp, float distancePlayer);
-    void treatEnemyMove(MapCoordComponent *playerMapComp, MapCoordComponent &mapComp, float velocity, EnemyConfComponent &enemyConfComp, uint32_t enemyEntity);
+    void treatEnemyMove(MapCoordComponent *playerMapComp, MapCoordComponent &mapComp, float velocity, EnemyConfComponent &enemyConfComp, uint32_t enemyEntity, uint32_t distancePlayer);
 private:
     uint32_t m_playerEntity, m_intervalEnemyBehaviour = 0.4 / FPS_VALUE, m_intervalVisibleShotLifeTime = 8.0 / FPS_VALUE,
     m_intervalEnemyPlayPassiveSound = 5.0 / FPS_VALUE;
