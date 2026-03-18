@@ -6539,23 +6539,80 @@ texturePosY = 0.60625
 textureWeight = 0.168667
 textureHeight = 0.31625
 
-[SpriteFF6SoldierTouchedA]
+
+[SpriteFF6SoldierTouchedLeftA]
 texture = 28
-texturePosX = 0.124736
+texturePosX = 0.00211416
 texturePosY = 0.120548
-textureWeight = 0.0179704
+textureWeight = 0.0169133
 textureHeight = 0.0315068
 
-[SpriteDKGreenKremTouchedA]
+[SpriteFF6SoldierTouchedLeftB]
 texture = 28
-texturePosX = 0.725159
+texturePosX = 0.0211417
+texturePosY = 0.120548
+textureWeight = 0.0169133
+textureHeight = 0.0315068
+
+[SpriteFF6SoldierTouchedLeftC]
+texture = 28
+texturePosX = 0.0401692
+texturePosY = 0.120548
+textureWeight = 0.0169133
+textureHeight = 0.0315068
+
+[SpriteFF6SoldierTouchedRightA]
+texture = 28
+texturePosX = 0.0866808
+texturePosY = 0.120548
+textureWeight = 0.0169133
+textureHeight = 0.0315068
+
+[SpriteFF6SoldierTouchedRightB]
+texture = 28
+texturePosX = 0.105708
+texturePosY = 0.120548
+textureWeight = 0.0169133
+textureHeight = 0.0315068
+
+[SpriteFF6SoldierTouchedRightC]
+texture = 28
+texturePosX = 0.124735
+texturePosY = 0.120548
+textureWeight = 0.0169133
+textureHeight = 0.0315068
+
+[SpriteDKGreenKremTouchedLeftA]
+texture = 28
+texturePosX = 0.588795
 texturePosY = 0.167123
-textureWeight = 0.0433404
+textureWeight = 0.0454545
 textureHeight = 0.0657534
 
-[SpriteDKCrocTouchedA]
+[SpriteDKGreenKremTouchedLeftB]
 texture = 28
-texturePosX = 0.584567
+texturePosX = 0.655391
+texturePosY = 0.167123
+textureWeight = 0.0454545
+textureHeight = 0.0657534
+
+[SpriteDKGreenKremTouchedLeftC]
+texture = 28
+texturePosX = 0.721987
+texturePosY = 0.167123
+textureWeight = 0.0454545
+textureHeight = 0.0657534
+
+[SpriteDKCrocTouchedLeftA]
+texture = 28
+texturePosX = 0.535941
 texturePosY = 0.364384
-textureWeight = 0.0465116
+textureWeight = 0.0422833
+textureHeight = 0.0260274
+
+[SpriteDKCrocTouchedLeftB]
+texture = 28
+texturePosX = 0.589852
+texturePosY = 0.364384
+textureWeight = 0.0422833
 textureHeight = 0.0260274

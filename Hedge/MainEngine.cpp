@@ -2583,6 +2583,11 @@ void MainEngine::loadEnemySprites(const std::vector<SpriteData> &vectSprite, con
     }
     insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                               enemiesData.m_dyingSprites, EnemySpriteType_e::DYING);
+    if(!enemiesData.m_dyingRightSprites.empty())
+    {
+        insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
+                                  enemiesData.m_dyingRightSprites, EnemySpriteType_e::DYING_RIGHT);
+    }
     insertEnemySpriteFromType(vectSprite, enemyComp.m_mapSpriteAssociate, memSpriteComp->m_vectSpriteData,
                               enemiesData.m_touched, EnemySpriteType_e::TOUCHED);
     if(!enemiesData.m_touchedRight.empty())

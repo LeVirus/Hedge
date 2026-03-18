@@ -400,7 +400,6 @@ void VisionSystem::updateEnemySprites(uint32_t enemyEntity,
     {
         if(enemyConfComp.m_life < 1000)
         {
-            MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
             if(enemyConfComp.m_currentDirRight)
             {
                 mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::TOUCHED_RIGHT);
@@ -435,8 +434,9 @@ void VisionSystem::updateEnemySprites(uint32_t enemyEntity,
     }
     else if(enemyConfComp.m_displayMode == EnemyDisplayMode_e::DYING)
     {
-        mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::DYING);
-        if(enemyConfComp.m_currentSprite == it->second.second)
+        mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::DYING),
+            itt = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::DYING_RIGHT);
+        if(enemyConfComp.m_currentSprite == it->second.second || (itt != enemyConfComp.m_mapSpriteAssociate.end() && enemyConfComp.m_currentSprite == itt->second.second))
         {
             enemyConfComp.m_displayMode = EnemyDisplayMode_e::DEAD;
             if(enemyConfComp.m_endLevel)
@@ -463,7 +463,24 @@ void VisionSystem::updateEnemyNormalSprite(EnemyConfComponent &enemyConfComp, Ti
     if(enemyConfComp.m_behaviourMode == EnemyBehaviourMode_e::DYING)
     {
         enemyConfComp.m_displayMode = EnemyDisplayMode_e::DYING;
-        enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::DYING)->second.first;
+        if(enemyConfComp.m_currentDirRight)
+        {
+            mapEnemySprite_t::const_iterator it = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::DYING_RIGHT);
+            if(it != enemyConfComp.m_mapSpriteAssociate.end())
+            {
+                enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::DYING_RIGHT)->second.first;
+            }
+            else
+            {
+                enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::DYING)->second.first;
+            }
+        }
+        else
+        {
+            enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::DYING)->second.first;
+        }
+
+        // enemyConfComp.m_currentSprite = enemyConfComp.m_mapSpriteAssociate.find(EnemySpriteType_e::DYING)->second.first;
         timerComp.m_cycleCountA = 0;
         timerComp.m_cycleCountB = 0;
     }
