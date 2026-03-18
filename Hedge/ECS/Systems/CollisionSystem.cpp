@@ -607,7 +607,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
     RectangleCollisionComponent *rectCompA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA);
     assert(rectCompA);
     PairFloat_t pairMapPosA = args.mapCompA.m_absoluteMapPositionPX;
-    if (args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+    if (args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
         if(args.tagCompB.m_tagA != CollisionTag_e::WALL_CT && args.tagCompB.m_tagA != CollisionTag_e::ELECTRIC_WALL_CT &&
             args.tagCompB.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT)
@@ -622,7 +622,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
     case CollisionShape_e::RECTANGLE_C:
     {
         RectangleCollisionComponent *rectCompB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
-        if (args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT)
+        if(args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
         {
             if(args.tagCompA.m_tagA != CollisionTag_e::WALL_CT && args.tagCompA.m_tagA != CollisionTag_e::ELECTRIC_WALL_CT &&
                 args.tagCompA.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT)
@@ -670,6 +670,7 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
                     //if loop behaviour
                     if(static_cast<uint32_t>(enemyComp->m_type) > static_cast<uint32_t>(TypeEnemy_e::STATIC))
                     {
+                        enemyComp->m_freeze = true;
                         treatPlayerTakeDamage(*enemyComp->m_meleeAttackDamage);
                     }
                 }
@@ -811,7 +812,7 @@ bool CollisionSystem::treatCollisionFirstCircle(CollisionArgs &args)
     {
         RectangleCollisionComponent *rectCompB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB);
         assert(rectCompB);
-        if (args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT)
+        if (args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
         {
             if(args.tagCompA.m_tagA != CollisionTag_e::WALL_CT && args.tagCompA.m_tagA != CollisionTag_e::ELECTRIC_WALL_CT &&
                 args.tagCompA.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT)
@@ -1358,7 +1359,7 @@ bool CollisionSystem::treatSegmentRectColl(CollisionArgs &args, uint32_t numEnti
 {
     RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(numEntityB);
     assert(rectComp);
-    if(args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT)
+    if(args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
     {
         if(args.tagCompA.m_tagA != CollisionTag_e::WALL_CT && args.tagCompA.m_tagA != CollisionTag_e::ELECTRIC_WALL_CT &&
             args.tagCompA.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT)
@@ -1476,7 +1477,7 @@ void CollisionSystem::collisionCircleRectEject(CollisionArgs &args, float circle
 //===================================================================
 void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
 {
-    bool lockY = false, offset = false;
+    bool lockY = false;
     PlayerConfComponent *playerComp = nullptr;
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
     {
@@ -1489,7 +1490,6 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
         {
             lockY = true;
         }
-        offset = true;
     }
     MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(args.entityNumA);
     RectangleCollisionComponent *rectCollA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA);
@@ -1497,7 +1497,7 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     assert(rectCollA);
     assert(rectCollB);
 
-    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT)
+    if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
         if(args.tagCompB.m_tagA != CollisionTag_e::WALL_CT && args.tagCompB.m_tagA != CollisionTag_e::ELECTRIC_WALL_CT &&
             args.tagCompB.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT)
@@ -1505,18 +1505,22 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
             rectCollA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA, 1);
         }
     }
-    assert(mapComp);
-    float elementAPosX = args.mapCompA.m_absoluteMapPositionPX.first;
-    float elementAPosY = args.mapCompA.m_absoluteMapPositionPX.second;
-    if(offset)
+
+    if(args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
     {
-        elementAPosX += rectCollA->m_offset.first;
-        elementAPosY += rectCollA->m_offset.second;
+        if(args.tagCompA.m_tagA != CollisionTag_e::WALL_CT && args.tagCompA.m_tagA != CollisionTag_e::ELECTRIC_WALL_CT &&
+            args.tagCompA.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT)
+        {
+            rectCollB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB, 1);
+        }
     }
+    assert(mapComp);
+    float elementAPosX = args.mapCompA.m_absoluteMapPositionPX.first + rectCollA->m_offset.first;
+    float elementAPosY = args.mapCompA.m_absoluteMapPositionPX.second + rectCollA->m_offset.second;
     float elementASecondPosX = elementAPosX + rectCollA->m_size.first;
     float elementASecondPosY = elementAPosY + rectCollA->m_size.second;
-    float elementBPosX = args.mapCompB.m_absoluteMapPositionPX.first;
-    float elementBPosY = args.mapCompB.m_absoluteMapPositionPX.second;
+    float elementBPosX = args.mapCompB.m_absoluteMapPositionPX.first + rectCollB->m_offset.first;
+    float elementBPosY = args.mapCompB.m_absoluteMapPositionPX.second + rectCollB->m_offset.second;
     float elementBSecondPosX = elementBPosX + rectCollB->m_size.first;
     float elementBSecondPosY = elementBPosY + rectCollB->m_size.second;
     bool crushMode = false;

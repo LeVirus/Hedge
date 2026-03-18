@@ -275,6 +275,9 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
     TimerComponent *timerComp = Ecsm_t::instance().getComponent<TimerComponent, Components_e::TIMER_COMPONENT>(enemyEntity);
     MoveableComponent *moveComp = Ecsm_t::instance().getComponent<MoveableComponent, Components_e::MOVEABLE_COMPONENT>(enemyEntity);
     bool wave = (enemyConfComp.m_type == TypeEnemy_e::LOOP_WAVE_LEFT || enemyConfComp.m_type == TypeEnemy_e::LOOP_WAVE_RIGHT), loop = false;
+    RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(m_playerEntity, 1);
+    RectangleCollisionComponent *rectCompEnemy = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(enemyEntity, 1);
+    MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
     if(enemyConfComp.m_type == TypeEnemy_e::STATIC)
     {
         if(++timerComp->m_cycleCountB >= timerComp->m_timeIntervalOptional)
@@ -292,46 +295,30 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         loop = true;
         bool right = (moveComp->m_degreeOrientation <= 0.1f);
         enemyConfComp.m_currentDirRight = right;
-        if(checkEnemyPlayerDistance(m_playerEntity, enemyEntity, distancePlayer))
+        if(!enemyConfComp.m_freeze)
         {
             enemyMapComp.m_absoluteMapPositionPX.first += right ? moveComp->m_velocity : -moveComp->m_velocity;
         }
-        else
-        {
-            PlayerConfComponent *playerComp = Ecsm_t::instance().getComponent<PlayerConfComponent, Components_e::PLAYER_CONF_COMPONENT>(m_playerEntity);
-            MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
-            if(!playerComp->m_invulnerable)
-            {
-                CollisionSystem *collSystem = Ecsm_t::instance().getSystem<CollisionSystem>(static_cast<uint32_t>(Systems_e::COLLISION_SYSTEM));
-                EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntity);
-                collSystem->treatPlayerTakeDamage(*enemyComp->m_meleeAttackDamage);
-            }
-            if(right && enemyMapComp.m_absoluteMapPositionPX.first > playerMapComp->m_absoluteMapPositionPX.first)
-            {
-                enemyMapComp.m_absoluteMapPositionPX.first += moveComp->m_velocity;
-            }
-            else if(!right && enemyMapComp.m_absoluteMapPositionPX.first < playerMapComp->m_absoluteMapPositionPX.first)
-            {
-                enemyMapComp.m_absoluteMapPositionPX.first -= moveComp->m_velocity;
-            }
-        }
-        EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntity);
         if(wave)
         {
-            enemyMapComp.m_absoluteMapPositionPX.second += enemyComp->m_waveUp ? -moveComp->m_velocity : moveComp->m_velocity;
+            if(!enemyConfComp.m_freeze)
+            {
+                enemyMapComp.m_absoluteMapPositionPX.second += enemyConfComp.m_waveUp ? -moveComp->m_velocity : moveComp->m_velocity;
+            }
             if(++timerComp->m_cycleCountE >= 50)
             {
                 timerComp->m_cycleCountE = 0;
-                enemyComp->m_waveUp = !enemyComp->m_waveUp;
+                enemyConfComp.m_waveUp = !enemyConfComp.m_waveUp;
             }
         }
-        if(enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOTED || enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOT)
+        if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOTED || enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOT)
         {
-            enemyComp->m_attackPhase = right ? EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT : EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
+            enemyConfComp.m_attackPhase = right ? EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT : EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
         }
+        enemyConfComp.m_freeze = false;
         enemyMapComp.m_coord = *getLevelCoord(enemyMapComp.m_absoluteMapPositionPX);
         m_mainEngine->addEntityToZone(enemyEntity, enemyMapComp.m_coord);
-        if(enemyComp->m_meleeOnly)
+        if(enemyConfComp.m_meleeOnly)
         {
             return;
         }
@@ -341,14 +328,17 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         loop = true;
         MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
         bool up = (moveComp->m_degreeOrientation <= 90.1f);
-        mapComp->m_absoluteMapPositionPX.second += up ? -moveComp->m_velocity : moveComp->m_velocity;
-        EnemyConfComponent *enemyComp = Ecsm_t::instance().getComponent<EnemyConfComponent, Components_e::ENEMY_CONF_COMPONENT>(enemyEntity);
-        if(enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOTED || enemyComp->m_attackPhase == EnemyAttackPhase_e::SHOOT)
+        if(!enemyConfComp.m_freeze)
         {
-            enemyComp->m_attackPhase = up ? EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT : EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
+            mapComp->m_absoluteMapPositionPX.second += up ? -moveComp->m_velocity : moveComp->m_velocity;
+        }
+        enemyConfComp.m_freeze = false;
+        if(enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOTED || enemyConfComp.m_attackPhase == EnemyAttackPhase_e::SHOOT)
+        {
+            enemyConfComp.m_attackPhase = up ? EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT : EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
         }
         m_mainEngine->addEntityToZone(enemyEntity, mapComp->m_coord);
-        if(enemyComp->m_meleeOnly)
+        if(enemyConfComp.m_meleeOnly)
         {
             return;
         }
@@ -430,7 +420,7 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
         {
             MapCoordComponent *playerMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(m_playerEntity);
             MapCoordComponent *mapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
-            treatEnemyMove(playerMapComp, *mapComp, moveComp->m_velocity, enemyConfComp, enemyEntity);
+            treatEnemyMove(playerMapComp, *mapComp, moveComp->m_velocity, enemyConfComp, enemyEntity, distancePlayer);
             mapComp->m_coord = *getLevelCoord(mapComp->m_absoluteMapPositionPX);
             m_mainEngine->addEntityToZone(enemyEntity, mapComp->m_coord);
         }
@@ -441,11 +431,13 @@ void IASystem::treatEnemyBehaviourAttack(uint32_t enemyEntity, MapCoordComponent
 bool checkEnemyPlayerDistance(uint32_t playerEntity, uint32_t enemyEntity, float distance)
 {
     MapCoordComponent *mapPlayerComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(playerEntity);
-    RectangleCollisionComponent *playerComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(playerEntity);
+    RectangleCollisionComponent *playerComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(playerEntity, 1);
     MapCoordComponent *enemyMapComp = Ecsm_t::instance().getComponent<MapCoordComponent, Components_e::MAP_COORD_COMPONENT>(enemyEntity);
-    RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(enemyEntity);
-    float dist = (rectComp->m_size.first + playerComp->m_size.first) / 2 + 5,
-        lateralDist = std::abs((mapPlayerComp->m_absoluteMapPositionPX.first + playerComp->m_size.first / 2) - (enemyMapComp->m_absoluteMapPositionPX.first + rectComp->m_size.first / 2));
+    RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(enemyEntity, 1);
+    //min distance
+    float dist = (rectComp->m_size.first + playerComp->m_size.first) / 3,
+        lateralDist = std::abs((mapPlayerComp->m_absoluteMapPositionPX.first + playerComp->m_offset.first + playerComp->m_size.first / 2) -
+                                 (enemyMapComp->m_absoluteMapPositionPX.first + rectComp->m_offset.first + rectComp->m_size.first / 2));
     if(distance != 0 && distance > dist)
     {
         return true;
@@ -469,7 +461,7 @@ void IASystem::treatStaticEnemy(EnemyConfComponent &enemyConfComp, MoveableCompo
 }
 
 //===================================================================
-void IASystem::treatEnemyMove(MapCoordComponent *playerMapComp, MapCoordComponent &mapComp, float velocity, EnemyConfComponent &enemyConfComp, uint32_t enemyEntity)
+void IASystem::treatEnemyMove(MapCoordComponent *playerMapComp, MapCoordComponent &mapComp, float velocity, EnemyConfComponent &enemyConfComp, uint32_t enemyEntity, uint32_t distancePlayer)
 {
     if(enemyConfComp.m_type == TypeEnemy_e::FLYING)
     {
@@ -479,15 +471,18 @@ void IASystem::treatEnemyMove(MapCoordComponent *playerMapComp, MapCoordComponen
         // moveComp.m_degreeOrientation = moveComp.m_currentDegreeMoveDirection;
         return;
     }
-    if(mapComp.m_absoluteMapPositionPX.first < playerMapComp->m_absoluteMapPositionPX.first)
+    if(checkEnemyPlayerDistance(m_playerEntity, enemyEntity, distancePlayer))
     {
-        mapComp.m_absoluteMapPositionPX.first += velocity;
-        enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT;
-    }
-    else
-    {
-        mapComp.m_absoluteMapPositionPX.first -= velocity;
-        enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
+        if(mapComp.m_absoluteMapPositionPX.first < playerMapComp->m_absoluteMapPositionPX.first)
+        {
+            mapComp.m_absoluteMapPositionPX.first += velocity;
+            enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_RIGHT;
+        }
+        else
+        {
+            mapComp.m_absoluteMapPositionPX.first -= velocity;
+            enemyConfComp.m_attackPhase = EnemyAttackPhase_e::MOVE_TO_TARGET_LEFT;
+        }
     }
 }
 
