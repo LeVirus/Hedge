@@ -576,7 +576,8 @@ void IASystem::confVisibleShoot(std::vector<uint32_t> &visibleShots, const PairF
         {
             mapComp->m_absoluteMapPositionPX.first += 3.0f;
         }
-        segmentComp->m_points.first = mapComp->m_absoluteMapPositionPX;
+        segmentComp->m_points.first = playerComp->m_currentDirectionRight ? PairFloat_t{mapComp->m_absoluteMapPositionPX.first - 7.0f, mapComp->m_absoluteMapPositionPX.second} :
+                                                                            PairFloat_t{mapComp->m_absoluteMapPositionPX.first + 10.0f, mapComp->m_absoluteMapPositionPX.second};
     }
     else
     {
