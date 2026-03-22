@@ -610,7 +610,8 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
     if (args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
         if(args.tagCompB.m_tagA != CollisionTag_e::WALL_CT && args.tagCompB.m_tagA != CollisionTag_e::ELECTRIC_WALL_CT &&
-            args.tagCompB.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT)
+            args.tagCompB.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT && args.tagCompB.m_tagA != CollisionTag_e::LOG_CT &&
+            args.tagCompB.m_tagA != CollisionTag_e::STATIC_SET_CT)
         {
             rectCompA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA, 1);
         }
@@ -625,7 +626,8 @@ void CollisionSystem::checkCollisionFirstRect(CollisionArgs &args)
         if(args.tagCompB.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompB.m_tagA == CollisionTag_e::ENEMY_CT)
         {
             if(args.tagCompA.m_tagA != CollisionTag_e::WALL_CT && args.tagCompA.m_tagA != CollisionTag_e::ELECTRIC_WALL_CT &&
-                args.tagCompA.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT)
+                args.tagCompA.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT && args.tagCompA.m_tagA != CollisionTag_e::LOG_CT &&
+                args.tagCompA.m_tagA != CollisionTag_e::STATIC_SET_CT)
             {
                 rectCompB = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumB, 1);
             }
@@ -1500,7 +1502,8 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
     if(args.tagCompA.m_tagA == CollisionTag_e::PLAYER_CT || args.tagCompA.m_tagA == CollisionTag_e::ENEMY_CT)
     {
         if(args.tagCompB.m_tagA != CollisionTag_e::WALL_CT && args.tagCompB.m_tagA != CollisionTag_e::ELECTRIC_WALL_CT &&
-            args.tagCompB.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT)
+            args.tagCompB.m_tagA != CollisionTag_e::TRAVERSABLE_WALL_CT && args.tagCompB.m_tagA != CollisionTag_e::LOG_CT &&
+            args.tagCompB.m_tagA != CollisionTag_e::STATIC_SET_CT)
         {
             rectCollA = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(args.entityNumA, 1);
         }

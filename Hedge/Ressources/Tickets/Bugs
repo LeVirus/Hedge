@@ -1,4 +1,8 @@
 ))
+LVL 7 Verif les fantomes qui bloque le joueur contre les murs mouvants
+LVL 8 Fantome eject dans les static sets!!!
+
+))
 Transition on Windows
 
 ))
@@ -10,6 +14,9 @@ Collisions===================OK
 
 ))
 Text and object visibility
+
+))
+Locke dialog not reached with new coll========OK
 
 
 ))
