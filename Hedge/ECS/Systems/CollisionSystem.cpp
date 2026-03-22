@@ -114,7 +114,7 @@ void CollisionSystem::execSystem()
         }
         if(moveCompA && (tagCompA->m_tagA == CollisionTag_e::PLAYER_CT || tagCompA->m_tagA == CollisionTag_e::ENEMY_CT || tagCompA->m_tagA == CollisionTag_e::VEHICULE_CT))
         {
-            treatGeneralCrushing(*it);
+            // treatGeneralCrushing(*it);
             treatLimitLevel(*it, tagCompA->m_tagA);
         }
         if(segmentCompA && m_memDistCurrentBulletColl.second > EPSILON_FLOAT)
@@ -1671,10 +1671,10 @@ void CollisionSystem::collisionRectRectEject(CollisionArgs &args)
         m_mapMemCrushPos.insert({args.entityNumA, mapComp->m_absoluteMapPositionPX});
     }
     collisionEject(mapComp->m_absoluteMapPositionPX, diffX, diffY, crushMode);
-    if(m_memMoveableWallCrush && crushMode)
-    {
-        treatCrushCase(mapComp, playerComp, {diffX, diffY}, args.entityNumA);
-    }
+    // if(m_memMoveableWallCrush && crushMode)
+    // {
+    //     treatCrushCase(mapComp, playerComp, {diffX, diffY}, args.entityNumA);
+    // }
     addEntityToZone(args.entityNumA, *getLevelCoord(mapComp->m_absoluteMapPositionPX));
 }
 
