@@ -1,4 +1,4 @@
-#include "MainEngine.hpp"
+ #include "MainEngine.hpp"
 #include "ECS/Systems/GravitySystem.hpp"
 #include "Game.hpp"
 #include "constants.hpp"
@@ -1611,6 +1611,11 @@ void MainEngine::confBaseWallData(uint32_t wallEntity, const SpriteData &memSpri
             GeneralCollisionComponent *collComp = Ecsm_t::instance().getComponent<GeneralCollisionComponent, Components_e::GENERAL_COLLISION_COMPONENT>(wallEntity);
             moveWallConfComp->m_damage = 100;
             collComp->m_tagA = CollisionTag_e::ELECTRIC_WALL_CT;
+            RectangleCollisionComponent *rectComp = Ecsm_t::instance().getComponent<RectangleCollisionComponent, Components_e::RECTANGLE_COLLISION_COMPONENT>(wallEntity);
+            rectComp->m_size.first /= 2.0f;
+            rectComp->m_offset.first = rectComp->m_size.first / 2.0f;
+            rectComp->m_size.second /= 2.0f;
+            rectComp->m_offset.second = rectComp->m_size.second / 2.0f;
         }
     }
     if(wallData.m_traversable)
