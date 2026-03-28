@@ -552,10 +552,10 @@ inline const float SCREEN_VERT_BACKGROUND_GL_STEP = 1.0f / RAYCAST_GROUND_CEILIN
 inline const float SCREEN_HORIZ_BACKGROUND_GL_STEP = 2.0f / RAYCAST_LINE_NUMBER;
 inline const double WRITE_LETTER_GL_OFFSET = 0.01;
 
-inline const std::string RESSOURCES_DIR_STR = "../../Hedge/Ressources/";
+// inline const std::string RESSOURCES_DIR_STR = "../../Hedge/Ressources/";
 // inline const std::string SHADER_DIR_STR = "../../Hedge/Ressources/Shader/";
 // inline const std::string TEXTURES_DIR_STR = "../../Hedge/Ressources/Textures/";
-// inline const std::string RESSOURCES_DIR_STR = std::string(getenv("HOME")) + "/.local/share/Hedge/";
+inline const std::string RESSOURCES_DIR_STR = std::string(getenv("HOME")) + "/.local/share/Hedge/";
 inline const std::string SHADER_DIR_STR = RESSOURCES_DIR_STR + "Shader/";
 inline const std::string TEXTURES_DIR_STR = RESSOURCES_DIR_STR + "Textures/";
 
