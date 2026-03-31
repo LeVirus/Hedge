@@ -110,7 +110,7 @@ void IASystem::treatEject()
 //===================================================================
 void IASystem::updateGeneratorEntities()
 {
-    m_vectGeneratorEntities->clear();
+    m_vectGeneratorEntities.clear();
     std::array<uint32_t, Components_e::TOTAL_COMPONENTS> arrayComp;
     std::set<uint32_t> set;
     arrayComp.fill(0);
@@ -120,13 +120,13 @@ void IASystem::updateGeneratorEntities()
     set.insert(Components_e::GENERATOR_COMPONENT);
     set.insert(Components_e::TIMER_COMPONENT);
 
-    m_vectGeneratorEntities = Ecsm_t::instance().getEntitiesCustomComponents(set, arrayComp);
+    m_vectGeneratorEntities = *Ecsm_t::instance().getEntitiesCustomComponents(set, arrayComp);
 }
 
 //===================================================================
 void IASystem::treatGenerator()
 {
-    for(std::set<uint32_t>::iterator it = m_vectGeneratorEntities->begin(); it != m_vectGeneratorEntities->end(); ++it)
+    for(std::set<uint32_t>::iterator it = m_vectGeneratorEntities.begin(); it != m_vectGeneratorEntities.end(); ++it)
     {
         GeneratorComponent *generatorComp = Ecsm_t::instance().getComponent<GeneratorComponent, Components_e::GENERATOR_COMPONENT>(*it);
         assert(generatorComp);
