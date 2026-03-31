@@ -56,7 +56,7 @@ private:
     MainEngine *m_mainEngine;
     std::vector<SoundElement> m_memPlayerVisibleShot;
     std::vector<std::reference_wrapper<VectUI_t>> m_refVehicleAmmo;
-    std::optional<std::set<uint32_t>> m_vectGeneratorEntities;
+    std::set<uint32_t> m_vectGeneratorEntities;
 };
 
 bool checkEnemyPlayerDistance(uint32_t playerEntity, uint32_t enemyEntity, float distance = 0);
